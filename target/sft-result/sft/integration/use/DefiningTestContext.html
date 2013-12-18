@@ -1,0 +1,36 @@
+<html><head><title>
+Defining test context
+</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../sft.css" />
+<script src="https://code.jquery.com/jquery.js" />
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" />
+<script>
+function toggle(divId){
+var div = document.getElementById(divId);
+	if(div.style.display == 'none'){
+	div.style.display = 'block';
+	}else{
+	div.style.display = 'none';
+	}
+}
+</script>
+</head>
+<body class="useCase succeeded"><div class="container">
+<div class="page-header"><div class="text-center"><h1><span class="useCaseName">Defining test context</span></h1></div>
+<div class="comment"> Context could be defined and handle for the whole use case or for each scenario.<br/>It's using JUnit annotation @BeforeClass,@Before,@After and @AfterClass.<div><table class="table"><caption>Cheat sheet</caption><tr><th>Java/JUnit item</th><th>Functional test item</th><th>HTML item</th><tr/><tr><td><a href="DefiningTestContext.html">@BeforeClass annotated public static method</a></td><td>Starting context of use case</td><td>HTML paragraph beforeUseCase first scenario paragraph</td><tr/><tr><td><a href="DefiningTestContext.html">@AfterClass annotated public static method</a></td><td>Handling ending context of use case</td><td>HTML paragraph afterUseCase last scenario paragraph</td><tr/><tr><td><a href="DefiningTestContext.html">@Before annotated public method</a></td><td>Starting context of scenario</td><td>HTML first part of scenario paragraph</td><tr/><tr><td><a href="DefiningTestContext.html">@After annotated public method</a></td><td>Handling ending context of scenario</td><td>HTML last part of scenario paragraph</td><tr/></table></div></div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Defining context for an use case</span></h3></div>
+<div class="panel-body">
+<div class="instruction succeeded"><span>You can instantiate a use case context specific <a href="../../../../../src/test/java/sft/integration/use/sut/ContextInAction.java">using public static method annotated with &at;BeforeClass and terminate it in public static method annotated with &at;AfterClass</a>.</span></div>
+<div class="instruction succeeded"><span>The context instantiation is run once before all scenarios and the context finalization is run once after all scenarios</span></div>
+<div class="instruction succeeded"><span>Finally the context instantiation is displayed <a href="../../../../../target/sft-result/sft/integration/use/sut/ContextInAction.html">in a paragraph beforeUseCase all scenarios and the context finalization is displayed in another paragraph beforeUseCase all scenarios</a></span></div>
+</div>
+</div>
+<div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Defining context for a scenario</span></h3></div>
+<div class="panel-body">
+<div class="instruction succeeded"><span>You can instantiate a scenario context specific <a href="../../../../../src/test/java/sft/integration/use/sut/ContextInAction.java">using public method annotated with &at;Before and terminate it in public method annotated with &at;After</a>.</span></div>
+<div class="instruction succeeded"><span>The context instantiation is run before each scenario and the context finalization is run after each scenario</span></div>
+<div class="instruction succeeded"><span>Finally the context instantiation is displayed <a href="../../../../../target/sft-result/sft/integration/use/sut/ContextInAction.html">before each scenarios and the context finalization is displayed in another paragraph beforeUseCase all scenarios</a></span></div>
+</div>
+</div>
+</div></body></html>

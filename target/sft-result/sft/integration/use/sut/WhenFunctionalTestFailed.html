@@ -1,0 +1,132 @@
+<html><head><title>
+When functional test failed
+</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../sft.css" />
+<script src="https://code.jquery.com/jquery.js" />
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" />
+<script>
+function toggle(divId){
+var div = document.getElementById(divId);
+	if(div.style.display == 'none'){
+	div.style.display = 'block';
+	}else{
+	div.style.display = 'none';
+	}
+}
+</script>
+</head>
+<body class="useCase failed"><div class="container">
+<div class="page-header"><div class="text-center"><h1><span class="useCaseName">When functional test failed</span></h1></div>
+</div><div class="scenario failed panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Unsuccessful scenario are displayed in red with cross mark</span></h3></div>
+<div class="panel-body">
+<div class="instruction succeeded"><span>Successful condition</span></div>
+<div class="instruction failed"><span>Condition that failed</span></div>
+<div class="instruction ignored"><span>Successful condition</span></div>
+<div class="exception"><a onClick="$(this).next().toggle()" >AssertionFailedError: Condition failed</a><pre class="stacktrace pre-scrollable" >junit.framework.AssertionFailedError: Condition failed
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.assertTrue(Assert.java:22)
+	at sft.integration.use.sut.WhenFunctionalTestFailed.conditionThatFailed(WhenFunctionalTestFailed.java:35)
+	at sft.integration.use.sut.WhenFunctionalTestFailed.unsuccessfulScenarioAreDisplayedInRedWithCrossMark(WhenFunctionalTestFailed.java:15)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at sft.Scenario.run(Scenario.java:36)
+	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:46)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
+	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.junit.runners.Suite.runChild(Suite.java:127)
+	at org.junit.runners.Suite.runChild(Suite.java:26)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:138)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:117)
+	at sft.integration.fixtures.JUnitHelper.run(JUnitHelper.java:24)
+	at sft.integration.use.CommonUsage.whenInvokingJUnit(CommonUsage.java:160)
+	at sft.integration.use.CommonUsage.whenFunctionalTestFailed(CommonUsage.java:101)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at sft.Scenario.run(Scenario.java:36)
+	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:46)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:82)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:82)
+	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</pre></div></div>
+</div>
+<div class="scenario failed panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Scenario throwing exception are displayed in red with cross mark</span></h3></div>
+<div class="panel-body">
+<div class="instruction succeeded"><span>Successful condition</span></div>
+<div class="instruction failed"><span>Condition that throws exception</span></div>
+<div class="instruction ignored"><span>Successful condition</span></div>
+<div class="exception"><a onClick="$(this).next().toggle()" >RuntimeException: Boom</a><pre class="stacktrace pre-scrollable" >java.lang.RuntimeException: Boom
+	at sft.integration.use.sut.WhenFunctionalTestFailed.conditionThatThrowsException(WhenFunctionalTestFailed.java:31)
+	at sft.integration.use.sut.WhenFunctionalTestFailed.scenarioThrowingExceptionAreDisplayedInRedWithCrossMark(WhenFunctionalTestFailed.java:22)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at sft.Scenario.run(Scenario.java:36)
+	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:46)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
+	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.junit.runners.Suite.runChild(Suite.java:127)
+	at org.junit.runners.Suite.runChild(Suite.java:26)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:138)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:117)
+	at sft.integration.fixtures.JUnitHelper.run(JUnitHelper.java:24)
+	at sft.integration.use.CommonUsage.whenInvokingJUnit(CommonUsage.java:160)
+	at sft.integration.use.CommonUsage.whenFunctionalTestFailed(CommonUsage.java:101)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at sft.Scenario.run(Scenario.java:36)
+	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:46)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:82)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:82)
+	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</pre></div></div>
+</div>
+</div></body></html>

@@ -1,0 +1,29 @@
+<html><head><title>
+Re-Use your fixtures between your classes: fixtures helpers
+</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../sft.css" />
+<script src="https://code.jquery.com/jquery.js" />
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" />
+<script>
+function toggle(divId){
+var div = document.getElementById(divId);
+	if(div.style.display == 'none'){
+	div.style.display = 'block';
+	}else{
+	div.style.display = 'none';
+	}
+}
+</script>
+</head>
+<body class="useCase succeeded"><div class="container">
+<div class="page-header"><div class="text-center"><h1><span class="useCaseName">Re-Use your fixtures between your classes: fixtures helpers</span></h1></div>
+</div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Using fixtures helper</span></h3></div>
+<div class="panel-body">
+<div class="instruction succeeded"><span>To share fixtures between your classes without using inheritance, you have to write its in a new class: <a href="../../../../../src/test/java/sft/integration/use/sut/DelegatedFixtures.java">a fixtures helper class</a>.</span></div>
+<div class="instruction succeeded"><span>In the <a href="../../../../../src/test/java/sft/integration/use/sut/FixturesHelperUsage.java">use case class</a> add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.</span></div>
+<div class="instruction succeeded"><span>Then all fixtures of this fixtures helper class are seen as fixtures of the use-case class and  <a href="../../../../../target/sft-result/sft/integration/use/sut/FixturesHelperUsage.html">can be used as its own</a>.</span></div>
+</div>
+</div>
+</div></body></html>
