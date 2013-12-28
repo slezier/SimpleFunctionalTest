@@ -2,6 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--
+
+     * Copyright (c) 2013 Sylvain Lézier.
+     * All rights reserved. This program and the accompanying materials
+     * are made available under the terms of the Eclipse Public License v1.0
+     * which accompanies this distribution, and is available at
+     * http://www.eclipse.org/legal/epl-v10.html
+     *
+     * Contributors:
+     *    Sylvain Lézier - initial implementation
+    -->
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>sft</groupId>
@@ -11,6 +23,12 @@
         <powermock.version>1.5</powermock.version>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://github.com/slezier/SimpleFunctionalTest.git</connection>
+        <developerConnection>scm:git:git@github.com:slezier/SimpleFunctionalTest.git</developerConnection>
+        <url>https://github.com/slezier/SimpleFunctionalTest.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
 
@@ -51,5 +69,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4.2</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
