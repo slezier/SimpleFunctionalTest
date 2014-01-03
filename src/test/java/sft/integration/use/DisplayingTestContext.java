@@ -12,7 +12,6 @@ import sft.integration.use.sut.DisplayContext;
 
 import java.io.IOException;
 
-@Ignore
 @RunWith(SimpleFunctionalTest.class)
 public class DisplayingTestContext {
     /*
@@ -25,6 +24,7 @@ public class DisplayingTestContext {
 
     private JUnitHelper functionalTest;
 
+    @Ignore
     @Test
     public void displayTestContextWithAnObjectAnnotatedByDisplayable() throws IOException {
         allPrivateObjectsAnnotatedByDisplayable();
