@@ -93,6 +93,7 @@ public class Usages {
     public DefiningTestContext definingTestContext = new DefiningTestContext();
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
     public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
+    public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
 
 
 }

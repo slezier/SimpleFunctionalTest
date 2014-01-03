@@ -14,23 +14,6 @@ import java.io.IOException;
 
 /*
     Class and methods could be humanized 3 different ways:
-
-
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>@Text annotation on class or method</td>
-                <td>Force a specific use case, scenario or fixture name</td>
-                <td>text</td>
-            <tr/>
-        </table>
-    </div>
  */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Humanized your code: using camelCase or underscore transformation or annotation")

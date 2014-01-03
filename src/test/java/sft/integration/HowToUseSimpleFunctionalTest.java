@@ -58,10 +58,10 @@ import sft.integration.use.Usages;
 <h2> IN PROGRESS </h2>
 <ul>
     <li><a href="https://maven.apache.org/guides/mini/guide-central-repository-upload.html">mvnrepo upload</a></li>
+    <li> Display context data </li>
 </ul>
 <h2> TODO </h2>
 <ul>
-    <li> Display context data </li>
     <li>enhance parametrization (configurator - default css / file inclusion): zimit + google font</li>
     <li>enhance parametrization (configurator)</li>
     <li>enhance hacking (extract interface by responsibility)</li>

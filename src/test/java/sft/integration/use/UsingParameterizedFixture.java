@@ -14,22 +14,6 @@ import java.io.IOException;
 /*
 To allow fixture re-usability, you can use private or protected methods including parameters.<br/>
 In @Text annotation $name will be replace by the value of the parameter 'name' of the fixture.
-
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>Other method with parameter and @Text annnotation using ${n} variables</td>
-                <td>Parameterized fixture</td>
-                <td>HTML line with all ${n} replaced by real value</td>
-            <tr/>
-        </table>
-    </div>
 */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Re-Use your fixtures in your class: parameterized fixtures")

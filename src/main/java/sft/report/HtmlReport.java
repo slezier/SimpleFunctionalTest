@@ -45,12 +45,7 @@ public class HtmlReport extends RunListener {
 
         String htmlPath =  classUnderTest.getCanonicalName().replaceAll("\\.", "/") + ".html";
 
-        fileSystem.makeTargetDirs(htmlPath);
-        File htmlFile = fileSystem.createTargetFile(htmlPath);
-
-        OutputStream htmlOut = new FileOutputStream(htmlFile);
-
-        Writer html = new OutputStreamWriter(htmlOut);
+        Writer html = fileSystem.createTargetFileWriter(htmlPath);
         html.write("<html><head><title>\n");
         html.write(useCase.getName() + "\n");
         html.write("</title>\n");
@@ -127,7 +122,6 @@ public class HtmlReport extends RunListener {
         html.write("</div></body></html>");
 
         html.close();
-        htmlOut.close();
     }
 
     private String writeHtml(UseCase subUseCase) {
