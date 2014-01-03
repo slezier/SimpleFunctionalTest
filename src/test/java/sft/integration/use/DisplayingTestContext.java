@@ -48,5 +48,4 @@ public class DisplayingTestContext {
         Assert.assertTrue("Instruction shouldn't display context", select.get(2).select("*.contextDisplayed").isEmpty());
     }
 
-
 }

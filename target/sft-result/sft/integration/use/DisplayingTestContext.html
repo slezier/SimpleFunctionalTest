@@ -17,35 +17,12 @@ var div = document.getElementById(divId);
 }
 </script>
 </head>
-<body class="useCase failed"><div class="container">
+<body class="useCase ignored"><div class="container">
 <div class="page-header"><div class="text-center"><h1><span class="useCaseName">Displaying test context</span></h1></div>
-</div><div class="scenario failed panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Display test context with an object annotated by displayable</span></h3></div>
+</div><div class="scenario ignored panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Display test context with an object annotated by displayable</span></h3></div>
 <div class="comment"> @Display(AS_STRING)private Object displayContext1; @Display(AS_PROPERTY)private Object displayContext2;</div><div class="panel-body">
-<div class="instruction succeeded"><span>All private objects annotated by displayable</span></div>
-<div class="instruction failed"><span>Are displayed after each fixture call and then unset</span></div>
-<div class="exception"><a onClick="$(this).next().toggle()" >AssertionError: Instruction should display context</a><pre class="stacktrace pre-scrollable" >java.lang.AssertionError: Instruction should display context
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.assertTrue(Assert.java:41)
-	at org.junit.Assert.assertFalse(Assert.java:64)
-	at sft.integration.use.DisplayingTestContext.areDisplayedAfterEachFixtureCallAndThenUnset(DisplayingTestContext.java:47)
-	at sft.integration.use.DisplayingTestContext.displayTestContextWithAnObjectAnnotatedByDisplayable(DisplayingTestContext.java:32)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at sft.Scenario.run(Scenario.java:36)
-	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:46)
-	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
-	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
-	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:77)
-	at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:195)
-	at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:63)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:120)
-</pre></div></div>
+<div class="instruction ignored"><span>All private objects annotated by displayable</span></div>
+<div class="instruction ignored"><span>Are displayed after each fixture call and then unset</span></div>
+</div>
 </div>
 </div></body></html>
