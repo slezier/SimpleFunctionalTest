@@ -15,21 +15,6 @@ import java.io.IOException;
 
 /*
     Use cases can be link together by using public field.
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>Public field</td>
-                <td>Related useCase</td>
-                <td>HTML link</td>
-            <tr/>
-        </table>
-    </div>
  */
 @RunWith(SimpleFunctionalTest.class)
 public class LinksUseCasesTogether {

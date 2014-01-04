@@ -13,23 +13,7 @@ import sft.integration.use.sut.FixturesHelperUsage;
 import java.io.IOException;
 
 /*
-
      Fixtures could be group into FixturesHelper, and then could be shared between use cases.
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>Private or protected field with @FixturesHelper annotation</td>
-                <td>Fixtures helper</td>
-                <td>HTML line corresponding of FixturesHelper fixture name</td>
-            <tr/>
-        </table>
-    </div>
  */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Re-Use your fixtures between your classes: fixtures helpers")

@@ -14,10 +14,13 @@ package sft.report;
 import org.junit.Assert;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 public class FileSystem {
 
@@ -78,7 +81,7 @@ public class FileSystem {
         }
     }
 
-    public File createTargetFile(String htmlPath) {
+    private File createTargetFile(String htmlPath) {
         return new File(getTargetFolder()+htmlPath);
     }
 
@@ -98,4 +101,14 @@ public class FileSystem {
         return getResourceFolder()+TARGET_SFT_RESULT;
     }
 
+    private OutputStream createTargetFileStream(String htmlPath) throws FileNotFoundException {
+        File htmlFile= createTargetFile(htmlPath);
+        OutputStream htmlOut = new FileOutputStream(htmlFile);
+        return htmlOut;
+    }
+
+    public Writer createTargetFileWriter(String htmlPath) throws FileNotFoundException {
+        makeTargetDirs(htmlPath);
+        return new OutputStreamWriter(createTargetFileStream(htmlPath));
+    }
 }

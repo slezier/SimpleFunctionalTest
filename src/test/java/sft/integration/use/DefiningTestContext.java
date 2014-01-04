@@ -18,39 +18,6 @@ import static sft.integration.use.sut.ContextInAction.getCallSequence;
 /*
 Context could be defined and handle for the whole use case or for each scenario.<br/>
 It's using JUnit annotation @BeforeClass, @Before, @After and @AfterClass.
-
-
-    <div>
-        <table class="table">
-            <caption>Cheat sheet</caption>
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContext.html">@BeforeClass annotated public static method</a></td>
-                <td>Starting context of use case</td>
-                <td>HTML paragraph beforeUseCase first scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContext.html">@AfterClass annotated public static method</a></td>
-                <td>Handling ending context of use case</td>
-                <td>HTML paragraph afterUseCase last scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContext.html">@Before annotated public method</a></td>
-                <td>Starting context of scenario</td>
-                <td>HTML first part of scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContext.html">@After annotated public method</a></td>
-                <td>Handling ending context of scenario</td>
-                <td>HTML last part of scenario paragraph</td>
-            <tr/>
-        </table>
-    </div>
-
 */
 @RunWith(SimpleFunctionalTest.class)
 public class DefiningTestContext {

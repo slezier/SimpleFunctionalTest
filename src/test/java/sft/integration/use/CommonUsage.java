@@ -41,31 +41,6 @@ import static org.junit.Assert.assertThat;
         <li>Failed fixture call are displayed with red cross mark: &nbsp; &nbsp;<img src="../../../failed_16.png"/></li>
         <li>Ignored fixture are displayed with yellow interrogation mark: &nbsp; &nbsp;<img src="../../../ignored_16.png"/></li>
     </ul>
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>Test Class</td>
-                <td>Use case</td>
-                <td>HTML page</td>
-            <tr/>
-            <tr>
-                <td>Test method</td>
-                <td>Scenario</td>
-                <td>HTML paragraph with background color depending of test issue</td>
-            <tr/>
-            <tr>
-                <td>Other methods</td>
-                <td>Fixture</td>
-                <td>HTML line</td>
-            <tr/>
-        </table>
-    </div>
 */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Common usage: writing Use Cases")

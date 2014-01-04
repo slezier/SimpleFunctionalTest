@@ -11,26 +11,6 @@ import java.io.IOException;
 
 /*
     Literal specifications can be wrote within java multi-line comments to document use case or scenario.
-
-    <div>
-        <table class="table">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td>Multi-lines comment beforeUseCase class declaration</td>
-                <td>Use case documentation</td>
-                <td>HTML div afterUseCase use case name and beforeUseCase scenarios</td>
-            <tr/>
-            <tr>
-                <td>Multi-lines comment beforeUseCase test method declaration</td>
-                <td>Scenario documentation</td>
-                <td>HTML div afterUseCase scenario name and beforeUseCase instructions</td>
-            <tr/>
-        </table>
-    </div>
  */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Add literal specifications in your use case: comment usage")

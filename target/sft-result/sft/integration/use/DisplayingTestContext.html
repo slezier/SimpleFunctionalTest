@@ -1,0 +1,28 @@
+<html><head><title>
+Displaying test context
+</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../sft.css" />
+<script src="https://code.jquery.com/jquery.js" />
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" />
+<script>
+function toggle(divId){
+var div = document.getElementById(divId);
+	if(div.style.display == 'none'){
+	div.style.display = 'block';
+	}else{
+	div.style.display = 'none';
+	}
+}
+</script>
+</head>
+<body class="useCase ignored"><div class="container">
+<div class="page-header"><div class="text-center"><h1><span class="useCaseName">Displaying test context</span></h1></div>
+</div><div class="scenario ignored panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Display test context with an object annotated by displayable</span></h3></div>
+<div class="comment"> @Display(AS_STRING)private Object displayContext1; @Display(AS_PROPERTY)private Object displayContext2;</div><div class="panel-body">
+<div class="instruction ignored"><span>All private objects annotated by displayable</span></div>
+<div class="instruction ignored"><span>Are displayed after each fixture call and then unset</span></div>
+</div>
+</div>
+</div></body></html>
