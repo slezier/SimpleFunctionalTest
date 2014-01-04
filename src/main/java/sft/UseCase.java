@@ -44,6 +44,7 @@ public class UseCase {
     public final ContextHandler afterUseCase;
     public final ContextHandler beforeScenario;
     public final ContextHandler afterScenario;
+    public final DisplayedContext displayedContext;
 
 
     public UseCase(Class<?> classUnderTest) throws IllegalAccessException, InstantiationException {
@@ -62,7 +63,13 @@ public class UseCase {
         afterUseCase = extractAfterClassContextHandler();
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
+        displayedContext = extractDisplayedContext(object);
     }
+
+    private DisplayedContext extractDisplayedContext(Object object) {
+        return new DisplayedContext(object,extractDisplayableFields());
+    }
+
 
     private ContextHandler extractBeforeClassContextHandler() {
         Method method =getBeforeClassMethod();
@@ -190,6 +197,17 @@ public class UseCase {
             }
         }
         return testMethods;
+    }
+
+    private ArrayList<Field> extractDisplayableFields() {
+        ArrayList<Field> displayableFields = new ArrayList<Field>();
+        for (Field field : classUnderTest.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Displayable.class) &&
+                    isPrivate(field.getModifiers())) {
+                displayableFields.add(field);
+            }
+        }
+        return displayableFields;
     }
 
     private Method getBeforeClassMethod() {

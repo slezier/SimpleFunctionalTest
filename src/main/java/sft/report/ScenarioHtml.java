@@ -21,6 +21,7 @@ import sft.result.ScenarioResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 public class ScenarioHtml {
 
@@ -43,7 +44,7 @@ public class ScenarioHtml {
 
     }
 
-    public void write() throws IOException {
+    public void write() throws IOException, IllegalAccessException {
         htmlWriter.write("<div class=\"scenario " + css.convertIssue(scenarioResult.issue) + " panel panel-default\">");
         htmlWriter.write("<div class=\"panel-heading\"><h3><span class=\"scenarioName\">" + scenarioResult.scenario.getName() + "</span></h3></div>\n");
 
@@ -82,7 +83,7 @@ public class ScenarioHtml {
         htmlWriter.write("</div>\n");
     }
 
-    private void writeTestFailed() throws IOException {
+    private void writeTestFailed() throws IOException, IllegalAccessException {
         Fixture failedCall = scenarioResult.getFailedCall();
 
         boolean failureAppend = false;
@@ -101,6 +102,7 @@ public class ScenarioHtml {
             }
             htmlWriter.write("<div class=\"instruction "+css.convertIssue(testIssue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
+        htmlWriter.write(extractDisplayedContext());
 
         Throwable failure = scenarioResult.getFailure();
         htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >"+failure.getClass().getSimpleName()+": "+ failure.getMessage()+"</a>" +
@@ -110,11 +112,26 @@ public class ScenarioHtml {
         htmlWriter.write("</pre></div>");
     }
 
-    private void writeTestSucceededOrIgnored() throws IOException {
+    private String extractDisplayedContext() throws IllegalAccessException {
+        ArrayList<String> values = useCase.displayedContext.getText();
+        if( !values.isEmpty()){
+            String htmlText = "<div class=\"displayableContext\">";
+            for (String value : values) {
+                htmlText+="<div>"+value+"</div>";
+
+            }
+            htmlText += "</div>";
+            return htmlText;
+        }
+        return "";
+    }
+
+    private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
         for (FixtureCall testFixture : testMethod.fixtureCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
             htmlWriter.write("<div class=\"instruction "+css.convertIssue(scenarioResult.issue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
+        htmlWriter.write(extractDisplayedContext());
     }
 
 

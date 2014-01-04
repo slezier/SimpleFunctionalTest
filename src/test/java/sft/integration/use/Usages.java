@@ -91,9 +91,9 @@ public class Usages {
     public LinksUseCasesTogether linksUseCase = new LinksUseCasesTogether();
     public CommentUsage commentUsage = new CommentUsage();
     public DefiningTestContext definingTestContext = new DefiningTestContext();
+    public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
     public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
-    public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
 
 
 }

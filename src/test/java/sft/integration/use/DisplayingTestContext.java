@@ -1,6 +1,7 @@
 package sft.integration.use;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -24,7 +25,6 @@ public class DisplayingTestContext {
 
     private JUnitHelper functionalTest;
 
-    @Ignore
     @Test
     public void displayTestContextWithAnObjectAnnotatedByDisplayable() throws IOException {
         allPrivateObjectsAnnotatedByDisplayable();
@@ -39,13 +39,12 @@ public class DisplayingTestContext {
     private void areDisplayedAfterEachFixtureCallAndThenUnset() throws IOException {
         Document html = functionalTest.getHtmlReport();
 
-        Elements select = html.select("*.instruction");
-
-        Assert.assertTrue("Instruction shouldn't display context", select.get(0).select("*.contextDisplayed").isEmpty());
-        Elements expectedContextDisplayed = select.get(1).select("*.contextDisplayed");
-        Assert.assertFalse("Instruction should display context", expectedContextDisplayed.isEmpty());
-        Assert.assertEquals("context displayed", expectedContextDisplayed);
-        Assert.assertTrue("Instruction shouldn't display context", select.get(2).select("*.contextDisplayed").isEmpty());
+        Element firstInstruction = html.select("*.instruction").get(0);
+        Element secondInstruction = firstInstruction.nextElementSibling();
+        Assert.assertTrue("Second element of the scenario should be an instruction", secondInstruction.hasClass("instruction"));
+        Element contextDisplayed = secondInstruction.nextElementSibling();
+        Assert.assertTrue("Third element of the scenario should be an contextDisplayed", contextDisplayed.hasClass("displayableContext"));
+        Assert.assertEquals("context display",contextDisplayed.text());
     }
 
 }

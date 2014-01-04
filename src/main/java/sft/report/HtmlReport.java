@@ -36,7 +36,7 @@ public class HtmlReport extends RunListener {
         this.useCaseResult = useCase;
     }
 
-    public void useCaseIsFinished() throws IOException {
+    public void useCaseIsFinished() throws IOException, IllegalAccessException {
         css.ensureIsCreated();
 
         UseCase useCase = useCaseResult.useCase;

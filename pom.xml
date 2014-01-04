@@ -46,9 +46,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/slezier/SimpleFunctionalTest.git</connection>
-        <developerConnection>scm:git:git@github.com:slezier/SimpleFunctionalTest.git</developerConnection>
         <url>https://github.com/slezier/SimpleFunctionalTest.git</url>
-        <tag>sft-1.0</tag>
     </scm>
 
     <dependencies>

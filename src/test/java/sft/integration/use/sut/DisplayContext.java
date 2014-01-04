@@ -13,15 +13,11 @@ public class DisplayContext {
 
     @Test
     public void displayContextWithAnnotatedObject(){
-        doStuffWithoutDisplayableContext();
-        doStuffWithDisplayableContext();
-        doStuffWithoutDisplayableContext();
+        doStuff();
+        doStuff();
     }
 
-    private void doStuffWithDisplayableContext() {
+    private void doStuff() {
         displayable = "context display";
-    }
-
-    private void doStuffWithoutDisplayableContext() {
     }
 }
