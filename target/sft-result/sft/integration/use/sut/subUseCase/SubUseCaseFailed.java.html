@@ -1,0 +1,26 @@
+<html><head><title>
+sft.integration.use.sut.subUseCase.SubUseCaseFailed
+</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut.subUseCase;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class SubUseCaseFailed {
+
+    @Test
+    public void simpleFailedScenario(){
+        simpleFailedAction();
+    }
+
+    private void simpleFailedAction() {
+        Assert.assertTrue(false);
+    }
+
+}
+</pre></div></div></body></html>
