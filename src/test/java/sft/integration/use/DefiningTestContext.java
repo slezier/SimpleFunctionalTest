@@ -4,9 +4,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.ContextInAction;
 
 import java.io.IOException;
@@ -25,17 +27,21 @@ public class DefiningTestContext {
     private JUnitHelper functionalTest;
     private Document html;
 
+    @Displayable
+    private SftResources sftResources;
+
     @Test
     public void definingContextForAnUseCase() throws IOException {
         youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass();
         theContextInstantiationIsRunOnceBeforeAllScenariosAndTheContextFinalizationIsRunOnceAfterAllScenarios();
         finallyTheContextInstantiationIsDisplayedInAParagraphBeforeAllScenariosAndTheContextFinalizationIsDisplayedInAnotherParagraphBeforeAllScenarios();
     }
-    @Text("You can instantiate a use case context specific <a href=\"../../../../../src/test/java/sft/integration/use/sut/ContextInAction.java\">using public static method annotated with &at;BeforeClass and terminate it in public static method annotated with &at;AfterClass</a>.")
+    @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
+        functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
         functionalTest.run();
+        sftResources = functionalTest.displayResources();
 
         html = functionalTest.getHtmlReport();
     }
@@ -51,7 +57,6 @@ public class DefiningTestContext {
         assertEquals("useCaseFinalization", getCallSequence().get(7));
     }
 
-    @Text("Finally the context instantiation is displayed <a href=\"../../../../../target/sft-result/sft/integration/use/sut/ContextInAction.html\">in a paragraph beforeUseCase all scenarios and the context finalization is displayed in another paragraph beforeUseCase all scenarios</a>")
     private void finallyTheContextInstantiationIsDisplayedInAParagraphBeforeAllScenariosAndTheContextFinalizationIsDisplayedInAnotherParagraphBeforeAllScenarios() {
         Elements useCaseElements = html.select("*.useCase *.container > div");
         assertTrue(useCaseElements.get(0).hasClass("page-header"));
@@ -64,11 +69,10 @@ public class DefiningTestContext {
     public void definingContextForAScenario() throws IOException {
         youCanInstantiateAScenarioContextSpecificInPublicMethodAnnotatedWithBeforeAndTerminateItInPublicMethodAnnotatedWithAfter();
         theContextInstantiationIsRunBeforeEachScenarioAndTheContextFinalizationIsRunAfterEachScenario();
-        finallyTheContextInstantiationIsDisplayedBeforeEachScenarioAndTheContextFinalizationIsDisplayedAfterEachScenario();
+        finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario();
     }
 
-    @Text("Finally the context instantiation is displayed <a href=\"../../../../../target/sft-result/sft/integration/use/sut/ContextInAction.html\">before each scenarios and the context finalization is displayed in another paragraph beforeUseCase all scenarios</a>")
-    private void finallyTheContextInstantiationIsDisplayedBeforeEachScenarioAndTheContextFinalizationIsDisplayedAfterEachScenario() {
+    private void finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario() {
         Elements scenarioElements = html.select("*.useCase *.container *.scenario");
         assertTrue(scenarioElements.get(0).select("> div").get(1).hasClass("beforeScenario"));
         assertTrue(scenarioElements.get(0).select("> div").get(3).hasClass("afterScenario"));
@@ -87,7 +91,7 @@ public class DefiningTestContext {
         assertEquals("useCaseFinalization", getCallSequence().get(7));
     }
 
-    @Text("You can instantiate a scenario context specific <a href=\"../../../../../src/test/java/sft/integration/use/sut/ContextInAction.java\">using public method annotated with &at;Before and terminate it in public method annotated with &at;After</a>.")
+    @Text("You can instantiate a scenario context specific using public method annotated with Before and terminate it in public method annotated with After</a>.")
     private void youCanInstantiateAScenarioContextSpecificInPublicMethodAnnotatedWithBeforeAndTerminateItInPublicMethodAnnotatedWithAfter() throws IOException {
         youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass();
     }

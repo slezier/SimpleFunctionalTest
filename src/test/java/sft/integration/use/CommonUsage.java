@@ -6,11 +6,13 @@ import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.FileSystem;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.FunctionalTestIgnored;
 import sft.integration.use.sut.WhenFunctionalTestFailed;
 import sft.integration.use.sut.YourFirstFunctionalTest;
@@ -52,6 +54,9 @@ public class CommonUsage {
     private JUnitHelper functionalTest;
     private Document html;
 
+    @Displayable
+    private SftResources sftResources;
+
     @Test
     public void yourFirstFunctionalTest() throws Exception {
         createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest();
@@ -65,7 +70,7 @@ public class CommonUsage {
         testMethodIsHumanizedAsScenarioSection();
         innerMethodCallIsHumanizedAsFixtureCall();
 
-        successfulUseCaseScenarioAndFixtureCallAreDisplayedWithGreenCheckMark();
+        successfulUseCaseScenarioAndFixtureCallAreDisplayedWithEndingGreenCheckMark();
         successfulScenarioSectionAreAlsoDisplayWithGreenBackground();
     }
 
@@ -75,9 +80,9 @@ public class CommonUsage {
         withAJUnitTestClassExpectingFailure();
         whenInvokingJUnit();
 
-        thenHtmlFilePresentFailures();
+        thenTheHtmlFilePresentFailures();
 
-        failedUseCaseScenarioAreDisplayedWithRedCrossMark();
+        failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark();
         fixtureCallsAreGreenUntilFailedFixturesThenYellow();
         failedScenarioSectionAreAlsoDisplayWithRedBackgroundAndWithErrorStackTrace();
     }
@@ -88,7 +93,7 @@ public class CommonUsage {
 
         whenInvokingJUnit();
 
-        thenHtmlFilePresentUseCaseIgnored();
+        thenTheHtmlFilePresentUseCaseIgnored();
 
 
         ignoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark();
@@ -114,40 +119,39 @@ public class CommonUsage {
         Assert.assertEquals("rgb(255, 255, 163)", sftCss.get("*.scenario.ignored").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
-    @Text("With a JUnit <a href=\"../../../../../src/test/java/sft/integration/use/sut/FunctionalTestIgnored.java\">test class</a> annotated with @Ignore")
+    @Text("With a JUnit test class annotated with @Ignore")
     private void withAJUnitTestClassIgnored() {
-        functionalTest = new JUnitHelper(FunctionalTestIgnored.class, "target/sft-result/sft/integration/use/sut/FunctionalTestIgnored.html");
+        functionalTest = new JUnitHelper(this.getClass(),FunctionalTestIgnored.class, "target/sft-result/sft/integration/use/sut/FunctionalTestIgnored.html");
     }
 
 
-    @Text("Create a simple JUnit <a href=\"../../../../../src/test/java/sft/integration/use/sut/YourFirstFunctionalTest.java\">test class</a> and add JUnit annotation @RunWith(SimpleFunctionalTest.class)")
+    @Text("Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)")
     private void createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest() {
-        functionalTest = new JUnitHelper(YourFirstFunctionalTest.class, FIRST_HTML_REPORT_PATH);
+        functionalTest = new JUnitHelper(this.getClass(),YourFirstFunctionalTest.class, FIRST_HTML_REPORT_PATH);
     }
 
-    @Text("With a JUnit <a href=\"../../../../../src/test/java/sft/integration/use/sut/WhenFunctionalTestFailed.java\">test class</a> expecting failure")
+    @Text("With a JUnit test class expecting failure")
     private void withAJUnitTestClassExpectingFailure() {
-        functionalTest = new JUnitHelper(WhenFunctionalTestFailed.class, "target/sft-result/sft/integration/use/sut/WhenFunctionalTestFailed.html");
+        functionalTest = new JUnitHelper(this.getClass(),WhenFunctionalTestFailed.class, "target/sft-result/sft/integration/use/sut/WhenFunctionalTestFailed.html");
     }
 
     @Text("When invoking JUnit")
     private void whenInvokingJUnit() {
         functionalTest.run();
+
+        sftResources = functionalTest.displayResources();
         sftCss= new CssParser();
     }
 
-    @Text("Then the fully qualified class name is converted into path to <a href=\"../../../../../target/sft-result/sft/integration/use/sut/YourFirstFunctionalTest.html\">html</a> file")
     private void thenTheFullyQualifiedClassNameIsConvertedIntoPahToHtmlFile() throws IOException {
         FileSystem.filesExists(FIRST_HTML_REPORT_PATH);
     }
 
-    @Text("Then the <a href=\"../../../../../target/sft-result/sft/integration/use/sut/WhenFunctionalTestFailed.html\">html</a> file present failures")
-    private void thenHtmlFilePresentFailures() throws Exception {
+    private void thenTheHtmlFilePresentFailures() throws Exception {
         html = functionalTest.getHtmlReport();
     }
 
-    @Text("Then the <a href=\"../../../../../target/sft-result/sft/integration/use/sut/FunctionalTestIgnored.html\">html</a> file present use case ignored")
-    private void thenHtmlFilePresentUseCaseIgnored() throws Exception {
+    private void thenTheHtmlFilePresentUseCaseIgnored() throws Exception {
         html = functionalTest.getHtmlReport();
     }
 
@@ -155,8 +159,7 @@ public class CommonUsage {
         html = functionalTest.getHtmlReport();
     }
 
-    @Text("Successful use case, scenario and fixture call are displayed with ending green check mark.")
-    private void successfulUseCaseScenarioAndFixtureCallAreDisplayedWithGreenCheckMark() throws IOException {
+    private void successfulUseCaseScenarioAndFixtureCallAreDisplayedWithEndingGreenCheckMark() throws IOException {
         Assert.assertTrue("Use case without class 'succeeded'", html.select("*.useCase").get(0).hasClass("succeeded"));
         Assert.assertTrue("Scenario without class 'succeeded'", html.select("*.scenario").get(0).hasClass("succeeded"));
         Assert.assertTrue("Fixture without class 'succeeded'", html.select("*.instruction").get(0).hasClass("succeeded"));
@@ -168,8 +171,7 @@ public class CommonUsage {
         FileSystem.filesExists("target/sft-result/success_16.png", "target/sft-result/success_24.png", "target/sft-result/success_32.png");
     }
 
-    @Text("Successful use case and scenario are displayed with ending red cross mark.")
-    private void failedUseCaseScenarioAreDisplayedWithRedCrossMark() throws IOException {
+    private void failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
         Assert.assertTrue("Use case without class 'failed'", html.select("body").hasClass("failed"));
         Assert.assertTrue("Scenario without class 'failed'", html.select("div.scenario").hasClass("failed"));
 

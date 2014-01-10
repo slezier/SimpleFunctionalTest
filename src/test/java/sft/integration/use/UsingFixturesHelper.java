@@ -5,9 +5,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.SftResources;
+import sft.integration.use.sut.DelegatedFixtures;
 import sft.integration.use.sut.FixturesHelperUsage;
 
 import java.io.IOException;
@@ -20,26 +23,31 @@ import java.io.IOException;
 public class UsingFixturesHelper {
 
     private JUnitHelper jUnitHelper;
+    @Displayable
+    private String helperClassSource;
+    @Displayable
+    private SftResources sftResources;
+
 
     @Test
     public void usingFixturesHelper() throws IOException {
-        toShareFixturesBetweenYourClassesYouHaveToWriteFixturesHelperClass();
+        toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass();
         inTheUseCaseInstanciateThisFixturesHelperWithAnnotation();
-        fixturesOfHelperAreUsedByUseCaseAsItsOwn();
+        thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn();
     }
 
-    @Text("To share fixtures between your classes without using inheritance, you have to write its in a new class: <a href=\"../../../../../src/test/java/sft/integration/use/sut/DelegatedFixtures.java\">a fixtures helper class</a>.")
-    private void toShareFixturesBetweenYourClassesYouHaveToWriteFixturesHelperClass() {
+    private void toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass() {
+        helperClassSource ="<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink("helper", new SftResources(this.getClass(), DelegatedFixtures.class).getLinkToSource(),"alert-info")+ "</div>" ;
     }
 
-    @Text("In the <a href=\"../../../../../src/test/java/sft/integration/use/sut/FixturesHelperUsage.java\">use case class</a> add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
+    @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
     private void inTheUseCaseInstanciateThisFixturesHelperWithAnnotation() {
-        jUnitHelper = new JUnitHelper(FixturesHelperUsage.class, "target/sft-result/sft/integration/use/sut/FixturesHelperUsage.html");
+        jUnitHelper = new JUnitHelper(this.getClass(),FixturesHelperUsage.class, "target/sft-result/sft/integration/use/sut/FixturesHelperUsage.html");
         jUnitHelper.run();
+        sftResources=jUnitHelper.displayResources();
     }
 
-    @Text("Then all fixtures of this fixtures helper class are seen as fixtures of the use-case class and  <a href=\"../../../../../target/sft-result/sft/integration/use/sut/FixturesHelperUsage.html\">can be used as its own</a>.")
-    private void fixturesOfHelperAreUsedByUseCaseAsItsOwn() throws IOException {
+    private void thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn() throws IOException {
         Document htmlReport = jUnitHelper.getHtmlReport();
         Elements  delegatedFixtureCall = htmlReport.select("div.instruction span");
         Assert.assertEquals("First fixture",delegatedFixtureCall.get(0).text());

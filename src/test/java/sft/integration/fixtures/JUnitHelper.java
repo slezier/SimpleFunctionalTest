@@ -12,9 +12,17 @@ public class JUnitHelper {
 
     private final Class functionalTestClass;
     private final String expectedPathToHtmlResultFile;
+    private final Class caller;
     private Document html;
 
     public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) {
+        this.caller = null;
+        this.functionalTestClass = functionalTestClass;
+        this.expectedPathToHtmlResultFile = expectedPathToHtmlResultFile;
+    }
+
+    public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) {
+        this.caller = caller;
         this.functionalTestClass = functionalTestClass;
         this.expectedPathToHtmlResultFile = expectedPathToHtmlResultFile;
     }
@@ -33,4 +41,7 @@ public class JUnitHelper {
         return html;
     }
 
+    public SftResources displayResources() {
+        return new SftResources(caller, functionalTestClass);
+    }
 }

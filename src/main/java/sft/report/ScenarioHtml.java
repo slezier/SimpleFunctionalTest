@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScenarioHtml {
 
@@ -79,6 +80,7 @@ public class ScenarioHtml {
             htmlWriter.write("</div>");
         }
 
+        htmlWriter.write(extractDisplayedContext());
 
         htmlWriter.write("</div>\n");
     }
@@ -102,7 +104,6 @@ public class ScenarioHtml {
             }
             htmlWriter.write("<div class=\"instruction "+css.convertIssue(testIssue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
-        htmlWriter.write(extractDisplayedContext());
 
         Throwable failure = scenarioResult.getFailure();
         htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >"+failure.getClass().getSimpleName()+": "+ failure.getMessage()+"</a>" +
@@ -113,9 +114,9 @@ public class ScenarioHtml {
     }
 
     private String extractDisplayedContext() throws IllegalAccessException {
-        ArrayList<String> values = useCase.displayedContext.getText();
+        List<String> values = scenarioResult.getContextToDisplay();
         if( !values.isEmpty()){
-            String htmlText = "<div class=\"displayableContext\">";
+            String htmlText = "<div class=\"displayableContext panel-body\">";
             for (String value : values) {
                 htmlText+="<div>"+value+"</div>";
 
@@ -131,7 +132,6 @@ public class ScenarioHtml {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
             htmlWriter.write("<div class=\"instruction "+css.convertIssue(scenarioResult.issue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
-        htmlWriter.write(extractDisplayedContext());
     }
 
 

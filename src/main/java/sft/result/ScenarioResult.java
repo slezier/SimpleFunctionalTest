@@ -14,10 +14,14 @@ import sft.Fixture;
 import sft.Scenario;
 import sft.report.Issue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScenarioResult {
     public final Scenario scenario;
     private Throwable failure = null;
     public Issue issue = Issue.SUCCEEDED;
+    private List<String> contextToDisplay;
 
     public ScenarioResult(Scenario scenarioByMethodName) {
         this.scenario = scenarioByMethodName;
@@ -26,6 +30,17 @@ public class ScenarioResult {
     public void setFailure(Throwable failure) {
         issue = Issue.FAILED;
         this.failure = failure;
+    }
+
+    public void setContextToDisplay(List<String> contextToDisplay){
+        this.contextToDisplay = contextToDisplay;
+    }
+
+    public List<String> getContextToDisplay(){
+        if(contextToDisplay==null){
+            return new ArrayList<String>();
+        }
+        return contextToDisplay;
     }
 
     public Throwable getFailure() {

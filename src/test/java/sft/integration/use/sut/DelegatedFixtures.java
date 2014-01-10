@@ -5,7 +5,7 @@ import sft.Parameter;
 import sft.Text;
 
 
-class DelegatedFixtures {
+public class DelegatedFixtures {
 
     public void firstFixture(){
         Assert.assertTrue(true);

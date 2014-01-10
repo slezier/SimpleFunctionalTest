@@ -13,6 +13,7 @@ package sft.junit;
 
 import org.junit.runner.Description;
 import sft.Scenario;
+import sft.UseCase;
 import sft.result.ScenarioResult;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,18 +39,20 @@ public class ScenarioRunner {
             scenarioResult.isIgnored();
         } else {
             runner.fireScenarioStarted(this);
-
-
+            UseCase useCase = scenario.useCase;
             try {
-                new ContextRunner(this,scenario.useCase.beforeScenario).run(runner);
+
+                new ContextRunner(this, useCase.beforeScenario).run(runner);
 
                 scenario.run();
+                scenarioResult.setContextToDisplay(useCase.displayedContext.getText());
 
-                new ContextRunner(this,scenario.useCase.afterScenario).run(runner);
+                new ContextRunner(this, useCase.afterScenario).run(runner);
 
             } catch (InvocationTargetException invocationTargetException) {
                 Throwable throwable = invocationTargetException.getTargetException();
                 runner.fireScenarioFailed(this, throwable);
+                scenarioResult.setContextToDisplay(useCase.displayedContext.getText());
                 scenarioResult.setFailure(throwable);
             }catch (Throwable throwable){
                 runner.fireScenarioFailed(this, throwable);

@@ -4,12 +4,17 @@ import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.FileSystem;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.UseCaseLinks;
+import sft.integration.use.sut.subUseCase.SubUseCaseFailed;
+import sft.integration.use.sut.subUseCase.SubUseCaseIgnored;
+import sft.integration.use.sut.subUseCase.SubUseCaseSucceeded;
 
 import java.io.IOException;
 
@@ -23,14 +28,18 @@ public class LinksUseCasesTogether {
 
     private JUnitHelper functionalTest;
     private Elements relatedUseCases;
+    @Displayable
+    private String subCasesJavaSources;
+    @Displayable
+    private SftResources sftResources;
 
     @Test
     public void publicFieldAreEvaluateAsRelatedUseCase() throws IOException {
-        byAddingPublicFieldsInYourFunctionalTestClass();
+        byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass();
 
         whenInvokingJUnit();
 
-        thenHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection();
+        thenTheHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection();
 
         successfullRelatedUseCaseAreDisplayedWithGreenCheckMark();
         failedRelatedUseCaseAreDisplayedWithRedCrossMark();
@@ -38,23 +47,22 @@ public class LinksUseCasesTogether {
 
     }
 
-    @Text("By adding public fields of related test class " +
-            "(<a href=\"../../../../../src/test/java/sft/integration/use/sut/subUseCase/SubUseCaseSucceeded.java\">succeeded</a>," +
-            "<a href=\"../../../../../src/test/java/sft/integration/use/sut/subUseCase/SubUseCaseFailed.java\">failed</a>," +
-            "<a href=\"../../../../../src/test/java/sft/integration/use/sut/subUseCase/SubUseCaseIgnored.java\">ignored</a>) " +
-            "in your functional <a href=\"../../../../../src/test/java/sft/integration/use/sut/UseCaseLinks.java\">test class</a> ")
-    private void byAddingPublicFieldsInYourFunctionalTestClass() {
-        functionalTest = new JUnitHelper(UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
+    private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() {
+        functionalTest = new JUnitHelper(this.getClass(),UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
+
+        subCasesJavaSources = "<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink("succeeded", new SftResources(this.getClass(), SubUseCaseSucceeded.class).getLinkToSource(),"alert-success") +
+                SftResources.getOpenResourceHtmlLink("failed", new SftResources(this.getClass(), SubUseCaseFailed.class).getLinkToSource(),"alert-danger") +
+                SftResources.getOpenResourceHtmlLink("ignored", new SftResources(this.getClass(), SubUseCaseIgnored.class).getLinkToSource(),"alert-warning") + "</div>" ;
     }
 
     @Text("When invoking JUnit")
     private void whenInvokingJUnit() {
         functionalTest.run();
+        sftResources = functionalTest.displayResources();
         sftCss = new CssParser();
     }
 
-    @Text("Then the html file present related <a href=\"../../../../../target/sft-result/sft/integration/use/sut/UseCaseLinks.html\">use cases</a> as list item in the last section")
-    private void thenHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection() throws IOException {
+    private void thenTheHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection() throws IOException {
         relatedUseCases = functionalTest.getHtmlReport().select("*.relatedUseCase");
     }
 

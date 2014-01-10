@@ -21,6 +21,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public class FileSystem {
 
@@ -49,14 +54,46 @@ public class FileSystem {
     }
 
     public boolean targetFileExists(String path) {
-        File cssFile = new File(getTargetFolder()+path);
-        return cssFile.exists();
+        return new File(getTargetFolder()+path).exists();
     }
 
 
     public static void assertSourceFilesExists(String... filesToCheck) {
         for (String fileToCheck : filesToCheck) {
             Assert.assertTrue("Missing file " + fileToCheck, new File(fileToCheck).exists());
+        }
+    }
+
+    public String getRelativePathToFile(String absolutePathOfSourceFile, String absolutePathOfDestinationFile){
+        List<String> relativePathToFile = getRelativePathToFile(getLinkedListOfPathElement(absolutePathOfSourceFile),getLinkedListOfPathElement(absolutePathOfDestinationFile));
+        String result= "";
+        for (String element : relativePathToFile) {
+            if(! result.isEmpty()){
+                 result+="/";
+            }
+            result+=element;
+        }
+        return result;
+    }
+
+    private LinkedList<String> getLinkedListOfPathElement(String absolutePathOfSourceFile) {
+        return new LinkedList<String>(asList(absolutePathOfSourceFile.split("/")));
+    }
+
+    private List<String> getRelativePathToFile(LinkedList<String> pathOfSourceFile, LinkedList<String> pathOfDestinationFile) {
+        if(pathOfSourceFile.size()==1){
+            return pathOfDestinationFile;
+        }else if (pathOfSourceFile.get(0).equals(pathOfDestinationFile.get(0))){
+            pathOfSourceFile.remove(0);
+            pathOfDestinationFile.remove(0);
+            return getRelativePathToFile(pathOfSourceFile,pathOfDestinationFile);
+        }else{
+            LinkedList<String> toCommonPath = new LinkedList<String>();
+            for (int i = 0; i < pathOfSourceFile.size()-1; i++) {
+                toCommonPath.add("..");
+            }
+            toCommonPath.addAll(pathOfDestinationFile);
+            return toCommonPath;
         }
     }
 
@@ -110,5 +147,9 @@ public class FileSystem {
     public Writer createTargetFileWriter(String htmlPath) throws FileNotFoundException {
         makeTargetDirs(htmlPath);
         return new OutputStreamWriter(createTargetFileStream(htmlPath));
+    }
+
+    public String getPathOf(Class aClass,String extension) {
+        return aClass.getCanonicalName().replaceAll("\\.", "/") + extension;
     }
 }

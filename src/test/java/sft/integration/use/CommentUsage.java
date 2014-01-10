@@ -3,9 +3,11 @@ package sft.integration.use;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.SftResources;
 
 import java.io.IOException;
 
@@ -18,43 +20,41 @@ public class CommentUsage {
 
     private JUnitHelper functionalTest;
 
+    @Displayable
+    private SftResources sftResources;
+
+
     @Test
     public void commentUseCase() throws IOException {
         useCaseExplanationCouldBeWriteInAMultilinesCommentBeforeClassDeclaration();
-        itIsDisplayedInTheReportAfterTheUseCaseTitle();
+        itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario();
     }
 
-    @Text("Use case explanation could be  write in a java <a href=\"../../../../../src/test/java/sft/integration/use/sut/CommentUsage.java\">multi-lines comment</a> " +
-            "beforeUseCase class declaration.")
     private void useCaseExplanationCouldBeWriteInAMultilinesCommentBeforeClassDeclaration() {
         runCommentUsageTest();
     }
 
     private void runCommentUsageTest() {
-        functionalTest = new JUnitHelper(sft.integration.use.sut.CommentUsage.class, "target/sft-result/sft/integration/use/sut/CommentUsage.html");
+        functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class, "target/sft-result/sft/integration/use/sut/CommentUsage.html");
+        sftResources = functionalTest.displayResources();
         functionalTest.run();
     }
 
-    @Text("It is displayed in the <a href=\"../../../../../target/sft-result/sft/integration/use/sut/CommentUsage.html\">report</a> afterUseCase the use case title.")
-    private void itIsDisplayedInTheReportAfterTheUseCaseTitle() throws IOException {
+    private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {
         Assert.assertEquals("use case comment", functionalTest.getHtmlReport().select("*.comment").get(0).text());
     }
 
     @Test
     public void commentScenario() throws IOException {
         scenarioExplanationCouldBeWriteInAMultilinesCommentBeforeMethodDeclaration();
-        itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeSteps();
+        itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps();
     }
 
-    @Text("Scenario explanation could be  write in a java <a href=\"../../../../../src/test/java/sft/integration/use/sut/CommentUsage.java\">multi-lines comment</a>" +
-            " beforeUseCase method declaration.")
     private void scenarioExplanationCouldBeWriteInAMultilinesCommentBeforeMethodDeclaration() {
         runCommentUsageTest();
     }
 
-    @Text("It is displayed in the <a href=\"../../../../../target/sft-result/sft/integration/use/sut/CommentUsage.html\">report</a> " +
-            "afterUseCase the scenario title and beforeUseCase scenario steps.")
-    private void itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeSteps() throws IOException {
+    private void itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps() throws IOException {
         Assert.assertEquals("scenario comment", functionalTest.getHtmlReport().select("*.scenario *.comment").text());
     }
 

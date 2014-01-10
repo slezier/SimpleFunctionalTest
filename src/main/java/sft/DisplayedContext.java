@@ -22,13 +22,18 @@ public class DisplayedContext {
         this.fields = fields;
     }
 
-    public ArrayList<String> getText() throws IllegalAccessException {
+    public ArrayList<String> getText() {
         ArrayList<String> results = new ArrayList<String>();
         for (Field field : fields) {
-            field.setAccessible(true);
-            Object value = field.get(object);
-            if( value != null ){
-                results.add(value.toString());
+            try {
+                field.setAccessible(true);
+                Object value = field.get(object);
+                if (value != null) {
+                    results.add(value.toString());
+                    field.set(object,null);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
         }
         return results;
