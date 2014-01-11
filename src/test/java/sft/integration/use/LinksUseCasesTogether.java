@@ -50,9 +50,9 @@ public class LinksUseCasesTogether {
     private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() {
         functionalTest = new JUnitHelper(this.getClass(),UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
 
-        subCasesJavaSources = "<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink("succeeded", new SftResources(this.getClass(), SubUseCaseSucceeded.class).getLinkToSource(),"alert-success") +
-                SftResources.getOpenResourceHtmlLink("failed", new SftResources(this.getClass(), SubUseCaseFailed.class).getLinkToSource(),"alert-danger") +
-                SftResources.getOpenResourceHtmlLink("ignored", new SftResources(this.getClass(), SubUseCaseIgnored.class).getLinkToSource(),"alert-warning") + "</div>" ;
+        subCasesJavaSources = "<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink(this.getClass(),"succeeded", new SftResources(this.getClass(), SubUseCaseSucceeded.class).getLinkToSource(),"alert-success") +
+                SftResources.getOpenResourceHtmlLink(this.getClass(),"failed", new SftResources(this.getClass(), SubUseCaseFailed.class).getLinkToSource(),"alert-danger") +
+                SftResources.getOpenResourceHtmlLink(this.getClass(),"ignored", new SftResources(this.getClass(), SubUseCaseIgnored.class).getLinkToSource(),"alert-warning") + "</div>" ;
     }
 
     @Text("When invoking JUnit")

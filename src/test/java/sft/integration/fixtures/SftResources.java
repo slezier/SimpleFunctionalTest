@@ -18,8 +18,12 @@ public class SftResources {
     private final Css css = new Css();
     private final String pathToClass;
     private final String pathToHtml;
+    private final String callerClassFile;
+    private final Class callerClass;
 
     public SftResources(Class callerClass, Class functionalTestClass) {
+        this.callerClass = callerClass;
+        callerClassFile = callerClass.getSimpleName()+".html";
         String callerClassPath = fileSystem.getPathOf(callerClass, ".html");
         pathToClass = fileSystem.getRelativePathToFile(callerClassPath, createJavaHtml(functionalTestClass));
         pathToHtml = fileSystem.getRelativePathToFile(callerClassPath, fileSystem.getPathOf(functionalTestClass, ".html"));
@@ -36,8 +40,12 @@ public class SftResources {
         return count;
     }
 
-    public static String getOpenResourceHtmlLink(String text, String path, String cssClass) {
-        return "<a href=\"#\" onclick=\"window.open('" + path + "','" + path + "','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false)\" class=\"badge " + cssClass + "\">" + text + "</a>";
+    public static String getOpenResourceHtmlLink(Class aClass, String text, String path, String cssClass) {
+        String callerClassHtml = "";
+        if( aClass != null ){
+            callerClassHtml = aClass.getSimpleName()+".html";
+        }
+        return "<a href=\"#\" onclick=\"window.open(window.location.href.replace('#','').replace('"+callerClassHtml+"','')+'" + path + "','" + path + "','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false)\" class=\"badge " + cssClass + "\">" + text + "</a>";
     }
 
     private String createJavaHtml(Class functionalTestClass) {
@@ -69,7 +77,7 @@ public class SftResources {
 
     @Override
     public String toString() {
-        return "<div class='resources'>" + getOpenResourceHtmlLink("java", pathToClass, "alert-info") + getOpenResourceHtmlLink("html", pathToHtml, "alert-info") + "</div>";
+        return "<div class='resources'>" + getOpenResourceHtmlLink(callerClass,"java", pathToClass, "alert-info") + getOpenResourceHtmlLink(callerClass,"html", pathToHtml, "alert-info") + "</div>";
     }
 
     public String getLinkToSource() {

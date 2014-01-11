@@ -37,7 +37,7 @@ public class UsingFixturesHelper {
     }
 
     private void toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass() {
-        helperClassSource ="<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink("helper", new SftResources(this.getClass(), DelegatedFixtures.class).getLinkToSource(),"alert-info")+ "</div>" ;
+        helperClassSource ="<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink(this.getClass(),"helper", new SftResources(this.getClass(), DelegatedFixtures.class).getLinkToSource(),"alert-info")+ "</div>" ;
     }
 
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
