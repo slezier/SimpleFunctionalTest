@@ -9,6 +9,8 @@ import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JavaResource;
+import sft.integration.fixtures.SftResource;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.DelegatedFixtures;
 import sft.integration.use.sut.FixturesHelperUsage;
@@ -37,7 +39,9 @@ public class UsingFixturesHelper {
     }
 
     private void toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass() {
-        helperClassSource ="<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink(this.getClass(),"helper", new SftResources(this.getClass(), DelegatedFixtures.class).getLinkToSource(),"alert-info")+ "</div>" ;
+        JavaResource fixtureHelperSource = new JavaResource(DelegatedFixtures.class);
+        helperClassSource ="<div class=\"resources\">"+
+                fixtureHelperSource.getOpenResourceHtmlLink(this.getClass(), "helper", "alert-info")+ "</div>" ;
     }
 
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")

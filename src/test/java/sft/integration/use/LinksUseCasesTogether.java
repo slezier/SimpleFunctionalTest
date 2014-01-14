@@ -10,6 +10,7 @@ import sft.Text;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.FileSystem;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JavaResource;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.UseCaseLinks;
 import sft.integration.use.sut.subUseCase.SubUseCaseFailed;
@@ -50,9 +51,15 @@ public class LinksUseCasesTogether {
     private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() {
         functionalTest = new JUnitHelper(this.getClass(),UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
 
-        subCasesJavaSources = "<div class=\"resources\">"+SftResources.getOpenResourceHtmlLink(this.getClass(),"succeeded", new SftResources(this.getClass(), SubUseCaseSucceeded.class).getLinkToSource(),"alert-success") +
-                SftResources.getOpenResourceHtmlLink(this.getClass(),"failed", new SftResources(this.getClass(), SubUseCaseFailed.class).getLinkToSource(),"alert-danger") +
-                SftResources.getOpenResourceHtmlLink(this.getClass(),"ignored", new SftResources(this.getClass(), SubUseCaseIgnored.class).getLinkToSource(),"alert-warning") + "</div>" ;
+        JavaResource subSuccessfulUseCaseSource = new JavaResource(SubUseCaseSucceeded.class);
+        JavaResource subFailedUseCaseSource = new JavaResource(SubUseCaseFailed.class);
+        JavaResource subIgnoredUseCaseSource = new JavaResource(SubUseCaseIgnored.class);
+
+        subCasesJavaSources = "<div class=\"resources\">"+
+                subSuccessfulUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "succeeded", "alert-success") +
+                subFailedUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "failed", "alert-danger") +
+                subIgnoredUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "ignored", "alert-warning") +
+                "</div>" ;
     }
 
     @Text("When invoking JUnit")
