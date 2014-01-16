@@ -19,7 +19,27 @@ var div = document.getElementById(divId);
 </head>
 <body class="useCase succeeded"><div class="container">
 <div class="page-header"><div class="text-center"><h1><span class="useCaseName">Common usage: writing Use Cases</span></h1></div>
-</div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Your first functional test</span></h3></div>
+<div class="comment">
+    <div>
+        To become a use case, your class needs to use the junit annotation @RunWith(SimpleFunctionalTest.class)<br/>
+        Then all public methods of this class annotated with the junit &nbsp; @Test are considered as scenario.<br/>
+        And all private or protected methods of this class are considered as fixture methods.
+    </div>
+    <div>
+        Class, methods are humanized in use case, scenario and fixture name.
+    </div>
+    <div>
+        Use case has cross/check/interrogation mark depending of test issue failed/succeeded/ignored.
+    </div>
+    <div>
+        Scenario has pink/green/yellow background with cross/check/interrogation mark depending of test issue failed/succeeded/ignored.
+    </div>
+    <ul>
+        <li>Succeeded fixture call are displayed with green check mark: &nbsp; &nbsp;<img src="../../../success_16.png"/></li>
+        <li>Failed fixture call are displayed with red cross mark: &nbsp; &nbsp;<img src="../../../failed_16.png"/></li>
+        <li>Ignored fixture are displayed with yellow interrogation mark: &nbsp; &nbsp;<img src="../../../ignored_16.png"/></li>
+    </ul>
+</div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Your first functional test</span></h3></div>
 <div class="panel-body">
 <div class="instruction succeeded"><span>Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)</span></div>
 <div class="instruction succeeded"><span>When invoking JUnit</span></div>

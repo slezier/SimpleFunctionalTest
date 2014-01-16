@@ -19,7 +19,9 @@ var div = document.getElementById(divId);
 </head>
 <body class="useCase succeeded"><div class="container">
 <div class="page-header"><div class="text-center"><h1><span class="useCaseName">Re-Use your fixtures between your classes: fixtures helpers</span></h1></div>
-</div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Using fixtures helper</span></h3></div>
+<div class="comment">
+     Fixtures could be group into FixturesHelper, and then could be shared between use cases.
+ </div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Using fixtures helper</span></h3></div>
 <div class="panel-body">
 <div class="instruction succeeded"><span>To share fixtures between your classes without using inheritance you have to write its in a fixtures helper class</span></div>
 <div class="instruction succeeded"><span>In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.</span></div>

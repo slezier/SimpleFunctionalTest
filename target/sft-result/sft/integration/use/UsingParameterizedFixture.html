@@ -19,7 +19,10 @@ var div = document.getElementById(divId);
 </head>
 <body class="useCase succeeded"><div class="container">
 <div class="page-header"><div class="text-center"><h1><span class="useCaseName">Re-Use your fixtures in your class: parameterized fixtures</span></h1></div>
-</div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Parameterized fixture</span></h3></div>
+<div class="comment">
+To allow fixture re-usability, you can use private or protected methods including parameters.<br/>
+In @Text annotation $name will be replace by the value of the parameter 'name' of the fixture.
+</div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Parameterized fixture</span></h3></div>
 <div class="panel-body">
 <div class="instruction succeeded"><span>By declaring parameter to your fixture you can reuse it</span></div>
 <div class="instruction succeeded"><span>The value of parameter is included in annotated text using parameter index surround by dollar like ${1}</span></div>

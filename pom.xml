@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <!--
 
      * Copyright (c) 2013 Sylvain Lézier.
@@ -35,7 +36,7 @@
     <developers>
         <developer>
             <id>slezier</id>
-            <name>Sylvain  Lézier</name>
+            <name>Sylvain Lézier</name>
             <email>sylvain.lezier@gmail.com</email>
         </developer>
     </developers>
@@ -47,10 +48,14 @@
     <scm>
         <connection>scm:git:https://github.com/slezier/SimpleFunctionalTest.git</connection>
         <url>https://github.com/slezier/SimpleFunctionalTest.git</url>
-  </scm>
+    </scm>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.google.code.javaparser</groupId>
+            <artifactId>javaparser</artifactId>
+            <version>1.0.10</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

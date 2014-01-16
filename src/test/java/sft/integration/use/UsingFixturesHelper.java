@@ -55,6 +55,6 @@ public class UsingFixturesHelper {
         Document htmlReport = jUnitHelper.getHtmlReport();
         Elements  delegatedFixtureCall = htmlReport.select("div.instruction span");
         Assert.assertEquals("First fixture",delegatedFixtureCall.get(0).text());
-        Assert.assertEquals("Second fixture with parameter \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\" and 99",delegatedFixtureCall.get(1).text());
+        Assert.assertEquals("Second fixture with parameter ABCDEFGHIJKLMNOPQRSTUVWXYZ and 99",delegatedFixtureCall.get(1).text());
     }
 }

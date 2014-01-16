@@ -11,104 +11,132 @@
 package sft.javalang.parser;
 
 
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.Comment;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.TypeDeclaration;
+import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.Expression;
+import japa.parser.ast.expr.LiteralExpr;
+import japa.parser.ast.expr.MethodCallExpr;
+import japa.parser.ast.expr.StringLiteralExpr;
+import japa.parser.ast.stmt.ExpressionStmt;
+import japa.parser.ast.stmt.Statement;
 import sft.report.FileSystem;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StreamTokenizer;
+import java.util.ArrayList;
 
 public class JavaClassParser {
-
-
-    public static final CommentParser COMMENT_PARSER = new CommentParser();
-    public static final TestClassParser CLASS_PARSER = new TestClassParser();
-    public static final TestMethodParser TEST_METHOD_PARSER = new TestMethodParser();
-    public static final BeforeClassParser BEFORE_CLASS_PARSER = new BeforeClassParser();
-    public static final AfterClassParser AFTER_CLASS_PARSER = new AfterClassParser();
-    public static final BeforeParser BEFORE_PARSER = new BeforeParser();
-    public static final AfterParser AFTER_PARSER = new AfterParser();
-    public TestClass testClass = new TestClass();
-
     private static final FileSystem fileSystem = new FileSystem();
-
+    public TestClass testClass = new TestClass();
 
 
     public JavaClassParser(Class<?> javaClass) throws IOException {
         testClass = parseTestClass(javaClass);
     }
 
-    /*
-
-     root = ANY_CHAR^[comment] public class ANY_CHAR { javaItem } ;
-     javaItem = ANY_CHAR^(comment | testMethod | contextMethod);
-     comment = '\*' ANY_CHAR '*\' ;
-     testMethod = '@Test' WHITE_SPACE 'public void' WHITE_SPACE methodName ANY_CHAR^'{' {methods} '}';
-     contextMethod = '@' ('beforeUseCase'|'afterUseCase'|'beforeClass'|'afterClass')
-     */
     public TestClass parseTestClass(Class<?> javaClass) throws IOException {
-
-        TestClass result = new TestClass();
-
-
         File javaFile = fileSystem.getSourceFile(javaClass);
-
-        InputStream javaIn = new FileInputStream(javaFile);
-        StreamTokenizer tokenizer = new StreamTokenizer(new BufferedReader(new InputStreamReader(javaIn, "UTF-8")));
-        tokenizer.wordChars('_', '_');
-        tokenizer.wordChars('/', '/');
-        tokenizer.wordChars('*', '*');
-        tokenizer.wordChars('\'', '\'');
-        tokenizer.wordChars(';', ';');
-        tokenizer.wordChars('"', '"');
-        tokenizer.wordChars('@', '@');
-        /*
-            COMMENT
-            @Test
-              - Before
-              - After
-              - BeforeClass
-              - AfterClass
-        */
-
-        String comment = null;
-        while (true) {
-            JavaElementParser nextElementToParse = getNextElementToParse(tokenizer);
-            if (nextElementToParse == null) {
-                break;
-            } else {
-                comment = nextElementToParse.parse(result, comment, tokenizer);
-            }
-        }
-        javaIn.close();
-
-        return result;
+        return extractTestClass(javaFile);
     }
 
-    private JavaElementParser getNextElementToParse(StreamTokenizer tokenizer) throws IOException {
-        while (true) {
-            if (COMMENT_PARSER.isA(tokenizer)) {
-                return COMMENT_PARSER;
-            } else if (CLASS_PARSER.isA(tokenizer)) {
-                return CLASS_PARSER;
-            } else if (TEST_METHOD_PARSER.isA(tokenizer)) {
-                return TEST_METHOD_PARSER;
-            } else if (BEFORE_CLASS_PARSER.isA(tokenizer)) {
-                return BEFORE_CLASS_PARSER;
-            } else if (AFTER_CLASS_PARSER.isA(tokenizer)) {
-                return AFTER_CLASS_PARSER;
-            } else if (BEFORE_PARSER.isA(tokenizer)) {
-                return BEFORE_PARSER;
-            } else if (AFTER_PARSER.isA(tokenizer)) {
-                return AFTER_PARSER;
-            } else if (tokenizer.ttype == StreamTokenizer.TT_EOF) {
-                return null;
+    private TestClass extractTestClass(File javaFile) throws IOException {
+        try {
+            CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
+            TypeDeclaration type = cu.getTypes().get(0);
+
+            TestClass testClass = new TestClass();
+            if (type.getComment() != null) {
+                testClass.setComment(type.getComment().getContent());
             }
-            tokenizer.nextToken();
+            for (BodyDeclaration bodyDeclaration : type.getMembers()) {
+                if (bodyDeclaration instanceof MethodDeclaration) {
+                    MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
+                    if (methodContainsAnnotation(methodDeclaration, "Test")) {
+                        testClass.testMethods.add(extractTestMethod(methodDeclaration));
+                    } else {
+                        if (methodContainsAnnotation(methodDeclaration, "BeforeClass")) {
+                            testClass.beforeClass = extractTestContext(methodDeclaration);
+                        } else if (methodContainsAnnotation(methodDeclaration, "AfterClass")) {
+                            testClass.afterClass = extractTestContext(methodDeclaration);
+                        } else if (methodContainsAnnotation(methodDeclaration, "Before")) {
+                            testClass.before = extractTestContext(methodDeclaration);
+                        } else if (methodContainsAnnotation(methodDeclaration, "After")) {
+                            testClass.after = extractTestContext(methodDeclaration);
+                        }
+                    }
+                }
+            }
+            return testClass;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private TestContext extractTestContext(MethodDeclaration methodDeclaration) {
+        TestContext testContext = new TestContext();
+        testContext.fixtureCalls.addAll(extractFixtureCalls(methodDeclaration));
+        return testContext;
+    }
+
+    private TestMethod extractTestMethod(MethodDeclaration methodDeclaration) {
+        Comment methodComment = methodDeclaration.getComment();
+        String methodName = methodDeclaration.getName();
+        TestMethod testMethod = new TestMethod(methodName);
+        if (methodComment != null) {
+            testMethod.setComment(methodComment.getContent());
+        }
+        testMethod.fixtureCalls.addAll(extractFixtureCalls(methodDeclaration));
+        return testMethod;
+    }
+
+    private ArrayList<FixtureCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
+        ArrayList<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
+        for (Statement stmt : methodDeclaration.getBody().getStmts()) {
+            if (stmt instanceof ExpressionStmt) {
+                Expression expr = ((ExpressionStmt) stmt).getExpression();
+                if (expr instanceof MethodCallExpr) {
+                    MethodCallExpr methodCall = (MethodCallExpr) expr;
+                    Expression scope = methodCall.getScope();
+                    String methodCallName = "";
+                    if (scope != null) {
+                        methodCallName = scope + ".";
+                    }
+                    methodCallName += methodCall.getName();
+                    FixtureCall call = new FixtureCall(methodCallName, methodCall.getBeginLine());
+                    if (methodCall.getArgs() != null) {
+                        for (Expression expression : methodCall.getArgs()) {
+                            if (expression instanceof StringLiteralExpr) {
+                                StringLiteralExpr stringLiteralExpr = (StringLiteralExpr) expression;
+                                call.parameters.add(stringLiteralExpr.getValue());
+                            } else if (expression instanceof LiteralExpr) {
+                                LiteralExpr literalExpr = (LiteralExpr) expression;
+                                call.parameters.add(literalExpr.toString());
+                            }
+                        }
+                    }
+                    fixtureCalls.add(call);
+                }
+            }
+
+        }
+        return fixtureCalls;
+    }
+
+    private boolean methodContainsAnnotation(MethodDeclaration methodDeclaration, String annotation) {
+        if (methodDeclaration.getAnnotations() != null) {
+            for (AnnotationExpr annotationExpr : methodDeclaration.getAnnotations()) {
+                if (annotation.equals(annotationExpr.getName().toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
