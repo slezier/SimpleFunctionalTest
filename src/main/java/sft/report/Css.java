@@ -31,26 +31,18 @@ public class Css {
             fileSystem.targetFolder.copyFromResources("ignored_16.png");
             fileSystem.targetFolder.copyFromResources("ignored_24.png");
             fileSystem.targetFolder.copyFromResources("ignored_32.png");
+            fileSystem.targetFolder.copyFromResources("essai");
         }
     }
-
 
     public String convertIssue(Issue issue) {
         return issue.toString().toLowerCase();
     }
 
     public String getRelativePath(Class<?> useCaseClass) {
-        String s = useCaseClass.getCanonicalName();
-        int packageLevel = s.split("\\.").length - 1;
-        String result = "";
-        while (packageLevel > 0) {
-            result += "../";
-            packageLevel--;
-
-        }
-        return result + CSS_FILE_NAME;
+        RelativeHtmlPathResolver relativeHtmlPathResolver = new RelativeHtmlPathResolver();
+        String callerPath = relativeHtmlPathResolver.getPathOf(useCaseClass, ".html");
+        return relativeHtmlPathResolver.getRelativePathToFile(callerPath, CSS_FILE_NAME);
     }
-
-
 
 }

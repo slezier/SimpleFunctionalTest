@@ -1,6 +1,7 @@
 package sft.integration.fixtures;
 
 import sft.report.*;
+import sft.report.FileSystem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,7 @@ import java.io.Writer;
 public class JavaResource extends SftResource{
 
     private final Css css = new Css();
+    private final FileSystem fileSystem = new FileSystem();
 
     public JavaResource(Class javaClass) {
         super(javaClass, ".java.html");

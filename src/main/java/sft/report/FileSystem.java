@@ -12,10 +12,13 @@ package sft.report;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class FileSystem {
 
@@ -77,17 +80,39 @@ public class FileSystem {
         }
 
         public void copyFromResources(String fileName) throws IOException {
+            try {
+                File file = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
+                copyFromResources("", file);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void copyFromResources(String directory, File file) throws IOException {
+            if(file.isDirectory()){
+                for(File innerFile :  file.listFiles()){
+                    copyFromResources(directory+"/"+file.getName(), innerFile);
+                }
+            } else{
+                copyFileFromResources(directory,file);
+            }
+        }
+
+        private void copyFileFromResources(String directory , File file) throws IOException {
             InputStream resourceAsStream = null;
             OutputStream resStreamOut = null;
             try {
+                resourceAsStream = new FileInputStream(file);
+                String pathname = TARGET_SFT_RESULT + directory + file.getName();
+                System.out.println("copy "+file.getName()+" to "+pathname);
+                File file1 = new File(pathname);
+                resStreamOut = new FileOutputStream(file1);
                 int readBytes;
                 byte[] buffer = new byte[4096];
-                resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
-                resStreamOut = new FileOutputStream(new File(TARGET_SFT_RESULT + fileName));
                 while ((readBytes = resourceAsStream.read(buffer)) > 0) {
                     resStreamOut.write(buffer, 0, readBytes);
                 }
-            } finally {
+            }finally {
                 if (resourceAsStream != null) {
                     resourceAsStream.close();
                 }
@@ -96,5 +121,6 @@ public class FileSystem {
                 }
             }
         }
+
     }
 }

@@ -1,4 +1,4 @@
-package sft.integration.fixtures;
+package sft.report;
 
 
 import org.junit.Assert;
@@ -8,7 +8,7 @@ public class RelativeHtmlPathResolverTest {
 
     @Test
     public void testGetRelativePathFromRoot() {
-        RelativeHtmlPathResolver tested = new RelativeHtmlPathResolver();
+        sft.report.RelativeHtmlPathResolver tested = new sft.report.RelativeHtmlPathResolver();
 
         String relativePathToFile = tested.getRelativePathToFile("file1.bin", "first/third/file2.bin");
 
@@ -17,7 +17,7 @@ public class RelativeHtmlPathResolverTest {
 
     @Test
     public void testGetRelativePathFromInnerDirectory() {
-        RelativeHtmlPathResolver tested = new RelativeHtmlPathResolver();
+        sft.report.RelativeHtmlPathResolver tested = new sft.report.RelativeHtmlPathResolver();
 
         String relativePathToFile = tested.getRelativePathToFile("first/file1.bin", "first/third/file2.bin");
 
@@ -26,7 +26,7 @@ public class RelativeHtmlPathResolverTest {
 
     @Test
     public void testGetRelativePathFromOtherDirectory() {
-        RelativeHtmlPathResolver tested = new RelativeHtmlPathResolver();
+        sft.report.RelativeHtmlPathResolver tested = new sft.report.RelativeHtmlPathResolver();
 
         String relativePathToFile = tested.getRelativePathToFile("first/second/file1.bin", "first/third/file2.bin");
 
@@ -35,7 +35,7 @@ public class RelativeHtmlPathResolverTest {
 
     @Test
     public void testGetRelativePathFromOuterDirectory() {
-        RelativeHtmlPathResolver tested = new RelativeHtmlPathResolver();
+        sft.report.RelativeHtmlPathResolver tested = new sft.report.RelativeHtmlPathResolver();
 
         String relativePathToFile = tested.getRelativePathToFile("first/second/third/file1.bin", "first/second/file2.bin");
 
