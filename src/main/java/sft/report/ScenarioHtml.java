@@ -21,7 +21,6 @@ import sft.result.ScenarioResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScenarioHtml {
@@ -40,8 +39,8 @@ public class ScenarioHtml {
         this.testMethod = testMethod;
         this.scenarioResult = scenarioResult;
         this.css = css;
-        this.before= before;
-        this.after= after;
+        this.before = before;
+        this.after = after;
 
     }
 
@@ -50,12 +49,12 @@ public class ScenarioHtml {
         htmlWriter.write("<div class=\"panel-heading\"><h3><span class=\"scenarioName\">" + scenarioResult.scenario.getName() + "</span></h3></div>\n");
 
 
-        if(testMethod.getComment()!=null){
-            htmlWriter.write("<div class=\"comment\">"+testMethod.getComment()+"</div>");
+        if (testMethod.getComment() != null) {
+            htmlWriter.write("<div class=\"comment\">" + testMethod.getComment() + "</div>");
         }
-        if( useCase.beforeScenario != null){
+        if (useCase.beforeScenario != null) {
             htmlWriter.write("<div class=\"beforeScenario panel-body\">");
-            for( FixtureCall fixtureCall: before.fixtureCalls){
+            for (FixtureCall fixtureCall : before.fixtureCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
                 htmlWriter.write("<div><span>" + fixture.getText(fixtureCall.parameters) + "</span></div>\n");
             }
@@ -63,17 +62,17 @@ public class ScenarioHtml {
         }
 
         htmlWriter.write("<div class=\"panel-body\">\n");
-        if(scenarioResult.issue == Issue.FAILED){
+        if (scenarioResult.issue == Issue.FAILED) {
             writeTestFailed();
         } else {
             writeTestSucceededOrIgnored();
         }
         htmlWriter.write("</div>\n");
 
-        if( useCase.afterScenario != null){
+        if (useCase.afterScenario != null) {
             htmlWriter.write("<div class=\"afterScenario panel-body\"><hr/>");
 
-            for( FixtureCall fixtureCall: after.fixtureCalls){
+            for (FixtureCall fixtureCall : after.fixtureCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
                 htmlWriter.write("<div><span>" + fixture.getText(fixtureCall.parameters) + "</span></div>\n");
             }
@@ -93,20 +92,20 @@ public class ScenarioHtml {
         for (FixtureCall testFixture : testMethod.fixtureCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
 
-            Issue testIssue ;
-            if(fixture == failedCall && scenarioResult.getFailedLine() == testFixture.line){
-                failureAppend =true;
+            Issue testIssue;
+            if (fixture == failedCall && scenarioResult.getFailedLine() == testFixture.line) {
+                failureAppend = true;
                 testIssue = Issue.FAILED;
-            }else if(! failureAppend){
+            } else if (!failureAppend) {
                 testIssue = Issue.SUCCEEDED;
-            }else{
+            } else {
                 testIssue = Issue.IGNORED;
             }
-            htmlWriter.write("<div class=\"instruction "+css.convertIssue(testIssue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + css.convertIssue(testIssue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
 
         Throwable failure = scenarioResult.getFailure();
-        htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >"+failure.getClass().getSimpleName()+": "+ failure.getMessage()+"</a>" +
+        htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >" + failure.getClass().getSimpleName() + ": " + failure.getMessage() + "</a>" +
                 "<pre class=\"stacktrace pre-scrollable\" >");
         PrintWriter printWriter = new PrintWriter(htmlWriter);
         failure.printStackTrace(printWriter);
@@ -115,10 +114,10 @@ public class ScenarioHtml {
 
     private String extractDisplayedContext() throws IllegalAccessException {
         List<String> values = scenarioResult.getContextToDisplay();
-        if( !values.isEmpty()){
+        if (!values.isEmpty()) {
             String htmlText = "<div class=\"displayableContext panel-body\">";
             for (String value : values) {
-                htmlText+="<div>"+value+"</div>";
+                htmlText += "<div>" + value + "</div>";
 
             }
             htmlText += "</div>";
@@ -130,7 +129,7 @@ public class ScenarioHtml {
     private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
         for (FixtureCall testFixture : testMethod.fixtureCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            htmlWriter.write("<div class=\"instruction "+css.convertIssue(scenarioResult.issue) +"\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + css.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
     }
 

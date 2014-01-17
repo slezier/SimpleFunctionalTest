@@ -41,7 +41,7 @@ public class JavaClassParser {
     }
 
     public TestClass parseTestClass(Class<?> javaClass) throws IOException {
-        File javaFile = fileSystem.getSourceFile(javaClass);
+        File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
         return extractTestClass(javaFile);
     }
 

@@ -22,7 +22,6 @@ import sft.result.UseCaseResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
@@ -43,9 +42,9 @@ public class HtmlReport extends RunListener {
         Class<?> classUnderTest = useCase.classUnderTest;
         JavaClassParser javaTokenizer = new JavaClassParser(classUnderTest);
 
-        String htmlPath =  classUnderTest.getCanonicalName().replaceAll("\\.", "/") + ".html";
+        File htmlFile = fileSystem.targetFolder.createFileFromClass(classUnderTest, ".html");
 
-        Writer html = fileSystem.createTargetFileWriter(htmlPath);
+        Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
         html.write("<html><head><title>\n");
         html.write(useCase.getName() + "\n");
         html.write("</title>\n");
@@ -122,6 +121,7 @@ public class HtmlReport extends RunListener {
         html.write("</div></body></html>");
 
         html.close();
+        System.out.println("Report wrote: "+htmlFile.getCanonicalPath());
     }
 
     private String writeHtml(UseCase subUseCase) {

@@ -19,18 +19,18 @@ public class Css {
     private FileSystem fileSystem = new FileSystem();
 
     public void ensureIsCreated() throws IOException {
-        if (!fileSystem.targetFileExists( CSS_FILE_NAME)) {
-            fileSystem.makeTargetDirs(".");
-            fileSystem.copyFileToTargetDir(CSS_FILE_NAME);
-            fileSystem.copyFileToTargetDir("success_16.png");
-            fileSystem.copyFileToTargetDir("success_24.png");
-            fileSystem.copyFileToTargetDir("success_32.png");
-            fileSystem.copyFileToTargetDir("failed_16.png");
-            fileSystem.copyFileToTargetDir("failed_24.png");
-            fileSystem.copyFileToTargetDir("failed_32.png");
-            fileSystem.copyFileToTargetDir("ignored_16.png");
-            fileSystem.copyFileToTargetDir("ignored_24.png");
-            fileSystem.copyFileToTargetDir("ignored_32.png");
+        if (!fileSystem.targetFolder.getFile(CSS_FILE_NAME).exists()) {
+            fileSystem.targetFolder.makeDir(".");
+            fileSystem.targetFolder.copyFromResources(CSS_FILE_NAME);
+            fileSystem.targetFolder.copyFromResources("success_16.png");
+            fileSystem.targetFolder.copyFromResources("success_24.png");
+            fileSystem.targetFolder.copyFromResources("success_32.png");
+            fileSystem.targetFolder.copyFromResources("failed_16.png");
+            fileSystem.targetFolder.copyFromResources("failed_24.png");
+            fileSystem.targetFolder.copyFromResources("failed_32.png");
+            fileSystem.targetFolder.copyFromResources("ignored_16.png");
+            fileSystem.targetFolder.copyFromResources("ignored_24.png");
+            fileSystem.targetFolder.copyFromResources("ignored_32.png");
         }
     }
 
@@ -50,4 +50,7 @@ public class Css {
         }
         return result + CSS_FILE_NAME;
     }
+
+
+
 }

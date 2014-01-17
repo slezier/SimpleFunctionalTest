@@ -1,12 +1,14 @@
 package sft.integration.fixtures;
 
-import sft.report.Css;
+import sft.report.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -15,14 +17,15 @@ public class JavaResource extends SftResource{
     private final Css css = new Css();
 
     public JavaResource(Class javaClass) {
-        super(javaClass);
+        super(javaClass, ".java.html");
         createJavaHtml();
     }
 
     private void createJavaHtml() {
         try {
-            String htmlPath = getHtmlPath();
-            Writer html = fileSystem.createTargetFileWriter(htmlPath);
+            File htmlJavaFile = fileSystem.targetFolder.createFileFromClass(targetClass, extension);
+
+            Writer html = new OutputStreamWriter(new FileOutputStream(htmlJavaFile));
             html.write("<html><head><title>\n");
             html.write(targetClass.getCanonicalName() + "\n");
             html.write("</title>\n");
@@ -32,7 +35,7 @@ public class JavaResource extends SftResource{
             html.write("</head>\n");
             html.write("<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>\n");
 
-            File javaFile = fileSystem.getSourceFile(targetClass);
+            File javaFile = fileSystem.sourceFolder.getFileFromClass(targetClass, ".java");
 
             InputStream javaIn = new FileInputStream(javaFile);
             Reader reader = new InputStreamReader(javaIn, "UTF-8");
@@ -43,10 +46,6 @@ public class JavaResource extends SftResource{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String getHtmlPath() {
-        return fileSystem.getPathOf(targetClass, ".java.html");
     }
 
     private static int copy(Reader input, Writer output) throws IOException {
