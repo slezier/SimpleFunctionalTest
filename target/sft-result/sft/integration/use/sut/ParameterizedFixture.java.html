@@ -20,25 +20,21 @@ import sft.Text;
 public class ParameterizedFixture {
 
     @Test
-    public void usingParameterizedFixture(){
+    public void usingParameterizedFixture() {
         isGreaterThan(2, 1);
         isGreaterThan(500, 38);
         isGreaterThan(1, 2);
         isGreaterThan(2, 1);
         isLowerThan(2, 5);
-    }
-
-    @Test
-    @Ignore
-    public void usingParameterizedStringFixture(){
         theNameStartWith("Amanda", 'A');
         withAs('A', "Achtung");
     }
 
     @Text("The name ${1} start with ${2}")
     private void theNameStartWith(String name, char startWith) {
-        Assert.assertTrue(name.charAt(0)==startWith);
+        Assert.assertTrue(name.charAt(0) == startWith);
     }
+
     @Text("With ${1} as ${2}")
     private void withAs(char character, String word) {
     }
@@ -50,9 +46,8 @@ public class ParameterizedFixture {
     }
 
     @Text("${first} is lower than ${second}")
-    private void isLowerThan(@Parameter("first")int first, @Parameter("second")int second) {
-        Assert.assertTrue(first>second);
+    private void isLowerThan(@Parameter("first") int first, @Parameter("second") int second) {
+        Assert.assertTrue(first > second);
     }
-
 }
 </pre></div></div></body></html>

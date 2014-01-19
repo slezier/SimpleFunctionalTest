@@ -3,6 +3,7 @@ package sft.integration.use;
 import org.junit.Assert;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Displayable;
@@ -32,6 +33,7 @@ public class UsingFixturesHelper {
 
 
     @Test
+    @Ignore
     public void usingFixturesHelper() throws IOException {
         toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass();
         inTheUseCaseInstanciateThisFixturesHelperWithAnnotation();

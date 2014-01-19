@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /*
 To allow fixture re-usability, you can use private or protected methods including parameters.<br/>
-In @Text annotation $name will be replace by the value of the parameter 'name' of the fixture.
+In @Text annotation ${xxx} will be replace by the value of the proper parameter.
 */
 @RunWith(SimpleFunctionalTest.class)
 @Text("Re-Use your fixtures in your class: parameterized fixtures")
@@ -50,7 +50,7 @@ public class UsingParameterizedFixture {
         Assert.assertEquals("2 is greater than 1", parameterizedCalls.get(3).text());
     }
 
-    @Text("The value of parameter is included in annotated text using parameter name indicated with @Parameter surround by dollar like ${parameterName}")
+    @Text("The value of parameter is included in annotated text using parameter name surround by dollar like ${parameterName}")
     private void theValueOfParameterIsIncludedInAnnotatedTextUsingParameterNamePrefixedByDollar() {
         Assert.assertEquals("2 is lower than 5",parameterizedCalls.get(4).text());
     }

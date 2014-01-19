@@ -5,7 +5,7 @@ import sft.report.RelativeHtmlPathResolver;
 public class SftResource {
     protected final Class targetClass;
     protected final String extension;
-    private final RelativeHtmlPathResolver relativeHtmlPathResolver = new RelativeHtmlPathResolver();
+    private final RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
 
     public SftResource(Class targetClass) {
         this(targetClass, ".html");
@@ -17,13 +17,13 @@ public class SftResource {
     }
 
     public String getHtmlPath() {
-        return relativeHtmlPathResolver.getPathOf(targetClass, extension);
+        return pathResolver.getPathOf(targetClass, extension);
     }
 
     public String getRelativePathToFile(Class callerClass) {
-        String callerClassPath = relativeHtmlPathResolver.getPathOf(callerClass, ".html");
+        String callerClassPath = pathResolver.getPathOf(callerClass, ".html");
         String targetHtmlPath = getHtmlPath();
-        return relativeHtmlPathResolver.getRelativePathToFile(callerClassPath, targetHtmlPath);
+        return pathResolver.getRelativePathToFile(callerClassPath, targetHtmlPath);
     }
 
     public String getOpenResourceHtmlLink(Class aClass, String text, String cssClass) {

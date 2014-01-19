@@ -17,6 +17,7 @@ import japa.parser.ast.Comment;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.Expression;
@@ -58,17 +59,17 @@ public class JavaClassParser {
                 if (bodyDeclaration instanceof MethodDeclaration) {
                     MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
                     if (methodContainsAnnotation(methodDeclaration, "Test")) {
-                        testClass.testMethods.add(extractTestMethod(methodDeclaration));
+                        testClass.testMethods.add(extractTestMethod(testClass,methodDeclaration));
+                    } else if (methodContainsAnnotation(methodDeclaration, "BeforeClass")) {
+                        testClass.beforeClass = extractTestContext(methodDeclaration);
+                    } else if (methodContainsAnnotation(methodDeclaration, "AfterClass")) {
+                        testClass.afterClass = extractTestContext(methodDeclaration);
+                    } else if (methodContainsAnnotation(methodDeclaration, "Before")) {
+                        testClass.before = extractTestContext(methodDeclaration);
+                    } else if (methodContainsAnnotation(methodDeclaration, "After")) {
+                        testClass.after = extractTestContext(methodDeclaration);
                     } else {
-                        if (methodContainsAnnotation(methodDeclaration, "BeforeClass")) {
-                            testClass.beforeClass = extractTestContext(methodDeclaration);
-                        } else if (methodContainsAnnotation(methodDeclaration, "AfterClass")) {
-                            testClass.afterClass = extractTestContext(methodDeclaration);
-                        } else if (methodContainsAnnotation(methodDeclaration, "Before")) {
-                            testClass.before = extractTestContext(methodDeclaration);
-                        } else if (methodContainsAnnotation(methodDeclaration, "After")) {
-                            testClass.after = extractTestContext(methodDeclaration);
-                        }
+                        testClass.fixtures.add(extractTestFixture(methodDeclaration));
                     }
                 }
             }
@@ -78,16 +79,34 @@ public class JavaClassParser {
         }
     }
 
+    private TestFixture extractTestFixture(MethodDeclaration methodDeclaration) {
+        String methodName = methodDeclaration.getName();
+        ArrayList<String> parametersName = extractParametersName(methodDeclaration);
+
+        TestFixture testFixture = new TestFixture(methodName, parametersName);
+        return  testFixture;
+    }
+
+    private ArrayList<String> extractParametersName(MethodDeclaration methodDeclaration) {
+        ArrayList<String> parametersName = new ArrayList<String>();
+        if( methodDeclaration.getParameters() != null ){
+            for (Parameter parameter : methodDeclaration.getParameters()) {
+                parametersName.add(parameter.getId().getName());
+            }
+        }
+        return  parametersName;
+    }
+
     private TestContext extractTestContext(MethodDeclaration methodDeclaration) {
         TestContext testContext = new TestContext();
         testContext.fixtureCalls.addAll(extractFixtureCalls(methodDeclaration));
         return testContext;
     }
 
-    private TestMethod extractTestMethod(MethodDeclaration methodDeclaration) {
+    private TestMethod extractTestMethod( TestClass testClass,MethodDeclaration methodDeclaration) {
         Comment methodComment = methodDeclaration.getComment();
         String methodName = methodDeclaration.getName();
-        TestMethod testMethod = new TestMethod(methodName);
+        TestMethod testMethod = new TestMethod(testClass,methodName);
         if (methodComment != null) {
             testMethod.setComment(methodComment.getContent());
         }

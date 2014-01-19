@@ -21,32 +21,39 @@ import java.util.regex.Pattern;
 public class JavaToHumanTranslator {
 
     public String humanize(final Method method){
-        return humanize(method,new ArrayList<String>());
+        return humanize(method,new ArrayList<String>(),new ArrayList<String>());
     }
 
-    public String humanize(final Method method, final ArrayList<String> parameters) {
+    public String humanize(final Method method, final ArrayList<String> parameters, final ArrayList<String> values) {
         if(method.isAnnotationPresent(Text.class)){
 
             String text = method.getAnnotation(Text.class).value();
-            if(!parameters.isEmpty()){
+            if(!values.isEmpty()){
 
                 Annotation[][] parameterAnnotations = method.getParameterAnnotations();
 
                 for(int i = 0; i < method.getParameterTypes().length; i++){
-                    Parameter parameter = getParameterAnnotation(parameterAnnotations[i]);
+                    String namePattern = "\\$\\{"+ parameters.get(i)+"\\}";
+                    String indexPattern = "\\$\\{"+ (i+1)+"\\}";
 
-                    final String replacementPatern;
-                    if(parameter != null){
-                        replacementPatern = "\\$\\{"+ escapeRegexpMetaCharacter(parameter) +"\\}";
-                    }else{
-                        replacementPatern = "\\$\\{"+(i+1)+"\\}";
+                    String value ;
+                    if(values.size() > i){
+                        value = values.get(i) + " ";
+                    }else {
+                        value = "? ";
                     }
 
-                    if(parameters.size() > i){
-                        text=text.replaceFirst(replacementPatern,parameters.get(i)+" ");
-                    }else{
-                        text=text.replaceFirst(replacementPatern,"? ");
-                    }
+                    System.out.println("i : "+ i);
+                    System.out.println("index : "+ indexPattern);
+                    System.out.println("name : "+ namePattern);
+                    System.out.println("value : "+ value);
+
+
+                    System.out.println(text);
+                    text=text.replaceAll(namePattern, value);
+                    System.out.println(text);
+                    text=text.replaceAll(indexPattern, value);
+                    System.out.println(text);
                 }
             }
             return text;
@@ -54,20 +61,6 @@ public class JavaToHumanTranslator {
             return humanize(method.getName());
         }
     }
-
-    private String escapeRegexpMetaCharacter(Parameter parameter) {
-        return Pattern.quote(parameter.value());
-    }
-
-    private Parameter getParameterAnnotation(Annotation[] parameterAnnotations) {
-        for (Annotation parameterAnnotation : parameterAnnotations) {
-            if(parameterAnnotation instanceof Parameter){
-                return (Parameter) parameterAnnotation;
-            }
-        }
-        return null;
-    }
-
 
     public String humanize(Class<?> classUnderTest) {
         if(classUnderTest.isAnnotationPresent(Text.class)){

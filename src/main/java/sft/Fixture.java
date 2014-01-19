@@ -25,11 +25,11 @@ public class Fixture {
     }
 
     public String getName() {
-        return javaToHumanTranslator.humanize(method,new ArrayList<String>());
+        return javaToHumanTranslator.humanize(method);
     }
 
-    public String getText(ArrayList<String> parameters) {
-        return javaToHumanTranslator.humanize(method,parameters);
+    public String getText(ArrayList<String> parametersName,ArrayList<String> parametersValue) {
+        return javaToHumanTranslator.humanize(method,parametersName,parametersValue);
     }
 
 }

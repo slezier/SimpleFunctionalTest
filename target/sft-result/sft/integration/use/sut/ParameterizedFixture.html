@@ -16,11 +16,13 @@ Parameterized fixture
 <div class="instruction failed"><span>1  is greater than 2 </span></div>
 <div class="instruction ignored"><span>2  is greater than 1 </span></div>
 <div class="instruction ignored"><span>2  is lower than 5 </span></div>
+<div class="instruction ignored"><span>The name Amanda  start with A </span></div>
+<div class="instruction ignored"><span>With A  as Achtung </span></div>
 <div class="exception"><a onClick="$(this).next().toggle()" >AssertionError: null</a><pre class="stacktrace pre-scrollable" >java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
 	at org.junit.Assert.assertTrue(Assert.java:52)
-	at sft.integration.use.sut.ParameterizedFixture.isGreaterThan(ParameterizedFixture.java:41)
+	at sft.integration.use.sut.ParameterizedFixture.isGreaterThan(ParameterizedFixture.java:37)
 	at sft.integration.use.sut.ParameterizedFixture.usingParameterizedFixture(ParameterizedFixture.java:18)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
@@ -67,11 +69,5 @@ Parameterized fixture
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 </pre></div></div>
-</div>
-<div class="scenario ignored panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Using parameterized string fixture</span></h3></div>
-<div class="panel-body">
-<div class="instruction ignored"><span>The name Amanda  start with A </span></div>
-<div class="instruction ignored"><span>With A  as Achtung </span></div>
-</div>
 </div>
 </div></body></html>

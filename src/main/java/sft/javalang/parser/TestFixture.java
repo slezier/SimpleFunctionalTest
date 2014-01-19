@@ -10,27 +10,14 @@
  *******************************************************************************/
 package sft.javalang.parser;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
-public class TestMethod {
+public class TestFixture {
+    public final String methodName;
+    public final ArrayList<String> parametersName;
 
-    public final TestClass testClass;
-    public final String name;
-    public final List<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
-    private String comment = null;
-
-    public TestMethod(TestClass testClass,String name) {
-        this.testClass=testClass;
-        this.name = name;
-    }
-
-    public void setComment(String comment){
-        this.comment = comment;
-    }
-
-    public String getComment(){
-        return this.comment;
+    public TestFixture(String methodName, ArrayList<String> parametersName) {
+        this.methodName = methodName;
+        this.parametersName = parametersName;
     }
 }

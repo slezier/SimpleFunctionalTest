@@ -17,6 +17,7 @@ import java.util.List;
 public class TestClass {
 
     public final List<TestMethod> testMethods = new ArrayList<TestMethod>();
+    public final List<TestFixture> fixtures =new ArrayList<TestFixture>();
     private String comment;
     public TestContext beforeClass;
     public TestContext afterClass;
@@ -33,5 +34,14 @@ public class TestClass {
 
     public boolean haveComment() {
         return comment != null;
+    }
+
+    public TestFixture getTestFistureByMehtdname(String name) {
+        for (TestFixture fixture : fixtures) {
+            if( fixture.methodName.endsWith(name)){
+                return fixture;
+            }
+        }
+        throw new RuntimeException("TestFixture not found "+ name);
     }
 }
