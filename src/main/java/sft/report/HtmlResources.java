@@ -32,12 +32,6 @@ public class HtmlResources {
         return issue.toString().toLowerCase();
     }
 
-    public String getRelativePath(Class<?> useCaseClass) {
-        RelativeHtmlPathResolver relativeHtmlPathResolver = new RelativeHtmlPathResolver();
-        String callerPath = relativeHtmlPathResolver.getPathOf(useCaseClass, ".html");
-        return relativeHtmlPathResolver.getRelativePathToFile(callerPath, HTML_DEPENDENCIES_FOLDER);
-    }
-
     public String getIncludeCssDirectives(Class<?> useCaseClass) {
         RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
         String callerPath = pathResolver.getPathOf(useCaseClass, ".html");
@@ -60,7 +54,7 @@ public class HtmlResources {
         return  includeJsDirectives;
     }
 
-    public List<String> getCssToInclude() {
+    private List<String> getCssToInclude() {
         ArrayList<String> cssFiles = new ArrayList<String>();
         for (String file : filesUsed) {
             if( file.endsWith(".css")){
@@ -70,7 +64,7 @@ public class HtmlResources {
         return  cssFiles;
     }
 
-    public List<String> getJsToInclude() {
+    private List<String> getJsToInclude() {
         ArrayList<String> jsFiles = new ArrayList<String>();
         for (String file : filesUsed) {
             if( file.endsWith(".js")){

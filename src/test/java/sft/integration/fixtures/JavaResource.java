@@ -31,9 +31,7 @@ public class JavaResource extends SftResource{
             html.write("<html><head><title>\n");
             html.write(targetClass.getCanonicalName() + "\n");
             html.write("</title>\n");
-            html.write("<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.0.2/htmlResources/bootstrap.min.htmlResources\" />\n");
-            html.write("<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.0.2/htmlResources/bootstrap-theme.min.htmlResources\" />\n");
-            html.write("<link rel=\"stylesheet\" href=\"" + htmlResources.getRelativePath(targetClass) + "\" />\n");
+            html.write(htmlResources.getIncludeCssDirectives(targetClass));
             html.write("</head>\n");
             html.write("<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>\n");
 
