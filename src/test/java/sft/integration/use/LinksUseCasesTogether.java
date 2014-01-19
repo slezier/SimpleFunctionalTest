@@ -49,17 +49,17 @@ public class LinksUseCasesTogether {
     }
 
     private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() {
-        functionalTest = new JUnitHelper(this.getClass(),UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
+        functionalTest = new JUnitHelper(this.getClass(), UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
 
         JavaResource subSuccessfulUseCaseSource = new JavaResource(SubUseCaseSucceeded.class);
         JavaResource subFailedUseCaseSource = new JavaResource(SubUseCaseFailed.class);
         JavaResource subIgnoredUseCaseSource = new JavaResource(SubUseCaseIgnored.class);
 
-        subCasesJavaSources = "<div class=\"resources\">"+
+        subCasesJavaSources = "<div class=\"resources\">" +
                 subSuccessfulUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "succeeded", "alert-success") +
                 subFailedUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "failed", "alert-danger") +
                 subIgnoredUseCaseSource.getOpenResourceHtmlLink(this.getClass(), "ignored", "alert-warning") +
-                "</div>" ;
+                "</div>";
     }
 
     @Text("When invoking JUnit")
@@ -76,20 +76,17 @@ public class LinksUseCasesTogether {
     private void successfullRelatedUseCaseAreDisplayedWithGreenCheckMark() {
         Assert.assertTrue("Related use case without class 'succeeded'", relatedUseCases.get(0).hasClass("succeeded"));
         Assert.assertEquals("url(success_16.png)", sftCss.get("*.relatedUseCase.succeeded a span").getStyle().getPropertyCSSValue("background-image").getCssText());
-        FileSystem.filesExists("target/sft-result/success_16.png");
     }
 
     private void failedRelatedUseCaseAreDisplayedWithRedCrossMark() {
         Assert.assertTrue("Related use case without class 'failed'", relatedUseCases.get(1).hasClass("failed"));
         Assert.assertEquals("url(failed_16.png)", sftCss.get("*.relatedUseCase.failed a span").getStyle().getPropertyCSSValue("background-image").getCssText());
-        FileSystem.filesExists("target/sft-result/failed_16.png");
     }
 
 
     private void ignoredRelatedUseCaseAreDisplayedWithYellowInterrogationMark() {
         Assert.assertTrue("Related use case without class 'ignored'", relatedUseCases.get(2).hasClass("ignored"));
         Assert.assertEquals("url(ignored_16.png)", sftCss.get("*.relatedUseCase.ignored a span").getStyle().getPropertyCSSValue("background-image").getCssText());
-        FileSystem.filesExists("target/sft-result/ignored_16.png");
     }
 
 }

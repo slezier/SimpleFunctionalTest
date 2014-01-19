@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileSystem {
 
@@ -79,48 +81,54 @@ public class FileSystem {
             }
         }
 
-        public void copyFromResources(String fileName) throws IOException {
+        public List<String> copyFromResources(String fileName) throws IOException {
             try {
-                File file = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
-                copyFromResources("", file);
+                File sourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
+                File targetDirectory = ensureExists();
+                return copyFromResources(targetDirectory, sourceFile,"");
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        private void copyFromResources(String directory, File file) throws IOException {
-            if(file.isDirectory()){
-                for(File innerFile :  file.listFiles()){
-                    copyFromResources(directory+"/"+file.getName(), innerFile);
+        private List<String> copyFromResources(File targetDirectory, File sourceFile,String relativePath) throws IOException {
+            ArrayList<String> filesCopied = new ArrayList<String>();
+            if (sourceFile.isDirectory()) {
+                File newTargetDirectory = new File(targetDirectory, sourceFile.getName());
+                if (!newTargetDirectory.exists()) {
+                    newTargetDirectory.mkdir();
                 }
-            } else{
-                copyFileFromResources(directory,file);
+                for (File innerFile : sourceFile.listFiles()) {
+                    filesCopied.addAll(copyFromResources(newTargetDirectory, innerFile,relativePath+newTargetDirectory.getName()+"/"));
+                }
+            } else {
+                String fileToInclude = copyFileFromResources(targetDirectory, sourceFile,relativePath);
+                filesCopied.add(fileToInclude);
             }
+            return filesCopied;
         }
 
-        private void copyFileFromResources(String directory , File file) throws IOException {
-            InputStream resourceAsStream = null;
-            OutputStream resStreamOut = null;
+        private String copyFileFromResources(File targetDirectory, File sourceFile,String relativePath) throws IOException {
+            InputStream sourceAsStream = null;
+            OutputStream targetAsStream = null;
             try {
-                resourceAsStream = new FileInputStream(file);
-                String pathname = TARGET_SFT_RESULT + directory + file.getName();
-                System.out.println("copy "+file.getName()+" to "+pathname);
-                File file1 = new File(pathname);
-                resStreamOut = new FileOutputStream(file1);
+                sourceAsStream = new FileInputStream(sourceFile);
+                File targetFile = new File(targetDirectory, sourceFile.getName());
+                targetAsStream = new FileOutputStream(targetFile);
                 int readBytes;
                 byte[] buffer = new byte[4096];
-                while ((readBytes = resourceAsStream.read(buffer)) > 0) {
-                    resStreamOut.write(buffer, 0, readBytes);
+                while ((readBytes = sourceAsStream.read(buffer)) > 0) {
+                    targetAsStream.write(buffer, 0, readBytes);
                 }
-            }finally {
-                if (resourceAsStream != null) {
-                    resourceAsStream.close();
+                return relativePath + targetFile.getName();
+            } finally {
+                if (sourceAsStream != null) {
+                    sourceAsStream.close();
                 }
-                if (resStreamOut != null) {
-                    resStreamOut.close();
+                if (targetAsStream != null) {
+                    targetAsStream.close();
                 }
             }
         }
-
     }
 }

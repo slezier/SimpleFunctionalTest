@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ScenarioHtml {
 
-    private final Css css;
+    private final HtmlResources htmlResources;
     private final UseCase useCase;
     private final Writer htmlWriter;
     private final TestMethod testMethod;
@@ -33,19 +33,19 @@ public class ScenarioHtml {
     private final TestContext after;
     private final TestContext before;
 
-    public ScenarioHtml(Css css, UseCase useCase, Writer htmlWriter, TestMethod testMethod, ScenarioResult scenarioResult, TestContext before, TestContext after) {
+    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, TestMethod testMethod, ScenarioResult scenarioResult, TestContext before, TestContext after) {
         this.useCase = useCase;
         this.htmlWriter = htmlWriter;
         this.testMethod = testMethod;
         this.scenarioResult = scenarioResult;
-        this.css = css;
+        this.htmlResources = htmlResources;
         this.before = before;
         this.after = after;
 
     }
 
     public void write() throws IOException, IllegalAccessException {
-        htmlWriter.write("<div class=\"scenario " + css.convertIssue(scenarioResult.issue) + " panel panel-default\">");
+        htmlWriter.write("<div class=\"scenario " + htmlResources.convertIssue(scenarioResult.issue) + " panel panel-default\">");
         htmlWriter.write("<div class=\"panel-heading\"><h3><span class=\"scenarioName\">" + scenarioResult.scenario.getName() + "</span></h3></div>\n");
 
 
@@ -101,7 +101,7 @@ public class ScenarioHtml {
             } else {
                 testIssue = Issue.IGNORED;
             }
-            htmlWriter.write("<div class=\"instruction " + css.convertIssue(testIssue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
 
         Throwable failure = scenarioResult.getFailure();
@@ -129,7 +129,7 @@ public class ScenarioHtml {
     private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
         for (FixtureCall testFixture : testMethod.fixtureCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + css.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(testFixture.parameters) + "</span></div>\n");
         }
     }
 

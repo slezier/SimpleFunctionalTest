@@ -39,9 +39,9 @@ import static org.junit.Assert.assertThat;
         Scenario has pink/green/yellow background with cross/check/interrogation mark depending of test issue failed/succeeded/ignored.
     </div>
     <ul>
-        <li>Succeeded fixture call are displayed with green check mark: &nbsp; &nbsp;<img src="../../../success_16.png"/></li>
-        <li>Failed fixture call are displayed with red cross mark: &nbsp; &nbsp;<img src="../../../failed_16.png"/></li>
-        <li>Ignored fixture are displayed with yellow interrogation mark: &nbsp; &nbsp;<img src="../../../ignored_16.png"/></li>
+        <li>Succeeded fixture call are displayed with green check mark: &nbsp; &nbsp;<img src="../../../sft-html-default/success_16.png"/></li>
+        <li>Failed fixture call are displayed with red cross mark: &nbsp; &nbsp;<img src="../../../sft-html-default/failed_16.png"/></li>
+        <li>Ignored fixture are displayed with yellow interrogation mark: &nbsp; &nbsp;<img src="../../../sft-html-default/ignored_16.png"/></li>
     </ul>
 */
 @RunWith(SimpleFunctionalTest.class)
@@ -111,7 +111,7 @@ public class CommonUsage {
         Assert.assertEquals("url(ignored_24.png)", sftCss.get("*.scenario.ignored *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(ignored_16.png)", sftCss.get("*.instruction.ignored span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/ignored_16.png", "target/sft-result/ignored_24.png", "target/sft-result/ignored_32.png");
+        FileSystem.filesExists("target/sft-result/sft-html-default/ignored_16.png", "target/sft-result/sft-html-default/ignored_24.png", "target/sft-result/sft-html-default/ignored_32.png");
     }
 
     private void ignoredScenarioSectionAreAlsoDisplayWithYellowBackground() {
@@ -168,7 +168,7 @@ public class CommonUsage {
         Assert.assertEquals("url(success_24.png)", sftCss.get("*.scenario.succeeded *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(success_16.png)", sftCss.get("*.instruction.succeeded span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/success_16.png", "target/sft-result/success_24.png", "target/sft-result/success_32.png");
+        FileSystem.filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
     }
 
     private void failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
@@ -178,7 +178,7 @@ public class CommonUsage {
         Assert.assertEquals("url(failed_32.png)", sftCss.get("*.useCase.failed *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/failed_24.png", "target/sft-result/failed_32.png");
+        FileSystem.filesExists("target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     @Text("Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.")
@@ -200,7 +200,7 @@ public class CommonUsage {
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_16.png)", sftCss.get("*.instruction.failed span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/failed_16.png", "target/sft-result/failed_24.png", "target/sft-result/failed_32.png");
+        FileSystem.filesExists("target/sft-result/sft-html-default/failed_16.png", "target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     private void successfulScenarioSectionAreAlsoDisplayWithGreenBackground() {

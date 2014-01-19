@@ -27,7 +27,7 @@ import java.io.Writer;
 
 
 public class HtmlReport extends RunListener {
-    private final Css css = new Css();
+    private final HtmlResources htmlResources = new HtmlResources();
     private final FileSystem fileSystem = new FileSystem();
     private final UseCaseResult useCaseResult;
 
@@ -36,7 +36,7 @@ public class HtmlReport extends RunListener {
     }
 
     public void useCaseIsFinished() throws IOException, IllegalAccessException {
-        css.ensureIsCreated();
+        htmlResources.ensureIsCreated();
 
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
@@ -48,26 +48,11 @@ public class HtmlReport extends RunListener {
         html.write("<html><head><title>\n");
         html.write(useCase.getName() + "\n");
         html.write("</title>\n");
-        html.write("<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css\" />\n");
-        html.write("<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css\" />\n");
-        html.write("<link rel=\"stylesheet\" href=\"" + css.getRelativePath(useCase.classUnderTest) + "\" />\n");
-
-        html.write("<script src=\"https://code.jquery.com/jquery.js\" />\n");
-        html.write("<script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js\" />\n");
-
-        html.write("<script>\n" +
-                "function toggle(divId){\n" +
-                "var div = document.getElementById(divId);\n"+
-                "\tif(div.style.display == 'none'){\n"+
-                "\tdiv.style.display = 'block';\n"+
-                "\t}else{\n"+
-                "\tdiv.style.display = 'none';\n"+
-                "\t}\n"+
-                "}\n"+
-                "</script>\n");
+        html.write(htmlResources.getIncludeCssDirectives(useCase.classUnderTest));
+        html.write(htmlResources.getIncludeJsDirectives(useCase.classUnderTest));
 
         html.write("</head>\n");
-        html.write("<body class=\"useCase " + css.convertIssue(useCaseResult.getIssue()) + "\"><div class=\"container\">\n");
+        html.write("<body class=\"useCase " + htmlResources.convertIssue(useCaseResult.getIssue()) + "\"><div class=\"container\">\n");
 
         html.write("<div class=\"page-header\">");
         html.write("<div class=\"text-center\"><h1><span class=\"useCaseName\">" + useCase.getName() + "</span></h1></div>\n");
@@ -89,7 +74,7 @@ public class HtmlReport extends RunListener {
         for (TestMethod testMethod : javaTokenizer.testClass.testMethods) {
             for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
                 if (scenarioResult.scenario.method.getName().equals(testMethod.name)) {
-                    ScenarioHtml scenarioHtml = new ScenarioHtml(css, useCase, html, testMethod, scenarioResult,javaTokenizer.testClass.before,javaTokenizer.testClass.after);
+                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, testMethod, scenarioResult,javaTokenizer.testClass.before,javaTokenizer.testClass.after);
                     scenarioHtml.write();
                 }
             }
@@ -108,7 +93,7 @@ public class HtmlReport extends RunListener {
             html.write("<div class=\"panel panel-default\"><div class=\"panel-heading\"><h3>Related uses cases</h3></div><div class=\"panel-body\"><ul>");
 
             for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
-                html.write("<li class=\"relatedUseCase "+css.convertIssue(subUseCaseResult.getIssue()) +"\"><a href=\"" + writeHtml(subUseCaseResult.useCase) + "\"><span>" + subUseCaseResult.useCase.getName() + "</span></a></li>");
+                html.write("<li class=\"relatedUseCase "+ htmlResources.convertIssue(subUseCaseResult.getIssue()) +"\"><a href=\"" + writeHtml(subUseCaseResult.useCase) + "\"><span>" + subUseCaseResult.useCase.getName() + "</span></a></li>");
                 try {
                     new HtmlReport(subUseCaseResult).useCaseIsFinished();
                 }catch (Throwable t){

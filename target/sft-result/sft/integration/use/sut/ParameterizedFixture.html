@@ -1,21 +1,11 @@
 <html><head><title>
 Parameterized fixture
 </title>
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../../sft.css" />
-<script src="https://code.jquery.com/jquery.js" />
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" />
-<script>
-function toggle(divId){
-var div = document.getElementById(divId);
-	if(div.style.display == 'none'){
-	div.style.display = 'block';
-	}else{
-	div.style.display = 'none';
-	}
-}
-</script>
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+<script src="../../../../sft-html-default/bootstrap.min.js"></script>
+<script src="../../../../sft-html-default/jquery-1.10.2.min.js"></script>
 </head>
 <body class="useCase failed"><div class="container">
 <div class="page-header"><div class="text-center"><h1><span class="useCaseName">Parameterized fixture</span></h1></div>
@@ -33,9 +23,9 @@ var div = document.getElementById(divId);
 	at sft.integration.use.sut.ParameterizedFixture.isGreaterThan(ParameterizedFixture.java:41)
 	at sft.integration.use.sut.ParameterizedFixture.usingParameterizedFixture(ParameterizedFixture.java:18)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
 	at sft.Scenario.run(Scenario.java:36)
 	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:47)
 	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
@@ -55,9 +45,9 @@ var div = document.getElementById(divId);
 	at sft.integration.use.UsingParameterizedFixture.byDeclaringParameterToYourFixtureYouCanReuseIt(UsingParameterizedFixture.java:39)
 	at sft.integration.use.UsingParameterizedFixture.parameterizedFixture(UsingParameterizedFixture.java:31)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
 	at sft.Scenario.run(Scenario.java:36)
 	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:47)
 	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:70)
@@ -68,9 +58,9 @@ var div = document.getElementById(divId);
 	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
 	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
 	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
 	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)

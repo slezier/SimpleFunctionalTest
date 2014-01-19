@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class CssParser {
 
-    private static final String SFT_CSS_FILE = "target/sft-result/sft.css";
+    private static final String SFT_CSS_FILE = "target/sft-result/sft-html-default/sft.css";
     private HashMap<String, CSSStyleRule> rules;
 
     public CssParser(){
