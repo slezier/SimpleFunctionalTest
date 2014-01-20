@@ -1,0 +1,27 @@
+<html><head><title>
+sft.integration.use.sut.DelegatedFixtures
+</title>
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut;
+
+import org.junit.Assert;
+import sft.Text;
+
+
+public class DelegatedFixtures {
+
+    public void firstFixture() {
+        Assert.assertTrue(true);
+    }
+
+    @Text("Second fixture with parameter ${string} and ${2}")
+    public void secondFixture(String string, int integer) {
+        Assert.assertTrue(true);
+    }
+
+}
+</pre></div></div></body></html>
