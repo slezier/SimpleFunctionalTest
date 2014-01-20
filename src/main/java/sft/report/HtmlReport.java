@@ -13,7 +13,7 @@ package sft.report;
 import org.junit.runner.notification.RunListener;
 import sft.Fixture;
 import sft.UseCase;
-import sft.javalang.parser.FixtureCall;
+import sft.javalang.parser.MethodCall;
 import sft.javalang.parser.JavaClassParser;
 import sft.javalang.parser.OtherMethod;
 import sft.javalang.parser.TestMethod;
@@ -65,11 +65,11 @@ public class HtmlReport extends RunListener {
 
         if(javaTokenizer.testClass.beforeClass != null){
             html.write("<div class=\"panel panel-default beforeUseCase\"><div class=\"panel-body\">");
-            for( FixtureCall fixtureCall:javaTokenizer.testClass.beforeClass.fixtureCalls){
-                Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
+            for( MethodCall methodCall :javaTokenizer.testClass.beforeClass.methodCalls){
+                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
 
-                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
-                html.write("<div><span>" + fixture.getText(otherMethod.parametersName,fixtureCall.parameters) + "</span></div>\n");
+                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
+                html.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }
@@ -85,10 +85,10 @@ public class HtmlReport extends RunListener {
 
         if(javaTokenizer.testClass.afterClass != null){
             html.write("<div class=\"panel panel-default afterUseCase\"><div class=\"panel-body\">");
-            for( FixtureCall fixtureCall:javaTokenizer.testClass.afterClass.fixtureCalls){
-                Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
-                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
-                html.write("<div><span>" + fixture.getText(otherMethod.parametersName,fixtureCall.parameters) + "</span></div>\n");
+            for( MethodCall methodCall :javaTokenizer.testClass.afterClass.methodCalls){
+                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
+                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
+                html.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }

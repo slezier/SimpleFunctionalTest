@@ -99,7 +99,7 @@ public class JavaClassParser {
 
     private TestContext extractTestContext(MethodDeclaration methodDeclaration) {
         TestContext testContext = new TestContext();
-        testContext.fixtureCalls.addAll(extractFixtureCalls(methodDeclaration));
+        testContext.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
         return testContext;
     }
 
@@ -110,12 +110,12 @@ public class JavaClassParser {
         if (methodComment != null) {
             testMethod.setComment(methodComment.getContent());
         }
-        testMethod.fixtureCalls.addAll(extractFixtureCalls(methodDeclaration));
+        testMethod.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
         return testMethod;
     }
 
-    private ArrayList<FixtureCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
-        ArrayList<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
+    private ArrayList<MethodCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
+        ArrayList<MethodCall> methodCalls = new ArrayList<MethodCall>();
         for (Statement stmt : methodDeclaration.getBody().getStmts()) {
             if (stmt instanceof ExpressionStmt) {
                 Expression expr = ((ExpressionStmt) stmt).getExpression();
@@ -127,7 +127,7 @@ public class JavaClassParser {
                         methodCallName = scope + ".";
                     }
                     methodCallName += methodCall.getName();
-                    FixtureCall call = new FixtureCall(methodCallName, methodCall.getBeginLine());
+                    MethodCall call = new MethodCall(methodCallName, methodCall.getBeginLine());
                     if (methodCall.getArgs() != null) {
                         for (Expression expression : methodCall.getArgs()) {
                             if (expression instanceof StringLiteralExpr) {
@@ -139,12 +139,12 @@ public class JavaClassParser {
                             }
                         }
                     }
-                    fixtureCalls.add(call);
+                    methodCalls.add(call);
                 }
             }
 
         }
-        return fixtureCalls;
+        return methodCalls;
     }
 
     private boolean methodContainsAnnotation(MethodDeclaration methodDeclaration, String annotation) {

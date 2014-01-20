@@ -18,7 +18,7 @@ public class TestMethod {
 
     public final TestClass testClass;
     public final String name;
-    public final List<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
+    public final List<MethodCall> methodCalls = new ArrayList<MethodCall>();
     private String comment = null;
 
     public TestMethod(TestClass testClass,String name) {

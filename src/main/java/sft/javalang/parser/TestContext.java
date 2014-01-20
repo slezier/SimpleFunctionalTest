@@ -14,5 +14,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestContext {
-    public final List<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
+    public final List<MethodCall> methodCalls = new ArrayList<MethodCall>();
 }
