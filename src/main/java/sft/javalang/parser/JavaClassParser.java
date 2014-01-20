@@ -79,12 +79,12 @@ public class JavaClassParser {
         }
     }
 
-    private TestFixture extractTestFixture(MethodDeclaration methodDeclaration) {
+    private OtherMethod extractTestFixture(MethodDeclaration methodDeclaration) {
         String methodName = methodDeclaration.getName();
         ArrayList<String> parametersName = extractParametersName(methodDeclaration);
 
-        TestFixture testFixture = new TestFixture(methodName, parametersName);
-        return  testFixture;
+        OtherMethod otherMethod = new OtherMethod(methodName, parametersName);
+        return otherMethod;
     }
 
     private ArrayList<String> extractParametersName(MethodDeclaration methodDeclaration) {

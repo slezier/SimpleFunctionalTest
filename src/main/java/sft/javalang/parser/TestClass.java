@@ -17,7 +17,7 @@ import java.util.List;
 public class TestClass {
 
     public final List<TestMethod> testMethods = new ArrayList<TestMethod>();
-    public final List<TestFixture> fixtures =new ArrayList<TestFixture>();
+    public final List<OtherMethod> fixtures =new ArrayList<OtherMethod>();
     private String comment;
     public TestContext beforeClass;
     public TestContext afterClass;
@@ -36,12 +36,12 @@ public class TestClass {
         return comment != null;
     }
 
-    public TestFixture getTestFistureByMehtdname(String name) {
-        for (TestFixture fixture : fixtures) {
+    public OtherMethod getTestFistureByMehtdname(String name) {
+        for (OtherMethod fixture : fixtures) {
             if( fixture.methodName.endsWith(name)){
                 return fixture;
             }
         }
-        throw new RuntimeException("TestFixture not found "+ name);
+        throw new RuntimeException("OtherMethod not found "+ name);
     }
 }

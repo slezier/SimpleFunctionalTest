@@ -15,7 +15,7 @@ import sft.Fixture;
 import sft.UseCase;
 import sft.javalang.parser.FixtureCall;
 import sft.javalang.parser.JavaClassParser;
-import sft.javalang.parser.TestFixture;
+import sft.javalang.parser.OtherMethod;
 import sft.javalang.parser.TestMethod;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
@@ -68,8 +68,8 @@ public class HtmlReport extends RunListener {
             for( FixtureCall fixtureCall:javaTokenizer.testClass.beforeClass.fixtureCalls){
                 Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
 
-                TestFixture testFixture = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
-                html.write("<div><span>" + fixture.getText(testFixture.parametersName,fixtureCall.parameters) + "</span></div>\n");
+                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
+                html.write("<div><span>" + fixture.getText(otherMethod.parametersName,fixtureCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }
@@ -87,8 +87,8 @@ public class HtmlReport extends RunListener {
             html.write("<div class=\"panel panel-default afterUseCase\"><div class=\"panel-body\">");
             for( FixtureCall fixtureCall:javaTokenizer.testClass.afterClass.fixtureCalls){
                 Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
-                TestFixture testFixture = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
-                html.write("<div><span>" + fixture.getText(testFixture.parametersName,fixtureCall.parameters) + "</span></div>\n");
+                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(fixtureCall.name);
+                html.write("<div><span>" + fixture.getText(otherMethod.parametersName,fixtureCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }

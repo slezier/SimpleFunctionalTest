@@ -12,11 +12,11 @@ package sft.javalang.parser;
 
 import java.util.ArrayList;
 
-public class TestFixture {
+public class OtherMethod {
     public final String methodName;
     public final ArrayList<String> parametersName;
 
-    public TestFixture(String methodName, ArrayList<String> parametersName) {
+    public OtherMethod(String methodName, ArrayList<String> parametersName) {
         this.methodName = methodName;
         this.parametersName = parametersName;
     }
