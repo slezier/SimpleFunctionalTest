@@ -45,6 +45,4 @@ public class HelperJavaParser extends JavaFileParser {
             }
         }
     }
-
-
 }

@@ -8,7 +8,7 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft.javalang.parser;
+package sft;
 
 
 import java.util.ArrayList;

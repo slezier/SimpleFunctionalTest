@@ -17,14 +17,13 @@ import java.util.LinkedList;
 
 import org.junit.Ignore;
 import sft.javalang.JavaToHumanTranslator;
-import sft.javalang.parser.MethodCall;
 
 public class Scenario {
     public final Method method;
     public final UseCase useCase;
     private final JavaToHumanTranslator javaToHumanTranslator;
     private String comment;
-    public LinkedList<MethodCall> methodCalls;
+    public LinkedList<MethodCall> methodCalls = new LinkedList<MethodCall>();
 
     public Scenario(UseCase useCase, Method method) {
         this.useCase = useCase;

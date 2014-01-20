@@ -12,9 +12,9 @@ package sft.report;
 
 import org.junit.runner.notification.RunListener;
 import sft.Fixture;
+import sft.MethodCall;
+import sft.Scenario;
 import sft.UseCase;
-import sft.javalang.parser.MethodCall;
-import sft.javalang.parser.TestMethod;
 import sft.javalang.parser.UseCaseJavaParser;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
@@ -68,10 +68,10 @@ public class HtmlReport extends RunListener {
             html.write("</div></div>");
         }
 
-        for (TestMethod testMethod : javaTokenizer.testClass.testMethods) {
+        for (Scenario scenario : useCase.scenarios) {
             for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
-                if (scenarioResult.scenario.method.getName().equals(testMethod.name)) {
-                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, testMethod, scenarioResult, useCase.beforeScenario, useCase.afterScenario);
+                if (scenarioResult.scenario.equals(scenario)) {
+                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, scenario, scenarioResult, useCase.beforeScenario, useCase.afterScenario);
                     scenarioHtml.write();
                 }
             }

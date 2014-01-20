@@ -12,33 +12,22 @@ package sft.javalang.parser;
 
 
 import japa.parser.ParseException;
-import japa.parser.ast.Comment;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.*;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.Statement;
-import sft.ContextHandler;
-import sft.Helper;
-import sft.Scenario;
-import sft.UseCase;
+import sft.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class UseCaseJavaParser extends JavaFileParser {
-    public TestClass testClass = new TestClass();
 
 
     public UseCaseJavaParser(Class<?> javaClass) throws IOException {
         super(javaClass);
-        try {
-            TypeDeclaration type = getMaintType();
-            testClass = extractTestClass(type);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void feed(UseCase useCase) throws IOException {
@@ -50,7 +39,7 @@ public class UseCaseJavaParser extends JavaFileParser {
         }
     }
 
-    private TestClass feedTestClass(TypeDeclaration type, UseCase useCase) throws IOException {
+    private void feedTestClass(TypeDeclaration type, UseCase useCase) throws IOException {
         if (type.getComment() != null) {
             useCase.setComment(type.getComment().getContent());
         }
@@ -76,23 +65,7 @@ public class UseCaseJavaParser extends JavaFileParser {
             HelperJavaParser helperJavaParser = new HelperJavaParser(fixturesHelper.object);
             helperJavaParser.feed(fixturesHelper);
         }
-        return testClass;
     }
-
-
-    private TestClass extractTestClass(TypeDeclaration type) {
-        TestClass testClass = new TestClass();
-        for (BodyDeclaration bodyDeclaration : type.getMembers()) {
-            if (bodyDeclaration instanceof MethodDeclaration) {
-                MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
-                if (containsAnnotation(methodDeclaration, "Test")) {
-                    testClass.testMethods.add(extractTestMethod(testClass, methodDeclaration));
-                }
-            }
-        }
-        return testClass;
-    }
-
 
     private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler beforeUseCase) {
         beforeUseCase.methodCalls = extractFixtureCalls(methodDeclaration);
@@ -100,7 +73,8 @@ public class UseCaseJavaParser extends JavaFileParser {
 
     private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
         for (Scenario scenario : useCase.scenarios) {
-            if (scenario.getName().equals(methodDeclaration.getName())) {
+            System.out.println("Feed scenario " + scenario.getName());
+            if (scenario.method.getName().equals(methodDeclaration.getName())) {
                 if (methodDeclaration.getComment() != null) {
                     scenario.setComment(methodDeclaration.getComment().getContent());
                 }
@@ -109,18 +83,6 @@ public class UseCaseJavaParser extends JavaFileParser {
             }
         }
     }
-
-    private TestMethod extractTestMethod(TestClass testClass, MethodDeclaration methodDeclaration) {
-        Comment methodComment = methodDeclaration.getComment();
-        String methodName = methodDeclaration.getName();
-        TestMethod testMethod = new TestMethod(testClass, methodName);
-        if (methodComment != null) {
-            testMethod.setComment(methodComment.getContent());
-        }
-        testMethod.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
-        return testMethod;
-    }
-
 
     private ArrayList<MethodCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
         ArrayList<MethodCall> methodCalls = new ArrayList<MethodCall>();
@@ -165,5 +127,4 @@ public class UseCaseJavaParser extends JavaFileParser {
         }
         return false;
     }
-
 }

@@ -182,14 +182,6 @@ public class UseCase extends FixturesHolder {
                 testMethods.add(method);
             }
         }
-
-        Comparator<? super Method> methodComparator = new Comparator<Method>() {
-            @Override
-            public int compare(Method o1, Method o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-        sort(testMethods, methodComparator);
         return testMethods;
     }
 

@@ -13,10 +13,9 @@ package sft.report;
 
 import sft.ContextHandler;
 import sft.Fixture;
+import sft.Scenario;
 import sft.UseCase;
-import sft.javalang.parser.MethodCall;
-import sft.javalang.parser.TestContext;
-import sft.javalang.parser.TestMethod;
+import sft.MethodCall;
 import sft.result.ScenarioResult;
 
 import java.io.IOException;
@@ -29,20 +28,19 @@ public class ScenarioHtml {
     private final HtmlResources htmlResources;
     private final UseCase useCase;
     private final Writer htmlWriter;
-    private final TestMethod testMethod;
+    private final Scenario scenario;
     private final ScenarioResult scenarioResult;
     private final ContextHandler after;
     private final ContextHandler before;
 
-    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, TestMethod testMethod, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
+    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, Scenario scenario, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
         this.useCase = useCase;
         this.htmlWriter = htmlWriter;
-        this.testMethod = testMethod;
+        this.scenario = scenario;
         this.scenarioResult = scenarioResult;
         this.htmlResources = htmlResources;
         this.before = before;
         this.after = after;
-
     }
 
     public void write() throws IOException, IllegalAccessException {
@@ -50,8 +48,8 @@ public class ScenarioHtml {
         htmlWriter.write("<div class=\"panel-heading\"><h3><span class=\"scenarioName\">" + scenarioResult.scenario.getName() + "</span></h3></div>\n");
 
 
-        if (testMethod.getComment() != null) {
-            htmlWriter.write("<div class=\"comment\">" + testMethod.getComment() + "</div>");
+        if (scenario.getComment() != null) {
+            htmlWriter.write("<div class=\"comment\">" + scenario.getComment() + "</div>");
         }
         if (useCase.beforeScenario != null) {
             htmlWriter.write("<div class=\"beforeScenario panel-body\">");
@@ -90,7 +88,7 @@ public class ScenarioHtml {
 
         boolean failureAppend = false;
 
-        for (MethodCall testFixture : testMethod.methodCalls) {
+        for (MethodCall testFixture : scenario.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
 
             Issue testIssue;
@@ -129,7 +127,7 @@ public class ScenarioHtml {
     }
 
     private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
-        for (MethodCall testFixture : testMethod.methodCalls) {
+        for (MethodCall testFixture : scenario.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
             htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }

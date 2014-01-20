@@ -95,5 +95,4 @@ public class Usages {
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
     public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
 
-
 }

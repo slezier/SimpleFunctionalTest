@@ -7,7 +7,6 @@ import sft.integration.hack.Hack;
 import sft.integration.set.Settings;
 import sft.integration.use.Usages;
 
-
 /*
 <div>
     SimpleFunctionalTest is a java testing framework plugin for jUnit.<br/><br/>
