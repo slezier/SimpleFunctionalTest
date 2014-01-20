@@ -82,47 +82,20 @@ public class UseCaseJavaParser extends JavaFileParser {
 
     private TestClass extractTestClass(TypeDeclaration type) {
         TestClass testClass = new TestClass();
-        if (type.getComment() != null) {
-            testClass.setComment(type.getComment().getContent());
-        }
         for (BodyDeclaration bodyDeclaration : type.getMembers()) {
             if (bodyDeclaration instanceof MethodDeclaration) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
                 if (containsAnnotation(methodDeclaration, "Test")) {
                     testClass.testMethods.add(extractTestMethod(testClass, methodDeclaration));
-                } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
-                    testClass.beforeClass = extractTestContext(methodDeclaration);
-                } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
-                    testClass.afterClass = extractTestContext(methodDeclaration);
-                } else if (containsAnnotation(methodDeclaration, "Before")) {
-                    testClass.before = extractTestContext(methodDeclaration);
-                } else if (containsAnnotation(methodDeclaration, "After")) {
-                    testClass.after = extractTestContext(methodDeclaration);
-                } else {
-                    testClass.fixtures.add(extractTestFixture(methodDeclaration));
                 }
             }
         }
         return testClass;
     }
 
-    private OtherMethod extractTestFixture(MethodDeclaration methodDeclaration) {
-        String methodName = methodDeclaration.getName();
-        ArrayList<String> parametersName = extractParametersName(methodDeclaration);
-
-        OtherMethod otherMethod = new OtherMethod(methodName, parametersName);
-        return otherMethod;
-    }
-
 
     private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler beforeUseCase) {
         beforeUseCase.methodCalls = extractFixtureCalls(methodDeclaration);
-    }
-
-    private TestContext extractTestContext(MethodDeclaration methodDeclaration) {
-        TestContext testContext = new TestContext();
-        testContext.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
-        return testContext;
     }
 
     private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {

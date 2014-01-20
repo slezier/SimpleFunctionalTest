@@ -14,17 +14,12 @@ import org.junit.runner.notification.RunListener;
 import sft.Fixture;
 import sft.UseCase;
 import sft.javalang.parser.MethodCall;
-import sft.javalang.parser.UseCaseJavaParser;
-import sft.javalang.parser.OtherMethod;
 import sft.javalang.parser.TestMethod;
+import sft.javalang.parser.UseCaseJavaParser;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 
 
 public class HtmlReport extends RunListener {
@@ -58,17 +53,16 @@ public class HtmlReport extends RunListener {
         html.write("<div class=\"page-header\">");
         html.write("<div class=\"text-center\"><h1><span class=\"useCaseName\">" + useCase.getName() + "</span></h1></div>\n");
 
-        if (javaTokenizer.testClass.haveComment()) {
-            html.write("<div class=\"comment\">" + javaTokenizer.testClass.getComment() + "</div>");
+        if (useCase.haveComment()) {
+            html.write("<div class=\"comment\">" + useCase.getComment() + "</div>");
         }
         html.write("</div>");
 
-        if(javaTokenizer.testClass.beforeClass != null){
+        if (useCase.beforeUseCase != null) {
             html.write("<div class=\"panel panel-default beforeUseCase\"><div class=\"panel-body\">");
-            for( MethodCall methodCall :javaTokenizer.testClass.beforeClass.methodCalls){
+            for (MethodCall methodCall : useCase.beforeUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
 
-                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
                 html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
@@ -77,17 +71,16 @@ public class HtmlReport extends RunListener {
         for (TestMethod testMethod : javaTokenizer.testClass.testMethods) {
             for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
                 if (scenarioResult.scenario.method.getName().equals(testMethod.name)) {
-                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, testMethod, scenarioResult,javaTokenizer.testClass.before,javaTokenizer.testClass.after);
+                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, testMethod, scenarioResult, useCase.beforeScenario, useCase.afterScenario);
                     scenarioHtml.write();
                 }
             }
         }
 
-        if(javaTokenizer.testClass.afterClass != null){
+        if (useCase.afterUseCase != null) {
             html.write("<div class=\"panel panel-default afterUseCase\"><div class=\"panel-body\">");
-            for( MethodCall methodCall :javaTokenizer.testClass.afterClass.methodCalls){
+            for (MethodCall methodCall : useCase.afterUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
                 html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
@@ -97,11 +90,11 @@ public class HtmlReport extends RunListener {
             html.write("<div class=\"panel panel-default\"><div class=\"panel-heading\"><h3>Related uses cases</h3></div><div class=\"panel-body\"><ul>");
 
             for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
-                html.write("<li class=\"relatedUseCase "+ htmlResources.convertIssue(subUseCaseResult.getIssue()) +"\"><a href=\"" + writeHtml(subUseCaseResult.useCase) + "\"><span>" + subUseCaseResult.useCase.getName() + "</span></a></li>");
+                html.write("<li class=\"relatedUseCase " + htmlResources.convertIssue(subUseCaseResult.getIssue()) + "\"><a href=\"" + writeHtml(subUseCaseResult.useCase) + "\"><span>" + subUseCaseResult.useCase.getName() + "</span></a></li>");
                 try {
                     new HtmlReport(subUseCaseResult).useCaseIsFinished();
-                }catch (Throwable t){
-                    html.write("<div>"+t.getMessage()+"</div>");
+                } catch (Throwable t) {
+                    html.write("<div>" + t.getMessage() + "</div>");
                 }
             }
             html.write("</ul></div></div>");
@@ -110,7 +103,7 @@ public class HtmlReport extends RunListener {
         html.write("</div></body></html>");
 
         html.close();
-        System.out.println("Report wrote: "+htmlFile.getCanonicalPath());
+        System.out.println("Report wrote: " + htmlFile.getCanonicalPath());
     }
 
     private String writeHtml(UseCase subUseCase) {

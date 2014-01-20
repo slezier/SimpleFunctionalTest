@@ -38,7 +38,7 @@ public class JavaFileParser {
         }
     }
 
-    protected ArrayList<String> extractParametersName(MethodDeclaration methodDeclaration) {
+    private ArrayList<String> extractParametersName(MethodDeclaration methodDeclaration) {
         ArrayList<String> parametersName = new ArrayList<String>();
         if (methodDeclaration.getParameters() != null) {
             for (Parameter parameter : methodDeclaration.getParameters()) {

@@ -17,31 +17,5 @@ import java.util.List;
 public class TestClass {
 
     public final List<TestMethod> testMethods = new ArrayList<TestMethod>();
-    public final List<OtherMethod> fixtures =new ArrayList<OtherMethod>();
-    private String comment;
-    public TestContext beforeClass;
-    public TestContext afterClass;
-    public TestContext after;
-    public TestContext before;
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public boolean haveComment() {
-        return comment != null;
-    }
-
-    public OtherMethod getTestFistureByMehtdname(String name) {
-        for (OtherMethod fixture : fixtures) {
-            if( fixture.methodName.endsWith(name)){
-                return fixture;
-            }
-        }
-        throw new RuntimeException("Method not found "+ name);
-    }
 }

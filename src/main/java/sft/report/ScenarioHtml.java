@@ -11,10 +11,10 @@
 package sft.report;
 
 
+import sft.ContextHandler;
 import sft.Fixture;
 import sft.UseCase;
 import sft.javalang.parser.MethodCall;
-import sft.javalang.parser.OtherMethod;
 import sft.javalang.parser.TestContext;
 import sft.javalang.parser.TestMethod;
 import sft.result.ScenarioResult;
@@ -31,10 +31,10 @@ public class ScenarioHtml {
     private final Writer htmlWriter;
     private final TestMethod testMethod;
     private final ScenarioResult scenarioResult;
-    private final TestContext after;
-    private final TestContext before;
+    private final ContextHandler after;
+    private final ContextHandler before;
 
-    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, TestMethod testMethod, ScenarioResult scenarioResult, TestContext before, TestContext after) {
+    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, TestMethod testMethod, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
         this.useCase = useCase;
         this.htmlWriter = htmlWriter;
         this.testMethod = testMethod;
@@ -57,7 +57,6 @@ public class ScenarioHtml {
             htmlWriter.write("<div class=\"beforeScenario panel-body\">");
             for (MethodCall methodCall : before.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(methodCall.name);
                 htmlWriter.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             htmlWriter.write("<hr/></div>");
@@ -76,7 +75,6 @@ public class ScenarioHtml {
 
             for (MethodCall methodCall : after.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(methodCall.name);
                 htmlWriter.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             htmlWriter.write("</div>");
@@ -105,8 +103,7 @@ public class ScenarioHtml {
                 testIssue = Issue.IGNORED;
             }
 
-            OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName,testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }
 
         Throwable failure = scenarioResult.getFailure();
@@ -134,7 +131,7 @@ public class ScenarioHtml {
     private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
         for (MethodCall testFixture : testMethod.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>"+ fixture.getText(fixture.parametersName,testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }
     }
 

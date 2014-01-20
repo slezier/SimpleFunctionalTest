@@ -280,4 +280,11 @@ public class UseCase extends FixturesHolder {
     public void setComment(String comment) {
         this.comment = comment;
     }
+    public String getComment() {
+        return comment;
+    }
+
+    public boolean haveComment() {
+        return comment != null;
+    }
 }
