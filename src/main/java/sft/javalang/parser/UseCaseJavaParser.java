@@ -32,7 +32,7 @@ public class UseCaseJavaParser extends JavaFileParser {
 
     public void feed(UseCase useCase) throws IOException {
         try {
-            TypeDeclaration type = getMaintType();
+            TypeDeclaration type = getMainType();
             feedTestClass(type, useCase);
         } catch (ParseException e) {
             throw new RuntimeException(e);

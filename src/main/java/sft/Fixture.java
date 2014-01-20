@@ -25,10 +25,6 @@ public class Fixture {
         this.method = method;
     }
 
-    public String getName() {
-        return javaToHumanTranslator.humanize(method);
-    }
-
     public String getText(ArrayList<String> parametersName,ArrayList<String> parametersValue) {
         return javaToHumanTranslator.humanize(method,parametersName,parametersValue);
     }

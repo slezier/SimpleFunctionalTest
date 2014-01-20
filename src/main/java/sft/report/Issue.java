@@ -13,5 +13,4 @@ package sft.report;
 
 public enum Issue {
     SUCCEEDED,FAILED,IGNORED
-
 }

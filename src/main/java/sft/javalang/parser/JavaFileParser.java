@@ -32,7 +32,7 @@ public class JavaFileParser {
         this.javaClass = aClass;
     }
 
-    protected TypeDeclaration getMaintType() throws ParseException, IOException {
+    protected TypeDeclaration getMainType() throws ParseException, IOException {
         File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
         CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
         return cu.getTypes().get(0);

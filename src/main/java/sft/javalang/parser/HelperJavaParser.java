@@ -29,7 +29,7 @@ public class HelperJavaParser extends JavaFileParser {
     public void feed(Helper helper) throws IOException {
 
         try {
-            TypeDeclaration type = getMaintType();
+            TypeDeclaration type = getMainType();
             feedHelperClass(type, helper);
         } catch (ParseException e) {
             throw new RuntimeException(e);
