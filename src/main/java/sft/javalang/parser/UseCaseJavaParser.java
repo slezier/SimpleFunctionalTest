@@ -73,7 +73,6 @@ public class UseCaseJavaParser extends JavaFileParser {
 
     private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
         for (Scenario scenario : useCase.scenarios) {
-            System.out.println("Feed scenario " + scenario.getName());
             if (scenario.method.getName().equals(methodDeclaration.getName())) {
                 if (methodDeclaration.getComment() != null) {
                     scenario.setComment(methodDeclaration.getComment().getContent());
