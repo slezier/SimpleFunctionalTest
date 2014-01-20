@@ -10,50 +10,36 @@
  *******************************************************************************/
 package sft.javalang;
 
-import sft.Parameter;
 import sft.Text;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class JavaToHumanTranslator {
 
-    public String humanize(final Method method){
-        return humanize(method,new ArrayList<String>(),new ArrayList<String>());
+    public String humanize(final Method method) {
+        return humanize(method, new ArrayList<String>(), new ArrayList<String>());
     }
 
     public String humanize(final Method method, final ArrayList<String> parameters, final ArrayList<String> values) {
-        if(method.isAnnotationPresent(Text.class)){
+        if (method.isAnnotationPresent(Text.class)) {
 
             String text = method.getAnnotation(Text.class).value();
-            if(!values.isEmpty()){
+            if (!values.isEmpty()) {
+                for (int i = 0; i < method.getParameterTypes().length; i++) {
+                    String namePattern = "\\$\\{" + parameters.get(i) + "\\}";
+                    String indexPattern = "\\$\\{" + (i + 1) + "\\}";
 
-                Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-
-                for(int i = 0; i < method.getParameterTypes().length; i++){
-                    String namePattern = "\\$\\{"+ parameters.get(i)+"\\}";
-                    String indexPattern = "\\$\\{"+ (i+1)+"\\}";
-
-                    String value ;
-                    if(values.size() > i){
+                    String value;
+                    if (values.size() > i) {
                         value = values.get(i) + " ";
-                    }else {
+                    } else {
                         value = "? ";
                     }
 
-                    System.out.println("i : "+ i);
-                    System.out.println("index : "+ indexPattern);
-                    System.out.println("name : "+ namePattern);
-                    System.out.println("value : "+ value);
-
-
-                    System.out.println(text);
-                    text=text.replaceAll(namePattern, value);
-                    System.out.println(text);
-                    text=text.replaceAll(indexPattern, value);
-                    System.out.println(text);
+                    text = text.replaceAll(namePattern, value);
+                    text = text.replaceAll(indexPattern, value);
                 }
             }
             return text;
@@ -63,7 +49,7 @@ public class JavaToHumanTranslator {
     }
 
     public String humanize(Class<?> classUnderTest) {
-        if(classUnderTest.isAnnotationPresent(Text.class)){
+        if (classUnderTest.isAnnotationPresent(Text.class)) {
             return classUnderTest.getAnnotation(Text.class).value();
         } else {
             return humanize(classUnderTest.getSimpleName());
@@ -82,16 +68,16 @@ public class JavaToHumanTranslator {
 
     private String camelCaseToWords(String javaName) {
         return javaName.replaceAll(
-                    String.format("%s|%s|%s",
-                            "(?<=[A-Z])(?=[A-Z][a-z])",
-                            "(?<=[^A-Z])(?=[A-Z])",
-                            "(?<=[A-Za-z])(?=[^A-Za-z])"
-                    ),
-                    " "
-            );
+                String.format("%s|%s|%s",
+                        "(?<=[A-Z])(?=[A-Z][a-z])",
+                        "(?<=[^A-Z])(?=[A-Z])",
+                        "(?<=[A-Za-z])(?=[^A-Za-z])"
+                ),
+                " "
+        );
     }
 
-    private String capitalize( String words ) {
+    private String capitalize(String words) {
         return Character.toUpperCase(words.charAt(0)) + words.substring(1).toLowerCase();
     }
 

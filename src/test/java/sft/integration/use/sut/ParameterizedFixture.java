@@ -1,10 +1,8 @@
 package sft.integration.use.sut;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import sft.Parameter;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 
@@ -31,14 +29,13 @@ public class ParameterizedFixture {
     private void withAs(char character, String word) {
     }
 
-
     @Text("${1} is greater than ${2}")
     private void isGreaterThan(int first, int second) {
         Assert.assertTrue(first > second);
     }
 
     @Text("${first} is lower than ${second}")
-    private void isLowerThan(@Parameter("first") int first, @Parameter("second") int second) {
+    private void isLowerThan(int first, int second) {
         Assert.assertTrue(first > second);
     }
 }

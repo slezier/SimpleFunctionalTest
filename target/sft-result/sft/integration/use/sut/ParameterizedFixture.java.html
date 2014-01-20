@@ -1,18 +1,16 @@
 <html><head><title>
 sft.integration.use.sut.ParameterizedFixture
 </title>
-<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
 <link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
 </head>
 <body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
 package sft.integration.use.sut;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import sft.Parameter;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 
@@ -39,14 +37,13 @@ public class ParameterizedFixture {
     private void withAs(char character, String word) {
     }
 
-
     @Text("${1} is greater than ${2}")
     private void isGreaterThan(int first, int second) {
         Assert.assertTrue(first > second);
     }
 
     @Text("${first} is lower than ${second}")
-    private void isLowerThan(@Parameter("first") int first, @Parameter("second") int second) {
+    private void isLowerThan(int first, int second) {
         Assert.assertTrue(first > second);
     }
 }
