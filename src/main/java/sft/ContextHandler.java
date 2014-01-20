@@ -10,12 +10,17 @@
  *******************************************************************************/
 package sft;
 
+import sft.javalang.parser.MethodCall;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ContextHandler {
     public final Method method;
     public final UseCase useCase;
+    public List<MethodCall> methodCalls;
 
     public ContextHandler(UseCase useCase ,Method method) {
         this.useCase = useCase;

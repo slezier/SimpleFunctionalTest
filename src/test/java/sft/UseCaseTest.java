@@ -2,6 +2,7 @@ package sft;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.Comparator;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 public class UseCaseTest {
 
     private UseCase tested;

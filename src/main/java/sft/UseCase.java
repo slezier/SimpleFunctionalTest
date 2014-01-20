@@ -17,7 +17,9 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import sft.javalang.JavaToHumanTranslator;
+import sft.javalang.parser.JavaClassParser;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -45,13 +47,14 @@ public class UseCase {
     public final ContextHandler beforeScenario;
     public final ContextHandler afterScenario;
     public final DisplayedContext displayedContext;
+    private String comment;
 
 
-    public UseCase(Class<?> classUnderTest) throws IllegalAccessException, InstantiationException {
+    public UseCase(Class<?> classUnderTest) throws IllegalAccessException, InstantiationException, IOException {
         this(classUnderTest.newInstance());
     }
 
-    public UseCase(Object object) throws IllegalAccessException, InstantiationException {
+    public UseCase(Object object) throws IllegalAccessException, InstantiationException, IOException {
         this.object = object;
         classUnderTest = object.getClass();
         javaToHumanTranslator = new JavaToHumanTranslator();
@@ -64,6 +67,8 @@ public class UseCase {
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
         displayedContext = extractDisplayedContext(object);
+        JavaClassParser javaClassParser = new JavaClassParser(classUnderTest);
+        javaClassParser.feed(this);
     }
 
     private DisplayedContext extractDisplayedContext(Object object) {
@@ -122,7 +127,7 @@ public class UseCase {
         return scenarios;
     }
 
-    private ArrayList<UseCase> extractSubUseCases() throws IllegalAccessException, InstantiationException {
+    private ArrayList<UseCase> extractSubUseCases() throws IllegalAccessException, InstantiationException, IOException {
         ArrayList<UseCase> subUseCases = new ArrayList<UseCase>();
         for (Field field : getPublicFields()) {
             Object subUseCaseObject = field.get(object);
@@ -271,5 +276,9 @@ public class UseCase {
 
     public boolean shouldBeIgnored() {
         return classUnderTest.getAnnotation(Ignore.class) != null;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

@@ -17,6 +17,7 @@ import sft.Scenario;
 import sft.UseCase;
 import sft.result.UseCaseResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UseCaseRunner {
@@ -29,7 +30,7 @@ public class UseCaseRunner {
     private final ContextRunner beforeUseCaseRunner;
     private final ContextRunner afterUseCaseRunner;
 
-    public UseCaseRunner(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException {
+    public UseCaseRunner(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException, IOException {
         this.klass = klass;
         useCase = new UseCase(klass);
         for (Scenario scenario : useCase.scenarios) {

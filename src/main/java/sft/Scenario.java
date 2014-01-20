@@ -13,14 +13,18 @@ package sft;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
 
 import org.junit.Ignore;
 import sft.javalang.JavaToHumanTranslator;
+import sft.javalang.parser.MethodCall;
 
 public class Scenario {
     public final Method method;
     public final UseCase useCase;
     private final JavaToHumanTranslator javaToHumanTranslator;
+    private String comment;
+    public LinkedList<MethodCall> methodCalls;
 
     public Scenario(UseCase useCase, Method method) {
         this.useCase = useCase;
@@ -38,5 +42,9 @@ public class Scenario {
 
     public boolean shouldBeIgnored() {
         return method.getAnnotation(Ignore.class) != null;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

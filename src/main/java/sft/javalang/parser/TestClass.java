@@ -42,6 +42,6 @@ public class TestClass {
                 return fixture;
             }
         }
-        throw new RuntimeException("OtherMethod not found "+ name);
+        throw new RuntimeException("Method not found "+ name);
     }
 }

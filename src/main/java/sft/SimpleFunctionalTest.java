@@ -31,7 +31,7 @@ public class SimpleFunctionalTest extends Runner {
 
 
 
-    public SimpleFunctionalTest(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException {
+    public SimpleFunctionalTest(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException, IOException {
         rootRunner = new UseCaseRunner(klass);
     }
 

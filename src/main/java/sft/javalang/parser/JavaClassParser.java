@@ -15,7 +15,9 @@ import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.Comment;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.Node;
 import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
@@ -26,6 +28,10 @@ import japa.parser.ast.expr.MethodCallExpr;
 import japa.parser.ast.expr.StringLiteralExpr;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.Statement;
+import sft.ContextHandler;
+import sft.Fixture;
+import sft.Scenario;
+import sft.UseCase;
 import sft.report.FileSystem;
 
 import java.io.File;
@@ -34,48 +40,109 @@ import java.util.ArrayList;
 
 public class JavaClassParser {
     private static final FileSystem fileSystem = new FileSystem();
+    private final Class<?> javaClass;
     public TestClass testClass = new TestClass();
 
 
     public JavaClassParser(Class<?> javaClass) throws IOException {
-        testClass = parseTestClass(javaClass);
+        this.javaClass = javaClass;
+        File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
+        testClass = extractTestClass(javaFile);
     }
 
-    public TestClass parseTestClass(Class<?> javaClass) throws IOException {
+    public void feed(UseCase useCase) throws IOException {
         File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
-        return extractTestClass(javaFile);
+
+        try {
+            CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
+            TypeDeclaration type = cu.getTypes().get(0);
+            extractTestClass(type,useCase);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private TestClass extractTestClass(File javaFile) throws IOException {
         try {
             CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
             TypeDeclaration type = cu.getTypes().get(0);
-
-            TestClass testClass = new TestClass();
-            if (type.getComment() != null) {
-                testClass.setComment(type.getComment().getContent());
-            }
-            for (BodyDeclaration bodyDeclaration : type.getMembers()) {
-                if (bodyDeclaration instanceof MethodDeclaration) {
-                    MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
-                    if (methodContainsAnnotation(methodDeclaration, "Test")) {
-                        testClass.testMethods.add(extractTestMethod(testClass,methodDeclaration));
-                    } else if (methodContainsAnnotation(methodDeclaration, "BeforeClass")) {
-                        testClass.beforeClass = extractTestContext(methodDeclaration);
-                    } else if (methodContainsAnnotation(methodDeclaration, "AfterClass")) {
-                        testClass.afterClass = extractTestContext(methodDeclaration);
-                    } else if (methodContainsAnnotation(methodDeclaration, "Before")) {
-                        testClass.before = extractTestContext(methodDeclaration);
-                    } else if (methodContainsAnnotation(methodDeclaration, "After")) {
-                        testClass.after = extractTestContext(methodDeclaration);
-                    } else {
-                        testClass.fixtures.add(extractTestFixture(methodDeclaration));
-                    }
-                }
-            }
-            return testClass;
+            return extractTestClass(type);
         } catch (ParseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private TestClass extractTestClass(TypeDeclaration type,UseCase useCase) {
+        if (type.getComment() != null) {
+            useCase.setComment(type.getComment().getContent());
+        }
+        for (BodyDeclaration bodyDeclaration : type.getMembers()) {
+            if(bodyDeclaration instanceof FieldDeclaration){
+                FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration ;
+                if(containsAnnotation(fieldDeclaration,"FixturesHelper")){
+
+                    System.out.println(fieldDeclaration.getVariables().get(0).getId());
+                }
+            }else if (bodyDeclaration instanceof MethodDeclaration) {
+                MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
+                if (containsAnnotation(methodDeclaration, "Test")) {
+                    feedScenario(methodDeclaration, useCase);
+                } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
+                    feedTestContext(methodDeclaration, useCase.beforeUseCase);
+                } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
+                    feedTestContext(methodDeclaration, useCase.afterUseCase);
+                } else if (containsAnnotation(methodDeclaration, "Before")) {
+                    feedTestContext(methodDeclaration, useCase.beforeScenario);
+                } else if (containsAnnotation(methodDeclaration, "After")) {
+                    feedTestContext(methodDeclaration, useCase.afterScenario);
+                } else {
+                    feedTestFixture(methodDeclaration, useCase);
+                }
+            }
+        }
+        return testClass;
+    }
+
+
+
+    private TestClass extractTestClass(TypeDeclaration type) {
+        TestClass testClass = new TestClass();
+        if (type.getComment() != null) {
+            testClass.setComment(type.getComment().getContent());
+        }
+        for (BodyDeclaration bodyDeclaration : type.getMembers()) {
+            if(bodyDeclaration instanceof FieldDeclaration){
+                FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration ;
+                if(containsAnnotation(fieldDeclaration,"FixturesHelper")){
+
+                    System.out.println(fieldDeclaration.getVariables().get(0).getId());
+                }
+            }else if (bodyDeclaration instanceof MethodDeclaration) {
+                MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
+                if (containsAnnotation(methodDeclaration, "Test")) {
+                    testClass.testMethods.add(extractTestMethod(testClass,methodDeclaration));
+                } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
+                    testClass.beforeClass = extractTestContext(methodDeclaration);
+                } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
+                    testClass.afterClass = extractTestContext(methodDeclaration);
+                } else if (containsAnnotation(methodDeclaration, "Before")) {
+                    testClass.before = extractTestContext(methodDeclaration);
+                } else if (containsAnnotation(methodDeclaration, "After")) {
+                    testClass.after = extractTestContext(methodDeclaration);
+                } else {
+                    testClass.fixtures.add(extractTestFixture(methodDeclaration));
+                }
+            }
+        }
+        return testClass;
+    }
+
+    private void feedTestFixture(MethodDeclaration methodDeclaration, UseCase useCase) {
+        for (Fixture fixture : useCase.fixtures) {
+            if(fixture.getName().equals(methodDeclaration.getName())){
+                fixture.parametersName =    extractParametersName(methodDeclaration);
+                return;
+            }
         }
     }
 
@@ -97,10 +164,27 @@ public class JavaClassParser {
         return  parametersName;
     }
 
+
+    private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler beforeUseCase) {
+        beforeUseCase.methodCalls = extractFixtureCalls(methodDeclaration);
+    }
+
     private TestContext extractTestContext(MethodDeclaration methodDeclaration) {
         TestContext testContext = new TestContext();
         testContext.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
         return testContext;
+    }
+
+    private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
+        for (Scenario scenario : useCase.scenarios) {
+            if(scenario.getName().equals(methodDeclaration.getName())){
+                if (methodDeclaration.getComment()!= null) {
+                    scenario.setComment(methodDeclaration.getComment().getContent());
+                }
+                scenario.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
+                return;
+            }
+        }
     }
 
     private TestMethod extractTestMethod( TestClass testClass,MethodDeclaration methodDeclaration) {
@@ -113,6 +197,7 @@ public class JavaClassParser {
         testMethod.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
         return testMethod;
     }
+
 
     private ArrayList<MethodCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
         ArrayList<MethodCall> methodCalls = new ArrayList<MethodCall>();
@@ -147,7 +232,7 @@ public class JavaClassParser {
         return methodCalls;
     }
 
-    private boolean methodContainsAnnotation(MethodDeclaration methodDeclaration, String annotation) {
+    private boolean containsAnnotation(BodyDeclaration methodDeclaration, String annotation) {
         if (methodDeclaration.getAnnotations() != null) {
             for (AnnotationExpr annotationExpr : methodDeclaration.getAnnotations()) {
                 if (annotation.equals(annotationExpr.getName().toString())) {
