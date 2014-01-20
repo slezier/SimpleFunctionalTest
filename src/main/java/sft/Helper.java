@@ -13,13 +13,10 @@ package sft;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import static java.lang.reflect.Modifier.isPrivate;
-import static java.lang.reflect.Modifier.isProtected;
 import static java.lang.reflect.Modifier.isPublic;
 
-public class Helper {
+public class Helper extends FixturesHolder {
     public final Object object;
-    public final ArrayList<Fixture> fixtures;
 
     public Helper(Object helperObject) {
         object = helperObject;

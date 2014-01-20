@@ -17,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import sft.javalang.JavaToHumanTranslator;
-import sft.javalang.parser.JavaClassParser;
+import sft.javalang.parser.UseCaseJavaParser;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -33,12 +33,11 @@ import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Collections.sort;
 
-public class UseCase {
+public class UseCase extends FixturesHolder {
 
     public final Class<?> classUnderTest;
     public final Object object;
     private final JavaToHumanTranslator javaToHumanTranslator;
-    public final ArrayList<Fixture> fixtures;
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<UseCase> subUseCases;
     public final ArrayList<Helper> fixturesHelpers;
@@ -67,7 +66,7 @@ public class UseCase {
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
         displayedContext = extractDisplayedContext(object);
-        JavaClassParser javaClassParser = new JavaClassParser(classUnderTest);
+        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(classUnderTest);
         javaClassParser.feed(this);
     }
 

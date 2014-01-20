@@ -33,7 +33,6 @@ public class UsingFixturesHelper {
 
 
     @Test
-    @Ignore
     public void usingFixturesHelper() throws IOException {
         toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass();
         inTheUseCaseInstanciateThisFixturesHelperWithAnnotation();

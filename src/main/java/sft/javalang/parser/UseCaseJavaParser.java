@@ -11,79 +11,51 @@
 package sft.javalang.parser;
 
 
-import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.Comment;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.Node;
 import japa.parser.ast.body.BodyDeclaration;
-import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
-import japa.parser.ast.expr.AnnotationExpr;
-import japa.parser.ast.expr.Expression;
-import japa.parser.ast.expr.LiteralExpr;
-import japa.parser.ast.expr.MethodCallExpr;
-import japa.parser.ast.expr.StringLiteralExpr;
+import japa.parser.ast.expr.*;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.Statement;
 import sft.ContextHandler;
-import sft.Fixture;
+import sft.Helper;
 import sft.Scenario;
 import sft.UseCase;
-import sft.report.FileSystem;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class JavaClassParser {
-    private static final FileSystem fileSystem = new FileSystem();
-    private final Class<?> javaClass;
+public class UseCaseJavaParser extends JavaFileParser {
     public TestClass testClass = new TestClass();
 
 
-    public JavaClassParser(Class<?> javaClass) throws IOException {
-        this.javaClass = javaClass;
-        File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
-        testClass = extractTestClass(javaFile);
+    public UseCaseJavaParser(Class<?> javaClass) throws IOException {
+        super(javaClass);
+        try {
+            TypeDeclaration type = getMaintType();
+            testClass = extractTestClass(type);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void feed(UseCase useCase) throws IOException {
-        File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
-
         try {
-            CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
-            TypeDeclaration type = cu.getTypes().get(0);
-            extractTestClass(type,useCase);
+            TypeDeclaration type = getMaintType();
+            feedTestClass(type, useCase);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private TestClass extractTestClass(File javaFile) throws IOException {
-        try {
-            CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
-            TypeDeclaration type = cu.getTypes().get(0);
-            return extractTestClass(type);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private TestClass extractTestClass(TypeDeclaration type,UseCase useCase) {
+    private TestClass feedTestClass(TypeDeclaration type, UseCase useCase) throws IOException {
         if (type.getComment() != null) {
             useCase.setComment(type.getComment().getContent());
         }
         for (BodyDeclaration bodyDeclaration : type.getMembers()) {
-            if(bodyDeclaration instanceof FieldDeclaration){
-                FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration ;
-                if(containsAnnotation(fieldDeclaration,"FixturesHelper")){
-
-                    System.out.println(fieldDeclaration.getVariables().get(0).getId());
-                }
-            }else if (bodyDeclaration instanceof MethodDeclaration) {
+            if (bodyDeclaration instanceof MethodDeclaration) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
                 if (containsAnnotation(methodDeclaration, "Test")) {
                     feedScenario(methodDeclaration, useCase);
@@ -100,9 +72,12 @@ public class JavaClassParser {
                 }
             }
         }
+        for (Helper fixturesHelper : useCase.fixturesHelpers) {
+            HelperJavaParser helperJavaParser = new HelperJavaParser(fixturesHelper.object);
+            helperJavaParser.feed(fixturesHelper);
+        }
         return testClass;
     }
-
 
 
     private TestClass extractTestClass(TypeDeclaration type) {
@@ -111,16 +86,10 @@ public class JavaClassParser {
             testClass.setComment(type.getComment().getContent());
         }
         for (BodyDeclaration bodyDeclaration : type.getMembers()) {
-            if(bodyDeclaration instanceof FieldDeclaration){
-                FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration ;
-                if(containsAnnotation(fieldDeclaration,"FixturesHelper")){
-
-                    System.out.println(fieldDeclaration.getVariables().get(0).getId());
-                }
-            }else if (bodyDeclaration instanceof MethodDeclaration) {
+            if (bodyDeclaration instanceof MethodDeclaration) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
                 if (containsAnnotation(methodDeclaration, "Test")) {
-                    testClass.testMethods.add(extractTestMethod(testClass,methodDeclaration));
+                    testClass.testMethods.add(extractTestMethod(testClass, methodDeclaration));
                 } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
                     testClass.beforeClass = extractTestContext(methodDeclaration);
                 } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
@@ -137,31 +106,12 @@ public class JavaClassParser {
         return testClass;
     }
 
-    private void feedTestFixture(MethodDeclaration methodDeclaration, UseCase useCase) {
-        for (Fixture fixture : useCase.fixtures) {
-            if(fixture.getName().equals(methodDeclaration.getName())){
-                fixture.parametersName =    extractParametersName(methodDeclaration);
-                return;
-            }
-        }
-    }
-
     private OtherMethod extractTestFixture(MethodDeclaration methodDeclaration) {
         String methodName = methodDeclaration.getName();
         ArrayList<String> parametersName = extractParametersName(methodDeclaration);
 
         OtherMethod otherMethod = new OtherMethod(methodName, parametersName);
         return otherMethod;
-    }
-
-    private ArrayList<String> extractParametersName(MethodDeclaration methodDeclaration) {
-        ArrayList<String> parametersName = new ArrayList<String>();
-        if( methodDeclaration.getParameters() != null ){
-            for (Parameter parameter : methodDeclaration.getParameters()) {
-                parametersName.add(parameter.getId().getName());
-            }
-        }
-        return  parametersName;
     }
 
 
@@ -177,8 +127,8 @@ public class JavaClassParser {
 
     private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
         for (Scenario scenario : useCase.scenarios) {
-            if(scenario.getName().equals(methodDeclaration.getName())){
-                if (methodDeclaration.getComment()!= null) {
+            if (scenario.getName().equals(methodDeclaration.getName())) {
+                if (methodDeclaration.getComment() != null) {
                     scenario.setComment(methodDeclaration.getComment().getContent());
                 }
                 scenario.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
@@ -187,10 +137,10 @@ public class JavaClassParser {
         }
     }
 
-    private TestMethod extractTestMethod( TestClass testClass,MethodDeclaration methodDeclaration) {
+    private TestMethod extractTestMethod(TestClass testClass, MethodDeclaration methodDeclaration) {
         Comment methodComment = methodDeclaration.getComment();
         String methodName = methodDeclaration.getName();
-        TestMethod testMethod = new TestMethod(testClass,methodName);
+        TestMethod testMethod = new TestMethod(testClass, methodName);
         if (methodComment != null) {
             testMethod.setComment(methodComment.getContent());
         }

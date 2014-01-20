@@ -58,7 +58,7 @@ public class ScenarioHtml {
             for (MethodCall methodCall : before.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
                 OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(methodCall.name);
-                htmlWriter.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
+                htmlWriter.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             htmlWriter.write("<hr/></div>");
         }
@@ -77,7 +77,7 @@ public class ScenarioHtml {
             for (MethodCall methodCall : after.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
                 OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(methodCall.name);
-                htmlWriter.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
+                htmlWriter.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             htmlWriter.write("</div>");
         }
@@ -106,7 +106,7 @@ public class ScenarioHtml {
             }
 
             OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(otherMethod.parametersName,testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName,testFixture.parameters) + "</span></div>\n");
         }
 
         Throwable failure = scenarioResult.getFailure();
@@ -134,8 +134,7 @@ public class ScenarioHtml {
     private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
         for (MethodCall testFixture : testMethod.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            OtherMethod otherMethod = testMethod.testClass.getTestFistureByMehtdname(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>"+ fixture.getText(otherMethod.parametersName,testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>"+ fixture.getText(fixture.parametersName,testFixture.parameters) + "</span></div>\n");
         }
     }
 

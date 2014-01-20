@@ -14,7 +14,7 @@ import org.junit.runner.notification.RunListener;
 import sft.Fixture;
 import sft.UseCase;
 import sft.javalang.parser.MethodCall;
-import sft.javalang.parser.JavaClassParser;
+import sft.javalang.parser.UseCaseJavaParser;
 import sft.javalang.parser.OtherMethod;
 import sft.javalang.parser.TestMethod;
 import sft.result.ScenarioResult;
@@ -41,7 +41,7 @@ public class HtmlReport extends RunListener {
 
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
-        JavaClassParser javaTokenizer = new JavaClassParser(classUnderTest);
+        UseCaseJavaParser javaTokenizer = new UseCaseJavaParser(classUnderTest);
 
         File htmlFile = fileSystem.targetFolder.createFileFromClass(classUnderTest, ".html");
 
@@ -69,7 +69,7 @@ public class HtmlReport extends RunListener {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
 
                 OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
-                html.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
+                html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }
@@ -88,7 +88,7 @@ public class HtmlReport extends RunListener {
             for( MethodCall methodCall :javaTokenizer.testClass.afterClass.methodCalls){
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
                 OtherMethod otherMethod = javaTokenizer.testClass.getTestFistureByMehtdname(methodCall.name);
-                html.write("<div><span>" + fixture.getText(otherMethod.parametersName, methodCall.parameters) + "</span></div>\n");
+                html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
             }
             html.write("</div></div>");
         }

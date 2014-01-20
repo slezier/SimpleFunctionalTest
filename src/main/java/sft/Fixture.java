@@ -19,7 +19,7 @@ public class Fixture {
 
     private final JavaToHumanTranslator javaToHumanTranslator = new JavaToHumanTranslator();
     public final Method method;
-    public ArrayList<String> parametersName;
+    public ArrayList<String> parametersName = new ArrayList<String>();
 
     public Fixture(Method method){
         this.method = method;

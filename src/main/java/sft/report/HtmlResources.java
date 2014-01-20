@@ -22,9 +22,9 @@ public class HtmlResources {
     private static List<String> filesUsed;
 
     public HtmlResources ensureIsCreated() throws IOException {
-        if (filesUsed == null) {
+//        if (filesUsed == null) {
             filesUsed = fileSystem.targetFolder.copyFromResources(HTML_DEPENDENCIES_FOLDER);
-        }
+//        }
         return this;
     }
 
