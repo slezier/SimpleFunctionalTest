@@ -2,6 +2,7 @@ package sft.integration.use;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Displayable;
@@ -10,6 +11,7 @@ import sft.Text;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.ContextInAction;
+import sft.integration.use.sut.ErrorOccursWhenRaisingAnUseCaseContext;
 
 import java.io.IOException;
 
@@ -45,14 +47,31 @@ public class DefiningTestContext {
         finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario();
     }
 
-//    @Test
-//    public void errorOccursWhenRaisingUseCaseContext() throws IOException {
-//        whenAnErrorOccursWhenRaisingAnUseCaseContext();
-//        theUseCaseIsSeenAsFailed();
-//        theFailedContextIsShowInRed();
-//        allScenariosAreIgnored();
-//        theUseCaseContextTerminationIsIgnored();
-//    }
+    @Test
+    @Ignore
+    public void errorOccursWhenRaisingUseCaseContext() throws IOException {
+        whenAnErrorOccursWhenRaisingAnUseCaseContext();
+        theUseCaseIsSeenAsFailed();
+        theFailedContextIsShowInRed();
+        allScenariosAreIgnored();
+        theUseCaseContextTerminationIsIgnored();
+    }
+
+    private void theUseCaseIsSeenAsFailed() {
+        assertTrue(html.select("body").hasClass("failed"));
+    }
+
+    private void theUseCaseContextTerminationIsIgnored() {
+        assertTrue(html.select("*.afterUseCase").hasClass("ignored"));
+    }
+
+    private void allScenariosAreIgnored() {
+        assertTrue(html.select("*.scenario").hasClass("ignored"));
+    }
+
+    private void theFailedContextIsShowInRed() {
+        assertTrue(html.select("*.beforeUseCase").hasClass("failed"));
+    }
 //
 //    @Test
 //    public void errorOccursWhenTerminatingUseCaseContext(){

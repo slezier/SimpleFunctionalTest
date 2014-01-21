@@ -1,4 +1,4 @@
-package sft.integration.use;
+package sft.integration.use.sut;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
