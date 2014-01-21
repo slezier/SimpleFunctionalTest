@@ -71,13 +71,12 @@ public class UseCaseRunner {
                     useCaseResult.scenarioResults.add(scenarioRunner.run(notifier));
                 }
                 useCaseResult.afterResult = afterUseCaseRunner.run(notifier);
-//            }else{
-//                for (ScenarioRunner scenarioRunner : scenarioRunners) {
-//                    useCaseResult.scenarioResults.add(scenarioRunner.ignore());
-//                }
-//                useCaseResult.afterResult = afterUseCaseRunner.ignore();
+            }else{
+                for (ScenarioRunner scenarioRunner : scenarioRunners) {
+                    useCaseResult.scenarioResults.add(scenarioRunner.ignore());
+                }
+                useCaseResult.afterResult = afterUseCaseRunner.ignore();
             }
-            useCaseResult.afterResult =  afterUseCaseRunner.run(notifier);
 
             for (UseCaseRunner subUseCaseRunner : subUseCasesRunners) {
                 useCaseResult.subUseCaseResults.add(subUseCaseRunner.run(notifier));

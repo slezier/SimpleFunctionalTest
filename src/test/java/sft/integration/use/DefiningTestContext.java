@@ -36,6 +36,38 @@ public class DefiningTestContext {
         theContextInstantiationIsRunOnceBeforeAllScenariosAndTheContextFinalizationIsRunOnceAfterAllScenarios();
         finallyTheContextInstantiationIsDisplayedInAParagraphBeforeAllScenariosAndTheContextFinalizationIsDisplayedInAnotherParagraphBeforeAllScenarios();
     }
+
+
+    @Test
+    public void definingContextForAScenario() throws IOException {
+        youCanInstantiateAScenarioContextSpecificInPublicMethodAnnotatedWithBeforeAndTerminateItInPublicMethodAnnotatedWithAfter();
+        theContextInstantiationIsRunBeforeEachScenarioAndTheContextFinalizationIsRunAfterEachScenario();
+        finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario();
+    }
+
+//    @Test
+//    public void errorOccursWhenRaisingUseCaseContext() throws IOException {
+//        whenAnErrorOccursWhenRaisingAnUseCaseContext();
+//        theUseCaseIsSeenAsFailed();
+//        theFailedContextIsShowInRed();
+//        allScenariosAreIgnored();
+//        theUseCaseContextTerminationIsIgnored();
+//    }
+//
+//    @Test
+//    public void errorOccursWhenTerminatingUseCaseContext(){
+//        whenAnErrorOccursWhenTerminatingAnUseCaseContext();
+//        theUseCaseIsSeenAsFailed();
+//        allScenariosAreRan();
+//        theFailedContextIsShowInRed();
+//    }
+//
+//    @Test
+//    public void errorOccursWhenRaisingAScenarioContext(){
+//        whenAnErrorOccursWhenRaisingAnScenarioContext();
+//        theFailedScenarioIsShowInRed();
+//    }
+
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
@@ -65,13 +97,6 @@ public class DefiningTestContext {
         assertTrue(useCaseElements.get(3).hasClass("scenario"));
         assertTrue(useCaseElements.get(4).hasClass("afterUseCase"));
     }
-    @Test
-    public void definingContextForAScenario() throws IOException {
-        youCanInstantiateAScenarioContextSpecificInPublicMethodAnnotatedWithBeforeAndTerminateItInPublicMethodAnnotatedWithAfter();
-        theContextInstantiationIsRunBeforeEachScenarioAndTheContextFinalizationIsRunAfterEachScenario();
-        finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario();
-    }
-
     private void finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario() {
         Elements scenarioElements = html.select("*.useCase *.container *.scenario");
         assertTrue(scenarioElements.get(0).select("> div").get(1).hasClass("beforeScenario"));
@@ -95,6 +120,14 @@ public class DefiningTestContext {
     private void youCanInstantiateAScenarioContextSpecificInPublicMethodAnnotatedWithBeforeAndTerminateItInPublicMethodAnnotatedWithAfter() throws IOException {
         youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass();
     }
+
+    private void whenAnErrorOccursWhenRaisingAnUseCaseContext() throws IOException {
+        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
+        functionalTest.run();
+        sftResources = functionalTest.displayResources();
+        html = functionalTest.getHtmlReport();
+    }
+
 
 
 }

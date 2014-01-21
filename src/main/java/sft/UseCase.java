@@ -208,8 +208,8 @@ public class UseCase extends FixturesHolder {
 
     private Method getBeforeClassMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeClass.class) &&
-                    isPublic(method.getModifiers()) && isStatic(method.getModifiers())) {
+            if (method.isAnnotationPresent(BeforeClass.class) ){
+                assertIsAPublicStaticMethod("BeforeClass",method);
                 return method;
             }
         }
@@ -218,8 +218,8 @@ public class UseCase extends FixturesHolder {
 
     private Method getAfterClassMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AfterClass.class) &&
-                    isPublic(method.getModifiers()) && isStatic(method.getModifiers())) {
+            if (method.isAnnotationPresent(AfterClass.class)){
+                assertIsAPublicStaticMethod("AfterClass",method);
                 return method;
             }
         }
@@ -227,8 +227,8 @@ public class UseCase extends FixturesHolder {
     }
     private Method getBeforeMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Before.class) &&
-                    isPublic(method.getModifiers()) && !isStatic(method.getModifiers())) {
+            if (method.isAnnotationPresent(Before.class)) {
+                assertIsAPublicAndNotStaticMethod("Before",method);
                 return method;
             }
         }
@@ -237,12 +237,30 @@ public class UseCase extends FixturesHolder {
 
     private Method getAfterMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(After.class) &&
-                    isPublic(method.getModifiers()) && !isStatic(method.getModifiers())) {
+            if (method.isAnnotationPresent(After.class)) {
+                assertIsAPublicAndNotStaticMethod("After",method);
                 return method;
             }
         }
         return null;
+    }
+    private void assertIsAPublicStaticMethod(String annotation, Method method) {
+        int modifiers = method.getModifiers();
+        if( isPublic(modifiers) && isStatic(modifiers)) {
+            //OK
+        } else {
+            throw new RuntimeException("Method "+ method.getDeclaringClass().getCanonicalName()+"."+method.getName()+" annotated with @"+annotation+ " should be public and static.");
+        }
+    }
+
+
+    private void assertIsAPublicAndNotStaticMethod(String annotation, Method method) {
+        int modifiers = method.getModifiers();
+        if( isPublic(modifiers) && !isStatic(modifiers)) {
+            //OK
+        } else {
+            throw new RuntimeException("Method "+ method.getDeclaringClass().getCanonicalName()+"."+method.getName()+" annotated with @"+annotation+ " should be public and not static.");
+        }
     }
 
     public String getName() {

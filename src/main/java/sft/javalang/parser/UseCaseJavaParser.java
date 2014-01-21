@@ -67,8 +67,8 @@ public class UseCaseJavaParser extends JavaFileParser {
         }
     }
 
-    private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler beforeUseCase) {
-        beforeUseCase.methodCalls = extractFixtureCalls(methodDeclaration);
+    private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler contextHandler) {
+        contextHandler.methodCalls = extractFixtureCalls(methodDeclaration);
     }
 
     private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
