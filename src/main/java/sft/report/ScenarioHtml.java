@@ -61,10 +61,12 @@ public class ScenarioHtml {
         }
 
         htmlWriter.write("<div class=\"panel-body\">\n");
-        if (scenarioResult.issue == Issue.FAILED) {
+        if(scenarioResult.beforeScenarioFailed()){
+            writeScenarioCalls(Issue.IGNORED);
+        }else if (scenarioResult.issue == Issue.FAILED) {
             writeTestFailed();
         } else {
-            writeTestSucceededOrIgnored();
+            writeScenarioCalls(scenarioResult.issue);
         }
         htmlWriter.write("</div>\n");
 
@@ -126,10 +128,10 @@ public class ScenarioHtml {
         return "";
     }
 
-    private void writeTestSucceededOrIgnored() throws IOException, IllegalAccessException {
+    private void writeScenarioCalls(Issue issue) throws IOException {
         for (MethodCall testFixture : scenario.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(scenarioResult.issue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
+            htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(issue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }
     }
 

@@ -1,17 +1,17 @@
 package sft.integration.use.sut;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(sft.SimpleFunctionalTest.class)
 public class ErrorOccursWhenStartingScenario {
 
-    @BeforeClass
-    public static void setup(){
-        doNothing();
+    @Before
+    public void setup(){
+        anErrorOccurs();
     }
 
     @Test
@@ -19,16 +19,16 @@ public class ErrorOccursWhenStartingScenario {
         doNothing();
     }
 
-    @AfterClass
-    public static void teardown(){
-        anErrorOccurs();
+    @After
+    public void teardown(){
+        doNothing();
     }
 
-    private static void anErrorOccurs() {
+    private void anErrorOccurs() {
         throw new RuntimeException("Boom");
     }
 
-    private static void doNothing() {
+    private void doNothing() {
         Assert.assertTrue(true);
     }
 }

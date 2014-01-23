@@ -59,7 +59,7 @@ public class HtmlReport extends RunListener {
         html.write("</div>");
 
         if (useCase.beforeUseCase != null) {
-            html.write("<div class=\"panel panel-default beforeUseCase\"><div class=\"panel-body\">");
+            html.write("<div class=\"panel panel-default beforeUseCase " +htmlResources.convertIssue(useCaseResult.beforeResult.issue)+"\"><div class=\"panel-body\">");
             for (MethodCall methodCall : useCase.beforeUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
 
@@ -78,7 +78,7 @@ public class HtmlReport extends RunListener {
         }
 
         if (useCase.afterUseCase != null) {
-            html.write("<div class=\"panel panel-default afterUseCase\"><div class=\"panel-body\">");
+            html.write("<div class=\"panel panel-default afterUseCase " +htmlResources.convertIssue(useCaseResult.afterResult.issue)+"\"><div class=\"panel-body\">");
             for (MethodCall methodCall : useCase.afterUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
                 html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");

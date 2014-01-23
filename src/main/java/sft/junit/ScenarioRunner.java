@@ -14,6 +14,8 @@ package sft.junit;
 import org.junit.runner.Description;
 import sft.Scenario;
 import sft.UseCase;
+import sft.report.Issue;
+import sft.result.ContextResult;
 import sft.result.ScenarioResult;
 
 import java.lang.reflect.InvocationTargetException;
@@ -39,11 +41,19 @@ public class ScenarioRunner {
         } else {
             runner.fireScenarioStarted(this);
             try {
-                new ContextRunner(this, scenario.useCase.beforeScenario).run(runner);
+
+                ContextResult beforeScenarioResult = new ContextRunner(this, scenario.useCase.beforeScenario).run(runner);
+                if( beforeScenarioResult.issue== Issue.FAILED){
+                    return ScenarioResult.failedBeforeTest(scenario, beforeScenarioResult.exception);
+                }
+
 
                 scenario.run();
 
-                new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
+                ContextResult afterScenarioResult = new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
+                if( beforeScenarioResult.issue== Issue.FAILED){
+                    return ScenarioResult.failedAfterTest(scenario, beforeScenarioResult.exception);
+                }
 
                 return ScenarioResult.success(scenario);
             } catch (InvocationTargetException invocationTargetException) {

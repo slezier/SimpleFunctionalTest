@@ -73,6 +73,19 @@ body{
     background-image: url("ignored_24.png");
 }
 
+*.beforeUseCase.failed{
+    background-color: #FFC2C2;
+}
+*.beforeUseCase.ignored{
+    background-color: #FFFFA3;
+}
+*.afterUseCase.failed{
+    background-color: #FFC2C2;
+}
+*.afterUseCase.ignored{
+    background-color: #FFFFA3;
+}
+
 *.useCase *.useCaseName{
     background-position: right center;
     background-repeat: no-repeat;

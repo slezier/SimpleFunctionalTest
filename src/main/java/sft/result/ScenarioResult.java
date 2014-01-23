@@ -21,12 +21,28 @@ public class ScenarioResult {
     public final Throwable failure;
     public final Issue issue ;
     public final List<String> contextToDisplay;
+    private final ErrorLocation errorLocation;
 
-    public ScenarioResult(Scenario scenarioByMethodName, Issue issue, Throwable failure) {
+    private ScenarioResult(Scenario scenarioByMethodName, Issue issue, Throwable failure,ErrorLocation errorLocation) {
         this.scenario = scenarioByMethodName;
         this.contextToDisplay = scenario.useCase.displayedContext.getText();
         this.issue = issue;
         this.failure = failure;
+        this.errorLocation =errorLocation;
+    }
+
+    private ScenarioResult(Scenario scenario, Issue issue) {
+        this(scenario,issue,null,null);
+    }
+
+    public boolean beforeScenarioFailed(){
+        return errorLocation==ErrorLocation.before;
+    }
+    public boolean afterScenarioFailed(){
+        return errorLocation==ErrorLocation.after;
+    }
+    public boolean scenarioFailed(){
+        return errorLocation==ErrorLocation.during;
     }
 
     public Fixture getFailedCall() {
@@ -55,13 +71,23 @@ public class ScenarioResult {
     }
 
     public static ScenarioResult failed(Scenario scenario,Throwable throwable) {
-        ScenarioResult scenarioResult = new ScenarioResult(scenario,Issue.FAILED,throwable);
-        return scenarioResult;
+        return new ScenarioResult(scenario,Issue.FAILED,throwable,ErrorLocation.during);
     }
     public static ScenarioResult ignored(Scenario scenario) {
-        return new ScenarioResult(scenario, Issue.IGNORED, null);
+        return new ScenarioResult(scenario, Issue.IGNORED, null,null);
     }
     public static ScenarioResult success(Scenario scenario) {
-        return new ScenarioResult(scenario, Issue.SUCCEEDED, null);
+        return new ScenarioResult(scenario, Issue.SUCCEEDED);
     }
+
+    public static ScenarioResult failedBeforeTest(Scenario scenario, Throwable throwable) {
+        return new ScenarioResult(scenario,Issue.FAILED,throwable,ErrorLocation.before);
+    }
+
+    public static ScenarioResult failedAfterTest(Scenario scenario, Throwable throwable) {
+        return new ScenarioResult(scenario,Issue.FAILED,throwable,ErrorLocation.after);
+    }
+
+    private enum ErrorLocation{ before,during,after}
+
 }

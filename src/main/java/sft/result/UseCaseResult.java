@@ -15,6 +15,9 @@ import sft.report.Issue;
 
 import java.util.ArrayList;
 
+import static sft.report.Issue.FAILED;
+import static sft.report.Issue.SUCCEEDED;
+
 public class UseCaseResult {
 
     public final UseCase useCase;
@@ -31,6 +34,13 @@ public class UseCaseResult {
         if (useCase.shouldBeIgnored()) {
             return Issue.IGNORED;
         }
+        if(beforeResult.issue == FAILED){
+            return FAILED;
+        }
+        if(afterResult.issue == FAILED){
+            return FAILED;
+        }
+
         Issue result = Issue.IGNORED;
         for (ScenarioResult scenarioResult : scenarioResults) {
             switch (scenarioResult.issue) {
