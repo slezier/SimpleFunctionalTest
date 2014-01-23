@@ -1,0 +1,43 @@
+<html><head><title>
+sft.integration.use.sut.ErrorOccursWhenRaisingAnUseCaseContext
+</title>
+<link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut;
+
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(sft.SimpleFunctionalTest.class)
+public class ErrorOccursWhenRaisingAnUseCaseContext {
+
+    @BeforeClass
+    public static void setup(){
+        anErrorOccurs();
+    }
+
+    @Test
+    public void scenario(){
+        doNothing();
+    }
+
+    @AfterClass
+    public static void teardown(){
+        doNothing();
+    }
+
+    private static void anErrorOccurs() {
+        throw new RuntimeException("Boom");
+    }
+
+    private static void doNothing() {
+        Assert.assertTrue(true);
+    }
+}
+</pre></div></div></body></html>

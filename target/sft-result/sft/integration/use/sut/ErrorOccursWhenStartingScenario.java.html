@@ -1,0 +1,43 @@
+<html><head><title>
+sft.integration.use.sut.ErrorOccursWhenStartingScenario
+</title>
+<link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(sft.SimpleFunctionalTest.class)
+public class ErrorOccursWhenStartingScenario {
+
+    @Before
+    public void setup(){
+        anErrorOccurs();
+    }
+
+    @Test
+    public void scenario(){
+        doNothing();
+    }
+
+    @After
+    public void teardown(){
+        doNothing();
+    }
+
+    private void anErrorOccurs() {
+        throw new RuntimeException("Boom");
+    }
+
+    private void doNothing() {
+        Assert.assertTrue(true);
+    }
+}
+</pre></div></div></body></html>
