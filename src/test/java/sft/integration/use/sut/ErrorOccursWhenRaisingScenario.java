@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(sft.SimpleFunctionalTest.class)
-public class ErrorOccursWhenStartingScenario {
+public class ErrorOccursWhenRaisingScenario {
 
     @Before
     public void setup(){

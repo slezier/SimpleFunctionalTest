@@ -63,6 +63,8 @@ public class ScenarioHtml {
         htmlWriter.write("<div class=\"panel-body\">\n");
         if(scenarioResult.beforeScenarioFailed()){
             writeScenarioCalls(Issue.IGNORED);
+        }else if(scenarioResult.afterScenarioFailed()){
+                writeScenarioCalls(Issue.SUCCEEDED);
         }else if (scenarioResult.issue == Issue.FAILED) {
             writeTestFailed();
         } else {

@@ -51,8 +51,8 @@ public class ScenarioRunner {
                 scenario.run();
 
                 ContextResult afterScenarioResult = new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
-                if( beforeScenarioResult.issue== Issue.FAILED){
-                    return ScenarioResult.failedAfterTest(scenario, beforeScenarioResult.exception);
+                if( afterScenarioResult.issue== Issue.FAILED){
+                    return ScenarioResult.failedAfterTest(scenario, afterScenarioResult.exception);
                 }
 
                 return ScenarioResult.success(scenario);

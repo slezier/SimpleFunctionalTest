@@ -12,8 +12,9 @@ import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.ContextInAction;
 import sft.integration.use.sut.ErrorOccursWhenRaisingAnUseCaseContext;
-import sft.integration.use.sut.ErrorOccursWhenStartingScenario;
+import sft.integration.use.sut.ErrorOccursWhenRaisingScenario;
 import sft.integration.use.sut.ErrorOccursWhenTerminatingAnUseCaseContext;
+import sft.integration.use.sut.ErrorOccursWhenTerminatingScenario;
 
 import java.io.IOException;
 
@@ -72,8 +73,26 @@ public class DefiningTestContext {
         whenAnErrorOccursWhenRaisingAnScenarioContext();
         theUseCaseIsSeenAsFailed();
         theFailedScenarioIsShowInRed();
+        allScenarioStepsAreIgnored();
     }
 
+
+    @Test
+    public void errorOccursWhenTerminatingAScenarioContext() throws IOException {
+        whenAnErrorOccursWhenTerminatingAnScenarioContext();
+        theUseCaseIsSeenAsFailed();
+        theFailedScenarioIsShowInRed();
+        allScenarioStepsAreRan();
+    }
+
+
+    private void allScenarioStepsAreRan() {
+        assertTrue(html.select("*.instruction").hasClass("succeeded"));
+    }
+
+    private void allScenarioStepsAreIgnored() {
+        assertTrue(html.select("*.instruction").hasClass("ignored"));
+    }
     private void theUseCaseIsSeenAsFailed() {
         assertTrue(html.select("*.useCase").get(0).hasClass("failed"));
     }
@@ -116,7 +135,16 @@ public class DefiningTestContext {
 
     private void whenAnErrorOccursWhenRaisingAnScenarioContext() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenStartingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenStartingScenario.html");
+        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenRaisingScenario.html");
+        functionalTest.run();
+        sftResources = functionalTest.displayResources();
+
+        html = functionalTest.getHtmlReport();
+    }
+
+    private void whenAnErrorOccursWhenTerminatingAnScenarioContext() throws IOException {
+        getCallSequence().clear();
+        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenTerminatingScenario.html");
         functionalTest.run();
         sftResources = functionalTest.displayResources();
 
