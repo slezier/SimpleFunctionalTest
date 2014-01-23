@@ -104,7 +104,7 @@ public class ScenarioHtml {
             htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }
 
-        Throwable failure = scenarioResult.getFailure();
+        Throwable failure = scenarioResult.failure;
         htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >" + failure.getClass().getSimpleName() + ": " + failure.getMessage() + "</a>" +
                 "<pre class=\"stacktrace pre-scrollable\" >");
         PrintWriter printWriter = new PrintWriter(htmlWriter);
@@ -113,7 +113,7 @@ public class ScenarioHtml {
     }
 
     private String extractDisplayedContext() throws IllegalAccessException {
-        List<String> values = scenarioResult.getContextToDisplay();
+        List<String> values = scenarioResult.contextToDisplay;
         if (!values.isEmpty()) {
             String htmlText = "<div class=\"displayableContext panel-body\">";
             for (String value : values) {

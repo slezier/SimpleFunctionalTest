@@ -14,41 +14,19 @@ import sft.Fixture;
 import sft.Scenario;
 import sft.report.Issue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScenarioResult {
     public final Scenario scenario;
-    private Throwable failure = null;
-    public Issue issue = Issue.SUCCEEDED;
-    private List<String> contextToDisplay;
+    public final Throwable failure;
+    public final Issue issue ;
+    public final List<String> contextToDisplay;
 
-    public ScenarioResult(Scenario scenarioByMethodName) {
+    public ScenarioResult(Scenario scenarioByMethodName, Issue issue, Throwable failure) {
         this.scenario = scenarioByMethodName;
-    }
-
-    public void setFailure(Throwable failure) {
-        issue = Issue.FAILED;
+        this.contextToDisplay = scenario.useCase.displayedContext.getText();
+        this.issue = issue;
         this.failure = failure;
-    }
-
-    public void setContextToDisplay(List<String> contextToDisplay){
-        this.contextToDisplay = contextToDisplay;
-    }
-
-    public List<String> getContextToDisplay(){
-        if(contextToDisplay==null){
-            return new ArrayList<String>();
-        }
-        return contextToDisplay;
-    }
-
-    public Throwable getFailure() {
-        return failure;
-    }
-
-    public void isIgnored() {
-        issue = Issue.IGNORED;
     }
 
     public Fixture getFailedCall() {
@@ -74,5 +52,16 @@ public class ScenarioResult {
             }
         }
         return -1;
+    }
+
+    public static ScenarioResult failed(Scenario scenario,Throwable throwable) {
+        ScenarioResult scenarioResult = new ScenarioResult(scenario,Issue.FAILED,throwable);
+        return scenarioResult;
+    }
+    public static ScenarioResult ignored(Scenario scenario) {
+        return new ScenarioResult(scenario, Issue.IGNORED, null);
+    }
+    public static ScenarioResult success(Scenario scenario) {
+        return new ScenarioResult(scenario, Issue.SUCCEEDED, null);
     }
 }

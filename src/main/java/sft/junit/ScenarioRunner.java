@@ -32,40 +32,33 @@ public class ScenarioRunner {
     }
 
     public ScenarioResult run(JunitSftNotifier runner) {
-        ScenarioResult scenarioResult = new ScenarioResult(scenario);
 
         if (scenario.shouldBeIgnored()) {
             runner.fireScenarioIgnored(this);
-            scenarioResult.isIgnored();
+            return ScenarioResult.ignored(scenario);
         } else {
             runner.fireScenarioStarted(this);
-            UseCase useCase = scenario.useCase;
             try {
-
-                new ContextRunner(this, useCase.beforeScenario).run(runner);
+                new ContextRunner(this, scenario.useCase.beforeScenario).run(runner);
 
                 scenario.run();
-                scenarioResult.setContextToDisplay(useCase.displayedContext.getText());
 
-                new ContextRunner(this, useCase.afterScenario).run(runner);
+                new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
 
+                return ScenarioResult.success(scenario);
             } catch (InvocationTargetException invocationTargetException) {
-                Throwable throwable = invocationTargetException.getTargetException();
-                runner.fireScenarioFailed(this, throwable);
-                scenarioResult.setContextToDisplay(useCase.displayedContext.getText());
-                scenarioResult.setFailure(throwable);
+                runner.fireScenarioFailed(this, invocationTargetException.getTargetException());
+                return ScenarioResult.failed(scenario, invocationTargetException.getTargetException());
             }catch (Throwable throwable){
                 runner.fireScenarioFailed(this, throwable);
-                scenarioResult.setFailure(throwable);
+                return ScenarioResult.failed(scenario,throwable);
+            }finally {
+                runner.fireScenarioFinished(this);
             }
-            runner.fireScenarioFinished(this);
         }
-        return scenarioResult;
     }
 
     public ScenarioResult ignore() {
-        ScenarioResult scenarioResult = new ScenarioResult(scenario);
-        scenarioResult.isIgnored();
-        return scenarioResult;
+        return ScenarioResult.ignored(scenario);
     }
 }

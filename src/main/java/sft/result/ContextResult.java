@@ -19,9 +19,9 @@ import static sft.report.Issue.SUCCEEDED;
 
 public class ContextResult {
 
-    private final ContextHandler contextHandler;
-    private final Throwable exception;
-    private final Issue issue;
+    public final ContextHandler contextHandler;
+    public final Throwable exception;
+    public final Issue issue;
 
     private ContextResult(ContextHandler contextHandler,Issue issue, Throwable throwable) {
         this.contextHandler = contextHandler;
