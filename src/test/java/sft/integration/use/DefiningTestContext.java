@@ -23,8 +23,8 @@ import static org.junit.Assert.assertTrue;
 import static sft.integration.use.sut.ContextInAction.getCallSequence;
 
 /*
-Context could be defined and handle for the whole use case or for each scenario.<br/>
-It's using JUnit annotation @BeforeClass, @Before, @After and @AfterClass.
+Context could be defined and handle for the whole use case or for each scenario
+ using JUnit annotation @BeforeClass, @Before, @After and @AfterClass.
 */
 @RunWith(SimpleFunctionalTest.class)
 public class DefiningTestContext {
@@ -74,7 +74,9 @@ public class DefiningTestContext {
         theUseCaseIsSeenAsFailed();
         theFailedScenarioIsShowInRed();
         allScenarioStepsAreIgnored();
+        stackTraceIsDisplayedAtScenarioEnd();
     }
+
 
 
     @Test
@@ -83,8 +85,14 @@ public class DefiningTestContext {
         theUseCaseIsSeenAsFailed();
         theFailedScenarioIsShowInRed();
         allScenarioStepsAreRan();
+        stackTraceIsDisplayedAtScenarioEnd();
     }
 
+    private void stackTraceIsDisplayedAtScenarioEnd() {
+        Elements scenario = html.select("*.scenario >div");
+        assertEquals(5,scenario.size());
+        assertTrue(scenario.get(4).hasClass("exception"));
+    }
 
     private void allScenarioStepsAreRan() {
         assertTrue(html.select("*.instruction").hasClass("succeeded"));

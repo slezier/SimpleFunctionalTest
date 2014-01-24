@@ -211,7 +211,7 @@ public class CommonUsage {
 
     private void failedScenarioSectionAreAlsoDisplayWithRedBackgroundAndWithErrorStackTrace() {
         Elements scenarios = html.select("div.scenario");
-        expectScenarioFailed(scenarios.get(0), "AssertionFailedError: Condition failed");
+        expectScenarioFailed(scenarios.get(0), "AssertionError: Condition failed");
         expectScenarioFailed(scenarios.get(1), "RuntimeException: Boom");
 
         Assert.assertEquals("rgb(255, 194, 194)", sftCss.get("*.scenario.failed").getStyle().getPropertyCSSValue("background-color").getCssText());

@@ -26,7 +26,23 @@ import sft.integration.use.Usages;
     <div>
         SFT is full java.<br/>
         SFT is a jUnit plugin.<br/>
-        You just have to import SFT dependency to your project and mark class hosting functional test with&nbsp;@RunWith(SimpleFunctionalTest.class)
+        You just have to <a href="#" onclick="$(pom_extract).toggle(); return false;">import SFT dependency</a> to your project and mark class hosting functional test with&nbsp;@RunWith(SimpleFunctionalTest.class)
+        <div id="pom_extract" style="display:none">
+            in your pom.xml insert :
+<pre>...
+&lt;dependencies&gt;
+    ...
+    &lt;dependency&gt;
+          &lt;groupId&gt;com.github.slezier&lt;/groupId&gt;
+          &lt;artifactId&gt;SimpleFunctionalTest&lt;/artifactId&gt;
+          &lt;version&gt;X.X.X&lt;/version&gt;
+          &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    ...
+&lt;/dependencies&gt;
+...</pre>
+            or download the relevant jar in search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/ and insert it in your classpath
+        </div>
     </div>
     <h3>Easy to use</h3>
     <div>
@@ -54,14 +70,10 @@ import sft.integration.use.Usages;
     </div>
 
 </div>
-<h2> IN PROGRESS </h2>
-<ul>
-    <li><a href="https://maven.apache.org/guides/mini/guide-central-repository-upload.html">mvnrepo upload</a></li>
-</ul>
 <h2> TODO </h2>
 <ul>
-    <li>enhance parametrization (configurator - default css / file inclusion): zimit + google font</li>
     <li>enhance parametrization (configurator)</li>
+    <li>enhance parametrization (configurator - default css / file inclusion): zimit + google font</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
     <li>write test result in LaTeX</li>

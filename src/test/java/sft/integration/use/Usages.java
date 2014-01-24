@@ -7,8 +7,10 @@ import sft.SimpleFunctionalTest;
 
 
     <div>
-        <table class="table">
+    <div style="align:center"> <a href="#" onclick="$(cheatsheet).toggle(); return false;">
             <caption>Cheat sheet</caption>
+       </a></div>
+        <table id="cheatsheet" class="table" style="display:none">
             <tr>
                 <th>Java/JUnit item</th>
                 <th>Functional test item</th>
@@ -67,7 +69,7 @@ import sft.SimpleFunctionalTest;
             <tr>
                 <td><a href="DefiningTestContext.html">@After annotated public method</a></td>
                 <td>Handling ending context of scenario</td>
-                <td>HTML last part of scenario paragraph</td>
+                <td>Last part of scenario HTML</td>
             <tr/>
             <tr>
                 <td><a href="UsingParameterizedFixture.html">Other method with parameter and @Text annnotation using ${n} variables</a></td>
@@ -79,9 +81,13 @@ import sft.SimpleFunctionalTest;
                 <td>Fixtures helper</td>
                 <td>HTML line corresponding of FixturesHelper fixture name</td>
             <tr/>
+            <tr>
+                <td><a href="DisplayingTestContext.html">Private or protected field with @Displayable annotation</a></td>
+                <td>Show test context</td>
+                <td>Ending the scenario description</td>
+            <tr/>
         </table>
     </div>
-
 */
 @RunWith(SimpleFunctionalTest.class)
 public class Usages {

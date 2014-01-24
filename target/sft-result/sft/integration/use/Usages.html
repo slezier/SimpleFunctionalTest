@@ -13,8 +13,10 @@ Usages
 
 
     <div>
-        <table class="table">
+    <div style="align:center"> <a href="#" onclick="$(cheatsheet).toggle(); return false;">
             <caption>Cheat sheet</caption>
+       </a></div>
+        <table id="cheatsheet" class="table" style="display:none">
             <tr>
                 <th>Java/JUnit item</th>
                 <th>Functional test item</th>
@@ -73,7 +75,7 @@ Usages
             <tr>
                 <td><a href="DefiningTestContext.html">@After annotated public method</a></td>
                 <td>Handling ending context of scenario</td>
-                <td>HTML last part of scenario paragraph</td>
+                <td>Last part of scenario HTML</td>
             <tr/>
             <tr>
                 <td><a href="UsingParameterizedFixture.html">Other method with parameter and @Text annnotation using ${n} variables</a></td>
@@ -85,7 +87,11 @@ Usages
                 <td>Fixtures helper</td>
                 <td>HTML line corresponding of FixturesHelper fixture name</td>
             <tr/>
+            <tr>
+                <td><a href="DisplayingTestContext.html">Private or protected field with @Displayable annotation</a></td>
+                <td>Show test context</td>
+                <td>Ending the scenario description</td>
+            <tr/>
         </table>
     </div>
-
 </div></div><div class="panel panel-default"><div class="panel-heading"><h3>Related uses cases</h3></div><div class="panel-body"><ul><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/CommonUsage.html"><span>Common usage: writing Use Cases</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/HumanizationCodeUsage.html"><span>Humanized your code: using camelCase or underscore transformation or annotation</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/LinksUseCasesTogether.html"><span>Links use cases together</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/CommentUsage.html"><span>Add literal specifications in your use case: comment usage</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/DefiningTestContext.html"><span>Defining test context</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/DisplayingTestContext.html"><span>Displaying test context</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/UsingParameterizedFixture.html"><span>Re-Use your fixtures in your class: parameterized fixtures</span></a></li><li class="relatedUseCase succeeded"><a href="./../../../sft/integration/use/UsingFixturesHelper.html"><span>Re-Use your fixtures between your classes: fixtures helpers</span></a></li></ul></div></div></div></body></html>

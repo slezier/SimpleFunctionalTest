@@ -83,6 +83,7 @@ public class ScenarioHtml {
         }
 
         htmlWriter.write(extractDisplayedContext());
+        writeStacktrace();
 
         htmlWriter.write("</div>\n");
     }
@@ -108,12 +109,18 @@ public class ScenarioHtml {
             htmlWriter.write("<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n");
         }
 
+        writeStacktrace();
+    }
+
+    private void writeStacktrace() throws IOException {
         Throwable failure = scenarioResult.failure;
-        htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >" + failure.getClass().getSimpleName() + ": " + failure.getMessage() + "</a>" +
-                "<pre class=\"stacktrace pre-scrollable\" >");
-        PrintWriter printWriter = new PrintWriter(htmlWriter);
-        failure.printStackTrace(printWriter);
-        htmlWriter.write("</pre></div>");
+        if(failure!=null){
+            htmlWriter.write("<div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >" + failure.getClass().getSimpleName() + ": " + failure.getMessage() + "</a>" +
+                    "<pre class=\"stacktrace pre-scrollable\" >");
+            PrintWriter printWriter = new PrintWriter(htmlWriter);
+            failure.printStackTrace(printWriter);
+            htmlWriter.write("</pre></div>");
+        }
     }
 
     private String extractDisplayedContext() throws IllegalAccessException {
