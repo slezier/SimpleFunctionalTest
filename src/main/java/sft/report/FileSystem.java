@@ -38,13 +38,13 @@ public class FileSystem {
         }
 
         public File getFileFromClass(Class<?> aClass, String extension) {
-            String javaPath = aClass.getCanonicalName().replaceAll("\\.", "/") + extension;
+            String javaPath = getFilePath(aClass, extension);
             return getFile(javaPath);
         }
 
         public File createFileFromClass(Class<?> aClass, String extension) {
 
-            String htmlPath = aClass.getCanonicalName().replaceAll("\\.", "/") + extension;
+            String htmlPath = getFilePath(aClass, extension);
             makeDir(htmlPath);
             return targetFolder.getFileFromClass(aClass, extension);
         }
@@ -57,6 +57,10 @@ public class FileSystem {
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        private String getFilePath(Class<?> aClass, String extension) {
+            return aClass.getCanonicalName().replaceAll("\\.", "/") + extension;
         }
 
         private void makeDir(String path) {
