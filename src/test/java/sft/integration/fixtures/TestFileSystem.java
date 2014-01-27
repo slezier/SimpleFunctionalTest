@@ -4,7 +4,7 @@ import org.junit.Assert;
 
 import java.io.File;
 
-public class FileSystem {
+public class TestFileSystem {
 
     public static void filesExists(String... filesToCheck) {
         for (String fileToCheck : filesToCheck) {

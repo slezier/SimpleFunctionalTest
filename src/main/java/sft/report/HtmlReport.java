@@ -15,6 +15,7 @@ import sft.Fixture;
 import sft.MethodCall;
 import sft.Scenario;
 import sft.UseCase;
+import sft.environment.*;
 import sft.javalang.parser.UseCaseJavaParser;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;

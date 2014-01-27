@@ -34,7 +34,7 @@ public class JUnitHelper {
 
     public Document getHtmlReport() throws IOException {
         if(html == null){
-            FileSystem.filesExists(expectedPathToHtmlResultFile);
+            TestFileSystem.filesExists(expectedPathToHtmlResultFile);
 
             html = Jsoup.parse(new File(expectedPathToHtmlResultFile), "UTF-8", "http://example.com/");
         }

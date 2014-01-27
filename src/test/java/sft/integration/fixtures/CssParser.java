@@ -29,7 +29,7 @@ public class CssParser {
     }
 
     public HashMap<String, CSSStyleRule> extractCssStyleRules(String cssFile) throws IOException {
-        FileSystem.filesExists(cssFile);
+        TestFileSystem.filesExists(cssFile);
         CSSOMParser cssParser = new CSSOMParser();
         CSSStyleSheet css = cssParser.parseStyleSheet(new InputSource(new FileReader(cssFile)), null, null);
         CSSRuleList cssRules = css.getCssRules();

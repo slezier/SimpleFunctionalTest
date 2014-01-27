@@ -18,7 +18,7 @@ import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import sft.Fixture;
 import sft.FixturesHolder;
-import sft.report.FileSystem;
+import sft.environment.FileSystem;
 
 import java.io.File;
 import java.io.IOException;

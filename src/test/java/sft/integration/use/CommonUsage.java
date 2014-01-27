@@ -10,7 +10,7 @@ import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.FileSystem;
+import sft.integration.fixtures.TestFileSystem;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.FunctionalTestIgnored;
@@ -111,7 +111,7 @@ public class CommonUsage {
         Assert.assertEquals("url(ignored_24.png)", sftCss.get("*.scenario.ignored *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(ignored_16.png)", sftCss.get("*.instruction.ignored span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/sft-html-default/ignored_16.png", "target/sft-result/sft-html-default/ignored_24.png", "target/sft-result/sft-html-default/ignored_32.png");
+        TestFileSystem.filesExists("target/sft-result/sft-html-default/ignored_16.png", "target/sft-result/sft-html-default/ignored_24.png", "target/sft-result/sft-html-default/ignored_32.png");
     }
 
     private void ignoredScenarioSectionAreAlsoDisplayWithYellowBackground() {
@@ -144,7 +144,7 @@ public class CommonUsage {
     }
 
     private void thenTheFullyQualifiedClassNameIsConvertedIntoPahToHtmlFile() throws IOException {
-        FileSystem.filesExists(FIRST_HTML_REPORT_PATH);
+        TestFileSystem.filesExists(FIRST_HTML_REPORT_PATH);
     }
 
     private void thenTheHtmlFilePresentFailures() throws Exception {
@@ -168,7 +168,7 @@ public class CommonUsage {
         Assert.assertEquals("url(success_24.png)", sftCss.get("*.scenario.succeeded *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(success_16.png)", sftCss.get("*.instruction.succeeded span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
+        TestFileSystem.filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
     }
 
     private void failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
@@ -178,7 +178,7 @@ public class CommonUsage {
         Assert.assertEquals("url(failed_32.png)", sftCss.get("*.useCase.failed *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
+        TestFileSystem.filesExists("target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     @Text("Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.")
@@ -200,7 +200,7 @@ public class CommonUsage {
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_16.png)", sftCss.get("*.instruction.failed span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        FileSystem.filesExists("target/sft-result/sft-html-default/failed_16.png", "target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
+        TestFileSystem.filesExists("target/sft-result/sft-html-default/failed_16.png", "target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     private void successfulScenarioSectionAreAlsoDisplayWithGreenBackground() {

@@ -1,7 +1,8 @@
 package sft.integration.fixtures;
 
-import sft.report.*;
-import sft.report.FileSystem;
+
+import sft.environment.FileSystem;
+import sft.report.HtmlResources;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -8,7 +8,6 @@ import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.FileSystem;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.fixtures.SftResources;
