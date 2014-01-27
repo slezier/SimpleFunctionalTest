@@ -46,7 +46,7 @@ public class FileSystem {
 
             String htmlPath = getFilePath(aClass, extension);
             makeDir(htmlPath);
-            return targetFolder.getFileFromClass(aClass, extension);
+            return getFileFromClass(aClass, extension);
         }
 
         public List<String> copyFromResources(String fileName) throws IOException {
@@ -64,7 +64,7 @@ public class FileSystem {
         }
 
         private void makeDir(String path) {
-            File parentDirectory = targetFolder.ensureExists();
+            File parentDirectory = ensureExists();
             for (String file : path.split("/")) {
                 if (!file.contains(".")) {
                     parentDirectory = new File(parentDirectory, file);
