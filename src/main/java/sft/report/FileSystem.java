@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,22 +37,21 @@ public class FileSystem {
         }
 
         public File getFileFromClass(Class<?> aClass, String extension) {
-            String javaPath = getFilePath(aClass, extension);
-            return getFile(javaPath);
+            String filePath = getFilePath(aClass, extension);
+            return getFile(filePath);
         }
 
         public File createFileFromClass(Class<?> aClass, String extension) {
-
-            String htmlPath = getFilePath(aClass, extension);
-            makeDir(htmlPath);
-            return getFileFromClass(aClass, extension);
+            String filePath = getFilePath(aClass, extension);
+            makeDir(filePath);
+            return getFile(filePath);
         }
 
         public List<String> copyFromResources(String fileName) throws IOException {
             try {
-                File sourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
+                File resourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
                 File targetDirectory = ensureExists();
-                return copyFromResources(targetDirectory, sourceFile,"");
+                return copyFromResources(targetDirectory, resourceFile,"");
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
