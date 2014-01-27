@@ -33,28 +33,8 @@ public class FileSystem {
 
         private final String path;
 
-        public ResourceFolder(String path) {
+        private ResourceFolder(String path) {
             this.path = path;
-        }
-
-        public File ensureExists() {
-            File targetDirectory = new File(getResourceFolder() + path);
-            if (!targetDirectory.exists()) {
-                targetDirectory.mkdir();
-            }
-            return targetDirectory;
-        }
-
-        private String getResourceFolder() {
-            return this.getClass().getClassLoader().getResource(".").getPath() + "../../";
-        }
-
-        private String getPath(String relativePath) {
-            return getResourceFolder() + path + relativePath;
-        }
-
-        public File getFile(String path) {
-            return new File(getPath(path));
         }
 
         public File getFileFromClass(Class<?> aClass, String extension) {
@@ -69,7 +49,17 @@ public class FileSystem {
             return targetFolder.getFileFromClass(aClass, extension);
         }
 
-        public void makeDir(String path) {
+        public List<String> copyFromResources(String fileName) throws IOException {
+            try {
+                File sourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
+                File targetDirectory = ensureExists();
+                return copyFromResources(targetDirectory, sourceFile,"");
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void makeDir(String path) {
             File parentDirectory = targetFolder.ensureExists();
             for (String file : path.split("/")) {
                 if (!file.contains(".")) {
@@ -81,14 +71,24 @@ public class FileSystem {
             }
         }
 
-        public List<String> copyFromResources(String fileName) throws IOException {
-            try {
-                File sourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
-                File targetDirectory = ensureExists();
-                return copyFromResources(targetDirectory, sourceFile,"");
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+        private String getResourceFolder() {
+            return this.getClass().getClassLoader().getResource(".").getPath() + "../../";
+        }
+
+        private String getPath(String relativePath) {
+            return getResourceFolder() + path + relativePath;
+        }
+
+        private File ensureExists() {
+            File targetDirectory = new File(getResourceFolder() + path);
+            if (!targetDirectory.exists()) {
+                targetDirectory.mkdir();
             }
+            return targetDirectory;
+        }
+
+        private File getFile(String path) {
+            return new File(getPath(path));
         }
 
         private List<String> copyFromResources(File targetDirectory, File sourceFile,String relativePath) throws IOException {
