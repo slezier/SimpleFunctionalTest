@@ -15,12 +15,15 @@ import sft.Fixture;
 import sft.MethodCall;
 import sft.Scenario;
 import sft.UseCase;
-import sft.environment.*;
-import sft.javalang.parser.UseCaseJavaParser;
+import sft.environment.FileSystem;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 
 public class HtmlReport extends RunListener {
@@ -37,11 +40,12 @@ public class HtmlReport extends RunListener {
 
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
-        UseCaseJavaParser javaTokenizer = new UseCaseJavaParser(classUnderTest);
 
         File htmlFile = fileSystem.targetFolder.createFileFromClass(classUnderTest, ".html");
 
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
+
+        HtmlUseCase htmlUseCase = new HtmlUseCase();
         html.write("<html><head><title>\n");
         html.write(useCase.getName() + "\n");
         html.write("</title>\n");
@@ -60,7 +64,7 @@ public class HtmlReport extends RunListener {
         html.write("</div>");
 
         if (useCase.beforeUseCase != null) {
-            html.write("<div class=\"panel panel-default beforeUseCase " +htmlResources.convertIssue(useCaseResult.beforeResult.issue)+"\"><div class=\"panel-body\">");
+            html.write("<div class=\"panel panel-default beforeUseCase " + htmlResources.convertIssue(useCaseResult.beforeResult.issue) + "\"><div class=\"panel-body\">");
             for (MethodCall methodCall : useCase.beforeUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
 
@@ -79,7 +83,7 @@ public class HtmlReport extends RunListener {
         }
 
         if (useCase.afterUseCase != null) {
-            html.write("<div class=\"panel panel-default afterUseCase " +htmlResources.convertIssue(useCaseResult.afterResult.issue)+"\"><div class=\"panel-body\">");
+            html.write("<div class=\"panel panel-default afterUseCase " + htmlResources.convertIssue(useCaseResult.afterResult.issue) + "\"><div class=\"panel-body\">");
             for (MethodCall methodCall : useCase.afterUseCase.methodCalls) {
                 Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
                 html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
