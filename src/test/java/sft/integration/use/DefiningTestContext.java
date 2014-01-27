@@ -19,6 +19,8 @@ import sft.integration.use.sut.ErrorOccursWhenTerminatingScenario;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static sft.integration.use.sut.ContextInAction.getCallSequence;
 
@@ -89,9 +91,12 @@ public class DefiningTestContext {
     }
 
     private void stackTraceIsDisplayedAtScenarioEnd() {
-        Elements scenario = html.select("*.scenario >div");
-        assertEquals(5,scenario.size());
-        assertTrue(scenario.get(4).hasClass("exception"));
+        Elements scenarioPart = html.select("*.scenario *.panel-body");
+        assertEquals(4,scenarioPart.size());
+        assertTrue(scenarioPart.get(0).hasClass("beforeScenario"));
+        assertFalse(scenarioPart.get(1).select("*.instruction").isEmpty());
+        assertTrue(scenarioPart.get(2).hasClass("afterScenario"));
+        assertNotNull("Expecting exception div", scenarioPart.get(3).select("*.exception >div"));
     }
 
     private void allScenarioStepsAreRan() {

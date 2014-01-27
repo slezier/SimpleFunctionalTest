@@ -22,9 +22,6 @@ body{
     padding: 10px;
 }
 
-*.exception {
-    padding-top: 25px;
-}
 *.exception a{
     font-style: italic;
     cursor:pointer;
