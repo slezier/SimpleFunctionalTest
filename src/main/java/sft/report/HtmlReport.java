@@ -45,7 +45,6 @@ public class HtmlReport extends RunListener {
 
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
 
-        HtmlUseCase htmlUseCase = new HtmlUseCase();
         html.write("<html><head><title>\n");
         html.write(useCase.getName() + "\n");
         html.write("</title>\n");
