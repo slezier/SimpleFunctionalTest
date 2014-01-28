@@ -11,6 +11,7 @@
 package sft.result;
 
 import sft.Fixture;
+import sft.MethodCall;
 import sft.Scenario;
 import sft.report.Issue;
 
@@ -86,6 +87,10 @@ public class ScenarioResult {
 
     public static ScenarioResult failedAfterTest(Scenario scenario, Throwable throwable) {
         return new ScenarioResult(scenario,Issue.FAILED,throwable,ErrorLocation.after);
+    }
+
+    public boolean failureOccurs(Fixture fixture, MethodCall testFixture) {
+        return scenarioFailed() && fixture == getFailedCall() && getFailedLine() == testFixture.line;
     }
 
     private enum ErrorLocation{ before,during,after}

@@ -13,6 +13,8 @@ package sft.junit;
 import sft.ContextHandler;
 import sft.result.ContextResult;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class ContextRunner {
     private final ContextHandler contextHandler;
     private final UseCaseRunner useCaseRunner;
@@ -36,6 +38,9 @@ public class ContextRunner {
             }
             return ContextResult.success(contextHandler);
         } catch (Throwable e) {
+            if(e instanceof InvocationTargetException){
+                e = e.getCause();
+            }
             if(useCaseRunner==null){
                 notifier.fireScenarioContextFailed(scenarioRunner,e);
             } else {

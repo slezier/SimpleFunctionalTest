@@ -11,7 +11,11 @@
 package sft.report;
 
 
-import sft.*;
+import sft.ContextHandler;
+import sft.Fixture;
+import sft.MethodCall;
+import sft.Scenario;
+import sft.UseCase;
 import sft.result.ScenarioResult;
 
 import java.io.IOException;
@@ -19,7 +23,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
-import java.util.regex.Matcher;
 
 public class ScenarioHtml {
 
@@ -30,19 +33,27 @@ public class ScenarioHtml {
     private final ScenarioResult scenarioResult;
     private final ContextHandler after;
     private final ContextHandler before;
-
-    private String scenarioTemplate =
-        "<div class=\"scenario @@@scenario.issue@@@ panel panel-default\">"+
-            "<div class=\"panel-heading\"><h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3></div>\n"+
-            "@@@scenario.comment@@@"      +
-            "@@@scenario.before@@@" +
-            "<div class=\"panel-body\">\n"+
-                "@@@scenario.instructions@@@" +
-            "</div>\n"      +
-            "@@@scenario.after@@@" +
-            "@@@scenario.context@@@"+
-            "@@@scenario.exception@@@"+
-        "</div>\n";
+    private TemplateString scenarioTemplate =new TemplateString(
+            "<div class=\"scenario @@@scenario.issue@@@ panel panel-default\">" +
+                    "<div class=\"panel-heading\"><h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3></div>\n" +
+                    "@@@scenario.comment@@@" +
+                    "@@@scenario.before@@@" +
+                    "<div class=\"panel-body\">\n" +
+                    "@@@scenario.instructions@@@" +
+                    "</div>\n" +
+                    "@@@scenario.after@@@" +
+                    "@@@scenario.context@@@" +
+                    "@@@scenario.exception@@@" +
+                    "</div>\n");
+    private TemplateString scenarioComment = new TemplateString("<div class=\"comment\">@@@scenario.comment.value@@@</div>");
+    private TemplateString beforeScenario = new TemplateString("<div class=\"beforeScenario panel-body\">@@@scenario.before.instructions@@@<hr/></div>");
+    private TemplateString contentInstruction = new TemplateString("<div><span>@@@content.instruction@@@</span></div>");
+    private TemplateString scenarioInstruction = new TemplateString("<div class=\"instruction @@@instruction.issue@@@\"><span>@@@instruction.text@@@</span></div>\n");
+    private TemplateString afterScenario = new TemplateString("<div class=\"afterScenario panel-body\"><hr/>@@@scenario.after.instructions@@@</div>");
+    private TemplateString displayedContexts = new TemplateString("<div class=\"displayableContext panel-body\">@@@displayedContexts@@@</div>");
+    private TemplateString displayedContext = new TemplateString("<div>@@@displayedContext@@@</div>");
+    private TemplateString stacktrace = new TemplateString("<div class=\"panel-body\"><div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>" +
+            "<pre class=\"stacktrace pre-scrollable\" >@@@failure.stacktrace@@@</pre></div></div>");
 
     public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, Scenario scenario, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
         this.useCase = useCase;
@@ -55,125 +66,104 @@ public class ScenarioHtml {
     }
 
     public void write() throws IOException, IllegalAccessException {
+        htmlWriter.write(scenarioTemplate
+                .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
+                .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
+                .replace("@@@scenario.comment@@@", getComment())
+                .replace("@@@scenario.before@@@", getBeforeScenario())
+                .replace("@@@scenario.instructions@@@", getScenarioInstructions())
+                .replace("@@@scenario.after@@@", getAfterScenario())
+                .replace("@@@scenario.context@@@", extractDisplayedContexts())
+                .replace("@@@scenario.exception@@@", getStacktrace())
+                .getText());
+    }
 
-        String scenarioH = scenarioTemplate.replaceAll("@@@scenario.issue@@@",htmlResources.convertIssue(scenarioResult.issue)) ;
-        scenarioH = scenarioH.replaceAll("@@@scenario.name@@@",scenarioResult.scenario.getName()) ;
-        scenarioH = scenarioH.replaceAll("@@@scenario.comment@@@", getComment()) ;
-        scenarioH = scenarioH.replaceAll("@@@scenario.before@@@", getBeforeScenario()) ;
-
-        String instructions= "";
-        if (scenarioResult.beforeScenarioFailed()) {
-            instructions += getScenarioCalls(Issue.IGNORED);
-        } else if (scenarioResult.afterScenarioFailed()) {
-            instructions += getScenarioCalls(Issue.SUCCEEDED);
-        } else if (scenarioResult.issue == Issue.FAILED) {
-            instructions += getTestFailed();
+    private String getScenarioInstructions() {
+        Issue lastIssue;
+        if (scenarioResult.beforeScenarioFailed() || scenarioResult.issue == Issue.IGNORED) {
+            lastIssue = Issue.IGNORED;
         } else {
-            instructions += getScenarioCalls(scenarioResult.issue);
+            lastIssue = Issue.SUCCEEDED;
         }
-        scenarioH = scenarioH.replaceAll("@@@scenario\\.instructions@@@",instructions) ;
 
-
-
-        String afterScenario = "";
-        if (useCase.afterScenario != null) {
-            afterScenario += "<div class=\"afterScenario panel-body\"><hr/>";
-
-            for (MethodCall methodCall : after.methodCalls) {
-                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                afterScenario += "<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n";
-            }
-            afterScenario += "</div>";
-        }
-        scenarioH = scenarioH.replaceAll("@@@scenario\\.after@@@",afterScenario) ;
-        scenarioH = scenarioH.replaceAll("@@@scenario\\.context@@@",extractDisplayedContext()) ;
-        scenarioH = scenarioH.replaceAll("@@@scenario\\.exception@@@", Matcher.quoteReplacement(getStacktrace())) ;
-
-        htmlWriter.write(scenarioH);
-    }
-
-    private String beforeScenario = "<div class=\"beforeScenario panel-body\">";
-    private String getBeforeScenario() {
-        String beforeScenario = "";
-        if (useCase.beforeScenario != null) {
-            beforeScenario += "<div class=\"beforeScenario panel-body\">";
-            for (MethodCall methodCall : before.methodCalls) {
-                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                beforeScenario += "<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n";
-            }
-            beforeScenario += "<hr/></div>";
-        }
-        return beforeScenario;
-    }
-
-    private String scenarioComment = "<div class=\"comment\">@@@scenario.comment.value@@@</div>";
-    private String getComment() {
-        String comment="";
-        if (scenario.getComment() != null) {
-            comment= scenarioComment.replaceAll("@@@scenario\\.comment\\.value@@@", scenario.getComment());
-        }
-        return comment;
-    }
-
-    private String getTestFailed() {
         String result = "";
-        Fixture failedCall = scenarioResult.getFailedCall();
-
-        boolean failureAppend = false;
-
         for (MethodCall testFixture : scenario.methodCalls) {
             Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-
-            Issue testIssue;
-            if (fixture == failedCall && scenarioResult.getFailedLine() == testFixture.line) {
-                failureAppend = true;
-                testIssue = Issue.FAILED;
-            } else if (!failureAppend) {
-                testIssue = Issue.SUCCEEDED;
+            final Issue issue;
+            if (lastIssue == Issue.SUCCEEDED && scenarioResult.failureOccurs(fixture, testFixture)) {
+                issue = Issue.FAILED;
+                lastIssue = Issue.IGNORED;
             } else {
-                testIssue = Issue.IGNORED;
+                issue = lastIssue;
             }
-
-            result += "<div class=\"instruction " + htmlResources.convertIssue(testIssue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n";
+            result += scenarioInstruction.replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
+                    .replace("@@@instruction.text@@@", fixture.getText(fixture.parametersName, testFixture.parameters))
+                    .getText();
         }
         return result;
     }
 
-    private String getStacktrace() {
-        String result = "";
-        Throwable failure = scenarioResult.failure;
-        if (failure != null) {
-            result += "<div class=\"panel-body\"><div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >" + failure.getClass().getSimpleName() + ": " + failure.getMessage() + "</a>" +
-                    "<pre class=\"stacktrace pre-scrollable\" >";
-            StringWriter stringWriter = new StringWriter();
-            failure.printStackTrace(new PrintWriter(stringWriter));
-            result += stringWriter.toString();
-            result += failure.toString();
-            result += "</pre></div></div>";
-        }
-        return result;
-    }
-
-    private String extractDisplayedContext() {
-        List<String> values = scenarioResult.contextToDisplay;
-        if (!values.isEmpty()) {
-            String htmlText = "<div class=\"displayableContext panel-body\">";
-            for (String value : values) {
-                htmlText += "<div>" + value + "</div>";
-
+    private String getBeforeScenario() {
+        if (useCase.beforeScenario != null) {
+            String instructions = "";
+            for (MethodCall methodCall : before.methodCalls) {
+                instructions += getContentInstruction(methodCall);
             }
-            htmlText += "</div>";
-            return htmlText;
+            return beforeScenario.replace("@@@scenario.before.instructions@@@", instructions).getText();
         }
         return "";
     }
 
-    private String getScenarioCalls(Issue issue) {
-        String result = "";
-        for (MethodCall testFixture : scenario.methodCalls) {
-            Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            result += "<div class=\"instruction " + htmlResources.convertIssue(issue) + "\"><span>" + fixture.getText(fixture.parametersName, testFixture.parameters) + "</span></div>\n";
+    private String getAfterScenario() {
+        if (useCase.afterScenario != null) {
+            String instructions = "";
+            for (MethodCall methodCall : after.methodCalls) {
+                instructions += getContentInstruction(methodCall);
+            }
+            return afterScenario.replace("@@@scenario\\.after\\.instructions@@@", instructions).getText();
         }
-        return result;
+        return "";
     }
+
+    private String getContentInstruction(MethodCall methodCall) {
+        Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
+        return contentInstruction.replace("@@@content\\.instruction@@@", fixture.getText(fixture.parametersName, methodCall.parameters)).getText();
+    }
+
+    private String getComment() {
+        String comment = "";
+        if (scenario.getComment() != null) {
+            comment = scenarioComment.replace("@@@scenario\\.comment\\.value@@@", scenario.getComment()).getText();
+        }
+        return comment;
+    }
+
+    private String getStacktrace() {
+        Throwable failure = scenarioResult.failure;
+        if (failure != null) {
+            StringWriter stringWriter = new StringWriter();
+            failure.printStackTrace(new PrintWriter(stringWriter));
+            return stacktrace.replace("@@@failure.className@@@", failure.getClass().getSimpleName())
+                    .replace( "@@@failure.message@@@", failure.getMessage())
+                    .replace("@@@failure.stacktrace@@@", stringWriter.toString()).getText();
+        }
+        return "";
+    }
+
+    private String extractDisplayedContexts() {
+        List<String> values = scenarioResult.contextToDisplay;
+        if (!values.isEmpty()) {
+            String htmlText = "";
+            for (String value : values) {
+                htmlText += extractDisplayedContext(value);
+            }
+            return displayedContexts.replace("@@@displayedContexts@@@", htmlText).getText();
+        }
+        return "";
+    }
+
+    private String extractDisplayedContext(String value) {
+        return displayedContext.replace("@@@displayedContext@@@", value).getText();
+    }
+
 }
