@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class ScenarioHtml {
 
@@ -54,6 +55,7 @@ public class ScenarioHtml {
     private TemplateString displayedContext = new TemplateString("<div>@@@displayedContext@@@</div>");
     private TemplateString stacktrace = new TemplateString("<div class=\"panel-body\"><div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>" +
             "<pre class=\"stacktrace pre-scrollable\" >@@@failure.stacktrace@@@</pre></div></div>");
+    private TemplateString parameter = new TemplateString("<i class=\"value\">@@@value@@@</i>");
 
     public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, Scenario scenario, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
         this.useCase = useCase;
@@ -96,11 +98,28 @@ public class ScenarioHtml {
             } else {
                 issue = lastIssue;
             }
+
+
+            String instruction = getInstructionWithParameter(testFixture, fixture);
+
+
+
+
             result += scenarioInstruction.replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
-                    .replace("@@@instruction.text@@@", fixture.getText(fixture.parametersName, testFixture.parameters))
+                    .replace("@@@instruction.text@@@", instruction)
                     .getText();
         }
         return result;
+    }
+
+    private String getInstructionWithParameter(MethodCall testFixture, Fixture fixture) {
+        String instruction = fixture.getText();
+        for (int index = 0; index < fixture.parametersName.size(); index++) {
+            String name = fixture.parametersName.get(index);
+            String value = Matcher.quoteReplacement(getParameter(testFixture.parameters.get(index)));
+            instruction = instruction.replaceAll("\\$\\{" + name + "\\}",value).replaceAll("\\$\\{" + (index + 1) + "\\}",value);
+        }
+        return instruction;
     }
 
     private String getBeforeScenario() {
@@ -125,9 +144,15 @@ public class ScenarioHtml {
         return "";
     }
 
+
     private String getContentInstruction(MethodCall methodCall) {
         Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-        return contentInstruction.replace("@@@content\\.instruction@@@", fixture.getText(fixture.parametersName, methodCall.parameters)).getText();
+        String instruction = getInstructionWithParameter(methodCall, fixture);
+        return contentInstruction.replace("@@@content\\.instruction@@@", instruction).getText();
+    }
+
+    private String getParameter(String value) {
+        return parameter.replace("@@@value@@@", value).getText();
     }
 
     private String getComment() {

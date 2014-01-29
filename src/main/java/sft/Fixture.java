@@ -28,5 +28,8 @@ public class Fixture {
     public String getText(ArrayList<String> parametersName,ArrayList<String> parametersValue) {
         return javaToHumanTranslator.humanize(method,parametersName,parametersValue);
     }
+    public String getText() {
+        return javaToHumanTranslator.humanize(method);
+    }
 
 }
