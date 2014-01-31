@@ -1,21 +1,36 @@
-<html><head><title>
-Re-Use your fixtures between your classes: fixtures helpers
-</title>
+<html>
+  <head>
+    <title>Re-Use your fixtures between your classes: fixtures helpers</title>
 <link rel="stylesheet" href="../../../sft-html-default/sft.css" />
 <link rel="stylesheet" href="../../../sft-html-default/bootstrap.min.css" />
 <link rel="stylesheet" href="../../../sft-html-default/bootstrap-theme.min.css" />
 <script src="../../../sft-html-default/bootstrap.min.js"></script>
 <script src="../../../sft-html-default/jquery-1.10.2.min.js"></script>
-</head>
-<body class="useCase succeeded"><div class="container">
-<div class="page-header"><div class="text-center"><h1><span class="useCaseName">Re-Use your fixtures between your classes: fixtures helpers</span></h1></div>
-<div class="comment">
+  </head>
+  <body class="useCase succeeded">
+    <div class="container">
+      <div class="page-header">
+        <div class="text-center">
+          <h1><span class="useCaseName">Re-Use your fixtures between your classes: fixtures helpers</span></h1>
+        </div>
+        <div class="comment">
+
      Fixtures could be group into FixturesHelper, and then could be shared between use cases.
- </div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Using fixtures helper</span></h3></div>
-<div class="panel-body">
-<div class="instruction succeeded"><span>To share fixtures between your classes without using inheritance you have to write its in a fixtures helper class</span></div>
-<div class="instruction succeeded"><span>In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.</span></div>
-<div class="instruction succeeded"><span>Then all fixtures of this fixtures helper class are seen as fixtures of the use case class and can be used as its own</span></div>
-</div>
-<div class="displayableContext panel-body"><div><div class="resources"><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/DelegatedFixtures.java.html','sft/integration/use/sut/DelegatedFixtures.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">helper</a></div></div><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/FixturesHelperUsage.java.html','sft/integration/use/sut/FixturesHelperUsage.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/FixturesHelperUsage.html','sft/integration/use/sut/FixturesHelperUsage.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div></div>
-</div></body></html>
+         </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Using fixtures helper</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>To share fixtures between your classes without using inheritance you have to write its in a fixtures helper class</span>          </div>
+          <div class="instruction succeeded">
+            <span>In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.</span>          </div>
+          <div class="instruction succeeded">
+            <span>Then all fixtures of this fixtures helper class are seen as fixtures of the use case class and can be used as its own</span>          </div>
+        </div>
+<div class="displayableContext panel-body"><div><div class="resources"><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/DelegatedFixtures.java.html','sft/integration/use/sut/DelegatedFixtures.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">helper</a></div></div><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/FixturesHelperUsage.java.html','sft/integration/use/sut/FixturesHelperUsage.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingFixturesHelper.html','')+'sut/FixturesHelperUsage.html','sft/integration/use/sut/FixturesHelperUsage.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div>      </div>
+    </div>
+  </body>
+</html>

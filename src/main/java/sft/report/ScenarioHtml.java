@@ -11,171 +11,64 @@
 package sft.report;
 
 
-import sft.ContextHandler;
 import sft.Fixture;
 import sft.MethodCall;
-import sft.Scenario;
-import sft.UseCase;
 import sft.result.ScenarioResult;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.List;
 import java.util.regex.Matcher;
 
 public class ScenarioHtml {
 
-    private final HtmlResources htmlResources;
-    private final UseCase useCase;
-    private final Writer htmlWriter;
-    private final Scenario scenario;
-    private final ScenarioResult scenarioResult;
-    private final ContextHandler after;
-    private final ContextHandler before;
-    private TemplateString scenarioTemplate =new TemplateString(
-            "<div class=\"scenario @@@scenario.issue@@@ panel panel-default\">" +
-                    "<div class=\"panel-heading\"><h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3></div>\n" +
-                    "@@@scenario.comment@@@" +
-                    "@@@scenario.before@@@" +
-                    "<div class=\"panel-body\">\n" +
-                    "@@@scenario.instructions@@@" +
-                    "</div>\n" +
-                    "@@@scenario.after@@@" +
-                    "@@@scenario.context@@@" +
-                    "@@@scenario.exception@@@" +
-                    "</div>\n");
-    private TemplateString scenarioComment = new TemplateString("<div class=\"comment\">@@@scenario.comment.value@@@</div>");
-    private TemplateString beforeScenario = new TemplateString("<div class=\"beforeScenario panel-body\">@@@scenario.before.instructions@@@<hr/></div>");
+    private final HtmlResources htmlResources = new HtmlResources();
     private TemplateString contentInstruction = new TemplateString("<div><span>@@@content.instruction@@@</span></div>");
-    private TemplateString scenarioInstruction = new TemplateString("<div class=\"instruction @@@instruction.issue@@@\"><span>@@@instruction.text@@@</span></div>\n");
-    private TemplateString afterScenario = new TemplateString("<div class=\"afterScenario panel-body\"><hr/>@@@scenario.after.instructions@@@</div>");
     private TemplateString displayedContexts = new TemplateString("<div class=\"displayableContext panel-body\">@@@displayedContexts@@@</div>");
     private TemplateString displayedContext = new TemplateString("<div>@@@displayedContext@@@</div>");
     private TemplateString stacktrace = new TemplateString("<div class=\"panel-body\"><div class=\"exception\"><a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>" +
             "<pre class=\"stacktrace pre-scrollable\" >@@@failure.stacktrace@@@</pre></div></div>");
     private TemplateString parameter = new TemplateString("<i class=\"value\">@@@value@@@</i>");
 
-    public ScenarioHtml(HtmlResources htmlResources, UseCase useCase, Writer htmlWriter, Scenario scenario, ScenarioResult scenarioResult, ContextHandler before, ContextHandler after) {
-        this.useCase = useCase;
-        this.htmlWriter = htmlWriter;
-        this.scenario = scenario;
-        this.scenarioResult = scenarioResult;
-        this.htmlResources = htmlResources;
-        this.before = before;
-        this.after = after;
-    }
-
-    public void write() throws IOException, IllegalAccessException {
-        htmlWriter.write(scenarioTemplate
-                .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
-                .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
-                .replace("@@@scenario.comment@@@", getComment())
-                .replace("@@@scenario.before@@@", getBeforeScenario())
-                .replace("@@@scenario.instructions@@@", getScenarioInstructions())
-                .replace("@@@scenario.after@@@", getAfterScenario())
-                .replace("@@@scenario.context@@@", extractDisplayedContexts())
-                .replace("@@@scenario.exception@@@", getStacktrace())
-                .getText());
-    }
-
-    private String getScenarioInstructions() {
-        Issue lastIssue;
-        if (scenarioResult.beforeScenarioFailed() || scenarioResult.issue == Issue.IGNORED) {
-            lastIssue = Issue.IGNORED;
-        } else {
-            lastIssue = Issue.SUCCEEDED;
-        }
-
-        String result = "";
-        for (MethodCall testFixture : scenario.methodCalls) {
-            Fixture fixture = useCase.getFixtureByMethodName(testFixture.name);
-            final Issue issue;
-            if (lastIssue == Issue.SUCCEEDED && scenarioResult.failureOccurs(fixture, testFixture)) {
-                issue = Issue.FAILED;
-                lastIssue = Issue.IGNORED;
-            } else {
-                issue = lastIssue;
-            }
-
-
-            String instruction = getInstructionWithParameter(testFixture, fixture);
 
 
 
-
-            result += scenarioInstruction.replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
-                    .replace("@@@instruction.text@@@", instruction)
-                    .getText();
-        }
-        return result;
-    }
-
-    private String getInstructionWithParameter(MethodCall testFixture, Fixture fixture) {
+    public String getInstructionWithParameter(MethodCall testFixture, Fixture fixture) {
         String instruction = fixture.getText();
         for (int index = 0; index < fixture.parametersName.size(); index++) {
             String name = fixture.parametersName.get(index);
             String value = Matcher.quoteReplacement(getParameter(testFixture.parameters.get(index)));
-            instruction = instruction.replaceAll("\\$\\{" + name + "\\}",value).replaceAll("\\$\\{" + (index + 1) + "\\}",value);
+            instruction = instruction.replaceAll("\\$\\{" + name + "\\}", value).replaceAll("\\$\\{" + (index + 1) + "\\}", value);
         }
         return instruction;
     }
 
-    private String getBeforeScenario() {
-        if (useCase.beforeScenario != null) {
-            String instructions = "";
-            for (MethodCall methodCall : before.methodCalls) {
-                instructions += getContentInstruction(methodCall);
-            }
-            return beforeScenario.replace("@@@scenario.before.instructions@@@", instructions).getText();
-        }
-        return "";
-    }
 
-    private String getAfterScenario() {
-        if (useCase.afterScenario != null) {
-            String instructions = "";
-            for (MethodCall methodCall : after.methodCalls) {
-                instructions += getContentInstruction(methodCall);
-            }
-            return afterScenario.replace("@@@scenario\\.after\\.instructions@@@", instructions).getText();
-        }
-        return "";
-    }
-
-
-    private String getContentInstruction(MethodCall methodCall) {
-        Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
+    public String getContentInstruction(ScenarioResult scenarioResult, MethodCall methodCall) {
+        Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(methodCall.name);
         String instruction = getInstructionWithParameter(methodCall, fixture);
         return contentInstruction.replace("@@@content\\.instruction@@@", instruction).getText();
     }
 
-    private String getParameter(String value) {
+    public String getParameter(String value) {
         return parameter.replace("@@@value@@@", value).getText();
     }
 
-    private String getComment() {
-        String comment = "";
-        if (scenario.getComment() != null) {
-            comment = scenarioComment.replace("@@@scenario\\.comment\\.value@@@", scenario.getComment()).getText();
-        }
-        return comment;
-    }
 
-    private String getStacktrace() {
+
+    public String getStacktrace(ScenarioResult scenarioResult) {
         Throwable failure = scenarioResult.failure;
         if (failure != null) {
             StringWriter stringWriter = new StringWriter();
             failure.printStackTrace(new PrintWriter(stringWriter));
             return stacktrace.replace("@@@failure.className@@@", failure.getClass().getSimpleName())
-                    .replace( "@@@failure.message@@@", failure.getMessage())
+                    .replace("@@@failure.message@@@", failure.getMessage())
                     .replace("@@@failure.stacktrace@@@", stringWriter.toString()).getText();
         }
         return "";
     }
 
-    private String extractDisplayedContexts() {
+    public String extractDisplayedContexts(ScenarioResult scenarioResult) {
         List<String> values = scenarioResult.contextToDisplay;
         if (!values.isEmpty()) {
             String htmlText = "";
@@ -187,7 +80,7 @@ public class ScenarioHtml {
         return "";
     }
 
-    private String extractDisplayedContext(String value) {
+    public String extractDisplayedContext(String value) {
         return displayedContext.replace("@@@displayedContext@@@", value).getText();
     }
 

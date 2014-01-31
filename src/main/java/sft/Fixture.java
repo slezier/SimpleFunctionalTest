@@ -17,17 +17,14 @@ import java.util.ArrayList;
 
 public class Fixture {
 
-    private final JavaToHumanTranslator javaToHumanTranslator = new JavaToHumanTranslator();
     public final Method method;
+    private final JavaToHumanTranslator javaToHumanTranslator = new JavaToHumanTranslator();
     public ArrayList<String> parametersName = new ArrayList<String>();
 
-    public Fixture(Method method){
+    public Fixture(Method method) {
         this.method = method;
     }
 
-    public String getText(ArrayList<String> parametersName,ArrayList<String> parametersValue) {
-        return javaToHumanTranslator.humanize(method,parametersName,parametersValue);
-    }
     public String getText() {
         return javaToHumanTranslator.humanize(method);
     }

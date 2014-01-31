@@ -1,15 +1,20 @@
-<html><head><title>
-Common usage: writing Use Cases
-</title>
+<html>
+  <head>
+    <title>Common usage: writing Use Cases</title>
 <link rel="stylesheet" href="../../../sft-html-default/sft.css" />
 <link rel="stylesheet" href="../../../sft-html-default/bootstrap.min.css" />
 <link rel="stylesheet" href="../../../sft-html-default/bootstrap-theme.min.css" />
 <script src="../../../sft-html-default/bootstrap.min.js"></script>
 <script src="../../../sft-html-default/jquery-1.10.2.min.js"></script>
-</head>
-<body class="useCase succeeded"><div class="container">
-<div class="page-header"><div class="text-center"><h1><span class="useCaseName">Common usage: writing Use Cases</span></h1></div>
-<div class="comment">
+  </head>
+  <body class="useCase succeeded">
+    <div class="container">
+      <div class="page-header">
+        <div class="text-center">
+          <h1><span class="useCaseName">Common usage: writing Use Cases</span></h1>
+        </div>
+        <div class="comment">
+
     <div>
         To become a use case, your class needs to use the junit annotation @RunWith(SimpleFunctionalTest.class)<br/>
         Then all public methods of this class annotated with the junit &nbsp; @Test are considered as scenario.<br/>
@@ -29,36 +34,69 @@ Common usage: writing Use Cases
         <li>Failed fixture call are displayed with red cross mark: &nbsp; &nbsp;<img src="../../../sft-html-default/failed_16.png"/></li>
         <li>Ignored fixture are displayed with yellow interrogation mark: &nbsp; &nbsp;<img src="../../../sft-html-default/ignored_16.png"/></li>
     </ul>
-</div></div><div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Your first functional test</span></h3></div>
-<div class="panel-body">
-<div class="instruction succeeded"><span>Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)</span></div>
-<div class="instruction succeeded"><span>When invoking JUnit</span></div>
-<div class="instruction succeeded"><span>Then the fully qualified class name is converted into pah to html file</span></div>
-<div class="instruction succeeded"><span>The functional test result is display in html</span></div>
-<div class="instruction succeeded"><span>Class name is humanized as use case title</span></div>
-<div class="instruction succeeded"><span>Test method is humanized as scenario section</span></div>
-<div class="instruction succeeded"><span>Inner method call is humanized as fixture call</span></div>
-<div class="instruction succeeded"><span>Successful use case scenario and fixture call are displayed with ending green check mark</span></div>
-<div class="instruction succeeded"><span>Successful scenario section are also display with green background</span></div>
-</div>
-<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/YourFirstFunctionalTest.java.html','sft/integration/use/sut/YourFirstFunctionalTest.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/YourFirstFunctionalTest.html','sft/integration/use/sut/YourFirstFunctionalTest.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div></div>
-<div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">When functional test failed</span></h3></div>
-<div class="panel-body">
-<div class="instruction succeeded"><span>With a JUnit test class expecting failure</span></div>
-<div class="instruction succeeded"><span>When invoking JUnit</span></div>
-<div class="instruction succeeded"><span>Then the html file present failures</span></div>
-<div class="instruction succeeded"><span>Failed use case and scenario are displayed with ending red cross mark</span></div>
-<div class="instruction succeeded"><span>Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.</span></div>
-<div class="instruction succeeded"><span>Failed scenario section are also display with red background and with error stack trace</span></div>
-</div>
-<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/WhenFunctionalTestFailed.java.html','sft/integration/use/sut/WhenFunctionalTestFailed.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/WhenFunctionalTestFailed.html','sft/integration/use/sut/WhenFunctionalTestFailed.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div></div>
-<div class="scenario succeeded panel panel-default"><div class="panel-heading"><h3><span class="scenarioName">Ignored annotation on scenario level</span></h3></div>
-<div class="panel-body">
-<div class="instruction succeeded"><span>With a JUnit test class annotated with @Ignore</span></div>
-<div class="instruction succeeded"><span>When invoking JUnit</span></div>
-<div class="instruction succeeded"><span>Then the html file present use case ignored</span></div>
-<div class="instruction succeeded"><span>Ignored use case scenario and fixture call are displayed with yellow interrogation mark</span></div>
-<div class="instruction succeeded"><span>Ignored scenario section are also display with yellow background</span></div>
-</div>
-<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/FunctionalTestIgnored.java.html','sft/integration/use/sut/FunctionalTestIgnored.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/FunctionalTestIgnored.html','sft/integration/use/sut/FunctionalTestIgnored.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div></div>
-</div></body></html>
+        </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Your first functional test</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)</span>          </div>
+          <div class="instruction succeeded">
+            <span>When invoking JUnit</span>          </div>
+          <div class="instruction succeeded">
+            <span>Then the fully qualified class name is converted into pah to html file</span>          </div>
+          <div class="instruction succeeded">
+            <span>The functional test result is display in html</span>          </div>
+          <div class="instruction succeeded">
+            <span>Class name is humanized as use case title</span>          </div>
+          <div class="instruction succeeded">
+            <span>Test method is humanized as scenario section</span>          </div>
+          <div class="instruction succeeded">
+            <span>Inner method call is humanized as fixture call</span>          </div>
+          <div class="instruction succeeded">
+            <span>Successful use case scenario and fixture call are displayed with ending green check mark</span>          </div>
+          <div class="instruction succeeded">
+            <span>Successful scenario section are also display with green background</span>          </div>
+        </div>
+<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/YourFirstFunctionalTest.java.html','sft/integration/use/sut/YourFirstFunctionalTest.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/YourFirstFunctionalTest.html','sft/integration/use/sut/YourFirstFunctionalTest.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div>      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">When functional test failed</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>With a JUnit test class expecting failure</span>          </div>
+          <div class="instruction succeeded">
+            <span>When invoking JUnit</span>          </div>
+          <div class="instruction succeeded">
+            <span>Then the html file present failures</span>          </div>
+          <div class="instruction succeeded">
+            <span>Failed use case and scenario are displayed with ending red cross mark</span>          </div>
+          <div class="instruction succeeded">
+            <span>Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.</span>          </div>
+          <div class="instruction succeeded">
+            <span>Failed scenario section are also display with red background and with error stack trace</span>          </div>
+        </div>
+<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/WhenFunctionalTestFailed.java.html','sft/integration/use/sut/WhenFunctionalTestFailed.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/WhenFunctionalTestFailed.html','sft/integration/use/sut/WhenFunctionalTestFailed.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div>      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Ignored annotation on scenario level</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>With a JUnit test class annotated with @Ignore</span>          </div>
+          <div class="instruction succeeded">
+            <span>When invoking JUnit</span>          </div>
+          <div class="instruction succeeded">
+            <span>Then the html file present use case ignored</span>          </div>
+          <div class="instruction succeeded">
+            <span>Ignored use case scenario and fixture call are displayed with yellow interrogation mark</span>          </div>
+          <div class="instruction succeeded">
+            <span>Ignored scenario section are also display with yellow background</span>          </div>
+        </div>
+<div class="displayableContext panel-body"><div><div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/FunctionalTestIgnored.java.html','sft/integration/use/sut/FunctionalTestIgnored.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('CommonUsage.html','')+'sut/FunctionalTestIgnored.html','sft/integration/use/sut/FunctionalTestIgnored.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div></div></div>      </div>
+    </div>
+  </body>
+</html>

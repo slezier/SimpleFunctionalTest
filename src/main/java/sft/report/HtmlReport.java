@@ -11,6 +11,7 @@
 package sft.report;
 
 import org.junit.runner.notification.RunListener;
+import sft.ContextHandler;
 import sft.Fixture;
 import sft.MethodCall;
 import sft.Scenario;
@@ -24,12 +25,100 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.regex.Matcher;
 
 
 public class HtmlReport extends RunListener {
     private final HtmlResources htmlResources = new HtmlResources();
     private final FileSystem fileSystem = new FileSystem();
     private final UseCaseResult useCaseResult;
+    private TemplateString useCaseTemplate = new TemplateString(
+                    "<html>\n" +
+                    "  <head>\n" +
+                    "    <title>@@@name@@@</title>\n" +
+                    "@@@include.css@@@" +
+                    "@@@include.js@@@" +
+                    "  </head>\n" +
+                    "  <body class=\"useCase @@@useCase.issue@@@\">\n" +
+                    "    <div class=\"container\">\n" +
+                    "      <div class=\"page-header\">\n" +
+                    "        <div class=\"text-center\">\n" +
+                    "          <h1><span class=\"useCaseName\">@@@name@@@</span></h1>\n" +
+                    "        </div>\n" +
+                    "@@@useCase.comment@@@" +
+                    "      </div>\n" +
+                    "@@@beforeUseCase@@@" +
+                    "@@@scenarios@@@" +
+                    "@@@afterUseCase@@@" +
+                    "@@@relatedUseCases@@@" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>");
+    private TemplateString commentTemplate = new TemplateString(
+                    "        <div class=\"comment\">\n" +
+                    "@@@comment@@@" +
+                    "        </div>\n");
+    private TemplateString beforeUseCaseTemplate = new TemplateString(
+                    "      <div class=\"panel panel-default beforeUseCase @@@useCase.before.issue@@@\">\n" +
+                    "        <div class=\"panel-body\">\n" +
+                    "@@@instructions@@@" +
+                    "        </div>\n" +
+                    "      </div>\n");
+
+    private TemplateString scenarioTemplate = new TemplateString(
+                    "      <div class=\"scenario @@@scenario.issue@@@ panel panel-default\">\n" +
+                    "        <div class=\"panel-heading\">\n" +
+                    "          <h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3>\n" +
+                    "        </div>\n" +
+                    "@@@scenario.comment@@@" +
+                    "@@@scenario.before@@@" +
+                    "        <div class=\"panel-body\">\n" +
+                    "@@@scenario.instructions@@@" +
+                    "        </div>\n" +
+                    "@@@scenario.after@@@" +
+                    "@@@scenario.context@@@" +
+                    "@@@scenario.exception@@@" +
+                    "      </div>\n");
+    private TemplateString beforeScenarioTemplate = new TemplateString(
+                    "        <div class=\"beforeScenario panel-body\">\n" +
+                    "@@@scenario.before.instructions@@@" +
+                    "          <hr/>\n" +
+                    "        </div>");
+    private TemplateString scenarioInstructionTemplate = new TemplateString(
+                    "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
+                    "            <span>@@@instruction.text@@@</span>" +
+                    "          </div>\n");
+    private TemplateString afterScenario = new TemplateString(
+                    "        <div class=\"afterScenario panel-body\">\n" +
+                    "          <hr/>\n " +
+                    "@@@scenario.after.instructions@@@" +
+                    "        </div>");
+    private TemplateString afterUseCaseTemplate = new TemplateString(
+                    "      <div class=\"panel panel-default afterUseCase @@@useCase.after.issue@@@\">\n" +
+                    "        <div class=\"panel-body\">\n" +
+                    "@@@instructions@@@" +
+                    "        </div>\n" +
+                    "      </div>\n");
+    private TemplateString useCaseContextInstructionsTemplate = new TemplateString(
+                    "          <div>\n" +
+                    "            <span>@@@instructions@@@</span>\n" +
+                    "          </div>\n");
+    private TemplateString relatedUseCasesTemplate = new TemplateString(
+                    "      <div class=\"panel panel-default\">\n" +
+                    "        <div class=\"panel-heading\">\n" +
+                    "          <h3>Related uses cases</h3>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"panel-body\">\n" +
+                    "          <ul>\n" +
+                    "@@@relatedUseCases@@@" +
+                    "          </ul>\n" +
+                    "        </div>\n" +
+                    "      </div>\n");
+    private TemplateString relatedUseCaseTemplate = new TemplateString(
+                    "            <li class=\"relatedUseCase @@@issue@@@\">\n" +
+                    "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
+                    "            </li>\n");
+    private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
 
     public HtmlReport(UseCaseResult useCase) {
         this.useCaseResult = useCase;
@@ -45,80 +134,202 @@ public class HtmlReport extends RunListener {
 
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
 
-        html.write("<html><head><title>\n");
-        html.write(useCase.getName() + "\n");
-        html.write("</title>\n");
-        html.write(htmlResources.getIncludeCssDirectives(useCase.classUnderTest));
-        html.write(htmlResources.getIncludeJsDirectives(useCase.classUnderTest));
+        TemplateString enCours = useCaseTemplate.replace("@@@name@@@", useCase.getName());
+        enCours = enCours.replace("@@@include.css@@@", htmlResources.getIncludeCssDirectives(useCase.classUnderTest));
+        enCours = enCours.replace("@@@include.js@@@", htmlResources.getIncludeJsDirectives(useCase.classUnderTest));
+        enCours = enCours.replace("@@@useCase.issue@@@", htmlResources.convertIssue(useCaseResult.getIssue()));
+        enCours = enCours.replace("@@@useCase.comment@@@", getUseCaseComment(useCase));
+        enCours = enCours.replace("@@@beforeUseCase@@@", getBeforeUseCase(useCase,useCaseResult));
+        enCours = enCours.replace("@@@scenarios@@@", getScenarios(useCase,useCaseResult));
+        enCours = enCours.replace("@@@afterUseCase@@@", getAfterUseCase(useCase,useCaseResult));
+        enCours = enCours.replace("@@@relatedUseCases@@@", getRelatedUseCases(useCaseResult));
 
-        html.write("</head>\n");
-        html.write("<body class=\"useCase " + htmlResources.convertIssue(useCaseResult.getIssue()) + "\"><div class=\"container\">\n");
-
-        html.write("<div class=\"page-header\">");
-        html.write("<div class=\"text-center\"><h1><span class=\"useCaseName\">" + useCase.getName() + "</span></h1></div>\n");
-
-        if (useCase.haveComment()) {
-            html.write("<div class=\"comment\">" + useCase.getComment() + "</div>");
-        }
-        html.write("</div>");
-
-        if (useCase.beforeUseCase != null) {
-            html.write("<div class=\"panel panel-default beforeUseCase " + htmlResources.convertIssue(useCaseResult.beforeResult.issue) + "\"><div class=\"panel-body\">");
-            for (MethodCall methodCall : useCase.beforeUseCase.methodCalls) {
-                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-
-                html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
-            }
-            html.write("</div></div>");
-        }
-
-        for (Scenario scenario : useCase.scenarios) {
-            for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
-                if (scenarioResult.scenario.equals(scenario)) {
-                    ScenarioHtml scenarioHtml = new ScenarioHtml(htmlResources, useCase, html, scenario, scenarioResult, useCase.beforeScenario, useCase.afterScenario);
-                    scenarioHtml.write();
-                }
-            }
-        }
-
-        if (useCase.afterUseCase != null) {
-            html.write("<div class=\"panel panel-default afterUseCase " + htmlResources.convertIssue(useCaseResult.afterResult.issue) + "\"><div class=\"panel-body\">");
-            for (MethodCall methodCall : useCase.afterUseCase.methodCalls) {
-                Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-                html.write("<div><span>" + fixture.getText(fixture.parametersName, methodCall.parameters) + "</span></div>\n");
-            }
-            html.write("</div></div>");
-        }
-
-        if (!useCaseResult.subUseCaseResults.isEmpty()) {
-            html.write("<div class=\"panel panel-default\"><div class=\"panel-heading\"><h3>Related uses cases</h3></div><div class=\"panel-body\"><ul>");
-
-            for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
-                html.write("<li class=\"relatedUseCase " + htmlResources.convertIssue(subUseCaseResult.getIssue()) + "\"><a href=\"" + writeHtml(subUseCaseResult.useCase) + "\"><span>" + subUseCaseResult.useCase.getName() + "</span></a></li>");
-                try {
-                    new HtmlReport(subUseCaseResult).useCaseIsFinished();
-                } catch (Throwable t) {
-                    html.write("<div>" + t.getMessage() + "</div>");
-                }
-            }
-            html.write("</ul></div></div>");
-        }
-
-        html.write("</div></body></html>");
-
+        html.write(enCours.getText());
         html.close();
         System.out.println("Report wrote: " + htmlFile.getCanonicalPath());
     }
 
-    private String writeHtml(UseCase subUseCase) {
+    private String getRelatedUseCases(UseCaseResult useCaseResult) {
+        String relatedUseCases = "";
+        if (!useCaseResult.subUseCaseResults.isEmpty()) {
+            return relatedUseCasesTemplate.replace("@@@relatedUseCases@@@", getRelatedUseCase(useCaseResult)).getText();
+        }
+        return relatedUseCases;
+    }
 
-        String url = "./";
-        for (int i = 1; i < useCaseResult.useCase.classUnderTest.getCanonicalName().split("\\.").length; i++) {
-            url += "../";
+    private String getRelatedUseCase(UseCaseResult useCaseResult) {
+        String relatedUseCase = "";
+        for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
+            String error = createHtmlReportAndReturnErrorWhileCreating(relatedUseCase, subUseCaseResult);
+            relatedUseCase += relatedUseCaseTemplate.replace("@@@issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
+                    .replace("@@@link@@@", getRelativeUrl(subUseCaseResult.useCase,useCaseResult)).replace("@@@name@@@", subUseCaseResult.useCase.getName())
+                    .replace("@@@error@@@", error).getText();
+        }
+        return relatedUseCase;
+    }
+
+    private String createHtmlReportAndReturnErrorWhileCreating(String relatedUseCase, UseCaseResult subUseCaseResult) {
+        try {
+            new HtmlReport(subUseCaseResult).useCaseIsFinished();
+            return "";
+        } catch (Throwable t) {
+            return getLinkError(relatedUseCase, t);
+        }
+    }
+
+    private String getLinkError(String relatedUseCase, Throwable t) {
+        relatedUseCase += "<div>" + t.getMessage() + "</div>";
+        return relatedUseCase;
+    }
+
+    private String getScenarios(UseCase useCase,UseCaseResult useCaseResult) {
+        String scenarioTxt = "";
+        for (Scenario scenario : useCase.scenarios) {
+            for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
+                if (scenarioResult.scenario.equals(scenario)) {
+                    scenarioTxt += getScenario(scenarioResult);
+                }
+            }
+        }
+        return scenarioTxt;
+    }
+    public String getScenario(ScenarioResult scenarioResult) {
+        ScenarioHtml scenarioHtml = new ScenarioHtml();
+        return scenarioTemplate
+                .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
+                .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
+                .replace("@@@scenario.comment@@@", getScenarioComment(scenarioResult))
+                .replace("@@@scenario.before@@@", getBeforeScenario(scenarioResult))
+                .replace("@@@scenario.instructions@@@", getScenarioInstructions(scenarioResult))
+                .replace("@@@scenario.after@@@", getAfterScenario(scenarioResult))
+                .replace("@@@scenario.context@@@", scenarioHtml.extractDisplayedContexts(scenarioResult))
+                .replace("@@@scenario.exception@@@", scenarioHtml.getStacktrace(scenarioResult))
+                .getText();
+    }
+
+
+    public String getAfterScenario(ScenarioResult scenarioResult) {
+        ScenarioHtml scenarioHtml = new ScenarioHtml();
+        if (scenarioResult.scenario.useCase.afterScenario != null) {
+            String instructions = "";
+            for (MethodCall methodCall : scenarioResult.scenario.useCase.afterScenario.methodCalls) {
+                instructions += scenarioHtml.getContentInstruction(scenarioResult, methodCall);
+            }
+            return afterScenario.replace("@@@scenario\\.after\\.instructions@@@", instructions).getText();
+        }
+        return "";
+    }
+
+    public String getScenarioInstructions(ScenarioResult scenarioResult) {
+        Issue lastIssue;
+        if (scenarioResult.beforeScenarioFailed() || scenarioResult.issue == Issue.IGNORED) {
+            lastIssue = Issue.IGNORED;
+        } else {
+            lastIssue = Issue.SUCCEEDED;
         }
 
-        url += subUseCase.classUnderTest.getCanonicalName().replace(".", "/") + ".html";
-        return url;
+        String result = "";
+        for (MethodCall testFixture : scenarioResult.scenario.methodCalls) {
+            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(testFixture.name);
+            final Issue issue;
+            if (lastIssue == Issue.SUCCEEDED && scenarioResult.failureOccurs(fixture, testFixture)) {
+                issue = Issue.FAILED;
+                lastIssue = Issue.IGNORED;
+            } else {
+                issue = lastIssue;
+            }
+
+
+            String instruction = getInstructionWithParameter(testFixture, fixture);
+
+            result += scenarioInstructionTemplate.replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
+                    .replace("@@@instruction.text@@@", instruction)
+                    .getText();
+        }
+        return result;
+    }
+
+    public String getBeforeScenario(ScenarioResult scenarioResult) {
+        ScenarioHtml scenarioHtml = new ScenarioHtml();
+        if (scenarioResult.scenario.useCase.beforeScenario != null) {
+            String instructions = "";
+            for (MethodCall methodCall : scenarioResult.scenario.useCase.beforeScenario.methodCalls) {
+                instructions += scenarioHtml.getContentInstruction(scenarioResult, methodCall);
+            }
+            return beforeScenarioTemplate.replace("@@@scenario.before.instructions@@@", instructions).getText();
+        }
+        return "";
+    }
+
+    public String getScenarioComment(ScenarioResult scenarioResult) {
+        String comment = "";
+        if (scenarioResult.scenario.getComment() != null) {
+            comment = commentTemplate.replace("@@@comment@@@", scenarioResult.scenario.getComment()).getText();
+        }
+        return comment;
+    }
+
+    private String getBeforeUseCase(UseCase useCase, UseCaseResult useCaseResult) {
+        String text = "";
+        if (useCase.beforeUseCase != null) {
+            TemplateString before = beforeUseCaseTemplate.replace("@@@useCase.before.issue@@@", htmlResources.convertIssue(useCaseResult.beforeResult.issue));
+
+            ContextHandler beforeUseCase = useCase.beforeUseCase;
+            before = before.replace("@@@instructions@@@", getContextInstructions(useCase, beforeUseCase));
+
+            text = before.getText();
+        }
+        return text;
+    }
+
+    private String getAfterUseCase(UseCase useCase,UseCaseResult useCaseResult) throws IOException {
+        String text = "";
+        if (useCase.afterUseCase != null) {
+            TemplateString before = afterUseCaseTemplate.replace("@@@useCase.after.issue@@@", htmlResources.convertIssue(useCaseResult.afterResult.issue));
+
+            before = before.replace("@@@instructions@@@", getContextInstructions(useCase, useCase.afterUseCase));
+
+            text = before.getText();
+        }
+        return text;
+    }
+
+    private String getContextInstructions(UseCase useCase, ContextHandler context) {
+        String instructions = "";
+        for (MethodCall methodCall : context.methodCalls) {
+            Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
+            instructions += useCaseContextInstructionsTemplate.replace("@@@instructions@@@", getInstructionWithParameter(methodCall, fixture)).getText();
+        }
+        return instructions;
+    }
+
+    private String getInstructionWithParameter(MethodCall testFixture, Fixture fixture) {
+        String instruction = fixture.getText();
+        for (int index = 0; index < fixture.parametersName.size(); index++) {
+            String name = fixture.parametersName.get(index);
+            String value = Matcher.quoteReplacement(getParameter(testFixture.parameters.get(index)));
+            instruction = instruction.replaceAll("\\$\\{" + name + "\\}", value).replaceAll("\\$\\{" + (index + 1) + "\\}", value);
+        }
+        return instruction;
+    }
+
+    private String getParameter(String value) {
+        return parameterTemplate.replace("@@@value@@@", value).getText();
+    }
+
+    private String getUseCaseComment(UseCase useCase) {
+        String comment = "";
+        if (useCase.haveComment()) {
+            return commentTemplate.replace("@@@comment@@@", useCase.getComment()).getText();
+        }
+        return comment;
+    }
+
+    private String getRelativeUrl(UseCase subUseCase,UseCaseResult useCaseResult) {
+        RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
+        String source = pathResolver.getPathOf(useCaseResult.useCase.classUnderTest, ".html");
+        String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
+        return pathResolver.getRelativePathToFile(source, target);
     }
 
 

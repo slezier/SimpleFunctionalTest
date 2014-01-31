@@ -13,35 +13,12 @@ package sft.javalang;
 import sft.Text;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class JavaToHumanTranslator {
 
     public String humanize(final Method method) {
-        return humanize(method, new ArrayList<String>(), new ArrayList<String>());
-    }
-
-    public String humanize(final Method method, final ArrayList<String> parameters, final ArrayList<String> values) {
         if (method.isAnnotationPresent(Text.class)) {
-
-            String text = method.getAnnotation(Text.class).value();
-            if (!values.isEmpty()) {
-                for (int i = 0; i < method.getParameterTypes().length; i++) {
-                    String namePattern = "\\$\\{" + parameters.get(i) + "\\}";
-                    String indexPattern = "\\$\\{" + (i + 1) + "\\}";
-
-                    String value;
-                    if (values.size() > i) {
-                        value = values.get(i) + " ";
-                    } else {
-                        value = "? ";
-                    }
-
-                    text = text.replaceAll(namePattern, value);
-                    text = text.replaceAll(indexPattern, value);
-                }
-            }
-            return text;
+            return method.getAnnotation(Text.class).value();
         } else {
             return humanize(method.getName());
         }
