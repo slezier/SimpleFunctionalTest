@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.List;
 import java.util.regex.Matcher;
 
 
@@ -88,11 +89,20 @@ public class HtmlReport extends RunListener {
                     "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
                     "            <span>@@@instruction.text@@@</span>" +
                     "          </div>\n");
-    private TemplateString afterScenario = new TemplateString(
+    private TemplateString afterScenarioTemplate = new TemplateString(
                     "        <div class=\"afterScenario panel-body\">\n" +
                     "          <hr/>\n " +
                     "@@@scenario.after.instructions@@@" +
                     "        </div>");
+
+    private TemplateString displayedContexts = new TemplateString(
+                    "        <div class=\"displayableContext panel-body\">\n" +
+                    "@@@displayedContexts@@@" +
+                    "        </div>\n");
+    private TemplateString displayedContext = new TemplateString(
+                    "        <div>\n" +
+                    "@@@displayedContext@@@" +
+                    "        </div>\n");
     private TemplateString afterUseCaseTemplate = new TemplateString(
                     "      <div class=\"panel panel-default afterUseCase @@@useCase.after.issue@@@\">\n" +
                     "        <div class=\"panel-body\">\n" +
@@ -119,6 +129,8 @@ public class HtmlReport extends RunListener {
                     "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
                     "            </li>\n");
     private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
+
+
 
     public HtmlReport(UseCaseResult useCase) {
         this.useCaseResult = useCase;
@@ -202,22 +214,9 @@ public class HtmlReport extends RunListener {
                 .replace("@@@scenario.before@@@", getBeforeScenario(scenarioResult))
                 .replace("@@@scenario.instructions@@@", getScenarioInstructions(scenarioResult))
                 .replace("@@@scenario.after@@@", getAfterScenario(scenarioResult))
-                .replace("@@@scenario.context@@@", scenarioHtml.extractDisplayedContexts(scenarioResult))
+                .replace("@@@scenario.context@@@", extractDisplayedContexts(scenarioResult))
                 .replace("@@@scenario.exception@@@", scenarioHtml.getStacktrace(scenarioResult))
                 .getText();
-    }
-
-
-    public String getAfterScenario(ScenarioResult scenarioResult) {
-        ScenarioHtml scenarioHtml = new ScenarioHtml();
-        if (scenarioResult.scenario.useCase.afterScenario != null) {
-            String instructions = "";
-            for (MethodCall methodCall : scenarioResult.scenario.useCase.afterScenario.methodCalls) {
-                instructions += scenarioHtml.getContentInstruction(scenarioResult, methodCall);
-            }
-            return afterScenario.replace("@@@scenario\\.after\\.instructions@@@", instructions).getText();
-        }
-        return "";
     }
 
     public String getScenarioInstructions(ScenarioResult scenarioResult) {
@@ -250,13 +249,17 @@ public class HtmlReport extends RunListener {
     }
 
     public String getBeforeScenario(ScenarioResult scenarioResult) {
-        ScenarioHtml scenarioHtml = new ScenarioHtml();
         if (scenarioResult.scenario.useCase.beforeScenario != null) {
-            String instructions = "";
-            for (MethodCall methodCall : scenarioResult.scenario.useCase.beforeScenario.methodCalls) {
-                instructions += scenarioHtml.getContentInstruction(scenarioResult, methodCall);
-            }
+            String instructions =  getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.beforeScenario);
             return beforeScenarioTemplate.replace("@@@scenario.before.instructions@@@", instructions).getText();
+        }
+        return "";
+    }
+
+    public String getAfterScenario(ScenarioResult scenarioResult) {
+        if (scenarioResult.scenario.useCase.afterScenario != null) {
+            String instructions =  getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.afterScenario);
+            return afterScenarioTemplate.replace("@@@scenario.before.instructions@@@", instructions).getText();
         }
         return "";
     }
@@ -267,6 +270,22 @@ public class HtmlReport extends RunListener {
             comment = commentTemplate.replace("@@@comment@@@", scenarioResult.scenario.getComment()).getText();
         }
         return comment;
+    }
+
+    public String extractDisplayedContexts(ScenarioResult scenarioResult) {
+        List<String> values = scenarioResult.contextToDisplay;
+        if (!values.isEmpty()) {
+            String htmlText = "";
+            for (String value : values) {
+                htmlText += extractDisplayedContext(value);
+            }
+            return displayedContexts.replace("@@@displayedContexts@@@", htmlText).getText();
+        }
+        return "";
+    }
+
+    public String extractDisplayedContext(String value) {
+        return displayedContext.replace("@@@displayedContext@@@", value).getText();
     }
 
     private String getBeforeUseCase(UseCase useCase, UseCaseResult useCaseResult) {
