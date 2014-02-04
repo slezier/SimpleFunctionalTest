@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -64,7 +66,8 @@ public class HtmlReport extends RunListener {
                     "        <div class=\"panel-body\">\n" +
                     "@@@instructions@@@" +
                     "        </div>\n" +
-                    "      </div>\n");
+                    "@@@exception@@@" +
+                    "      </div>\n" );
 
     private TemplateString scenarioTemplate = new TemplateString(
                     "      <div class=\"scenario @@@scenario.issue@@@ panel panel-default\">\n" +
@@ -79,6 +82,13 @@ public class HtmlReport extends RunListener {
                     "@@@scenario.after@@@" +
                     "@@@scenario.context@@@" +
                     "@@@scenario.exception@@@" +
+                    "      </div>\n");
+    private TemplateString stacktrace = new TemplateString(
+                    "      <div class=\"panel-body\">\n" +
+                    "        <div class=\"exception\">\n" +
+                    "          <a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>\n" +
+                    "          <pre class=\"stacktrace pre-scrollable\" >@@@failure.stacktrace@@@</pre>\n" +
+                    "        </div>\n" +
                     "      </div>\n");
     private TemplateString beforeScenarioTemplate = new TemplateString(
                     "        <div class=\"beforeScenario panel-body\">\n" +
@@ -108,7 +118,8 @@ public class HtmlReport extends RunListener {
                     "        <div class=\"panel-body\">\n" +
                     "@@@instructions@@@" +
                     "        </div>\n" +
-                    "      </div>\n");
+                            "@@@exception@@@"  +
+                    "      </div>\n"  );
     private TemplateString useCaseContextInstructionsTemplate = new TemplateString(
                     "          <div>\n" +
                     "            <span>@@@instructions@@@</span>\n" +
@@ -129,8 +140,6 @@ public class HtmlReport extends RunListener {
                     "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
                     "            </li>\n");
     private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
-
-
 
     public HtmlReport(UseCaseResult useCase) {
         this.useCaseResult = useCase;
@@ -206,7 +215,6 @@ public class HtmlReport extends RunListener {
         return scenarioTxt;
     }
     public String getScenario(ScenarioResult scenarioResult) {
-        ScenarioHtml scenarioHtml = new ScenarioHtml();
         return scenarioTemplate
                 .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
                 .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
@@ -215,7 +223,7 @@ public class HtmlReport extends RunListener {
                 .replace("@@@scenario.instructions@@@", getScenarioInstructions(scenarioResult))
                 .replace("@@@scenario.after@@@", getAfterScenario(scenarioResult))
                 .replace("@@@scenario.context@@@", extractDisplayedContexts(scenarioResult))
-                .replace("@@@scenario.exception@@@", scenarioHtml.getStacktrace(scenarioResult))
+                .replace("@@@scenario.exception@@@", getStackTrace(scenarioResult.failure))
                 .getText();
     }
 
@@ -259,7 +267,7 @@ public class HtmlReport extends RunListener {
     public String getAfterScenario(ScenarioResult scenarioResult) {
         if (scenarioResult.scenario.useCase.afterScenario != null) {
             String instructions =  getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.afterScenario);
-            return afterScenarioTemplate.replace("@@@scenario.before.instructions@@@", instructions).getText();
+            return afterScenarioTemplate.replace("@@@scenario.after.instructions@@@", instructions).getText();
         }
         return "";
     }
@@ -284,6 +292,17 @@ public class HtmlReport extends RunListener {
         return "";
     }
 
+    private String getStackTrace(Throwable failure) {
+        if (failure != null) {
+            StringWriter stringWriter = new StringWriter();
+            failure.printStackTrace(new PrintWriter(stringWriter));
+            return stacktrace.replace("@@@failure.className@@@", failure.getClass().getSimpleName())
+                    .replace("@@@failure.message@@@", failure.getMessage())
+                    .replace("@@@failure.stacktrace@@@", stringWriter.toString()).getText();
+        }
+        return "";
+    }
+
     public String extractDisplayedContext(String value) {
         return displayedContext.replace("@@@displayedContext@@@", value).getText();
     }
@@ -296,6 +315,11 @@ public class HtmlReport extends RunListener {
             ContextHandler beforeUseCase = useCase.beforeUseCase;
             before = before.replace("@@@instructions@@@", getContextInstructions(useCase, beforeUseCase));
 
+            String stacktrace="";
+            if(! useCaseResult.beforeResult.isSuccessful()){
+                stacktrace=getStackTrace(useCaseResult.beforeResult.exception);
+            }
+            before  = before.replace("@@@exception@@@",stacktrace);
             text = before.getText();
         }
         return text;
@@ -307,6 +331,12 @@ public class HtmlReport extends RunListener {
             TemplateString before = afterUseCaseTemplate.replace("@@@useCase.after.issue@@@", htmlResources.convertIssue(useCaseResult.afterResult.issue));
 
             before = before.replace("@@@instructions@@@", getContextInstructions(useCase, useCase.afterUseCase));
+
+            String stacktrace="";
+            if(! useCaseResult.afterResult.isSuccessful()){
+                stacktrace=getStackTrace(useCaseResult.afterResult.exception);
+            }
+            before  = before.replace("@@@exception@@@",stacktrace);
 
             text = before.getText();
         }
@@ -350,6 +380,5 @@ public class HtmlReport extends RunListener {
         String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
         return pathResolver.getRelativePathToFile(source, target);
     }
-
 
 }

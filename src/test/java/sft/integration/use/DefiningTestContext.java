@@ -60,6 +60,7 @@ public class DefiningTestContext {
         theFailedContextIsShowInRed();
         allScenariosAreIgnored();
         theUseCaseContextTerminationIsIgnoredAndShownInYellow();
+        stackTraceIsDisplayedAtUseCaseStart();
     }
 
     @Test
@@ -68,7 +69,9 @@ public class DefiningTestContext {
         theUseCaseIsSeenAsFailed();
         allScenariosAreRan();
         theTerminatingFailedContextIsShowInRed();
+        stackTraceIsDisplayedAtUseCaseEnd();
     }
+
 
     @Test
     public void errorOccursWhenRaisingAScenarioContext() throws IOException {
@@ -78,8 +81,6 @@ public class DefiningTestContext {
         allScenarioStepsAreIgnored();
         stackTraceIsDisplayedAtScenarioEnd();
     }
-
-
 
     @Test
     public void errorOccursWhenTerminatingAScenarioContext() throws IOException {
@@ -97,6 +98,18 @@ public class DefiningTestContext {
         assertFalse(scenarioPart.get(1).select("*.instruction").isEmpty());
         assertTrue(scenarioPart.get(2).hasClass("afterScenario"));
         assertNotNull("Expecting exception div", scenarioPart.get(3).select("*.exception >div"));
+    }
+
+    private void stackTraceIsDisplayedAtUseCaseEnd() {
+        Elements teardDown = html.select("*.afterUseCase > div");
+        assertEquals(2,teardDown.size());
+        assertNotNull(teardDown.get(1).select("*.exception"));
+    }
+
+    private void stackTraceIsDisplayedAtUseCaseStart() {
+        Elements setup = html.select("*.beforeUseCase > div");
+        assertEquals(2, setup.size());
+        assertNotNull(setup.get(1).select("*.exception"));
     }
 
     private void allScenarioStepsAreRan() {
