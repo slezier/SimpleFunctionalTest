@@ -21,6 +21,7 @@ import org.junit.runners.model.InitializationError;
 import sft.junit.JunitSftNotifier;
 import sft.junit.UseCaseRunner;
 import sft.report.HtmlReport;
+import sft.result.UseCaseResult;
 
 import java.io.IOException;
 
@@ -42,12 +43,12 @@ public class SimpleFunctionalTest extends Runner {
 
     @Override
     public void run(final RunNotifier notifier) {
-        EachTestNotifier testNotifier = new EachTestNotifier(notifier,
-                getDescription());
+        EachTestNotifier testNotifier = new EachTestNotifier(notifier, getDescription());
         try {
-            HtmlReport htmlReport = new HtmlReport(rootRunner.run(new JunitSftNotifier(notifier)));
+            UseCaseResult useCaseResult = rootRunner.run(new JunitSftNotifier(notifier));
             try {
-                htmlReport.useCaseIsFinished();
+                HtmlReport htmlReport = new HtmlReport();
+                htmlReport.useCaseIsFinished(useCaseResult);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

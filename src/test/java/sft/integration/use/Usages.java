@@ -52,22 +52,22 @@ import sft.SimpleFunctionalTest;
                 <td>text</td>
             <tr/>
             <tr>
-                <td><a href="DefiningTestContext.html">@BeforeClass annotated public static method</a></td>
+                <td><a href="DefiningTestContextForAnUseCase.html">@BeforeClass annotated public static method</a></td>
                 <td>Starting context of use case</td>
                 <td>HTML paragraph beforeUseCase first scenario paragraph</td>
             <tr/>
             <tr>
-                <td><a href="DefiningTestContext.html">@AfterClass annotated public static method</a></td>
+                <td><a href="DefiningTestContextForAnUseCase.html">@AfterClass annotated public static method</a></td>
                 <td>Handling ending context of use case</td>
                 <td>HTML paragraph afterUseCase last scenario paragraph</td>
             <tr/>
             <tr>
-                <td><a href="DefiningTestContext.html">@Before annotated public method</a></td>
+                <td><a href="DefiningTestContextForAScenario.html">@Before annotated public method</a></td>
                 <td>Starting context of scenario</td>
                 <td>HTML first part of scenario paragraph</td>
             <tr/>
             <tr>
-                <td><a href="DefiningTestContext.html">@After annotated public method</a></td>
+                <td><a href="DefiningTestContextForAScenario.html">@After annotated public method</a></td>
                 <td>Handling ending context of scenario</td>
                 <td>Last part of scenario HTML</td>
             <tr/>
@@ -96,7 +96,8 @@ public class Usages {
     public HumanizationCodeUsage humanizationCodeUsage = new HumanizationCodeUsage();
     public LinksUseCasesTogether linksUseCase = new LinksUseCasesTogether();
     public CommentUsage commentUsage = new CommentUsage();
-    public DefiningTestContext definingTestContext = new DefiningTestContext();
+    public DefiningTestContextForAnUseCase definingTestContextForAnUseCase = new DefiningTestContextForAnUseCase();
+    public DefiningTestContextForAScenario definingTestContextForAScenario = new DefiningTestContextForAScenario();
     public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
     public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
