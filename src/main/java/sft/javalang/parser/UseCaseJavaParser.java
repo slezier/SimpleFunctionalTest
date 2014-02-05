@@ -22,6 +22,7 @@ import sft.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class UseCaseJavaParser extends JavaFileParser {
 
@@ -43,11 +44,13 @@ public class UseCaseJavaParser extends JavaFileParser {
         if (type.getComment() != null) {
             useCase.setComment(type.getComment().getContent());
         }
+        int scenarioIndex = 0;
         for (BodyDeclaration bodyDeclaration : type.getMembers()) {
             if (bodyDeclaration instanceof MethodDeclaration) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
                 if (containsAnnotation(methodDeclaration, "Test")) {
-                    feedScenario(methodDeclaration, useCase);
+                    feedAndOrderScenario(scenarioIndex, methodDeclaration, useCase);
+                    scenarioIndex++;
                 } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
                     feedTestContext(methodDeclaration, useCase.beforeUseCase);
                 } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
@@ -71,9 +74,13 @@ public class UseCaseJavaParser extends JavaFileParser {
         contextHandler.methodCalls = extractFixtureCalls(methodDeclaration);
     }
 
-    private void feedScenario(MethodDeclaration methodDeclaration, UseCase useCase) {
+    private void feedAndOrderScenario(int expectedIndex, MethodDeclaration methodDeclaration, UseCase useCase) {
         for (Scenario scenario : useCase.scenarios) {
             if (scenario.method.getName().equals(methodDeclaration.getName())) {
+                int currentIndex = useCase.scenarios.indexOf(scenario);
+                if(currentIndex != expectedIndex){
+                    Collections.swap(useCase.scenarios,useCase.scenarios.indexOf(scenario),expectedIndex);
+                }
                 if (methodDeclaration.getComment() != null) {
                     scenario.setComment(methodDeclaration.getComment().getContent());
                 }
