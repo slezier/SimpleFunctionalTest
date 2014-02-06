@@ -2,6 +2,7 @@ package sft.integration;
 
 import org.junit.runner.RunWith;
 import sft.SimpleFunctionalTest;
+import sft.Using;
 import sft.integration.extend.Extend;
 import sft.integration.hack.Hack;
 import sft.integration.set.Settings;
@@ -70,10 +71,13 @@ import sft.integration.use.Usages;
     </div>
 
 </div>
+<h2> Work In Progress </h2>
+<ul>
+    <li>enhance parametrization </li>
+</ul>
 <h2> TODO </h2>
 <ul>
-    <li>enhance parametrization (configurator)</li>
-    <li>enhance parametrization (configurator - default css / file inclusion): zimit + google font</li>
+    <li>enhance parametrization (default css / file inclusion)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
     <li>write test result in LaTeX</li>
@@ -82,6 +86,7 @@ import sft.integration.use.Usages;
 
 */
 @RunWith(SimpleFunctionalTest.class)
+@Using(SftDocumentationConfiguration.class)
 public class HowToUseSimpleFunctionalTest {
     public Usages usages= new Usages();
     public Settings settings = new Settings();
