@@ -47,15 +47,17 @@ public class UseCase extends FixturesHolder {
     public final ContextHandler afterScenario;
     public final DisplayedContext displayedContext;
     private String comment;
+    public final DefaultConfiguration configuration;
 
 
     public UseCase(Class<?> classUnderTest) throws IllegalAccessException, InstantiationException, IOException {
-        this(classUnderTest.newInstance());
+        this(classUnderTest.newInstance(),new DefaultConfiguration());
     }
 
-    public UseCase(Object object) throws IllegalAccessException, InstantiationException, IOException {
+    private UseCase(Object object, DefaultConfiguration configuration) throws IllegalAccessException, InstantiationException, IOException {
         this.object = object;
         classUnderTest = object.getClass();
+        this.configuration= extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
         scenarios = extractScenarios();
         fixtures = extractFixtures();
@@ -68,6 +70,15 @@ public class UseCase extends FixturesHolder {
         displayedContext = extractDisplayedContext(object);
         UseCaseJavaParser javaClassParser = new UseCaseJavaParser(classUnderTest);
         javaClassParser.feed(this);
+    }
+
+    private DefaultConfiguration extractConfiguration(DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
+        Using explicitConfiguration = classUnderTest.getAnnotation(Using.class);
+        if( explicitConfiguration != null ){
+            return explicitConfiguration.value().newInstance();
+
+        }
+        return defaultConfiguration;
     }
 
     private DisplayedContext extractDisplayedContext(Object object) {
@@ -131,9 +142,9 @@ public class UseCase extends FixturesHolder {
         for (Field field : getPublicFields()) {
             Object subUseCaseObject = field.get(object);
             if (subUseCaseObject == null) {
-                subUseCases.add(new UseCase(field.getType()));
+                subUseCases.add(new UseCase(field.getType().getClass().newInstance(),configuration));
             } else {
-                subUseCases.add(new UseCase(subUseCaseObject));
+                subUseCases.add(new UseCase(subUseCaseObject,configuration));
             }
         }
         return subUseCases;

@@ -11,6 +11,7 @@
 package sft.report;
 
 
+import sft.DefaultConfiguration;
 import sft.environment.FileSystem;
 
 import java.io.IOException;
@@ -40,9 +41,9 @@ public class HtmlResources {
 
         String includeCssDirectives = "";
         for (String cssToInclude : getCssToInclude()) {
-            includeCssDirectives += "<link rel=\"stylesheet\" href=\"" + pathResolver.getRelativePathToFile(callerPath,cssToInclude) + "\" />\n";
+            includeCssDirectives += "<link rel=\"stylesheet\" href=\"" + pathResolver.getRelativePathToFile(callerPath, cssToInclude) + "\" />\n";
         }
-        return  includeCssDirectives;
+        return includeCssDirectives;
     }
 
     public String getIncludeJsDirectives(Class<?> useCaseClass) {
@@ -51,29 +52,29 @@ public class HtmlResources {
 
         String includeJsDirectives = "";
         for (String jsToInclude : getJsToInclude()) {
-            includeJsDirectives += "<script src=\"" + pathResolver.getRelativePathToFile(callerPath,jsToInclude) + "\"></script>\n";
+            includeJsDirectives += "<script src=\"" + pathResolver.getRelativePathToFile(callerPath, jsToInclude) + "\"></script>\n";
         }
-        return  includeJsDirectives;
+        return includeJsDirectives;
     }
 
     private List<String> getCssToInclude() {
         ArrayList<String> cssFiles = new ArrayList<String>();
         for (String file : filesUsed) {
-            if( file.endsWith(".css")){
+            if (file.endsWith(".css")) {
                 cssFiles.add(file);
             }
         }
-        return  cssFiles;
+        return cssFiles;
     }
 
     private List<String> getJsToInclude() {
         ArrayList<String> jsFiles = new ArrayList<String>();
         for (String file : filesUsed) {
-            if( file.endsWith(".js")){
+            if (file.endsWith(".js")) {
                 jsFiles.add(file);
             }
         }
-        return  jsFiles;
+        return jsFiles;
     }
 
 }

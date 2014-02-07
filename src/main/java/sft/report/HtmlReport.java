@@ -12,6 +12,7 @@ package sft.report;
 
 import org.junit.runner.notification.RunListener;
 import sft.ContextHandler;
+import sft.DefaultConfiguration;
 import sft.Fixture;
 import sft.MethodCall;
 import sft.Scenario;
