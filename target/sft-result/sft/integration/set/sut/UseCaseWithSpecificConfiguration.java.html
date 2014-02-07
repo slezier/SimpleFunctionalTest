@@ -1,0 +1,34 @@
+<html><head><title>
+sft.integration.set.sut.UseCaseWithSpecificConfiguration
+</title>
+<link rel="stylesheet" href="../../../../sft-html-default/sft.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../sft-html-default/bootstrap-theme.min.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.set.sut;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import sft.SimpleFunctionalTest;
+import sft.Using;
+
+
+@RunWith(SimpleFunctionalTest.class)
+@Using(CustomConfiguration.class)
+public class UseCaseWithSpecificConfiguration {
+
+    public SubUseCase1 subUseCase1 = new SubUseCase1();
+    public SubUseCase2 subUseCase2 = new SubUseCase2();
+
+    @Test
+    public void scenario(){
+        fixtureCall();
+    }
+
+    private void fixtureCall() {
+        Assert.assertTrue(true);
+    }
+}
+</pre></div></div></body></html>
