@@ -113,16 +113,6 @@ body{
     background-image: url("failed_16.png");
 }
 
-*.resources{
-    padding-top: 1em;
-}
-*.resources a{
-    margin-right:4em;
-    margin-left:4em;
-    padding-right: 1em;
-    padding-left: 1em;
-}
-
 hr {
     background-color: #E8E8E8;
     height: 2px;

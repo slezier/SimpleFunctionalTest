@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FileSystem {
@@ -51,7 +52,9 @@ public class FileSystem {
             try {
                 File resourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
                 File targetDirectory = ensureExists();
-                return copyFromResources(targetDirectory, resourceFile,"");
+                List<String> paths = copyFromResources(targetDirectory, resourceFile, "");
+                Collections.sort(paths);
+                return paths;
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }

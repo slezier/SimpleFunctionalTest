@@ -10,16 +10,14 @@
  *******************************************************************************/
 package sft;
 
+import sft.report.HtmlReport;
+
 public class DefaultConfiguration {
 
-    private String resourcePath;
 
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath;
+    private HtmlReport htmlReport = new HtmlReport();
+
+    public HtmlReport getReport() {
+        return htmlReport;
     }
-
-    public String getResourcePath() {
-        return resourcePath;
-    }
-
 }

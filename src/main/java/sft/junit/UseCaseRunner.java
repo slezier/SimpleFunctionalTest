@@ -15,6 +15,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.InitializationError;
 import sft.Scenario;
 import sft.UseCase;
+import sft.report.HtmlReport;
 import sft.result.UseCaseResult;
 
 import java.io.IOException;
@@ -83,7 +84,11 @@ public class UseCaseRunner {
             }
             notifier.fireUseCaseFinished(this);
         }
-
+        try {
+            useCase.configuration.getReport().report(useCaseResult);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return useCaseResult;
     }
 

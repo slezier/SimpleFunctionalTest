@@ -46,12 +46,6 @@ public class SimpleFunctionalTest extends Runner {
         EachTestNotifier testNotifier = new EachTestNotifier(notifier, getDescription());
         try {
             UseCaseResult useCaseResult = rootRunner.run(new JunitSftNotifier(notifier));
-            try {
-                HtmlReport htmlReport = new HtmlReport();
-                htmlReport.useCaseIsFinished(useCaseResult);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         } catch (AssumptionViolatedException e) {
             testNotifier.fireTestIgnored();
         } catch (StoppedByUserException e) {

@@ -11,7 +11,6 @@
 package sft.report;
 
 
-import sft.DefaultConfiguration;
 import sft.environment.FileSystem;
 
 import java.io.IOException;
@@ -21,13 +20,25 @@ import java.util.List;
 public class HtmlResources {
 
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
-    private FileSystem fileSystem = new FileSystem();
     private static List<String> filesUsed;
+    private final String resourcesPath;
+    private FileSystem fileSystem = new FileSystem();
 
-    public HtmlResources ensureIsCreated() throws IOException {
-//        if (filesUsed == null) {
-            filesUsed = fileSystem.targetFolder.copyFromResources(HTML_DEPENDENCIES_FOLDER);
-//        }
+    public HtmlResources() {
+        this(HTML_DEPENDENCIES_FOLDER);
+    }
+
+    public HtmlResources(String htmlDependenciesFolder) {
+        resourcesPath = htmlDependenciesFolder;
+        ensureIsCreated();
+    }
+
+    public HtmlResources ensureIsCreated() {
+        try {
+            filesUsed = fileSystem.targetFolder.copyFromResources(resourcesPath);
+        } catch (IOException e) {
+            new RuntimeException(e);
+        }
         return this;
     }
 
