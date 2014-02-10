@@ -148,8 +148,6 @@ public class HtmlReport extends Report {
     }
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
-        htmlResources.ensureIsCreated();
-
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
 

@@ -20,7 +20,7 @@ import java.util.List;
 public class HtmlResources {
 
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
-    private static List<String> filesUsed;
+    private List<String> filesUsed;
     private final String resourcesPath;
     private FileSystem fileSystem = new FileSystem();
 
