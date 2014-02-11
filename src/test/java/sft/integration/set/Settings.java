@@ -22,7 +22,8 @@ public class Settings {
     @Displayable
     private String files;
     private UseCase useCase;
-    private DefaultConfiguration configuration;
+
+    public SetHtmlReport setHtmlReport= new SetHtmlReport();
 
     @Test
     public void configurationMechanism() throws Exception {
@@ -59,30 +60,5 @@ public class Settings {
         Assert.assertEquals(CustomConfiguration.class, useCase.subUseCases.get(1).configuration.getClass());
     }
 
-    /*
-    The DefaultConfiguration provide an HtmlReport.
-    */
-    @Test
-    public void changeCssAndJs() throws Exception {
-        theDefaultConfigurationProvideAnHtmlReport();
-        bySettingTheResourcePathChangeCssAndJsInclude();
-    }
-
-    private void theDefaultConfigurationProvideAnHtmlReport() {
-        configuration = new DefaultConfiguration();
-        Assert.assertEquals(HtmlReport.class, configuration.getReport().getClass());
-    }
-
-    private void bySettingTheResourcePathChangeCssAndJsInclude() {
-        configuration.getReport().setResourcePath("sut-html-resources");
-
-        String expectedIncludeCssDirectives = "<link rel=\"stylesheet\" href=\"../../../sut-html-resources/override.css\" />\n";
-        String actualIncludeCssDirectives = configuration.getReport().getHtmlResources().getIncludeCssDirectives(this.getClass());
-        Assert.assertEquals(expectedIncludeCssDirectives, actualIncludeCssDirectives);
-
-        String expectedIncludeJsDirectives =  "<script src=\"../../../sut-html-resources/override.js\"></script>\n";
-        String actualIncludeJsDirectives = configuration.getReport().getHtmlResources().getIncludeJsDirectives(this.getClass());
-        Assert.assertEquals(expectedIncludeJsDirectives, actualIncludeJsDirectives);
-    }
 
 }

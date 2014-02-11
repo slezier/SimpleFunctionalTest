@@ -19,13 +19,12 @@ import java.util.List;
 
 public class HtmlResources {
 
-    public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
     private List<String> filesUsed;
     private final String resourcesPath;
     private FileSystem fileSystem = new FileSystem();
 
-    public HtmlResources() {
-        this(HTML_DEPENDENCIES_FOLDER);
+    public HtmlResources(){
+        this(HtmlReport.HTML_DEPENDENCIES_FOLDER);
     }
 
     public HtmlResources(String htmlDependenciesFolder) {

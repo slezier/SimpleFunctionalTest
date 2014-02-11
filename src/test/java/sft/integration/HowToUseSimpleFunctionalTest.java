@@ -77,6 +77,9 @@ import sft.integration.use.Usages;
 </ul>
 <h2> TODO </h2>
 <ul>
+    <li>fixture decorators (table, group)</li>
+    <li>subUseCase decorator (group)</li>
+    <li>useCase decorator (breadcrumb,toc)</li>
     <li>enhance parametrization (default css / file inclusion)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>

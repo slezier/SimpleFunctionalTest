@@ -33,7 +33,8 @@ import java.util.regex.Matcher;
 
 
 public class HtmlReport extends Report {
-    private HtmlResources htmlResources = new HtmlResources();
+    public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
+    private HtmlResources htmlResources;
     private final FileSystem fileSystem = new FileSystem();
     private TemplateString useCaseTemplate = new TemplateString(
             "<html>\n" +
@@ -138,6 +139,10 @@ public class HtmlReport extends Report {
                     "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
                     "            </li>\n");
     private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
+
+    public HtmlReport(){
+        setResourcePath(HTML_DEPENDENCIES_FOLDER);
+    }
 
     @Override
     public void setResourcePath(String resourcePath){

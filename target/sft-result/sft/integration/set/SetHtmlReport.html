@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>Set html report</title>
+<link rel="stylesheet" href="../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../sft-html-default/sft.css" />
+<script src="../../../sft-html-default/bootstrap.min.js"></script>
+<script src="../../../sft-html-default/jquery-1.10.2.min.js"></script>
+  </head>
+  <body class="useCase succeeded">
+    <div class="container">
+      <div class="page-header">
+        <div class="text-center">
+          <h1><span class="useCaseName">Set html report</span></h1>
+        </div>
+        <div class="comment">
+
+<div>
+The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
+
+The target of the HtmlReport resourcePath, will be copied to provide facilities files. <br />
+This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.<br />
+For example, all css and js file of this directory will be included in the html head close.
+ </div>
+        </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Default report</span></h3>
+        </div>
+        <div class="comment">
+
+    The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
+
+    The target of the HtmlReport resourcePath, will be copied to provide facilities files. <br />
+    This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.<br />
+    For example, all css and js file of this directory will be included in the html head close.
+            </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>The default configuration provide an html report</span>          </div>
+        </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Change css and js</span></h3>
+        </div>
+        <div class="comment">
+
+    The most convenient way to custom your html report, is changing resourcePath.<br />
+    You can modify native css and js file provide by SimpleFunctionalTest (copied in ./target/sft-result/sft-html-default/)
+    in an local directory and then set its location as the resourcePath.<br /><br />
+
+    Css class used by HtmlReport are:
+    <ul>
+        <li>ignored</li>
+        <li>failed</li>
+        <li>succeeded</li>
+        <li>useCase</li>
+        <li>useCaseName</li>
+        <li>beforeUseCase</li>
+        <li>afterUseCase</li>
+        <li>comment</li>
+        <li>scenario</li>
+        <li>scenarioName</li>
+        <li>beforeScenario</li>
+        <li>afterScenario</li>
+        <li>instruction</li>
+        <li>exception</li>
+        <li>relatedUseCase</li>
+    </ul>
+
+
+            </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>When html report use the default embedded resource <i class="value">sft-html-default</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Then html report include path to js files <i class="value">../../../sft-html-default/bootstrap.min.js, ../../../sft-html-default/jquery-1.10.2.min.js</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>And include path to css files <i class="value">../../../sft-html-default/bootstrap-theme.min.css, ../../../sft-html-default/bootstrap.min.css, ../../../sft-html-default/sft.css</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>By setting the resource path to <i class="value">sut-html-resources</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Then html report include path to js files <i class="value">../../../sut-html-resources/override.js</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>And include path to css files <i class="value">../../../sut-html-resources/override.css</i></span>          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
