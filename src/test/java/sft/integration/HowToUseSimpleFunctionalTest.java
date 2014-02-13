@@ -73,7 +73,8 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
-    <li>enhance parametrization </li>
+    <li>enhance parametrization: paths </li>
+    <li>With empty scenario calling subUseCase seems been called three time</li>
 </ul>
 <h2> TODO </h2>
 <ul>

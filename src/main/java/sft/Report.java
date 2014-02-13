@@ -13,6 +13,7 @@ package sft;
 public abstract class Report {
 
     private String resourcePath;
+    private String reportPath;
 
     public void setResourcePath(String resourcePath) {
         this.resourcePath = resourcePath;
@@ -22,4 +23,11 @@ public abstract class Report {
         return resourcePath;
     }
 
+    public String getReportPath() {
+        return reportPath;
+    }
+
+    public void setReportPath(String reportPath) {
+        this.reportPath = reportPath;
+    }
 }

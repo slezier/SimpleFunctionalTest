@@ -2,6 +2,7 @@ package sft.integration.fixtures;
 
 
 import sft.environment.FileSystem;
+import sft.integration.SftDocumentationConfiguration;
 import sft.report.HtmlResources;
 
 import java.io.File;
@@ -14,14 +15,26 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
-public class JavaResource extends SftResource{
+public class JavaResource extends SftResource {
 
     private final HtmlResources htmlResources = new HtmlResources();
-    private final FileSystem fileSystem = new FileSystem();
+    private FileSystem fileSystem;
 
     public JavaResource(Class javaClass) {
         super(javaClass, ".java.html");
+        fileSystem = new SftDocumentationConfiguration().getFileSystem();
         createJavaHtml();
+    }
+
+    private static int copy(Reader input, Writer output) throws IOException {
+        char[] buffer = new char[1024];
+        int count = 0;
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
     }
 
     private void createJavaHtml() {
@@ -47,16 +60,5 @@ public class JavaResource extends SftResource{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static int copy(Reader input, Writer output) throws IOException {
-        char[] buffer = new char[1024];
-        int count = 0;
-        int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-            count += n;
-        }
-        return count;
     }
 }

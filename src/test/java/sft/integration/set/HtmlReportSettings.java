@@ -1,13 +1,14 @@
 package sft.integration.set;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.DefaultConfiguration;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.report.HtmlReport;
+
+import java.io.File;
 
 /*
 <div>
@@ -19,7 +20,7 @@ For example, all css and js file of this directory will be included in the html 
  </div>
 */
 @RunWith(SimpleFunctionalTest.class)
-public class SetHtmlReport {
+public class HtmlReportSettings {
     private DefaultConfiguration configuration;
 
     /*
@@ -32,6 +33,37 @@ public class SetHtmlReport {
     @Test
     public void defaultReport(){
         theDefaultConfigurationProvideAnHtmlReport();
+    }
+
+
+    /*
+    The HtmlReport write report in a specific folder target/sft-result/.
+     */
+    @Test
+    public void changeHtmlReportDestination() throws Exception {
+        defaultReportPathOfHtmlReportIs("target/sft-result/");
+        thenAllReportFilesWillBeCreatedIntoThisFolder("sft.integration.set.HtmlReportSettings", "target/sft-result/sft/integration/set/HtmlReportSettings.html");
+        bySettingTheReportPathTo("site/");
+        thenAllReportFilesWillBeCreatedIntoThisFolder("sft.integration.set.HtmlReportSettings", "site/sft/integration/set/HtmlReportSettings.html");
+
+    }
+
+    @Text("Default report path of html report is ${reportPath}")
+    private void defaultReportPathOfHtmlReportIs(String reportPath) {
+        configuration = new DefaultConfiguration();
+        Assert.assertEquals(reportPath,configuration.getReport().getReportPath());
+    }
+
+    @Text("By setting the report path to ${reportPath}")
+    private void bySettingTheReportPathTo(String reportPath) {
+        configuration.getReport().setReportPath(reportPath);
+    }
+
+    @Text("Simple functional test will load classes from this folder( for example the class ${useCaseClass} will generate the html report ${reportFile})")
+    private void thenAllReportFilesWillBeCreatedIntoThisFolder(String useCaseClass, String reportFile) throws Exception {
+        File sourceFile = configuration.getFileSystem().targetFolder.getFileFromClass(Class.forName(useCaseClass), ".html");
+        String initialPath = sourceFile.getPath();
+        Assert.assertTrue("expecting "+ initialPath+ " ending with "+ reportFile,initialPath.endsWith(reportFile));
     }
 
     /*

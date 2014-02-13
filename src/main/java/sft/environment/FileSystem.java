@@ -23,18 +23,47 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileSystem {
+    public final ResourceFolder sourceFolder ;
+    public final ResourceFolder targetFolder ;
+    public final String classFolder;
 
-    private static final String TARGET_SFT_RESULT = "target/sft-result/";
-    private static final String TO_TEST_SOURCE_DIR = "src/test/java/";
-    public final ResourceFolder sourceFolder = new ResourceFolder(TO_TEST_SOURCE_DIR);
-    public final ResourceFolder targetFolder = new ResourceFolder(TARGET_SFT_RESULT);
+
+    public FileSystem(String classFolder,String sourceFolder, String targetFolder) {
+        this.classFolder = classFolder;
+
+        String toProjectPath= "";
+        for (String folder : classFolder.split("/")) {
+            if (!folder.equals(".") && !folder.equals("") ) {
+                toProjectPath+= "../";
+            }
+        }
+
+
+        this.sourceFolder = new ResourceFolder(toProjectPath,sourceFolder);
+        this.targetFolder = new ResourceFolder(toProjectPath,targetFolder);
+    }
+
+    public FileSystem changeSourcePath(String sourcePath) {
+        return new FileSystem(classFolder,sourcePath,targetFolder.path);
+    }
+
+    public FileSystem changeClassFolder(String classFolder) {
+        return new FileSystem(classFolder,sourceFolder.path,targetFolder.path);
+    }
+
+    public FileSystem changeTargetPath(String reportPath) {
+        return new FileSystem(classFolder,sourceFolder.path,reportPath);
+    }
 
     public class ResourceFolder {
 
-        private final String path;
+        private final String toProjectPath;
+        public final String path;
 
-        private ResourceFolder(String path) {
+        private ResourceFolder(String toProjectPath,String path) {
+            this.toProjectPath = toProjectPath;
             this.path = path;
+
         }
 
         public File getFileFromClass(Class<?> aClass, String extension) {
@@ -77,7 +106,7 @@ public class FileSystem {
         }
 
         private String getResourceFolder() {
-            return this.getClass().getClassLoader().getResource(".").getPath() + "../../";
+            return this.getClass().getClassLoader().getResource(".").getPath() + toProjectPath;
         }
 
         private String getPath(String relativePath) {

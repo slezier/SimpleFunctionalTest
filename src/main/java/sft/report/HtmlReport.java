@@ -11,6 +11,7 @@
 package sft.report;
 
 import sft.ContextHandler;
+import sft.DefaultConfiguration;
 import sft.Fixture;
 import sft.MethodCall;
 import sft.Report;
@@ -35,7 +36,6 @@ import java.util.regex.Matcher;
 public class HtmlReport extends Report {
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
     private HtmlResources htmlResources;
-    private final FileSystem fileSystem = new FileSystem();
     private TemplateString useCaseTemplate = new TemplateString(
             "<html>\n" +
                     "  <head>\n" +
@@ -139,16 +139,27 @@ public class HtmlReport extends Report {
                     "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
                     "            </li>\n");
     private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
+    private DefaultConfiguration configuration;
 
-    public HtmlReport(){
+    public HtmlReport(DefaultConfiguration configuration){
+        this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
+        setReportPath(configuration.getFileSystem().targetFolder.path);
+    }
+
+    @Override
+    public void setReportPath(String reportPath){
+        if(reportPath != null && ! reportPath.equals(getReportPath())){
+            super.setReportPath(reportPath);
+            configuration.setFileSystem(configuration.getFileSystem().changeTargetPath(reportPath));
+        }
     }
 
     @Override
     public void setResourcePath(String resourcePath){
         if(resourcePath != null && ! resourcePath.equals(getResourcePath())){
             super.setResourcePath(resourcePath);
-            htmlResources = new HtmlResources(resourcePath);
+            htmlResources = new HtmlResources(configuration,resourcePath);
         }
     }
 
@@ -156,7 +167,7 @@ public class HtmlReport extends Report {
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
 
-        File htmlFile = fileSystem.targetFolder.createFileFromClass(classUnderTest, ".html");
+        File htmlFile = configuration.getFileSystem().targetFolder.createFileFromClass(classUnderTest, ".html");
 
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
 

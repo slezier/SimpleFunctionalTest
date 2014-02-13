@@ -68,7 +68,7 @@ public class UseCase extends FixturesHolder {
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
         displayedContext = extractDisplayedContext(object);
-        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(classUnderTest);
+        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration,classUnderTest);
         javaClassParser.feed(this);
     }
 

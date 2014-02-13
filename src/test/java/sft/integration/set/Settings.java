@@ -12,7 +12,6 @@ import sft.integration.fixtures.JavaResource;
 import sft.integration.set.sut.CommonUseCase;
 import sft.integration.set.sut.CustomConfiguration;
 import sft.integration.set.sut.UseCaseWithSpecificConfiguration;
-import sft.report.HtmlReport;
 import sft.report.HtmlResources;
 
 
@@ -23,7 +22,10 @@ public class Settings {
     private String files;
     private UseCase useCase;
 
-    public SetHtmlReport setHtmlReport= new SetHtmlReport();
+    public HtmlReportSettings htmlReportSettings = new HtmlReportSettings();
+    public SourceAndClassSettings sourceAndClassSettings = new SourceAndClassSettings();
+
+
 
     @Test
     public void configurationMechanism() throws Exception {

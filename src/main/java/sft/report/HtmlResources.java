@@ -11,6 +11,7 @@
 package sft.report;
 
 
+import sft.DefaultConfiguration;
 import sft.environment.FileSystem;
 
 import java.io.IOException;
@@ -21,13 +22,14 @@ public class HtmlResources {
 
     private List<String> filesUsed;
     private final String resourcesPath;
-    private FileSystem fileSystem = new FileSystem();
+    private FileSystem fileSystem ;
 
     public HtmlResources(){
-        this(HtmlReport.HTML_DEPENDENCIES_FOLDER);
+        this(new DefaultConfiguration(),HtmlReport.HTML_DEPENDENCIES_FOLDER);
     }
 
-    public HtmlResources(String htmlDependenciesFolder) {
+    public HtmlResources(DefaultConfiguration configuration,String htmlDependenciesFolder) {
+        fileSystem= configuration.getFileSystem();
         resourcesPath = htmlDependenciesFolder;
         ensureIsCreated();
     }

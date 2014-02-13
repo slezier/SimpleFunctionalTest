@@ -27,14 +27,20 @@ import java.util.Collections;
 public class UseCaseJavaParser extends JavaFileParser {
 
 
-    public UseCaseJavaParser(Class<?> javaClass) throws IOException {
-        super(javaClass);
+    public UseCaseJavaParser(DefaultConfiguration configuration,Class<?> javaClass) throws IOException {
+        super(configuration,javaClass);
     }
 
     public void feed(UseCase useCase) throws IOException {
         try {
             TypeDeclaration type = getMainType();
-            feedTestClass(type, useCase);
+            try{
+                feedTestClass(type, useCase);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Can't found class for useCase "+useCase.getName() + " (you probably use the "+useCase.classUnderTest.getCanonicalName()+" as a public field of an use case).",e);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +71,7 @@ public class UseCaseJavaParser extends JavaFileParser {
             }
         }
         for (Helper fixturesHelper : useCase.fixturesHelpers) {
-            HelperJavaParser helperJavaParser = new HelperJavaParser(fixturesHelper.object);
+            HelperJavaParser helperJavaParser = new HelperJavaParser(configuration,fixturesHelper.object);
             helperJavaParser.feed(fixturesHelper);
         }
     }
@@ -92,6 +98,10 @@ public class UseCaseJavaParser extends JavaFileParser {
 
     private ArrayList<MethodCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
         ArrayList<MethodCall> methodCalls = new ArrayList<MethodCall>();
+        if( methodDeclaration.getBody().getStmts() == null){
+            System.err.println("In class "+javaClass.getCanonicalName()+" method " + methodDeclaration.getName() + " don't have any fixture call.");
+            return methodCalls;
+        }
         for (Statement stmt : methodDeclaration.getBody().getStmts()) {
             if (stmt instanceof ExpressionStmt) {
                 Expression expr = ((ExpressionStmt) stmt).getExpression();

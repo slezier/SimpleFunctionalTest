@@ -1,6 +1,8 @@
 package sft.integration.fixtures;
 
 
+import sft.DefaultConfiguration;
+
 public class SftResources {
 
     private final Class callerClass;

@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Source and class settings</title>
+<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" />
+<link rel="stylesheet" href="../../../sft-html-documentation/sft.css" />
+<script src="../../../sft-html-documentation/bootstrap.min.js"></script>
+<script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script>
+  </head>
+  <body class="useCase succeeded">
+    <div class="container">
+      <div class="page-header">
+        <div class="text-center">
+          <h1><span class="useCaseName">Source and class settings</span></h1>
+        </div>
+        <div class="comment">
+
+SimpleFunctionalTest is sized for maven usage.<br />
+If you use another build engine (ant...), you probably want to target other source and class folder.
+         </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Change source folder</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>The default source folder scanned is <i class="value">src/test/java/</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.SourceAndClassSettings</i> will be loaded from <i class="value">src/test/java/sft/integration/set/SourceAndClassSettings.java</i>)</span>          </div>
+          <div class="instruction succeeded">
+            <span>By setting the source folder property to <i class="value">src/test/other/folder/</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.SourceAndClassSettings</i> will be loaded from <i class="value">src/test/other/folder/sft/integration/set/SourceAndClassSettings.java</i>)</span>          </div>
+        </div>
+      </div>
+      <div class="scenario succeeded panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Change class folder</span></h3>
+        </div>
+        <div class="comment">
+
+    Class folder allow to define the original project path
+            </div>
+        <div class="panel-body">
+          <div class="instruction succeeded">
+            <span>The default class folder is <i class="value">target/test-classes/</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Project folder is targeted with <i class="value">../../</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>By setting the class folder property to <i class="value">bin/</i></span>          </div>
+          <div class="instruction succeeded">
+            <span>Project folder is targeted with <i class="value">../</i></span>          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

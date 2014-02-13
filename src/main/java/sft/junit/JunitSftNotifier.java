@@ -25,51 +25,38 @@ public class JunitSftNotifier implements SftNotifier {
         this.runNotifier.addFirstListener(result.createListener());
     }
 
-
-    @Override
     public void fireUseCaseStarted(UseCaseRunner useCaseRunner) {
         runNotifier.fireTestRunStarted(useCaseRunner.getDescription());
     }
 
-
-    @Override
     public void fireUseCaseFinished(UseCaseRunner useCaseRunner) {
         runNotifier.fireTestRunFinished(result);
     }
 
-    @Override
     public void fireUseCaseIgnored(UseCaseRunner useCaseRunner) {
         runNotifier.fireTestIgnored(useCaseRunner.getDescription());
     }
 
-    @Override
     public void fireUseCaseContextFailed(UseCaseRunner useCaseRunner,Throwable throwable){
         runNotifier.fireTestFailure(new Failure(useCaseRunner.getDescription(), throwable));
     }
 
-    @Override
     public void fireScenarioStarted(ScenarioRunner scenario) {
         runNotifier.fireTestStarted(scenario.getDescription());
     }
 
-
-    @Override
     public void fireScenarioFailed(ScenarioRunner scenarioRunner, Throwable throwable) {
         runNotifier.fireTestFailure(new Failure(scenarioRunner.getDescription(), throwable));
     }
 
-    @Override
     public void fireScenarioFinished(ScenarioRunner scenario) {
         runNotifier.fireTestFinished(scenario.getDescription());
     }
 
-    @Override
     public void fireScenarioIgnored(ScenarioRunner scenario) {
         runNotifier.fireTestIgnored(scenario.getDescription());
     }
 
-    @Override
     public void fireScenarioContextFailed(ScenarioRunner useCaseRunner, Throwable e) {
-        //To change body of created methods use File | Settings | File Templates.
     }
 }

@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import sft.DefaultConfiguration;
+import sft.integration.SftDocumentationConfiguration;
 
 import java.io.File;
 import java.io.IOException;

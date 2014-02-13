@@ -14,6 +14,7 @@ import japa.parser.ParseException;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
+import sft.DefaultConfiguration;
 import sft.Helper;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ import java.io.IOException;
 public class HelperJavaParser extends JavaFileParser {
 
 
-    public HelperJavaParser(Object helperObject) {
-        super(helperObject.getClass());
+    public HelperJavaParser(DefaultConfiguration configuration,Object helperObject) {
+        super(configuration,helperObject.getClass());
     }
 
 
