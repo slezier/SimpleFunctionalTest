@@ -334,13 +334,12 @@ public class HtmlReport extends Report {
             report(subUseCaseResult);
             return "";
         } catch (Throwable t) {
-            return getLinkError(relatedUseCase, t);
+            return getLinkError(t);
         }
     }
 
-    private String getLinkError(String relatedUseCase, Throwable t) {
-        relatedUseCase += "<div>" + t.getMessage() + "</div>";
-        return relatedUseCase;
+    private String getLinkError( Throwable t) {
+        return "<div>" + t.getMessage() + "</div>";
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {
