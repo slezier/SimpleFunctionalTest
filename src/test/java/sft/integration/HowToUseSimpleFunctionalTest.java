@@ -77,13 +77,14 @@ import sft.integration.use.Usages;
 </ul>
 <h2> TODO </h2>
 <ul>
+    <li>test with other runner like PowerMock et EasyMock</li>
+    <li>test with inheritance</li>
     <li>fixture decorators (table, group)</li>
     <li>subUseCase decorator (group)</li>
     <li>useCase decorator (breadcrumb,toc)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
     <li>write test result in LaTeX</li>
-    <li>adding decorator to SubUseCase</li>
 </ul>
 
 */
