@@ -139,7 +139,11 @@ public class HtmlReport extends Report {
             "            <li class=\"relatedUseCase @@@issue@@@\">\n" +
                     "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
                     "            </li>\n";
+
+    private String relatedUseCaseErrorTemplate="<div>@@@errorMessage@@@</div>";
+
     private String parameterTemplate = "<i class=\"value\">@@@value@@@</i>";
+
     private DefaultConfiguration configuration;
 
     public HtmlReport(DefaultConfiguration configuration) {
@@ -260,6 +264,15 @@ public class HtmlReport extends Report {
         this.relatedUseCaseTemplate = relatedUseCaseTemplate;
     }
 
+    public void setRelatedUseCaseErrorTemplate(String relatedUseCaseErrorTemplate){
+        this.relatedUseCaseErrorTemplate=relatedUseCaseErrorTemplate;
+    }
+
+
+    public String getRelatedUseCaseErrorTemplate(){
+        return this.relatedUseCaseErrorTemplate;
+    }
+
     public String getParameterTemplate() {
         return parameterTemplate;
     }
@@ -318,7 +331,7 @@ public class HtmlReport extends Report {
     private String getRelatedUseCase(UseCaseResult useCaseResult) {
         String relatedUseCase = "";
         for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
-            String error = createHtmlReportAndReturnErrorWhileCreating(relatedUseCase, subUseCaseResult);
+            String error = createHtmlReportAndReturnErrorWhileCreating(subUseCaseResult);
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
                     .replace("@@@issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
                     .replace("@@@link@@@", getRelativeUrl(subUseCaseResult.useCase, useCaseResult))
@@ -329,7 +342,7 @@ public class HtmlReport extends Report {
         return relatedUseCase;
     }
 
-    private String createHtmlReportAndReturnErrorWhileCreating(String relatedUseCase, UseCaseResult subUseCaseResult) {
+    private String createHtmlReportAndReturnErrorWhileCreating(UseCaseResult subUseCaseResult) {
         try {
             report(subUseCaseResult);
             return "";
@@ -339,7 +352,7 @@ public class HtmlReport extends Report {
     }
 
     private String getLinkError( Throwable t) {
-        return "<div>" + t.getMessage() + "</div>";
+        return new TemplateString(relatedUseCaseErrorTemplate).replace("@@@errorMessage@@@",t.getMessage()).getText();
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {
