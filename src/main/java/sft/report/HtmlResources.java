@@ -12,7 +12,7 @@ package sft.report;
 
 
 import sft.DefaultConfiguration;
-import sft.environment.FileSystem;
+import sft.result.Issue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,15 +20,15 @@ import java.util.List;
 
 public class HtmlResources {
 
-    private List<String> filesUsed;
     private final String resourcesPath;
+    private List<String> filesUsed;
     private DefaultConfiguration configuration;
 
-    public HtmlResources(){
-        this(new DefaultConfiguration(),HtmlReport.HTML_DEPENDENCIES_FOLDER);
+    public HtmlResources() {
+        this(new DefaultConfiguration(), HtmlReport.HTML_DEPENDENCIES_FOLDER);
     }
 
-    public HtmlResources(DefaultConfiguration configuration,String htmlDependenciesFolder) {
+    public HtmlResources(DefaultConfiguration configuration, String htmlDependenciesFolder) {
         this.configuration = configuration;
         resourcesPath = htmlDependenciesFolder;
         ensureIsCreated();

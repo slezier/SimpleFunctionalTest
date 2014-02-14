@@ -38,7 +38,7 @@ public class JavaResource extends SftResource {
 
     private void createJavaHtml() {
         try {
-            File htmlJavaFile = configuration.getFileSystem().targetFolder.createFileFromClass(targetClass, extension);
+            File htmlJavaFile = configuration.getTargetFolder().createFileFromClass(targetClass, extension);
 
             Writer html = new OutputStreamWriter(new FileOutputStream(htmlJavaFile));
             html.write("<html><head><title>\n");
@@ -48,7 +48,7 @@ public class JavaResource extends SftResource {
             html.write("</head>\n");
             html.write("<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>\n");
 
-            File javaFile = configuration.getFileSystem().sourceFolder.getFileFromClass(targetClass, ".java");
+            File javaFile = configuration.getSourceFolder().getFileFromClass(targetClass, ".java");
 
             InputStream javaIn = new FileInputStream(javaFile);
             Reader reader = new InputStreamReader(javaIn, "UTF-8");

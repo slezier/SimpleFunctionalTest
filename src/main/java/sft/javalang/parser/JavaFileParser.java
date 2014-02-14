@@ -19,7 +19,6 @@ import japa.parser.ast.body.TypeDeclaration;
 import sft.DefaultConfiguration;
 import sft.Fixture;
 import sft.FixturesHolder;
-import sft.environment.FileSystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class JavaFileParser {
     protected final Class<?> javaClass;
     protected DefaultConfiguration configuration;
 
-    public JavaFileParser(DefaultConfiguration configuration,Class<?> aClass) {
+    public JavaFileParser(DefaultConfiguration configuration, Class<?> aClass) {
         this.configuration = configuration;
         this.javaClass = aClass;
     }

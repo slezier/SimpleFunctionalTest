@@ -13,7 +13,6 @@ package sft.result;
 import sft.Fixture;
 import sft.MethodCall;
 import sft.Scenario;
-import sft.report.Issue;
 
 import java.util.List;
 

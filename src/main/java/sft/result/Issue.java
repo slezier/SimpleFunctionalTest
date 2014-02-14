@@ -8,7 +8,7 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft.report;
+package sft.result;
 
 
 public enum Issue {

@@ -11,11 +11,10 @@
 package sft.result;
 
 import sft.ContextHandler;
-import sft.report.Issue;
 
-import static sft.report.Issue.FAILED;
-import static sft.report.Issue.IGNORED;
-import static sft.report.Issue.SUCCEEDED;
+import static sft.result.Issue.FAILED;
+import static sft.result.Issue.IGNORED;
+import static sft.result.Issue.SUCCEEDED;
 
 public class ContextResult {
 

@@ -17,8 +17,8 @@ import sft.MethodCall;
 import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
-import sft.environment.FileSystem;
 import sft.result.ContextResult;
+import sft.result.Issue;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
@@ -141,25 +141,25 @@ public class HtmlReport extends Report {
     private TemplateString parameterTemplate = new TemplateString("<i class=\"value\">@@@value@@@</i>");
     private DefaultConfiguration configuration;
 
-    public HtmlReport(DefaultConfiguration configuration){
+    public HtmlReport(DefaultConfiguration configuration) {
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
         setReportPath(configuration.getTargetFolder().path);
     }
 
     @Override
-    public void setReportPath(String reportPath){
-        if(reportPath != null && ! reportPath.equals(getReportPath())){
+    public void setReportPath(String reportPath) {
+        if (reportPath != null && !reportPath.equals(getReportPath())) {
             super.setReportPath(reportPath);
-            configuration.setFileSystem(configuration.getFileSystem().changeTargetPath(reportPath));
+            configuration.setTargetPath(reportPath);
         }
     }
 
     @Override
-    public void setResourcePath(String resourcePath){
-        if(resourcePath != null && ! resourcePath.equals(getResourcePath())){
+    public void setResourcePath(String resourcePath) {
+        if (resourcePath != null && !resourcePath.equals(getResourcePath())) {
             super.setResourcePath(resourcePath);
-            htmlResources = new HtmlResources(configuration,resourcePath);
+            htmlResources = new HtmlResources(configuration, resourcePath);
         }
     }
 

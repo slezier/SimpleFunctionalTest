@@ -11,12 +11,10 @@
 package sft.result;
 
 import sft.UseCase;
-import sft.report.Issue;
 
 import java.util.ArrayList;
 
-import static sft.report.Issue.FAILED;
-import static sft.report.Issue.SUCCEEDED;
+import static sft.result.Issue.FAILED;
 
 public class UseCaseResult {
 

@@ -13,8 +13,7 @@ package sft.junit;
 
 import org.junit.runner.Description;
 import sft.Scenario;
-import sft.UseCase;
-import sft.report.Issue;
+import sft.result.Issue;
 import sft.result.ContextResult;
 import sft.result.ScenarioResult;
 

@@ -10,10 +10,9 @@
  *******************************************************************************/
 package sft;
 
-import sft.environment.FileSystem;
 import sft.environment.ResourceFolder;
 import sft.report.HtmlReport;
-import sft.report.TargetFolder;
+import sft.environment.TargetFolder;
 
 public class DefaultConfiguration {
 
@@ -22,11 +21,24 @@ public class DefaultConfiguration {
     private static final String TARGET_SFT_RESULT = "target/sft-result/";
     private static final String TO_TEST_SOURCE_DIR = "src/test/java/";
 
+    private String classFolder = CLASS_FOLDER;
+    private ResourceFolder sourceFolder = new ResourceFolder(toProjectPath(CLASS_FOLDER), TO_TEST_SOURCE_DIR);
+    private TargetFolder targetFolder = new TargetFolder(toProjectPath(CLASS_FOLDER), TARGET_SFT_RESULT);
     private HtmlReport htmlReport;
-    private FileSystem fileSystem = new FileSystem(CLASS_FOLDER,TO_TEST_SOURCE_DIR, TARGET_SFT_RESULT);
 
-    public DefaultConfiguration(){
+
+    public DefaultConfiguration() {
         htmlReport = new HtmlReport(this);
+    }
+
+    private static String toProjectPath(String classFolder) {
+        String toProjectPath = "";
+        for (String folder : classFolder.split("/")) {
+            if (!folder.equals(".") && !folder.equals("")) {
+                toProjectPath += "../";
+            }
+        }
+        return toProjectPath;
     }
 
     public HtmlReport getReport() {
@@ -34,32 +46,31 @@ public class DefaultConfiguration {
     }
 
     public String getSourcePath() {
-        return fileSystem.sourceFolder.path;
+        return sourceFolder.path;
     }
 
     public void setSourcePath(String sourcePath) {
-        fileSystem  = fileSystem.changeSourcePath(sourcePath);
+        sourceFolder = new ResourceFolder(toProjectPath(classFolder), sourcePath);
+    }
+
+    public void setTargetPath(String targetPath) {
+        targetFolder = new TargetFolder(toProjectPath(classFolder), targetPath);
     }
 
     public String getClassFolder() {
-        return fileSystem.classFolder;
+        return classFolder;
     }
+
     public void setClassFolder(String classFolder) {
-        fileSystem  = fileSystem.changeClassFolder(classFolder);
+        sourceFolder = new ResourceFolder(toProjectPath(classFolder), sourceFolder.path);
+        targetFolder = new TargetFolder(toProjectPath(classFolder), targetFolder.path);
     }
 
-    public FileSystem getFileSystem() {
-        return fileSystem;
-    }
-    public void setFileSystem(FileSystem fileSystem) {
-        this.fileSystem=fileSystem;
+    public ResourceFolder getSourceFolder() {
+        return sourceFolder;
     }
 
-
-    public ResourceFolder getSourceFolder(){
-        return this.fileSystem.sourceFolder;
-    }
-    public TargetFolder getTargetFolder(){
-        return this.fileSystem.targetFolder;
+    public TargetFolder getTargetFolder() {
+        return targetFolder;
     }
 }
