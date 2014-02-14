@@ -144,7 +144,7 @@ public class HtmlReport extends Report {
     public HtmlReport(DefaultConfiguration configuration){
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
-        setReportPath(configuration.getFileSystem().targetFolder.path);
+        setReportPath(configuration.getTargetFolder().path);
     }
 
     @Override
@@ -167,7 +167,7 @@ public class HtmlReport extends Report {
         UseCase useCase = useCaseResult.useCase;
         Class<?> classUnderTest = useCase.classUnderTest;
 
-        File htmlFile = configuration.getFileSystem().targetFolder.createFileFromClass(classUnderTest, ".html");
+        File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
 
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
 

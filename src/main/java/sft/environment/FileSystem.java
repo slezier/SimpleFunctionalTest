@@ -11,6 +11,8 @@
 package sft.environment;
 
 
+import sft.report.TargetFolder;
+
 public class FileSystem {
     public final ResourceFolder sourceFolder ;
     public final TargetFolder targetFolder ;

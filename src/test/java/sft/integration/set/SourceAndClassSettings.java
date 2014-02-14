@@ -41,7 +41,7 @@ public class SourceAndClassSettings {
 
     @Text("Simple functional test will load classes from this folder( for example the class ${aClass} will be loaded from ${aPath})")
     private void classesWillBeParsedFromThisFolder(String aClass, String aPath) throws Exception {
-        File sourceFile = defaultConfiguration.getFileSystem().sourceFolder.getFileFromClass(Class.forName(aClass), ".java");
+        File sourceFile = defaultConfiguration.getSourceFolder().getFileFromClass(Class.forName(aClass), ".java");
         String initialPath = sourceFile.getPath();
         String relativePath = initialPath.substring(initialPath.indexOf(TO_PROJECT_PATH) + TO_PROJECT_PATH.length());
         Assert.assertEquals(aPath, relativePath);
@@ -74,7 +74,7 @@ public class SourceAndClassSettings {
     @Text("Project folder is targeted with ${pathToProjectFolder}")
     private void projectFolderIsTargetedWith(String pathToProjectFolder) {
         String sourceFolder =  "src/test/java/sft/integration/set/SourceAndClassSettings.java";
-        File sourceFile = defaultConfiguration.getFileSystem().sourceFolder.getFileFromClass(sft.integration.set.SourceAndClassSettings.class, ".java");
+        File sourceFile = defaultConfiguration.getSourceFolder().getFileFromClass(sft.integration.set.SourceAndClassSettings.class, ".java");
         String initialPath = sourceFile.getPath();
 
         String validationPath = actualClassFolder + pathToProjectFolder + sourceFolder;

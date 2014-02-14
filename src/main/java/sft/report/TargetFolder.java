@@ -8,7 +8,9 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft.environment;
+package sft.report;
+
+import sft.environment.ResourceFolder;
 
 import java.io.File;
 import java.io.FileInputStream;

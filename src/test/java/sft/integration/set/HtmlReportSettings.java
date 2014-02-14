@@ -61,7 +61,7 @@ public class HtmlReportSettings {
 
     @Text("Simple functional test will load classes from this folder( for example the class ${useCaseClass} will generate the html report ${reportFile})")
     private void thenAllReportFilesWillBeCreatedIntoThisFolder(String useCaseClass, String reportFile) throws Exception {
-        File sourceFile = configuration.getFileSystem().targetFolder.getFileFromClass(Class.forName(useCaseClass), ".html");
+        File sourceFile = configuration.getTargetFolder().getFileFromClass(Class.forName(useCaseClass), ".html");
         String initialPath = sourceFile.getPath();
         Assert.assertTrue("expecting "+ initialPath+ " ending with "+ reportFile,initialPath.endsWith(reportFile));
     }

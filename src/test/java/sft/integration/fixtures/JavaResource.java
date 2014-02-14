@@ -1,7 +1,6 @@
 package sft.integration.fixtures;
 
 
-import sft.environment.FileSystem;
 import sft.integration.SftDocumentationConfiguration;
 import sft.report.HtmlResources;
 
@@ -18,11 +17,11 @@ import java.io.Writer;
 public class JavaResource extends SftResource {
 
     private final HtmlResources htmlResources = new HtmlResources();
-    private FileSystem fileSystem;
+    private final SftDocumentationConfiguration configuration;
 
     public JavaResource(Class javaClass) {
         super(javaClass, ".java.html");
-        fileSystem = new SftDocumentationConfiguration().getFileSystem();
+        configuration = new SftDocumentationConfiguration();
         createJavaHtml();
     }
 
@@ -39,7 +38,7 @@ public class JavaResource extends SftResource {
 
     private void createJavaHtml() {
         try {
-            File htmlJavaFile = fileSystem.targetFolder.createFileFromClass(targetClass, extension);
+            File htmlJavaFile = configuration.getFileSystem().targetFolder.createFileFromClass(targetClass, extension);
 
             Writer html = new OutputStreamWriter(new FileOutputStream(htmlJavaFile));
             html.write("<html><head><title>\n");
@@ -49,7 +48,7 @@ public class JavaResource extends SftResource {
             html.write("</head>\n");
             html.write("<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>\n");
 
-            File javaFile = fileSystem.sourceFolder.getFileFromClass(targetClass, ".java");
+            File javaFile = configuration.getFileSystem().sourceFolder.getFileFromClass(targetClass, ".java");
 
             InputStream javaIn = new FileInputStream(javaFile);
             Reader reader = new InputStreamReader(javaIn, "UTF-8");

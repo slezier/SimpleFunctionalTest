@@ -26,7 +26,7 @@ public class ResourceFolder {
     private final String toProjectPath;
     public final String path;
 
-    ResourceFolder(String toProjectPath, String path) {
+    public ResourceFolder(String toProjectPath, String path) {
         this.toProjectPath = toProjectPath;
         this.path = path;
 

@@ -22,21 +22,21 @@ public class HtmlResources {
 
     private List<String> filesUsed;
     private final String resourcesPath;
-    private FileSystem fileSystem ;
+    private DefaultConfiguration configuration;
 
     public HtmlResources(){
         this(new DefaultConfiguration(),HtmlReport.HTML_DEPENDENCIES_FOLDER);
     }
 
     public HtmlResources(DefaultConfiguration configuration,String htmlDependenciesFolder) {
-        fileSystem= configuration.getFileSystem();
+        this.configuration = configuration;
         resourcesPath = htmlDependenciesFolder;
         ensureIsCreated();
     }
 
     public HtmlResources ensureIsCreated() {
         try {
-            filesUsed = fileSystem.targetFolder.copyFromResources(resourcesPath);
+            filesUsed = configuration.getTargetFolder().copyFromResources(resourcesPath);
         } catch (IOException e) {
             new RuntimeException(e);
         }

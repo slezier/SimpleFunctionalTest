@@ -26,18 +26,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JavaFileParser {
-    protected FileSystem fileSystem;
     protected final Class<?> javaClass;
     protected DefaultConfiguration configuration;
 
     public JavaFileParser(DefaultConfiguration configuration,Class<?> aClass) {
         this.configuration = configuration;
-        fileSystem = configuration.getFileSystem();
         this.javaClass = aClass;
     }
 
     protected TypeDeclaration getMainType() throws ParseException, IOException {
-        File javaFile = fileSystem.sourceFolder.getFileFromClass(javaClass, ".java");
+        File javaFile = configuration.getSourceFolder().getFileFromClass(javaClass, ".java");
         CompilationUnit cu = JavaParser.parse(javaFile, "UTF-8");
         return cu.getTypes().get(0);
     }

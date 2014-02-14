@@ -11,7 +11,9 @@
 package sft;
 
 import sft.environment.FileSystem;
+import sft.environment.ResourceFolder;
 import sft.report.HtmlReport;
+import sft.report.TargetFolder;
 
 public class DefaultConfiguration {
 
@@ -53,4 +55,11 @@ public class DefaultConfiguration {
         this.fileSystem=fileSystem;
     }
 
+
+    public ResourceFolder getSourceFolder(){
+        return this.fileSystem.sourceFolder;
+    }
+    public TargetFolder getTargetFolder(){
+        return this.fileSystem.targetFolder;
+    }
 }
