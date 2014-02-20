@@ -40,51 +40,55 @@ public class HtmlReport extends Report {
     private String useCaseTemplate =
             "<html>\n" +
                     "  <head>\n" +
-                    "    <title>@@@name@@@</title>\n" +
-                    "@@@include.css@@@" +
-                    "@@@include.js@@@" +
+                    "    <title>@@@useCase.name@@@</title>\n" +
+                    "@@@useCase.css@@@" +
+                    "@@@useCase.js@@@" +
                     "  </head>\n" +
                     "  <body class=\"useCase @@@useCase.issue@@@\">\n" +
                     "    <div class=\"container\">\n" +
                     "      <div class=\"page-header\">\n" +
                     "        <div class=\"text-center\">\n" +
-                    "          <h1><span class=\"useCaseName\">@@@name@@@</span></h1>\n" +
+                    "          <h1><span class=\"useCaseName\">@@@useCase.name@@@</span></h1>\n" +
                     "        </div>\n" +
-                    "@@@useCase.comment@@@" +
+                    "@@@useCaseCommentTemplate@@@" +
                     "      </div>\n" +
-                    "@@@beforeUseCase@@@" +
-                    "@@@scenarios@@@" +
-                    "@@@afterUseCase@@@" +
-                    "@@@relatedUseCases@@@" +
+                    "@@@beforeUseCaseTemplate@@@" +
+                    "@@@scenarioTemplates@@@" +
+                    "@@@afterUseCaseTemplate@@@" +
+                    "@@@relatedUseCasesTemplates@@@" +
                     "    </div>\n" +
                     "  </body>\n" +
                     "</html>";
-    private String commentTemplate =
+    private String useCaseCommentTemplate =
             "        <div class=\"comment\">\n" +
-                    "@@@comment@@@" +
+                    "@@@comment.text@@@" +
                     "        </div>\n";
     private String beforeUseCaseTemplate =
-            "      <div class=\"panel panel-default beforeUseCase @@@useCase.before.issue@@@\">\n" +
+            "      <div class=\"panel panel-default beforeUseCase @@@beforeUseCase.issue@@@\">\n" +
                     "        <div class=\"panel-body\">\n" +
-                    "@@@instructions@@@" +
+                    "@@@contextInstructionTemplates@@@" +
                     "        </div>\n" +
-                    "@@@exception@@@" +
+                    "@@@exceptionTemplate@@@" +
                     "      </div>\n";
     private String scenarioTemplate =
             "      <div class=\"scenario @@@scenario.issue@@@ panel panel-default\">\n" +
                     "        <div class=\"panel-heading\">\n" +
                     "          <h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3>\n" +
                     "        </div>\n" +
-                    "@@@scenario.comment@@@" +
-                    "@@@scenario.before@@@" +
+                    "@@@scenarioCommentTemplate@@@" +
+                    "@@@beforeScenarioTemplate@@@" +
                     "        <div class=\"panel-body\">\n" +
-                    "@@@scenario.instructions@@@" +
+                    "@@@scenarioInstructionTemplates@@@" +
                     "        </div>\n" +
-                    "@@@scenario.after@@@" +
-                    "@@@scenario.context@@@" +
-                    "@@@scenario.exception@@@" +
+                    "@@@afterScenarioTemplate@@@" +
+                    "@@@displayedContextsTemplates@@@" +
+                    "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    private String stacktraceTemplate =
+    private String scenarioCommentTemplate=
+            "        <div class=\"comment\">\n" +
+                    "@@@comment.text@@@" +
+                    "        </div>\n";
+    private String exceptionTemplate =
             "      <div class=\"panel-body\">\n" +
                     "        <div class=\"exception\">\n" +
                     "          <a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>\n" +
@@ -93,7 +97,7 @@ public class HtmlReport extends Report {
                     "      </div>\n";
     private String beforeScenarioTemplate =
             "        <div class=\"beforeScenario panel-body\">\n" +
-                    "@@@scenario.before.instructions@@@" +
+                    "@@@contextInstructionTemplates@@@" +
                     "          <hr/>\n" +
                     "        </div>";
     private String scenarioInstructionTemplate =
@@ -103,26 +107,26 @@ public class HtmlReport extends Report {
     private String afterScenarioTemplate =
             "        <div class=\"afterScenario panel-body\">\n" +
                     "          <hr/>\n " +
-                    "@@@scenario.after.instructions@@@" +
+                    "@@@contextInstructionTemplates@@@" +
                     "        </div>";
     private String displayedContextsTemplate =
             "        <div class=\"displayableContext panel-body\">\n" +
-                    "@@@displayedContexts@@@" +
+                    "@@@displayedContextTemplates@@@" +
                     "        </div>\n";
     private String displayedContextTemplate =
             "        <div>\n" +
-                    "@@@displayedContext@@@" +
+                    "@@@displayedContext.text@@@" +
                     "        </div>\n";
     private String afterUseCaseTemplate =
-            "      <div class=\"panel panel-default afterUseCase @@@useCase.after.issue@@@\">\n" +
+            "      <div class=\"panel panel-default afterUseCase @@@afterUseCase.issue@@@\">\n" +
                     "        <div class=\"panel-body\">\n" +
-                    "@@@instructions@@@" +
+                    "@@@contextInstructionTemplates@@@" +
                     "        </div>\n" +
-                    "@@@exception@@@" +
+                    "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    private String useCaseContextInstructionsTemplate =
+    private String contextInstructionTemplate =
             "          <div>\n" +
-                    "            <span>@@@instructions@@@</span>\n" +
+                    "            <span>@@@instruction.text@@@</span>\n" +
                     "          </div>\n";
     private String relatedUseCasesTemplate =
             "      <div class=\"panel panel-default\">\n" +
@@ -131,18 +135,22 @@ public class HtmlReport extends Report {
                     "        </div>\n" +
                     "        <div class=\"panel-body\">\n" +
                     "          <ul>\n" +
-                    "@@@relatedUseCases@@@" +
+                    "@@@relatedUseCaseTemplates@@@" +
                     "          </ul>\n" +
                     "        </div>\n" +
                     "      </div>\n";
     private String relatedUseCaseTemplate =
-            "            <li class=\"relatedUseCase @@@issue@@@\">\n" +
-                    "              <a href=\"@@@link@@@\"><span>@@@name@@@</span></a>@@@error@@@\n" +
+            "            <li class=\"relatedUseCase @@@relatedUseCase.issue@@@\">\n" +
+                    "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@relatedUseCase.name@@@</span></a>@@@relatedUseCaseErrorTemplate@@@\n" +
                     "            </li>\n";
 
-    private String relatedUseCaseErrorTemplate="<div>@@@errorMessage@@@</div>";
+    private String relatedUseCaseErrorTemplate="<div>@@@error.message@@@</div>";
 
-    private String parameterTemplate = "<i class=\"value\">@@@value@@@</i>";
+    private String parameterTemplate = "<i class=\"value\">@@@parameter.value@@@</i>";
+
+    private String ignoredClass = "ignored";
+    private String failedClass = "failed";
+    private String successClass = "succeeded";
 
     private DefaultConfiguration configuration;
 
@@ -160,12 +168,18 @@ public class HtmlReport extends Report {
         this.useCaseTemplate = useCaseTemplate;
     }
 
-    public String getCommentTemplate() {
-        return commentTemplate;
+    public void setScenarioCommentTemplate(String scenarioCommentTemplate) {
+        this.scenarioCommentTemplate = scenarioCommentTemplate;
+    }
+    public String getScenarioCommentTemplate() {
+        return scenarioCommentTemplate ;
     }
 
-    public void setCommentTemplate(String commentTemplate) {
-        this.commentTemplate = commentTemplate;
+    public void setUseCaseCommentTemplate(String useCaseCommentTemplate) {
+        this.useCaseCommentTemplate = useCaseCommentTemplate;
+    }
+    public String getUseCaseCommentTemplate() {
+        return useCaseCommentTemplate ;
     }
 
     public String getBeforeUseCaseTemplate() {
@@ -184,12 +198,12 @@ public class HtmlReport extends Report {
         this.scenarioTemplate = scenarioTemplate;
     }
 
-    public String getStacktraceTemplate() {
-        return stacktraceTemplate;
+    public String getExceptionTemplate() {
+        return exceptionTemplate;
     }
 
-    public void setStacktraceTemplate(String stacktraceTemplate) {
-        this.stacktraceTemplate = stacktraceTemplate;
+    public void setExceptionTemplate(String exceptionTemplate) {
+        this.exceptionTemplate = exceptionTemplate;
     }
 
     public String getBeforeScenarioTemplate() {
@@ -240,12 +254,12 @@ public class HtmlReport extends Report {
         this.afterUseCaseTemplate = afterUseCaseTemplate;
     }
 
-    public String getUseCaseContextInstructionsTemplate() {
-        return useCaseContextInstructionsTemplate;
+    public String getContextInstructionTemplate() {
+        return contextInstructionTemplate;
     }
 
-    public void setUseCaseContextInstructionsTemplate(String useCaseContextInstructionsTemplate) {
-        this.useCaseContextInstructionsTemplate = useCaseContextInstructionsTemplate;
+    public void setContextInstructionTemplate(String contextInstructionTemplate) {
+        this.contextInstructionTemplate = contextInstructionTemplate;
     }
 
     public String getRelatedUseCasesTemplate() {
@@ -281,6 +295,30 @@ public class HtmlReport extends Report {
         this.parameterTemplate = parameterTemplate;
     }
 
+    public String getIgnoredClass() {
+        return ignoredClass;
+    }
+
+    public void setIgnoredClass(String ignoredClass) {
+        this.ignoredClass = ignoredClass;
+    }
+
+    public String getFailedClass() {
+        return failedClass;
+    }
+
+    public void setFailedClass(String failedClass) {
+        this.failedClass = failedClass;
+    }
+
+    public String getSuccessClass() {
+        return successClass;
+    }
+
+    public void setSuccessClass(String successClass) {
+        this.successClass = successClass;
+    }
+
     @Override
     public void setReportPath(String reportPath) {
         if (reportPath != null && !reportPath.equals(getReportPath())) {
@@ -301,15 +339,15 @@ public class HtmlReport extends Report {
         Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
 
         TemplateString useCaseReport = new TemplateString(useCaseTemplate)
-                .replace("@@@name@@@", useCaseResult.useCase.getName())
-                .replace("@@@include.css@@@", htmlResources.getIncludeCssDirectives(classUnderTest))
-                .replace("@@@include.js@@@", htmlResources.getIncludeJsDirectives(classUnderTest))
+                .replace("@@@useCase.name@@@", useCaseResult.useCase.getName())
+                .replace("@@@useCase.css@@@", htmlResources.getIncludeCssDirectives(classUnderTest))
+                .replace("@@@useCase.js@@@", htmlResources.getIncludeJsDirectives(classUnderTest))
                 .replace("@@@useCase.issue@@@", htmlResources.convertIssue(useCaseResult.getIssue()))
-                .replace("@@@useCase.comment@@@", getUseCaseComment(useCaseResult.useCase))
-                .replace("@@@beforeUseCase@@@", getBeforeUseCase(useCaseResult))
-                .replace("@@@scenarios@@@", getScenarios(useCaseResult))
-                .replace("@@@afterUseCase@@@", getAfterUseCase(useCaseResult))
-                .replace("@@@relatedUseCases@@@", getRelatedUseCases(useCaseResult));
+                .replace("@@@useCaseCommentTemplate@@@", getUseCaseComment(useCaseResult.useCase))
+                .replace("@@@beforeUseCaseTemplate@@@", getBeforeUseCase(useCaseResult))
+                .replace("@@@scenarioTemplates@@@", getScenarios(useCaseResult))
+                .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
+                .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult));
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
@@ -322,7 +360,7 @@ public class HtmlReport extends Report {
         String relatedUseCases = "";
         if (!useCaseResult.subUseCaseResults.isEmpty()) {
             return new TemplateString(relatedUseCasesTemplate)
-                    .replace("@@@relatedUseCases@@@", getRelatedUseCase(useCaseResult))
+                    .replace("@@@relatedUseCaseTemplates@@@", getRelatedUseCase(useCaseResult))
                     .getText();
         }
         return relatedUseCases;
@@ -333,10 +371,10 @@ public class HtmlReport extends Report {
         for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
             String error = createHtmlReportAndReturnErrorWhileCreating(subUseCaseResult);
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
-                    .replace("@@@issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
-                    .replace("@@@link@@@", getRelativeUrl(subUseCaseResult.useCase, useCaseResult))
-                    .replace("@@@name@@@", subUseCaseResult.useCase.getName())
-                    .replace("@@@error@@@", error)
+                    .replace("@@@relatedUseCase.issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
+                    .replace("@@@relatedUseCase.link@@@", getRelativeUrl(subUseCaseResult.useCase, useCaseResult))
+                    .replace("@@@relatedUseCase.name@@@", subUseCaseResult.useCase.getName())
+                    .replace("@@@relatedUseCaseErrorTemplate@@@", error)
                     .getText();
         }
         return relatedUseCase;
@@ -352,7 +390,7 @@ public class HtmlReport extends Report {
     }
 
     private String getLinkError( Throwable t) {
-        return new TemplateString(relatedUseCaseErrorTemplate).replace("@@@errorMessage@@@",t.getMessage()).getText();
+        return new TemplateString(relatedUseCaseErrorTemplate).replace("@@@error.message@@@",t.getMessage()).getText();
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {
@@ -371,12 +409,12 @@ public class HtmlReport extends Report {
         return new TemplateString(scenarioTemplate)
                 .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
                 .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
-                .replace("@@@scenario.comment@@@", getScenarioComment(scenarioResult))
-                .replace("@@@scenario.before@@@", getBeforeScenario(scenarioResult))
-                .replace("@@@scenario.instructions@@@", getScenarioInstructions(scenarioResult))
-                .replace("@@@scenario.after@@@", getAfterScenario(scenarioResult))
-                .replace("@@@scenario.context@@@", extractDisplayedContexts(scenarioResult))
-                .replace("@@@scenario.exception@@@", getStackTrace(scenarioResult.failure))
+                .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
+                .replace("@@@beforeScenarioTemplate@@@", getBeforeScenario(scenarioResult))
+                .replace("@@@scenarioInstructionTemplates@@@", getScenarioInstructions(scenarioResult))
+                .replace("@@@afterScenarioTemplate@@@", getAfterScenario(scenarioResult))
+                .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
+                .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
                 .getText();
     }
 
@@ -413,7 +451,7 @@ public class HtmlReport extends Report {
         if (scenarioResult.scenario.useCase.beforeScenario != null) {
             String instructions = getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.beforeScenario);
             return new TemplateString(beforeScenarioTemplate)
-                    .replace("@@@scenario.before.instructions@@@", instructions)
+                    .replace("@@@contextInstructionTemplates@@@", instructions)
                     .getText();
         }
         return "";
@@ -423,7 +461,7 @@ public class HtmlReport extends Report {
         if (scenarioResult.scenario.useCase.afterScenario != null) {
             String instructions = getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.afterScenario);
             return new TemplateString(afterScenarioTemplate)
-                    .replace("@@@scenario.after.instructions@@@", instructions)
+                    .replace("@@@contextInstructionTemplates@@@", instructions)
                     .getText();
         }
         return "";
@@ -432,8 +470,8 @@ public class HtmlReport extends Report {
     private String getScenarioComment(ScenarioResult scenarioResult) {
         String comment = "";
         if (scenarioResult.scenario.getComment() != null) {
-            comment = new TemplateString(commentTemplate)
-                    .replace("@@@comment@@@", scenarioResult.scenario.getComment())
+            comment = new TemplateString(scenarioCommentTemplate)
+                    .replace("@@@comment.text@@@", scenarioResult.scenario.getComment())
                     .getText();
         }
         return comment;
@@ -447,7 +485,7 @@ public class HtmlReport extends Report {
                 htmlText += extractDisplayedContext(value);
             }
             return new TemplateString(displayedContextsTemplate)
-                    .replace("@@@displayedContexts@@@", htmlText)
+                    .replace("@@@displayedContextTemplates@@@", htmlText)
                     .getText();
         }
         return "";
@@ -457,7 +495,7 @@ public class HtmlReport extends Report {
         if (failure != null) {
             StringWriter stringWriter = new StringWriter();
             failure.printStackTrace(new PrintWriter(stringWriter));
-            return new TemplateString(stacktraceTemplate)
+            return new TemplateString(exceptionTemplate)
                     .replace("@@@failure.className@@@", failure.getClass().getSimpleName())
                     .replace("@@@failure.message@@@", failure.getMessage())
                     .replace("@@@failure.stacktrace@@@", stringWriter.toString())
@@ -468,7 +506,7 @@ public class HtmlReport extends Report {
 
     private String extractDisplayedContext(String value) {
         return new TemplateString(displayedContextTemplate)
-                .replace("@@@displayedContext@@@", value)
+                .replace("@@@displayedContext.text@@@", value)
                 .getText();
     }
 
@@ -476,9 +514,9 @@ public class HtmlReport extends Report {
         UseCase useCase = useCaseResult.useCase;
         if (useCase.beforeUseCase != null) {
             return new TemplateString(beforeUseCaseTemplate)
-                    .replace("@@@useCase.before.issue@@@", htmlResources.convertIssue(useCaseResult.beforeResult.issue))
-                    .replace("@@@instructions@@@", getContextInstructions(useCase, useCase.beforeUseCase))
-                    .replace("@@@exception@@@", getStackTrace(useCaseResult.beforeResult))
+                    .replace("@@@beforeUseCase.issue@@@", htmlResources.convertIssue(useCaseResult.beforeResult.issue))
+                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.beforeUseCase))
+                    .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.beforeResult))
                     .getText();
         }else {
             return "";
@@ -489,9 +527,9 @@ public class HtmlReport extends Report {
         UseCase useCase = useCaseResult.useCase;
         if (useCase.afterUseCase != null) {
             return new TemplateString(afterUseCaseTemplate)
-                    .replace("@@@useCase.after.issue@@@", htmlResources.convertIssue(useCaseResult.afterResult.issue))
-                    .replace("@@@instructions@@@", getContextInstructions(useCase, useCase.afterUseCase))
-                    .replace("@@@exception@@@", getStackTrace(useCaseResult.afterResult))
+                    .replace("@@@afterUseCase.issue@@@", htmlResources.convertIssue(useCaseResult.afterResult.issue))
+                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.afterUseCase))
+                    .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.afterResult))
                     .getText();
         }else{
             return "";
@@ -509,8 +547,8 @@ public class HtmlReport extends Report {
     private String getContextInstructions(UseCase useCase, ContextHandler context) {
         String instructions = "";
         for (MethodCall methodCall : context.methodCalls) {
-            instructions += new TemplateString(useCaseContextInstructionsTemplate)
-                    .replace("@@@instructions@@@", getInstructionWithParameter(methodCall, useCase))
+            instructions += new TemplateString(contextInstructionTemplate)
+                    .replace("@@@instruction.text@@@", getInstructionWithParameter(methodCall, useCase))
                     .getText();
         }
         return instructions;
@@ -533,15 +571,15 @@ public class HtmlReport extends Report {
 
     private String getParameter(String value) {
         return new TemplateString(parameterTemplate)
-                .replace("@@@value@@@", value)
+                .replace("@@@parameter.value@@@", value)
                 .getText();
     }
 
     private String getUseCaseComment(UseCase useCase) {
         String comment = "";
         if (useCase.haveComment()) {
-            return new TemplateString(commentTemplate)
-                    .replace("@@@comment@@@", useCase.getComment())
+            return new TemplateString(useCaseCommentTemplate)
+                    .replace("@@@comment.text@@@", useCase.getComment())
                     .getText();
         }
         return comment;
@@ -556,5 +594,17 @@ public class HtmlReport extends Report {
 
     public HtmlResources getHtmlResources() {
         return htmlResources;
+    }
+
+    public String getIssueConverter(Issue issue) {
+        switch (issue){
+            case IGNORED:
+                return ignoredClass;
+            case FAILED:
+                return failedClass;
+            default:
+            case SUCCEEDED:
+                return successClass;
+        }
     }
 }

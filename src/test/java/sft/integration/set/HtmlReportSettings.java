@@ -89,8 +89,6 @@ public class HtmlReportSettings {
         <li>exception</li>
         <li>relatedUseCase</li>
     </ul>
-
-
     */
     @Test
     public void changeCssAndJs() throws Exception {
@@ -135,6 +133,18 @@ public class HtmlReportSettings {
         configuration = new DefaultConfiguration();
         Assert.assertEquals(HtmlReport.class, configuration.getReport().getClass());
     }
+
+    /*
+    The html report could be customized matching your UI design vision.<br />
+    The html report generate html file using twitter bootstrap. <br />
+
+
+    */
+    @Test
+    public void customHtml(){
+
+    }
+
 
 
 }

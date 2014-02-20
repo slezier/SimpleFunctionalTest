@@ -44,7 +44,8 @@ public class HtmlResources {
     }
 
     public String convertIssue(Issue issue) {
-        return issue.toString().toLowerCase();
+
+        return configuration.getReport().getIssueConverter(issue);
     }
 
     public String getIncludeCssDirectives(Class<?> useCaseClass) {
