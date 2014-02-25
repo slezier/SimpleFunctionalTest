@@ -72,20 +72,22 @@ import sft.integration.use.Usages;
 
 </div>
 <h2> Work In Progress </h2>
+    <li>useCase decorator (breadcrumb,toc,style)</li>
 <ul>
-    <li>enhance parametrization (custom html)</li>
 </ul>
 <h2> TODO </h2>
 <ul>
-    <li>test with other runner like PowerMock et EasyMock</li>
-    <li>test with inheritance</li>
-    <li>fixture decorators (table, group)</li>
-    <li>subUseCase decorator (group)</li>
-    <li>useCase decorator (breadcrumb,toc)</li>
+    <li>fixture decorators (table, group,style)</li>
+    <li>subUseCase decorator (group,style)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
-    <li>write extension: test result in LaTeX</li>
+    <li>runner extension: concurrent testing</li>
+    <li>runner extension: inheritance</li>
+    <li>runner extension: using mock</li>
+    <li>write extension: test result in md</li>
     <li>write extension: test result in Word</li>
+    <li>write extension: test result in LaTeX</li>
+    <li>JUnit version support</li>
 </ul>
 
 */
