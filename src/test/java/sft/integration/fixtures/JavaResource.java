@@ -25,15 +25,14 @@ public class JavaResource extends SftResource {
         createJavaHtml();
     }
 
-    private static int copy(Reader input, Writer output) throws IOException {
+    private static void copy(Reader input, Writer output) throws IOException {
         char[] buffer = new char[1024];
-        int count = 0;
-        int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-            count += n;
+        while (-1 != input.read(buffer)) {
+            String read = new String(buffer).replace("<","&lt;").replace(">","&gt;");
+            char[] newBuffer = read.toCharArray();
+            output.write(newBuffer, 0, newBuffer.length);
+            buffer = new char[1024];
         }
-        return count;
     }
 
     private void createJavaHtml() {

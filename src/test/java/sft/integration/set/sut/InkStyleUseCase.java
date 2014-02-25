@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.SimpleFunctionalTest;
 import sft.Using;
-import sft.integration.use.sut.subUseCase.SubUseCaseFailed;
-import sft.integration.use.sut.subUseCase.SubUseCaseIgnored;
-import sft.integration.use.sut.subUseCase.SubUseCaseSucceeded;
+import sft.integration.set.sut.subUseCase.SubUseCaseFailed;
+import sft.integration.set.sut.subUseCase.SubUseCaseIgnored;
+import sft.integration.set.sut.subUseCase.SubUseCaseSucceeded;
 
 import static org.junit.Assert.assertTrue;
 

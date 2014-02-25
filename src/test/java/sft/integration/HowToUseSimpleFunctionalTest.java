@@ -84,7 +84,8 @@ import sft.integration.use.Usages;
     <li>useCase decorator (breadcrumb,toc)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
-    <li>write test result in LaTeX</li>
+    <li>write extension: test result in LaTeX</li>
+    <li>write extension: test result in Word</li>
 </ul>
 
 */

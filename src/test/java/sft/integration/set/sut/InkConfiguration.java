@@ -19,6 +19,7 @@ public class InkConfiguration extends DefaultConfiguration{
                 "@@@afterUseCaseTemplate@@@" +
                 "@@@relatedUseCasesTemplates@@@" +
                 "</div>"+
+                "<div class='large-80'>@Copyright nevermind</div>" +
                 "</body>"+
                 "</html>");
         getReport().setUseCaseCommentTemplate(
@@ -28,7 +29,7 @@ public class InkConfiguration extends DefaultConfiguration{
                 "</p>" +
                 "</div>");
         getReport().setBeforeUseCaseTemplate(
-                "<div class='ink-alert block large-80  @@@beforeUseCase.issue@@@'> " +
+                "<div class='ink-alert block large-80 @@@beforeUseCase.issue@@@'> " +
                 "<h4>Before Use Case</h4>"+
                 "<p>"+
                 "@@@contextInstructionTemplates@@@" +
@@ -98,7 +99,7 @@ public class InkConfiguration extends DefaultConfiguration{
                 "<div>" +
                 "@@@error.message@@@"+
                 "</div>");
-        getReport().setRelatedUseCaseErrorTemplate(
+        getReport().setParameterTemplate(
                 "<div>" +
                 "<span>@@@parameter.value@@@</span>"+
                 "</div>");

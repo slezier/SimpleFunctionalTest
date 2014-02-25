@@ -1,5 +1,31 @@
-<!DOCTYPE html><html><head><title>Test: Sub use case failed</title><link rel="stylesheet" href="../../../../../other-style/css/ink-min.css" />
-</head><body><div class='ink-grid gutters'><h1 class='ink-label error invert'>Sub use case failed</h1><div class='ink-alert block large-80 error'> <h4>Simple failed scenario</h4><p><div class='error ink-label invert'><span>Simple failed action</span></div><div class='ink-alert block error'><h4><span>AssertionError</span>: <span></span></h4><p class='small'>java.lang.AssertionError
+<html>
+  <head>
+    <title>Sub use case failed</title>
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/sft.css" />
+<script src="../../../../../sft-html-default/bootstrap.min.js"></script>
+<script src="../../../../../sft-html-default/jquery-1.10.2.min.js"></script>
+  </head>
+  <body class="useCase failed">
+    <div class="container">
+      <div class="page-header">
+        <div class="text-center">
+          <h1><span class="useCaseName">Sub use case failed</span></h1>
+        </div>
+      </div>
+      <div class="scenario failed panel panel-default">
+        <div class="panel-heading">
+          <h3><span class="scenarioName">Simple failed scenario</span></h3>
+        </div>
+        <div class="panel-body">
+          <div class="instruction failed">
+            <span>Simple failed action</span>          </div>
+        </div>
+      <div class="panel-body">
+        <div class="exception">
+          <a onClick="$(this).next().toggle()" >AssertionError: </a>
+          <pre class="stacktrace pre-scrollable" >java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
 	at org.junit.Assert.assertTrue(Assert.java:52)
@@ -14,13 +40,46 @@
 	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:72)
 	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:83)
 	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.junit.runners.Suite.runChild(Suite.java:127)
+	at org.junit.runners.Suite.runChild(Suite.java:26)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
 	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
-	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:77)
-	at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:195)
-	at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:63)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:138)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:117)
+	at sft.integration.fixtures.JUnitHelper.run(JUnitHelper.java:34)
+	at sft.integration.use.LinksUseCasesTogether.whenInvokingJUnit(LinksUseCasesTogether.java:66)
+	at sft.integration.use.LinksUseCasesTogether.publicFieldAreEvaluateAsRelatedUseCase(LinksUseCasesTogether.java:40)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
 	at java.lang.reflect.Method.invoke(Method.java:597)
-	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:120)
-</p></div></p></div></div></body></html>
+	at sft.Scenario.run(Scenario.java:39)
+	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:50)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:72)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:83)
+	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:83)
+	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</pre>
+        </div>
+      </div>
+      </div>
+    </div>
+  </body>
+</html>
