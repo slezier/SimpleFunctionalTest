@@ -10,9 +10,10 @@
  *******************************************************************************/
 package sft;
 
+import sft.decorators.Decorator;
 
-import java.util.ArrayList;
-
-public class FixturesHolder {
-    public  ArrayList<Fixture> fixtures;
+public @interface Decorate {
+    Class<? extends Decorator>  decorator();
+    String parameter();
+    String[] parameters() default {};
 }

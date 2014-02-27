@@ -101,5 +101,6 @@ public class Usages {
     public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
     public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
+    public UsingDecorator usingDecorator = new UsingDecorator();
 
 }

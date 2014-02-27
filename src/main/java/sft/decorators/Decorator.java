@@ -8,11 +8,7 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft;
+package sft.decorators;
 
-
-import java.util.ArrayList;
-
-public class FixturesHolder {
-    public  ArrayList<Fixture> fixtures;
+public interface Decorator {
 }
