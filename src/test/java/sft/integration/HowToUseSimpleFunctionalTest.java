@@ -72,11 +72,12 @@ import sft.integration.use.Usages;
 
 </div>
 <h2> Work In Progress </h2>
-    <li>useCase decorator (breadcrumb,toc,style)</li>
+    <li>useCase decorator (breadcrumb,toc)</li>
 <ul>
 </ul>
 <h2> TODO </h2>
 <ul>
+    <li>scenario decorators (group,style)</li>
     <li>fixture decorators (table, group,style)</li>
     <li>subUseCase decorator (group,style)</li>
     <li>enhance hacking (extract interface by responsibility)</li>

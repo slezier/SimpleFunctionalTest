@@ -338,7 +338,7 @@ public class HtmlReport extends Report {
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
         Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
 
-        TemplateString useCaseReport = new TemplateString(useCaseTemplate)
+        String useCaseReport = new TemplateString(useCaseTemplate)
                 .replace("@@@useCase.name@@@", useCaseResult.useCase.getName())
                 .replace("@@@useCase.css@@@", htmlResources.getIncludeCssDirectives(classUnderTest))
                 .replace("@@@useCase.js@@@", htmlResources.getIncludeJsDirectives(classUnderTest))
@@ -347,11 +347,15 @@ public class HtmlReport extends Report {
                 .replace("@@@beforeUseCaseTemplate@@@", getBeforeUseCase(useCaseResult))
                 .replace("@@@scenarioTemplates@@@", getScenarios(useCaseResult))
                 .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
-                .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult));
+                .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
+                .getText();
+        if(useCaseResult.useCase.useCaseDecorator != null ){
+            useCaseReport=useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseReport);
+        }
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
-        html.write(useCaseReport.getText());
+        html.write(useCaseReport);
         html.close();
         System.out.println("Report wrote: " + htmlFile.getCanonicalPath());
     }

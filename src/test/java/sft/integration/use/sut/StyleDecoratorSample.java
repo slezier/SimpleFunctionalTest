@@ -7,16 +7,17 @@ import sft.SimpleFunctionalTest;
 import sft.decorators.Style;
 
 @RunWith(SimpleFunctionalTest.class)
-@Decorate(decorator=Style.class,parameter="specificStyle")
-public class DecoratorSample {
+@Decorate(decorator = Style.class, parameters ="specificStyle")
+public class StyleDecoratorSample {
 
     @Test
-    public void firstScenario(){
+    @Decorate(decorator = Style.class, parameter ="myScenario" )
+    public void firstScenario() {
         call1();
     }
 
+    @Decorate(decorator = Style.class, parameter ="myFixture" )
     private void call1() {
     }
-
 
 }

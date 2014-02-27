@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import sft.decorators.Decorator;
 import sft.javalang.JavaToHumanTranslator;
 import sft.javalang.parser.UseCaseJavaParser;
 
@@ -25,19 +26,21 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isProtected;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static java.util.Collections.disjoint;
 import static java.util.Collections.sort;
 
 public class UseCase extends FixturesHolder {
 
+
     public final Class<?> classUnderTest;
     public final Object object;
     private final JavaToHumanTranslator javaToHumanTranslator;
+    public final Decorator useCaseDecorator;
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<UseCase> subUseCases;
     public final ArrayList<Helper> fixturesHelpers;
@@ -59,6 +62,7 @@ public class UseCase extends FixturesHolder {
         classUnderTest = object.getClass();
         this.configuration= extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
+        useCaseDecorator = extractUseCaseDecorator();
         scenarios = extractScenarios();
         fixtures = extractFixtures();
         subUseCases = extractSubUseCases();
@@ -129,6 +133,18 @@ public class UseCase extends FixturesHolder {
         return fixtures;
     }
 
+    private Decorator extractUseCaseDecorator() throws IllegalAccessException, InstantiationException {
+        Decorate decorate = getUseCaseDecorateAnnotation();
+        if(decorate != null ){
+            if(decorate.parameter()!=null && !decorate.parameter().isEmpty()){
+                return decorate.decorator().newInstance().withParameters(decorate.parameter());
+            }else{
+                return decorate.decorator().newInstance().withParameters(decorate.parameters());
+            }
+        }
+        return null;
+    }
+
     private ArrayList<Scenario> extractScenarios() {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         for (Method method : getTestMethods()) {
@@ -158,6 +174,16 @@ public class UseCase extends FixturesHolder {
             helpers.add(new Helper(helperObject));
         }
         return helpers;
+    }
+
+
+    private Decorate getUseCaseDecorateAnnotation() {
+        for (Annotation annotation : classUnderTest.getDeclaredAnnotations()) {
+            if(annotation instanceof Decorate){
+                return (Decorate)annotation;
+            }
+        }
+        return null;
     }
 
     private ArrayList<Field> getPublicFields() {
@@ -308,4 +334,6 @@ public class UseCase extends FixturesHolder {
     public boolean haveComment() {
         return comment != null;
     }
+
+
 }

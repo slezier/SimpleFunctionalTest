@@ -10,5 +10,13 @@
  *******************************************************************************/
 package sft.decorators;
 
+import sft.Report;
+
 public interface Decorator {
+    Decorator withParameters(String... parameters);
+    public String applyOnUseCase(String result);
+
+    String applyOnScenario(String result);
+
+    String applyOnFixture(String result);
 }

@@ -12,8 +12,12 @@ package sft;
 
 import sft.decorators.Decorator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Decorate {
     Class<? extends Decorator>  decorator();
-    String parameter();
+    String parameter() default "";
     String[] parameters() default {};
 }
