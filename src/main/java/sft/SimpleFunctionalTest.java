@@ -32,7 +32,7 @@ public class SimpleFunctionalTest extends Runner {
 
 
 
-    public SimpleFunctionalTest(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException, IOException {
+    public SimpleFunctionalTest(Class<?> klass) throws Exception {
         rootRunner = new UseCaseRunner(klass);
     }
 
@@ -45,7 +45,7 @@ public class SimpleFunctionalTest extends Runner {
     public void run(final RunNotifier notifier) {
         EachTestNotifier testNotifier = new EachTestNotifier(notifier, getDescription());
         try {
-            UseCaseResult useCaseResult = rootRunner.run(new JunitSftNotifier(notifier));
+            rootRunner.run(new JunitSftNotifier(notifier));
         } catch (AssumptionViolatedException e) {
             testNotifier.fireTestIgnored();
         } catch (StoppedByUserException e) {

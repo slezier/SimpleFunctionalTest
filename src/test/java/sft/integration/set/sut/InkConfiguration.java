@@ -6,7 +6,7 @@ public class InkConfiguration extends DefaultConfiguration{
 
     public InkConfiguration(){
         getReport().setResourcePath("other-style");
-        getReport().setUseCaseTemplate("<!DOCTYPE html><html><head><title>Test: @@@useCase.name@@@</title>" +
+        getReport().useCaseTemplate = "<!DOCTYPE html><html><head><title>Test: @@@useCase.name@@@</title>" +
                 "@@@useCase.css@@@" +
                 "@@@useCase.js@@@" +
                 "</head>" +
@@ -21,23 +21,20 @@ public class InkConfiguration extends DefaultConfiguration{
                 "</div>"+
                 "<div class='large-80'>@Copyright nevermind</div>" +
                 "</body>"+
-                "</html>");
-        getReport().setUseCaseCommentTemplate(
-                "<div >"+
+                "</html>";
+        getReport().useCaseCommentTemplate = "<div >"+
                 "<p class='note'>"+
                 "@@@comment.text@@@"+
                 "</p>" +
-                "</div>");
-        getReport().setBeforeUseCaseTemplate(
-                "<div class='ink-alert block large-80 @@@beforeUseCase.issue@@@'> " +
+                "</div>";
+        getReport().beforeUseCaseTemplate = "<div class='ink-alert block large-80 @@@beforeUseCase.issue@@@'> " +
                 "<h4>Before Use Case</h4>"+
                 "<p>"+
                 "@@@contextInstructionTemplates@@@" +
                 "@@@exceptionTemplate@@@" +
                 "</p>"+
-                "</div>");
-        getReport().setScenarioTemplate(
-                "<div class='ink-alert block large-80 @@@scenario.issue@@@'> " +
+                "</div>";
+        getReport().scenarioTemplate = "<div class='ink-alert block large-80 @@@scenario.issue@@@'> " +
                 "<h4>@@@scenario.name@@@</h4>" +
                 "<p>"+
                 "@@@scenarioCommentTemplate@@@" +
@@ -47,65 +44,52 @@ public class InkConfiguration extends DefaultConfiguration{
                 "@@@displayedContextsTemplates@@@" +
                 "@@@exceptionTemplate@@@"+
                 "</p>"+
-                "</div>");
-        getReport().setScenarioCommentTemplate(
-                "<p class='note'>"+
+                "</div>";
+        getReport().scenarioCommentTemplate = "<p class='note'>"+
                 "@@@comment.text@@@"+
                 "</p>" +
-                "<hr width='80%' align='center'/>");
-        getReport().setExceptionTemplate(
-                "<div class='ink-alert block error'>" +
+                "<hr width='80%' align='center'/>";
+        getReport().exceptionTemplate = "<div class='ink-alert block error'>" +
                 "<h4><span>@@@failure.className@@@</span>: <span>@@@failure.message@@@</span></h4>" +
                 "<p class='small'>@@@failure.stacktrace@@@</p>" +
-                "</div>");
-        getReport().setBeforeScenarioTemplate(
-                "@@@contextInstructionTemplates@@@");
-        getReport().setScenarioInstructionTemplate(
-                "<div class='@@@instruction.issue@@@ ink-label invert'>" +
+                "</div>";
+        getReport().beforeScenarioTemplate = "@@@contextInstructionTemplates@@@";
+        getReport().scenarioInstructionTemplate = "<div class='@@@instruction.issue@@@ ink-label invert'>" +
                 "<span>@@@instruction.text@@@</span>" +
-                "</div>");
-        getReport().setAfterScenarioTemplate(
-                "@@@contextInstructionTemplates@@@");
-        getReport().setDisplayedContextsTemplate(
-                "<div>" +
+                "</div>";
+        getReport().afterScenarioTemplate = "@@@contextInstructionTemplates@@@";
+        getReport().displayedContextsTemplate = "<div>" +
                 "@@@displayedContextTemplates@@@" +
-                "</div>");
-        getReport().setDisplayedContextTemplate(
-                "<div>" +
+                "</div>";
+        getReport().displayedContextTemplate = "<div>" +
                 "<span>@@@displayedContext.text@@@</span>" +
-                "</div>");
-        getReport().setAfterUseCaseTemplate(
-                "<div class='ink-alert block large-80 @@@afterUseCase.issue@@@'> " +
+                "</div>";
+        getReport().afterUseCaseTemplate = "<div class='ink-alert block large-80 @@@afterUseCase.issue@@@'> " +
                 "<h4>After Use Case</h4>"+
                 "<p>"+
                 "@@@contextInstructionTemplates@@@" +
                 "@@@exceptionTemplate@@@" +
                 "</p>"+
-                "</div>");
-        getReport().setContextInstructionTemplate(
-                "<div class='info ink-label invert'>" +
+                "</div>";
+        getReport().contextInstructionTemplate = "<div class='info ink-label invert'>" +
                 "@@@instruction.text@@@" +
-                "</div>");
-        getReport().setRelatedUseCasesTemplate(
-                "<div class='large-80 '><ul>" +
+                "</div>";
+        getReport().relatedUseCasesTemplate = "<div class='large-80 '><ul>" +
                 "@@@relatedUseCaseTemplates@@@"+
-                "</ul></div>");
-        getReport().setRelatedUseCaseTemplate(
-                "<li>" +
+                "</ul></div>";
+        getReport().relatedUseCaseTemplate = "<li>" +
                 "<a href='@@@relatedUseCase.link@@@' class='ink-label @@@relatedUseCase.issue@@@'>@@@relatedUseCase.name@@@</a>"+
                 "@@@relatedUseCaseErrorTemplate@@@"+
-                "</li>");
-        getReport().setRelatedUseCaseErrorTemplate(
-                "<div>" +
+                "</li>";
+        getReport().relatedUseCaseErrorTemplate= "<div>" +
                 "@@@error.message@@@"+
-                "</div>");
-        getReport().setParameterTemplate(
-                "<div>" +
+                "</div>";
+        getReport().parameterTemplate = "<div>" +
                 "<span>@@@parameter.value@@@</span>"+
-                "</div>");
-        getReport().setSuccessClass("success");
-        getReport().setFailedClass("error");
-        getReport().setIgnoredClass("warning");
+                "</div>";
+        getReport().successClass = "success";
+        getReport().failedClass = "error";
+        getReport().ignoredClass = "warning";
 
     }
 

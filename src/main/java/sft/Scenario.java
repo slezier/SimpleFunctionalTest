@@ -11,27 +11,32 @@
 package sft;
 
 
+import org.junit.Ignore;
+import sft.decorators.Decorator;
+import sft.decorators.DecoratorExtractor;
+import sft.javalang.JavaToHumanTranslator;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
-import org.junit.Ignore;
-import sft.javalang.JavaToHumanTranslator;
-
 public class Scenario {
     public final Method method;
     public final UseCase useCase;
+    public final Decorator decorator;
     private final JavaToHumanTranslator javaToHumanTranslator;
-    private String comment;
     public LinkedList<MethodCall> methodCalls = new LinkedList<MethodCall>();
+    private String comment;
 
-    public Scenario(UseCase useCase, Method method) {
+    public Scenario(UseCase useCase, Method method) throws Exception {
         this.useCase = useCase;
         this.method = method;
         this.javaToHumanTranslator = new JavaToHumanTranslator();
+        this.decorator = DecoratorExtractor.getDecorator(method.getDeclaredAnnotations());
+
     }
 
-    public String getName(){
+    public String getName() {
         return javaToHumanTranslator.humanize(method);
     }
 
@@ -43,10 +48,13 @@ public class Scenario {
         return method.getAnnotation(Ignore.class) != null;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
     public String getComment() {
         return comment;
     }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+
 }

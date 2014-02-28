@@ -10,6 +10,8 @@
  *******************************************************************************/
 package sft;
 
+import sft.decorators.Decorator;
+import sft.decorators.DecoratorExtractor;
 import sft.javalang.JavaToHumanTranslator;
 
 import java.lang.reflect.Method;
@@ -18,11 +20,13 @@ import java.util.ArrayList;
 public class Fixture {
 
     public final Method method;
+    public final Decorator decorator;
     private final JavaToHumanTranslator javaToHumanTranslator = new JavaToHumanTranslator();
     public ArrayList<String> parametersName = new ArrayList<String>();
 
-    public Fixture(Method method) {
+    public Fixture(Method method) throws Exception {
         this.method = method;
+        this.decorator = DecoratorExtractor.getDecorator(method.getDeclaredAnnotations());
     }
 
     public String getText() {

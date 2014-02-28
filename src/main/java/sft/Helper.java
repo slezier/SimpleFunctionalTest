@@ -10,38 +10,10 @@
  *******************************************************************************/
 package sft;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import static java.lang.reflect.Modifier.isPublic;
-
 public class Helper extends FixturesHolder {
-    public final Object object;
 
-    public Helper(Object helperObject) {
-        object = helperObject;
-        fixtures = extractFixtures();
-
-    }
-
-
-    private ArrayList<Fixture> extractFixtures() {
-        ArrayList<Fixture> fixtures = new ArrayList<Fixture>();
-        for(Method method : getSupportMethod() ){
-            Fixture fixture = new Fixture(method);
-            fixtures.add(fixture);
-        }
-        return fixtures;
-    }
-
-    private ArrayList<Method> getSupportMethod() {
-        ArrayList<Method> testMethods = new ArrayList<Method>();
-        for (Method method : object.getClass().getDeclaredMethods()) {
-            if (isPublic(method.getModifiers()) ) {
-                testMethods.add(method);
-            }
-        }
-        return testMethods;
+    public Helper(Object helperObject) throws Exception {
+        super(helperObject, FixturesVisibility.All);
     }
 
 }

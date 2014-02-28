@@ -17,10 +17,10 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import sft.decorators.Decorator;
+import sft.decorators.DecoratorExtractor;
 import sft.javalang.JavaToHumanTranslator;
 import sft.javalang.parser.UseCaseJavaParser;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -28,18 +28,12 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import static java.lang.reflect.Modifier.isPrivate;
-import static java.lang.reflect.Modifier.isProtected;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
-import static java.util.Collections.disjoint;
-import static java.util.Collections.sort;
 
 public class UseCase extends FixturesHolder {
 
 
-    public final Class<?> classUnderTest;
-    public final Object object;
-    private final JavaToHumanTranslator javaToHumanTranslator;
     public final Decorator useCaseDecorator;
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<UseCase> subUseCases;
@@ -49,22 +43,21 @@ public class UseCase extends FixturesHolder {
     public final ContextHandler beforeScenario;
     public final ContextHandler afterScenario;
     public final DisplayedContext displayedContext;
-    private String comment;
     public final DefaultConfiguration configuration;
+    private final JavaToHumanTranslator javaToHumanTranslator;
+    private String comment;
 
 
-    public UseCase(Class<?> classUnderTest) throws IllegalAccessException, InstantiationException, IOException {
-        this(classUnderTest.newInstance(),new DefaultConfiguration());
+    public UseCase(Class<?> classUnderTest) throws Exception {
+        this(classUnderTest.newInstance(), new DefaultConfiguration());
     }
 
-    private UseCase(Object object, DefaultConfiguration configuration) throws IllegalAccessException, InstantiationException, IOException {
-        this.object = object;
-        classUnderTest = object.getClass();
-        this.configuration= extractConfiguration(configuration);
+    private UseCase(Object object, DefaultConfiguration configuration) throws Exception {
+        super(object, FixturesVisibility.PrivateOrProtectedOnly);
+        this.configuration = extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
-        useCaseDecorator = extractUseCaseDecorator();
+        useCaseDecorator = DecoratorExtractor.getDecorator(classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
-        fixtures = extractFixtures();
         subUseCases = extractSubUseCases();
         fixturesHelpers = extractFixturesHelpers();
         beforeUseCase = extractBeforeClassContextHandler();
@@ -72,13 +65,13 @@ public class UseCase extends FixturesHolder {
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
         displayedContext = extractDisplayedContext(object);
-        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration,classUnderTest);
+        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration, classUnderTest);
         javaClassParser.feed(this);
     }
 
     private DefaultConfiguration extractConfiguration(DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
         Using explicitConfiguration = classUnderTest.getAnnotation(Using.class);
-        if( explicitConfiguration != null ){
+        if (explicitConfiguration != null) {
             return explicitConfiguration.value().newInstance();
 
         }
@@ -86,66 +79,46 @@ public class UseCase extends FixturesHolder {
     }
 
     private DisplayedContext extractDisplayedContext(Object object) {
-        return new DisplayedContext(object,extractDisplayableFields());
+        return new DisplayedContext(object, extractDisplayableFields());
     }
 
-
     private ContextHandler extractBeforeClassContextHandler() {
-        Method method =getBeforeClassMethod();
-        if(method==null){
+        Method method = getBeforeClassMethod();
+        if (method == null) {
             return null;
-        }else{
-            return new ContextHandler(this,method);
+        } else {
+            return new ContextHandler(this, method);
         }
     }
 
     private ContextHandler extractAfterClassContextHandler() {
-        Method method =getAfterClassMethod();
-        if(method==null){
+        Method method = getAfterClassMethod();
+        if (method == null) {
             return null;
-        }else{
-            return new ContextHandler(this,method);
+        } else {
+            return new ContextHandler(this, method);
         }
     }
+
     private ContextHandler extractBeforeContextHandler() {
-        Method method =getBeforeMethod();
-        if(method==null){
+        Method method = getBeforeMethod();
+        if (method == null) {
             return null;
-        }else{
-            return new ContextHandler(this,method);
+        } else {
+            return new ContextHandler(this, method);
         }
     }
 
     private ContextHandler extractAfterContextHandler() {
-        Method method =getAfterMethod();
-        if(method==null){
+        Method method = getAfterMethod();
+        if (method == null) {
             return null;
-        }else{
-            return new ContextHandler(this,method);
+        } else {
+            return new ContextHandler(this, method);
         }
     }
 
-    private ArrayList<Fixture> extractFixtures() {
-        ArrayList<Fixture> fixtures = new ArrayList<Fixture>();
-        for (Method method : getSupportMethod()) {
-            fixtures.add(new Fixture(method));
-        }
-        return fixtures;
-    }
-
-    private Decorator extractUseCaseDecorator() throws IllegalAccessException, InstantiationException {
-        Decorate decorate = getUseCaseDecorateAnnotation();
-        if(decorate != null ){
-            if(decorate.parameter()!=null && !decorate.parameter().isEmpty()){
-                return decorate.decorator().newInstance().withParameters(decorate.parameter());
-            }else{
-                return decorate.decorator().newInstance().withParameters(decorate.parameters());
-            }
-        }
-        return null;
-    }
-
-    private ArrayList<Scenario> extractScenarios() {
+    private ArrayList<Scenario> extractScenarios() throws Exception {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         for (Method method : getTestMethods()) {
             scenarios.add(new Scenario(this, method));
@@ -153,37 +126,28 @@ public class UseCase extends FixturesHolder {
         return scenarios;
     }
 
-    private ArrayList<UseCase> extractSubUseCases() throws IllegalAccessException, InstantiationException, IOException {
+    private ArrayList<UseCase> extractSubUseCases() throws Exception {
         ArrayList<UseCase> subUseCases = new ArrayList<UseCase>();
         for (Field field : getPublicFields()) {
             Object subUseCaseObject = field.get(object);
             if (subUseCaseObject == null) {
-                subUseCases.add(new UseCase(field.getType().getClass().newInstance(),configuration));
+                subUseCases.add(new UseCase(field.getType().getClass().newInstance(), configuration));
             } else {
-                subUseCases.add(new UseCase(subUseCaseObject,configuration));
+                subUseCases.add(new UseCase(subUseCaseObject, configuration));
             }
         }
         return subUseCases;
     }
 
-    private ArrayList<Helper> extractFixturesHelpers() throws IllegalAccessException {
+    private ArrayList<Helper> extractFixturesHelpers() throws Exception {
         ArrayList<Helper> helpers = new ArrayList<Helper>();
         for (Field field : getHelperFields()) {
             field.setAccessible(true);
             Object helperObject = field.get(this.object);
             helpers.add(new Helper(helperObject));
         }
+
         return helpers;
-    }
-
-
-    private Decorate getUseCaseDecorateAnnotation() {
-        for (Annotation annotation : classUnderTest.getDeclaredAnnotations()) {
-            if(annotation instanceof Decorate){
-                return (Decorate)annotation;
-            }
-        }
-        return null;
     }
 
     private ArrayList<Field> getPublicFields() {
@@ -222,16 +186,6 @@ public class UseCase extends FixturesHolder {
         return testMethods;
     }
 
-    private ArrayList<Method> getSupportMethod() {
-        ArrayList<Method> testMethods = new ArrayList<Method>();
-        for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (isPrivate(method.getModifiers()) || isProtected(method.getModifiers())) {
-                testMethods.add(method);
-            }
-        }
-        return testMethods;
-    }
-
     private ArrayList<Field> extractDisplayableFields() {
         ArrayList<Field> displayableFields = new ArrayList<Field>();
         for (Field field : classUnderTest.getDeclaredFields()) {
@@ -245,8 +199,8 @@ public class UseCase extends FixturesHolder {
 
     private Method getBeforeClassMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeClass.class) ){
-                assertIsAPublicStaticMethod("BeforeClass",method);
+            if (method.isAnnotationPresent(BeforeClass.class)) {
+                assertIsAPublicStaticMethod("BeforeClass", method);
                 return method;
             }
         }
@@ -255,17 +209,18 @@ public class UseCase extends FixturesHolder {
 
     private Method getAfterClassMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AfterClass.class)){
-                assertIsAPublicStaticMethod("AfterClass",method);
+            if (method.isAnnotationPresent(AfterClass.class)) {
+                assertIsAPublicStaticMethod("AfterClass", method);
                 return method;
             }
         }
         return null;
     }
+
     private Method getBeforeMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
             if (method.isAnnotationPresent(Before.class)) {
-                assertIsAPublicAndNotStaticMethod("Before",method);
+                assertIsAPublicAndNotStaticMethod("Before", method);
                 return method;
             }
         }
@@ -275,28 +230,28 @@ public class UseCase extends FixturesHolder {
     private Method getAfterMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
             if (method.isAnnotationPresent(After.class)) {
-                assertIsAPublicAndNotStaticMethod("After",method);
+                assertIsAPublicAndNotStaticMethod("After", method);
                 return method;
             }
         }
         return null;
     }
+
     private void assertIsAPublicStaticMethod(String annotation, Method method) {
         int modifiers = method.getModifiers();
-        if( isPublic(modifiers) && isStatic(modifiers)) {
+        if (isPublic(modifiers) && isStatic(modifiers)) {
             //OK
         } else {
-            throw new RuntimeException("Method "+ method.getDeclaringClass().getCanonicalName()+"."+method.getName()+" annotated with @"+annotation+ " should be public and static.");
+            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and static.");
         }
     }
 
-
     private void assertIsAPublicAndNotStaticMethod(String annotation, Method method) {
         int modifiers = method.getModifiers();
-        if( isPublic(modifiers) && !isStatic(modifiers)) {
+        if (isPublic(modifiers) && !isStatic(modifiers)) {
             //OK
         } else {
-            throw new RuntimeException("Method "+ method.getDeclaringClass().getCanonicalName()+"."+method.getName()+" annotated with @"+annotation+ " should be public and not static.");
+            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and not static.");
         }
     }
 
@@ -324,11 +279,12 @@ public class UseCase extends FixturesHolder {
         return classUnderTest.getAnnotation(Ignore.class) != null;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
     public String getComment() {
         return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public boolean haveComment() {

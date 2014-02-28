@@ -31,7 +31,7 @@ public class UseCaseRunner {
     private final ContextRunner beforeUseCaseRunner;
     private final ContextRunner afterUseCaseRunner;
 
-    public UseCaseRunner(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException, IOException {
+    public UseCaseRunner(Class<?> klass) throws Exception {
         this.klass = klass;
         useCase = new UseCase(klass);
         for (Scenario scenario : useCase.scenarios) {

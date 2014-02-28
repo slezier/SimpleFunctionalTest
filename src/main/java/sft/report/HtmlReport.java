@@ -37,7 +37,7 @@ public class HtmlReport extends Report {
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
     private HtmlResources htmlResources;
 
-    private String useCaseTemplate =
+    public String useCaseTemplate =
             "<html>\n" +
                     "  <head>\n" +
                     "    <title>@@@useCase.name@@@</title>\n" +
@@ -59,18 +59,18 @@ public class HtmlReport extends Report {
                     "    </div>\n" +
                     "  </body>\n" +
                     "</html>";
-    private String useCaseCommentTemplate =
+    public String useCaseCommentTemplate =
             "        <div class=\"comment\">\n" +
                     "@@@comment.text@@@" +
                     "        </div>\n";
-    private String beforeUseCaseTemplate =
+    public String beforeUseCaseTemplate =
             "      <div class=\"panel panel-default beforeUseCase @@@beforeUseCase.issue@@@\">\n" +
                     "        <div class=\"panel-body\">\n" +
                     "@@@contextInstructionTemplates@@@" +
                     "        </div>\n" +
                     "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    private String scenarioTemplate =
+    public String scenarioTemplate =
             "      <div class=\"scenario @@@scenario.issue@@@ panel panel-default\">\n" +
                     "        <div class=\"panel-heading\">\n" +
                     "          <h3><span class=\"scenarioName\">@@@scenario.name@@@</span></h3>\n" +
@@ -84,51 +84,51 @@ public class HtmlReport extends Report {
                     "@@@displayedContextsTemplates@@@" +
                     "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    private String scenarioCommentTemplate=
+    public String scenarioCommentTemplate=
             "        <div class=\"comment\">\n" +
                     "@@@comment.text@@@" +
                     "        </div>\n";
-    private String exceptionTemplate =
+    public String exceptionTemplate =
             "      <div class=\"panel-body\">\n" +
                     "        <div class=\"exception\">\n" +
                     "          <a onClick=\"$(this).next().toggle()\" >@@@failure.className@@@: @@@failure.message@@@</a>\n" +
                     "          <pre class=\"stacktrace pre-scrollable\" >@@@failure.stacktrace@@@</pre>\n" +
                     "        </div>\n" +
                     "      </div>\n";
-    private String beforeScenarioTemplate =
+    public String beforeScenarioTemplate =
             "        <div class=\"beforeScenario panel-body\">\n" +
                     "@@@contextInstructionTemplates@@@" +
                     "          <hr/>\n" +
                     "        </div>";
-    private String scenarioInstructionTemplate =
+    public String scenarioInstructionTemplate =
             "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
                     "            <span>@@@instruction.text@@@</span>" +
                     "          </div>\n";
-    private String afterScenarioTemplate =
+    public String afterScenarioTemplate =
             "        <div class=\"afterScenario panel-body\">\n" +
                     "          <hr/>\n " +
                     "@@@contextInstructionTemplates@@@" +
                     "        </div>";
-    private String displayedContextsTemplate =
+    public String displayedContextsTemplate =
             "        <div class=\"displayableContext panel-body\">\n" +
                     "@@@displayedContextTemplates@@@" +
                     "        </div>\n";
-    private String displayedContextTemplate =
+    public String displayedContextTemplate =
             "        <div>\n" +
                     "@@@displayedContext.text@@@" +
                     "        </div>\n";
-    private String afterUseCaseTemplate =
+    public String afterUseCaseTemplate =
             "      <div class=\"panel panel-default afterUseCase @@@afterUseCase.issue@@@\">\n" +
                     "        <div class=\"panel-body\">\n" +
                     "@@@contextInstructionTemplates@@@" +
                     "        </div>\n" +
                     "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    private String contextInstructionTemplate =
+    public String contextInstructionTemplate =
             "          <div>\n" +
                     "            <span>@@@instruction.text@@@</span>\n" +
                     "          </div>\n";
-    private String relatedUseCasesTemplate =
+    public String relatedUseCasesTemplate =
             "      <div class=\"panel panel-default\">\n" +
                     "        <div class=\"panel-heading\">\n" +
                     "          <h3>Related uses cases</h3>\n" +
@@ -139,18 +139,18 @@ public class HtmlReport extends Report {
                     "          </ul>\n" +
                     "        </div>\n" +
                     "      </div>\n";
-    private String relatedUseCaseTemplate =
+    public String relatedUseCaseTemplate =
             "            <li class=\"relatedUseCase @@@relatedUseCase.issue@@@\">\n" +
                     "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@relatedUseCase.name@@@</span></a>@@@relatedUseCaseErrorTemplate@@@\n" +
                     "            </li>\n";
 
-    private String relatedUseCaseErrorTemplate="<div>@@@error.message@@@</div>";
+    public String relatedUseCaseErrorTemplate="<div>@@@error.message@@@</div>";
 
-    private String parameterTemplate = "<i class=\"value\">@@@parameter.value@@@</i>";
+    public String parameterTemplate = "<i class=\"value\">@@@parameter.value@@@</i>";
 
-    private String ignoredClass = "ignored";
-    private String failedClass = "failed";
-    private String successClass = "succeeded";
+    public String ignoredClass = "ignored";
+    public String failedClass = "failed";
+    public String successClass = "succeeded";
 
     private DefaultConfiguration configuration;
 
@@ -158,165 +158,6 @@ public class HtmlReport extends Report {
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
         setReportPath(configuration.getTargetFolder().path);
-    }
-
-    public String getUseCaseTemplate() {
-        return useCaseTemplate;
-    }
-
-    public void setUseCaseTemplate(String useCaseTemplate) {
-        this.useCaseTemplate = useCaseTemplate;
-    }
-
-    public void setScenarioCommentTemplate(String scenarioCommentTemplate) {
-        this.scenarioCommentTemplate = scenarioCommentTemplate;
-    }
-    public String getScenarioCommentTemplate() {
-        return scenarioCommentTemplate ;
-    }
-
-    public void setUseCaseCommentTemplate(String useCaseCommentTemplate) {
-        this.useCaseCommentTemplate = useCaseCommentTemplate;
-    }
-    public String getUseCaseCommentTemplate() {
-        return useCaseCommentTemplate ;
-    }
-
-    public String getBeforeUseCaseTemplate() {
-        return beforeUseCaseTemplate;
-    }
-
-    public void setBeforeUseCaseTemplate(String beforeUseCaseTemplate) {
-        this.beforeUseCaseTemplate = beforeUseCaseTemplate;
-    }
-
-    public String getScenarioTemplate() {
-        return scenarioTemplate;
-    }
-
-    public void setScenarioTemplate(String scenarioTemplate) {
-        this.scenarioTemplate = scenarioTemplate;
-    }
-
-    public String getExceptionTemplate() {
-        return exceptionTemplate;
-    }
-
-    public void setExceptionTemplate(String exceptionTemplate) {
-        this.exceptionTemplate = exceptionTemplate;
-    }
-
-    public String getBeforeScenarioTemplate() {
-        return beforeScenarioTemplate;
-    }
-
-    public void setBeforeScenarioTemplate(String beforeScenarioTemplate) {
-        this.beforeScenarioTemplate = beforeScenarioTemplate;
-    }
-
-    public String getScenarioInstructionTemplate() {
-        return scenarioInstructionTemplate;
-    }
-
-    public void setScenarioInstructionTemplate(String scenarioInstructionTemplate) {
-        this.scenarioInstructionTemplate = scenarioInstructionTemplate;
-    }
-
-    public String getAfterScenarioTemplate() {
-        return afterScenarioTemplate;
-    }
-
-    public void setAfterScenarioTemplate(String afterScenarioTemplate) {
-        this.afterScenarioTemplate = afterScenarioTemplate;
-    }
-
-    public String getDisplayedContextsTemplate() {
-        return displayedContextsTemplate;
-    }
-
-    public void setDisplayedContextsTemplate(String displayedContextsTemplate) {
-        this.displayedContextsTemplate = displayedContextsTemplate;
-    }
-
-    public String getDisplayedContextTemplate() {
-        return displayedContextTemplate;
-    }
-
-    public void setDisplayedContextTemplate(String displayedContextTemplate) {
-        this.displayedContextTemplate = displayedContextTemplate;
-    }
-
-    public String getAfterUseCaseTemplate() {
-        return afterUseCaseTemplate;
-    }
-
-    public void setAfterUseCaseTemplate(String afterUseCaseTemplate) {
-        this.afterUseCaseTemplate = afterUseCaseTemplate;
-    }
-
-    public String getContextInstructionTemplate() {
-        return contextInstructionTemplate;
-    }
-
-    public void setContextInstructionTemplate(String contextInstructionTemplate) {
-        this.contextInstructionTemplate = contextInstructionTemplate;
-    }
-
-    public String getRelatedUseCasesTemplate() {
-        return relatedUseCasesTemplate;
-    }
-
-    public void setRelatedUseCasesTemplate(String relatedUseCasesTemplate) {
-        this.relatedUseCasesTemplate = relatedUseCasesTemplate;
-    }
-
-    public String getRelatedUseCaseTemplate() {
-        return relatedUseCaseTemplate;
-    }
-
-    public void setRelatedUseCaseTemplate(String relatedUseCaseTemplate) {
-        this.relatedUseCaseTemplate = relatedUseCaseTemplate;
-    }
-
-    public void setRelatedUseCaseErrorTemplate(String relatedUseCaseErrorTemplate){
-        this.relatedUseCaseErrorTemplate=relatedUseCaseErrorTemplate;
-    }
-
-
-    public String getRelatedUseCaseErrorTemplate(){
-        return this.relatedUseCaseErrorTemplate;
-    }
-
-    public String getParameterTemplate() {
-        return parameterTemplate;
-    }
-
-    public void setParameterTemplate(String parameterTemplate) {
-        this.parameterTemplate = parameterTemplate;
-    }
-
-    public String getIgnoredClass() {
-        return ignoredClass;
-    }
-
-    public void setIgnoredClass(String ignoredClass) {
-        this.ignoredClass = ignoredClass;
-    }
-
-    public String getFailedClass() {
-        return failedClass;
-    }
-
-    public void setFailedClass(String failedClass) {
-        this.failedClass = failedClass;
-    }
-
-    public String getSuccessClass() {
-        return successClass;
-    }
-
-    public void setSuccessClass(String successClass) {
-        this.successClass = successClass;
     }
 
     @Override
@@ -410,7 +251,7 @@ public class HtmlReport extends Report {
     }
 
     private String getScenario(ScenarioResult scenarioResult) {
-        return new TemplateString(scenarioTemplate)
+        String scenarioHtml = new TemplateString(scenarioTemplate)
                 .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
                 .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
                 .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
@@ -420,6 +261,12 @@ public class HtmlReport extends Report {
                 .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
                 .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
                 .getText();
+
+        if(scenarioResult.scenario.decorator != null ){
+            scenarioHtml = scenarioResult.scenario.decorator.applyOnScenario(scenarioHtml);
+
+        }
+        return scenarioHtml;
     }
 
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
@@ -443,10 +290,15 @@ public class HtmlReport extends Report {
 
             String instruction = getInstructionWithParameter(methodCall, scenarioResult.scenario.useCase);
 
-            result += new TemplateString(scenarioInstructionTemplate)
+            String instructionHtml = new TemplateString(scenarioInstructionTemplate)
                     .replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
+
+            if(fixture.decorator != null ){
+                instructionHtml = fixture.decorator.applyOnFixture(instructionHtml);
+            }
+            result += instructionHtml;
         }
         return result;
     }

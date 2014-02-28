@@ -12,51 +12,46 @@ package sft.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import sft.Report;
 
 public class Style implements Decorator {
-    private String[] style;
+    private String[] styles;
 
     @Override
     public Decorator withParameters(String... parameters) {
         if(parameters == null || parameters.length == 0 ){
             throw new RuntimeException("Style decorator need one or more parameters");
         }
-        style = parameters;
+        styles = parameters;
         return this;
     }
 
     @Override
     public String applyOnUseCase(String result){
+        return addStyleToElementWithClass(result, ".useCase");
+    }
+
+    private String addStyleToElementWithClass(String result, String cssQuery) {
         final Document parse = Jsoup.parse(result);
 
-        final Elements elements = parse.select(".useCase");
-        addStyleTo(elements);
-
+        final Elements elements = parse.select(cssQuery);
+        if(elements == null || elements.size()==0){
+            throw new RuntimeException("The decorator "+this.getClass().getCanonicalName()+" need class "+cssQuery+" in generated html to be usable.");
+        }
+        for (String style : styles) {
+            elements.addClass(style);
+        }
         return parse.toString();
     }
 
-    private void addStyleTo(Elements elements) {
-        for (String st : style) {
-            elements.addClass(st);
-        }
-    }
 
     @Override
     public String applyOnScenario(String result){
-//        final Document parse = Jsoup.parse(result);
-//        parse.select("scenario").addClass(style);
-//        return parse.toString();
-        return result;
+        return addStyleToElementWithClass(result, ".scenario");
     }
 
     @Override
     public String applyOnFixture(String result){
-//        final Document parse = Jsoup.parse(result);
-//        parse.select("instruction").addClass(style);
-//        return parse.toString();
-        return result;
+        return addStyleToElementWithClass(result, ".instruction");
     }
 }
