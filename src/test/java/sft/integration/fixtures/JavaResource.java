@@ -26,12 +26,20 @@ public class JavaResource extends SftResource {
     }
 
     private static void copy(Reader input, Writer output) throws IOException {
+        String read = getStringBuffer(input);
+        while (read != null) {
+            output.write(read.replace("<", "&lt;").replace(">", "&gt;"));
+            read = getStringBuffer(input);
+        }
+    }
+
+    private static String getStringBuffer(Reader input) throws IOException {
         char[] buffer = new char[1024];
-        while (-1 != input.read(buffer)) {
-            String read = new String(buffer).replace("<","&lt;").replace(">","&gt;");
-            char[] newBuffer = read.toCharArray();
-            output.write(newBuffer, 0, newBuffer.length);
-            buffer = new char[1024];
+        int bufferSize = input.read(buffer);
+        if (-1 == bufferSize) {
+            return null;
+        } else {
+            return new String(buffer, 0, bufferSize);
         }
     }
 
