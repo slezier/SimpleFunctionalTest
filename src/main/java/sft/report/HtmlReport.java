@@ -141,10 +141,8 @@ public class HtmlReport extends Report {
                     "      </div>\n";
     public String relatedUseCaseTemplate =
             "            <li class=\"relatedUseCase @@@relatedUseCase.issue@@@\">\n" +
-                    "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@relatedUseCase.name@@@</span></a>@@@relatedUseCaseErrorTemplate@@@\n" +
+                    "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@relatedUseCase.name@@@</span></a>\n" +
                     "            </li>\n";
-
-    public String relatedUseCaseErrorTemplate="<div>@@@error.message@@@</div>";
 
     public String parameterTemplate = "<i class=\"value\">@@@parameter.value@@@</i>";
 
@@ -214,28 +212,13 @@ public class HtmlReport extends Report {
     private String getRelatedUseCase(UseCaseResult useCaseResult) {
         String relatedUseCase = "";
         for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
-            String error = createHtmlReportAndReturnErrorWhileCreating(subUseCaseResult);
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
                     .replace("@@@relatedUseCase.issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
                     .replace("@@@relatedUseCase.link@@@", getRelativeUrl(subUseCaseResult.useCase, useCaseResult))
                     .replace("@@@relatedUseCase.name@@@", subUseCaseResult.useCase.getName())
-                    .replace("@@@relatedUseCaseErrorTemplate@@@", error)
                     .getText();
         }
         return relatedUseCase;
-    }
-
-    private String createHtmlReportAndReturnErrorWhileCreating(UseCaseResult subUseCaseResult) {
-        try {
-            report(subUseCaseResult);
-            return "";
-        } catch (Throwable t) {
-            return getLinkError(t);
-        }
-    }
-
-    private String getLinkError( Throwable t) {
-        return new TemplateString(relatedUseCaseErrorTemplate).replace("@@@error.message@@@",t.getMessage()).getText();
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {

@@ -79,11 +79,7 @@ public class InkConfiguration extends DefaultConfiguration{
                 "</ul></div>";
         getReport().relatedUseCaseTemplate = "<li>" +
                 "<a href='@@@relatedUseCase.link@@@' class='ink-label @@@relatedUseCase.issue@@@'>@@@relatedUseCase.name@@@</a>"+
-                "@@@relatedUseCaseErrorTemplate@@@"+
                 "</li>";
-        getReport().relatedUseCaseErrorTemplate= "<div>" +
-                "@@@error.message@@@"+
-                "</div>";
         getReport().parameterTemplate = "<div>" +
                 "<span>@@@parameter.value@@@</span>"+
                 "</div>";

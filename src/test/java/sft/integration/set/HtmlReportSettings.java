@@ -209,12 +209,9 @@ public class HtmlReportSettings {
 
        <tr><td>relatedUseCasesTemplate</td><td>relatedUseCaseTemplates</td><td>Inclusion of related use cases</td></tr>
 
-       <tr><td rowspan='4'>relatedUseCaseTemplate</td><td>relatedUseCase.link</td><td>Link to the related use case report</td></tr>
+       <tr><td rowspan='3'>relatedUseCaseTemplate</td><td>relatedUseCase.link</td><td>Link to the related use case report</td></tr>
        <tr>                                           <td>relatedUseCase.issue</td><td>Issue of the related use case (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
        <tr>                                           <td>relatedUseCase.name</td><td>Name of the related use case</td></tr>
-       <tr>                                           <td>relatedUseCaseErrorTemplate</td><td>Inclusion of exception if needed</td></tr>
-
-       <tr><td>relatedUseCaseErrorTemplate</td><td>error.message</td><td>The message of the exception</td></tr>
 
        <tr><td>parameterTemplate</td><td>parameter.value</td><td>The value of instruction or fixture call</td></tr>
 
