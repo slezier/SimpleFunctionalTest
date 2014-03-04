@@ -13,6 +13,7 @@ package sft.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import sft.UseCase;
 
 public class Style implements Decorator {
     private String[] styles;
@@ -27,7 +28,7 @@ public class Style implements Decorator {
     }
 
     @Override
-    public String applyOnUseCase(String result){
+    public String applyOnUseCase(UseCase useCase,String result){
         return addStyleToElementWithClass(result, ".useCase");
     }
 

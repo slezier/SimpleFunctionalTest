@@ -12,40 +12,39 @@ package sft.junit;
 
 
 import org.junit.runner.Description;
-import org.junit.runners.model.InitializationError;
 import sft.Scenario;
 import sft.UseCase;
-import sft.report.HtmlReport;
 import sft.result.UseCaseResult;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class UseCaseRunner {
 
 
-    private final UseCase useCase;
-    private final Class klass;
     private final ArrayList<UseCaseRunner> subUseCasesRunners = new ArrayList<UseCaseRunner>();
     private final ArrayList<ScenarioRunner> scenarioRunners = new ArrayList<ScenarioRunner>();
     private final ContextRunner beforeUseCaseRunner;
     private final ContextRunner afterUseCaseRunner;
+    private final UseCase useCase;
 
     public UseCaseRunner(Class<?> klass) throws Exception {
-        this.klass = klass;
-        useCase = new UseCase(klass);
+        this( new UseCase(klass) );
+    }
+
+    public UseCaseRunner(UseCase useCase) throws Exception {
+        this.useCase = useCase;
         for (Scenario scenario : useCase.scenarios) {
             scenarioRunners.add(new ScenarioRunner(scenario));
         }
         for (UseCase subUseCase : useCase.subUseCases) {
-            subUseCasesRunners.add(new UseCaseRunner(subUseCase.classUnderTest));
+            subUseCasesRunners.add(new UseCaseRunner(subUseCase));
         }
         beforeUseCaseRunner = new ContextRunner(this,useCase.beforeUseCase);
         afterUseCaseRunner = new ContextRunner(this,useCase.afterUseCase);
     }
 
     public Description getDescription() {
-        Description description = Description.createTestDescription(klass, this.useCase.getName());
+        Description description = Description.createTestDescription(useCase.classUnderTest, useCase.getName());
         for (ScenarioRunner scenarioRunner : scenarioRunners) {
             description.addChild(scenarioRunner.getDescription());
         }

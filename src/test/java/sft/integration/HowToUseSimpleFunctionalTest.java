@@ -77,9 +77,9 @@ import sft.integration.use.Usages;
 </ul>
 <h2> TODO </h2>
 <ul>
-    <li>scenario decorators (group,style)</li>
-    <li>fixture decorators (table, group,style)</li>
-    <li>subUseCase decorator (group,style)</li>
+    <li>scenario decorators (group)</li>
+    <li>fixture decorators (table, group)</li>
+    <li>subUseCase decorator (group)</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
     <li>runner extension: concurrent testing</li>

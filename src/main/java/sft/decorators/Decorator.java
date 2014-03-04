@@ -10,11 +10,14 @@
  *******************************************************************************/
 package sft.decorators;
 
-import sft.Report;
+
+import sft.UseCase;
 
 public interface Decorator {
+
     Decorator withParameters(String... parameters);
-    public String applyOnUseCase(String result);
+
+    public String applyOnUseCase(UseCase useCase, String result);
 
     String applyOnScenario(String result);
 

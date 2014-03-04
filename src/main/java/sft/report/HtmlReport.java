@@ -191,7 +191,7 @@ public class HtmlReport extends Report {
                 .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
                 .getText();
         if(useCaseResult.useCase.useCaseDecorator != null ){
-            useCaseReport=useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseReport);
+            useCaseReport=useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult.useCase,useCaseReport);
         }
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");

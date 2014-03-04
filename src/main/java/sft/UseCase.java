@@ -34,6 +34,7 @@ import static java.lang.reflect.Modifier.isStatic;
 public class UseCase extends FixturesHolder {
 
 
+    public final UseCase parent;
     public final Decorator useCaseDecorator;
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<UseCase> subUseCases;
@@ -49,11 +50,17 @@ public class UseCase extends FixturesHolder {
 
 
     public UseCase(Class<?> classUnderTest) throws Exception {
-        this(classUnderTest.newInstance(), new DefaultConfiguration());
+        this(null,classUnderTest.newInstance(), new DefaultConfiguration());
     }
 
-    private UseCase(Object object, DefaultConfiguration configuration) throws Exception {
+
+    public UseCase(UseCase useCase,Class<?> classUnderTest) throws Exception {
+        this(useCase, classUnderTest.newInstance(), new DefaultConfiguration());
+    }
+
+    private UseCase(UseCase useCase, Object object, DefaultConfiguration configuration) throws Exception {
         super(object, FixturesVisibility.PrivateOrProtectedOnly);
+        parent = useCase;
         this.configuration = extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
         useCaseDecorator = DecoratorExtractor.getDecorator(classUnderTest.getDeclaredAnnotations());
@@ -131,9 +138,9 @@ public class UseCase extends FixturesHolder {
         for (Field field : getPublicFields()) {
             Object subUseCaseObject = field.get(object);
             if (subUseCaseObject == null) {
-                subUseCases.add(new UseCase(field.getType().getClass().newInstance(), configuration));
+                subUseCases.add(new UseCase(this,field.getType().getClass().newInstance(), configuration));
             } else {
-                subUseCases.add(new UseCase(subUseCaseObject, configuration));
+                subUseCases.add(new UseCase(this,subUseCaseObject, configuration));
             }
         }
         return subUseCases;
