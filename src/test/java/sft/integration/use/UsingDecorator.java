@@ -24,9 +24,6 @@ import java.util.ArrayList;
 @RunWith(SimpleFunctionalTest.class)
 public class UsingDecorator {
 
-    private SftResources sftResources;
-    private SftResources sftResources2;
-    private SftResources sftResources3;
     @Displayable
     private DisplayableResources displayableResources;
     private JUnitHelper jUnitHelper;
@@ -51,8 +48,7 @@ public class UsingDecorator {
     private void byAddingStyleDecoratorWithParameterOnAElement(String style) throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class, "target/sft-result/sft/integration/use/sut/StyleDecoratorSample.html");
         jUnitHelper.run();
-        sftResources = jUnitHelper.displayResources();
-        displayableResources = new DisplayableResources("", sftResources);
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
     @Text("The element targeted of the html report will have the css class ${style}")
@@ -78,8 +74,7 @@ public class UsingDecorator {
     private void byAddingBreadcrumbDecoratorOnUseCase() throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class, "target/sft-result/sft/integration/use/sut/BreadcrumbDecoratorSample.html");
         jUnitHelper.run();
-        sftResources = jUnitHelper.displayResources();
-        displayableResources = new DisplayableResources("parent user story", sftResources);
+        displayableResources = new DisplayableResources("parent user story", jUnitHelper.displayResources());
     }
 
     private void aBreadcrumbsIsAdded() throws Exception {
@@ -88,16 +83,14 @@ public class UsingDecorator {
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.html");
-        sftResources2 = jUnitHelper.displayResources();
-        displayableResources.add("child user story", sftResources2);
+        displayableResources.add("child user story", jUnitHelper.displayResources());
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
         Assert.assertEquals(2, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
         Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.html");
-        sftResources3 = jUnitHelper.displayResources();
-        displayableResources.add("little child user story", sftResources3);
+        displayableResources.add("little child user story", jUnitHelper.displayResources());
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
