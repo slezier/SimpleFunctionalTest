@@ -4,10 +4,12 @@ import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.DefaultConfiguration;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.fixtures.SftResources;
@@ -28,6 +30,7 @@ For example, all css and js file of this directory will be included in the html 
  </div>
 */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class HtmlReportSettings {
     private DefaultConfiguration configuration;
     private Document htmlReport;

@@ -1,7 +1,9 @@
 package sft.integration.use;
 
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.SimpleFunctionalTest;
+import sft.decorators.Breadcrumb;
 
 /*
 
@@ -90,6 +92,7 @@ import sft.SimpleFunctionalTest;
     </div>
 */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class Usages {
 
     public CommonUsage commonUsage = new CommonUsage();

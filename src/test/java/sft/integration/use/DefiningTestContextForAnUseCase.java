@@ -4,9 +4,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
@@ -29,6 +31,7 @@ Context could be defined and handle for the whole use case
  using JUnit annotation @BeforeClass and @AfterClass.
 */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class DefiningTestContextForAnUseCase {
 
     private JUnitHelper functionalTest;

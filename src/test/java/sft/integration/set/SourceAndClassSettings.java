@@ -4,9 +4,11 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.DefaultConfiguration;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 
 import java.io.File;
 
@@ -15,6 +17,7 @@ SimpleFunctionalTest is sized for maven usage.<br />
 If you use another build engine (ant...), you probably want to target other source and class folder.
  */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class SourceAndClassSettings {
     private static final String TO_PROJECT_PATH = "target/test-classes/../../";
     private DefaultConfiguration defaultConfiguration;

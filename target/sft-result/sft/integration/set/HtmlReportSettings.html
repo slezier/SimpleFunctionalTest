@@ -1,203 +1,364 @@
 <html>
-  <head>
-    <title>Html report settings</title>
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft.css" />
-<script src="../../../sft-html-documentation/bootstrap.min.js"></script>
-<script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script>
-  </head>
-  <body class="useCase succeeded">
-    <div class="container">
-      <div class="page-header">
-        <div class="text-center">
-          <h1><span class="useCaseName">Html report settings</span></h1>
-        </div>
-        <div class="comment">
-
-<div>
-The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
-
-The target of the HtmlReport resourcePath, will be copied to provide facilities files. <br />
-This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.<br />
-For example, all css and js file of this directory will be included in the html head close.
- </div>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Default report</span></h3>
-        </div>
-        <div class="comment">
-
-    The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
-
-    The target of the HtmlReport resourcePath, will be copied to provide facilities files. <br />
-    This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.<br />
-    For example, all css and js file of this directory will be included in the html head close.
-            </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>The default configuration provide an html report</span>          </div>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Change html report destination</span></h3>
-        </div>
-        <div class="comment">
-
-    The HtmlReport write report in a specific folder target/sft-result/.
-             </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>Default report path of html report is <i class="value">target/sft-result/</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.HtmlReportSettings</i> will generate the html report <i class="value">target/sft-result/sft/integration/set/HtmlReportSettings.html</i>)</span>          </div>
-          <div class="instruction succeeded">
-            <span>By setting the report path to <i class="value">site/</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.HtmlReportSettings</i> will generate the html report <i class="value">site/sft/integration/set/HtmlReportSettings.html</i>)</span>          </div>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Change css and js</span></h3>
-        </div>
-        <div class="comment">
-
-    The most convenient way to custom your html report, is changing resourcePath.<br />
-    You can modify native css and js file provide by SimpleFunctionalTest (copied in ./target/sft-result/sft-html-default/)
-    in an local directory and then set its location as the resourcePath.<br /><br />
-
-    Css class used by HtmlReport are:
-    <ul>
-        <li>ignored</li>
-        <li>failed</li>
-        <li>succeeded</li>
-        <li>useCase</li>
-        <li>useCaseName</li>
-        <li>beforeUseCase</li>
-        <li>afterUseCase</li>
-        <li>comment</li>
-        <li>scenario</li>
-        <li>scenarioName</li>
-        <li>beforeScenario</li>
-        <li>afterScenario</li>
-        <li>instruction</li>
-        <li>exception</li>
-        <li>relatedUseCase</li>
-    </ul>
-            </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>When html report use the default embedded resource <i class="value">sft-html-default</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>Then html report include path to js files <i class="value">../../../sft-html-default/bootstrap.min.js, ../../../sft-html-default/jquery-1.10.2.min.js</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>And include path to css files <i class="value">../../../sft-html-default/bootstrap-theme.min.css, ../../../sft-html-default/bootstrap.min.css, ../../../sft-html-default/sft.css</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>By setting the resource path to <i class="value">sut-html-resources</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>Then html report include path to js files <i class="value">../../../sut-html-resources/override.js</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>And include path to css files <i class="value">../../../sut-html-resources/override.css</i></span>          </div>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Custom html</span></h3>
-        </div>
-        <div class="comment">
-
-    The html report could be customized matching your UI design vision.<br />
-    A basic template engine is used. <br />
-    You can modify each <a href='#' onclick='$(templates).toggle();return false;'>templates</a>. <br />
-    All templates are surround by '@@@', excepts for successClass, failedClass and ignoredClass that are values. <br />
-
-    <table id='templates' class='table' style='display: none;'>
-       <tr><th>template</th><th>inner template</th><th>detail of uses</th></tr>
-
-       <tr><td rowspan='9'>useCaseTemplate</td><td>useCase.name</td><td>Name of the use case</td></tr>
-       <tr>                                    <td>useCase.css</td><td>Injection of css available in resource folder</td></tr>
-       <tr>                                    <td>useCase.js</td><td>Injection of javascript files available in resource folder</td></tr>
-       <tr>                                    <td>useCase.issue</td><td>Issue of the use case (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                    <td>useCaseCommentTemplate</td><td>Inclusion of use case comment</td></tr>
-       <tr>                                    <td>beforeUseCaseTemplate</td><td>Inclusion of use case context raised</td></tr>
-       <tr>                                    <td>scenarioTemplates</td><td>Inclusion of scenario</td></tr>
-       <tr>                                    <td>afterUseCaseTemplate</td><td>Inclusion of use case context ended</td></tr>
-       <tr>                                    <td>relatedUseCasesTemplates</td><td>Inclusion of other use cases</td></tr>
-
-       <tr><td>useCaseCommentTemplate</td><td>comment.text</td><td>Text of the comment</td></tr>
-
-       <tr><td rowspan='3'>beforeUseCaseTemplate</td><td>beforeUseCase.issue</td><td>Issue of the context raise of use case (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                          <td>contextInstructionTemplates</td><td>Inclusion of instructions call needed for the context  raise of use case</td></tr>
-       <tr>                                          <td>exceptionTemplate</td><td>Inclusion of exception report if needed</td></tr>
-
-       <tr><td rowspan='8'>scenarioTemplate</td><td>scenario.issue</td><td>Issue of the scenario (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                     <td>scenario.name</td><td>Name of the scenario</td></tr>
-       <tr>                                     <td>scenarioCommentTemplate</td><td>Inclusion of scenario comment</td></tr>
-       <tr>                                     <td>beforeScenarioTemplate</td><td>Inclusion of scenario context raise</td></tr>
-       <tr>                                     <td>scenarioInstructionTemplates</td><td>Inclusion of fixtures call</td></tr>
-       <tr>                                     <td>afterScenarioTemplate</td><td>Inclusion of scenario context ended</td></tr>
-       <tr>                                     <td>displayedContextsTemplates</td><td>Inclusion of context fact</td></tr>
-       <tr>                                     <td>exceptionTemplate</td><td>Inclusion of exception if needed</td></tr>
-
-       <tr><td>scenarioCommentTemplate</td><td>comment.text</td><td>Text of the comment</td></tr>
-
-       <tr><td rowspan='3'>exceptionTemplate</td><td>failure.className</td><td>Class name of the exception</td></tr>
-       <tr>                                      <td>failure.message</td><td>Message of the exception</td></tr>
-       <tr>                                      <td>failure.stacktrace</td><td>Stacktrace of the exception</td></tr>
-
-       <tr><td>beforeScenarioTemplate</td><td>contextInstructionTemplates</td><td>Inclusion of one instruction call</td></tr>
-
-       <tr><td rowspan='2'>scenarioInstructionTemplate</td><td>instruction.issue</td><td>Issue of the fixture call (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                                <td>instruction.text</td><td>Text of the fixture call</td></tr>
-
-       <tr><td>afterScenarioTemplate</td><td>contextInstructionTemplates</td><td>Inclusion of one instruction call</td></tr>
-
-       <tr><td>displayedContextsTemplate</td><td>displayedContextTemplates</td><td>Inclusion of one context detail</td></tr>
-
-       <tr><td>displayedContextTemplate</td><td>displayedContext.text</td><td>The detail of the context</td></tr>
-
-       <tr><td rowspan='3'>afterUseCaseTemplate</td><td>afterUseCase.issue</td><td>Issue of the context ended (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                         <td>contextInstructionTemplates</td><td>Inclusion of the instructions call</td></tr>
-       <tr>                                         <td>exceptionTemplate</td><td>Inclusion of exception if needed</td></tr>
-
-       <tr><td>contextInstructionTemplate</td><td>instruction.text</td><td>Text of the instruction call</td></tr>
-
-       <tr><td>relatedUseCasesTemplate</td><td>relatedUseCaseTemplates</td><td>Inclusion of related use cases</td></tr>
-
-       <tr><td rowspan='4'>relatedUseCaseTemplate</td><td>relatedUseCase.link</td><td>Link to the related use case report</td></tr>
-       <tr>                                           <td>relatedUseCase.issue</td><td>Issue of the related use case (depending of successClass, failedClass, ignoredClass defined as below)</td></tr>
-       <tr>                                           <td>relatedUseCase.name</td><td>Name of the related use case</td></tr>
-       <tr>                                           <td>relatedUseCaseErrorTemplate</td><td>Inclusion of exception if needed</td></tr>
-
-       <tr><td>relatedUseCaseErrorTemplate</td><td>error.message</td><td>The message of the exception</td></tr>
-
-       <tr><td>parameterTemplate</td><td>parameter.value</td><td>The value of instruction or fixture call</td></tr>
-
-       <tr><td>successClass</td><td></td><td>class of issue successful; default value: success</td></tr>
-       <tr><td>failedClass</td><td></td><td>class of issue failed; default value: failed</td></tr>
-       <tr><td>ignoredClass</td><td></td><td>class of issue ignored; default value : warning</td></tr>
-
-    </table>
-
-            </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>By changing template values</span>          </div>
-          <div class="instruction succeeded">
-            <span>We change report generation</span>          </div>
-        </div>
-        <div class="displayableContext panel-body">
-        <div>
-<div class="resources"><a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkConfiguration.java.html','sft/integration/set/sut/InkConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">configuration</a></div>        </div>
-        <div>
-<div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkStyleUseCase.java.html','sft/integration/set/sut/InkStyleUseCase.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkStyleUseCase.html','sft/integration/set/sut/InkStyleUseCase.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div>        </div>
-        </div>
-      </div>
-    </div>
-  </body>
+ <head> 
+  <title>Html report settings</title> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft.css" /> 
+  <script src="../../../sft-html-documentation/bootstrap.min.js"></script> 
+  <script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script> 
+ </head> 
+ <body class="useCase succeeded"> 
+  <div class="container"> 
+   <div class="page-header"> 
+    <div class="text-center"> 
+     <h1><span class="useCaseName">Html report settings</span></h1> 
+     <ol class="breadcrumb">
+      <li><a href="../HowToUseSimpleFunctionalTest.html">How to use simple functional test</a></li>
+      <li><a href="Settings.html">Settings</a></li>
+      <li class="active">Html report settings</li>
+     </ol>
+    </div> 
+    <div class="comment"> 
+     <div>
+       The DefaultConfiguration provide an HtmlReport to write test result in HTML.
+      <br />
+      <br /> The target of the HtmlReport resourcePath, will be copied to provide facilities files. 
+      <br /> This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.
+      <br /> For example, all css and js file of this directory will be included in the html head close. 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Default report</span></h3> 
+    </div> 
+    <div class="comment">
+      The DefaultConfiguration provide an HtmlReport to write test result in HTML.
+     <br />
+     <br /> The target of the HtmlReport resourcePath, will be copied to provide facilities files. 
+     <br /> This resourcePath is a directory that contains all image, css and js files needed for the report generation and display.
+     <br /> For example, all css and js file of this directory will be included in the html head close. 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>The default configuration provide an html report</span> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Change html report destination</span></h3> 
+    </div> 
+    <div class="comment">
+      The HtmlReport write report in a specific folder target/sft-result/. 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>Default report path of html report is <i class="value">target/sft-result/</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.HtmlReportSettings</i> will generate the html report <i class="value">target/sft-result/sft/integration/set/HtmlReportSettings.html</i>)</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>By setting the report path to <i class="value">site/</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Simple functional test will load classes from this folder( for example the class <i class="value">sft.integration.set.HtmlReportSettings</i> will generate the html report <i class="value">site/sft/integration/set/HtmlReportSettings.html</i>)</span> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Change css and js</span></h3> 
+    </div> 
+    <div class="comment">
+      The most convenient way to custom your html report, is changing resourcePath.
+     <br /> You can modify native css and js file provide by SimpleFunctionalTest (copied in ./target/sft-result/sft-html-default/) in an local directory and then set its location as the resourcePath.
+     <br />
+     <br /> Css class used by HtmlReport are: 
+     <ul> 
+      <li>ignored</li> 
+      <li>failed</li> 
+      <li>succeeded</li> 
+      <li>useCase</li> 
+      <li>useCaseName</li> 
+      <li>beforeUseCase</li> 
+      <li>afterUseCase</li> 
+      <li>comment</li> 
+      <li>scenario</li> 
+      <li>scenarioName</li> 
+      <li>beforeScenario</li> 
+      <li>afterScenario</li> 
+      <li>instruction</li> 
+      <li>exception</li> 
+      <li>relatedUseCase</li> 
+     </ul> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>When html report use the default embedded resource <i class="value">sft-html-default</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Then html report include path to js files <i class="value">../../../sft-html-default/bootstrap.min.js, ../../../sft-html-default/jquery-1.10.2.min.js</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>And include path to css files <i class="value">../../../sft-html-default/bootstrap-theme.min.css, ../../../sft-html-default/bootstrap.min.css, ../../../sft-html-default/sft.css</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>By setting the resource path to <i class="value">sut-html-resources</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Then html report include path to js files <i class="value">../../../sut-html-resources/override.js</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>And include path to css files <i class="value">../../../sut-html-resources/override.css</i></span> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Custom html</span></h3> 
+    </div> 
+    <div class="comment">
+      The html report could be customized matching your UI design vision.
+     <br /> A basic template engine is used. 
+     <br /> You can modify each 
+     <a href="#" onclick="$(templates).toggle();return false;">templates</a>. 
+     <br /> All templates are surround by '@@@', excepts for successClass, failedClass and ignoredClass that are values. 
+     <br /> 
+     <table id="templates" class="table" style="display: none;"> 
+      <tbody>
+       <tr>
+        <th>template</th>
+        <th>inner template</th>
+        <th>detail of uses</th>
+       </tr> 
+       <tr>
+        <td rowspan="9">useCaseTemplate</td>
+        <td>useCase.name</td>
+        <td>Name of the use case</td>
+       </tr> 
+       <tr> 
+        <td>useCase.css</td>
+        <td>Injection of css available in resource folder</td>
+       </tr> 
+       <tr> 
+        <td>useCase.js</td>
+        <td>Injection of javascript files available in resource folder</td>
+       </tr> 
+       <tr> 
+        <td>useCase.issue</td>
+        <td>Issue of the use case (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>useCaseCommentTemplate</td>
+        <td>Inclusion of use case comment</td>
+       </tr> 
+       <tr> 
+        <td>beforeUseCaseTemplate</td>
+        <td>Inclusion of use case context raised</td>
+       </tr> 
+       <tr> 
+        <td>scenarioTemplates</td>
+        <td>Inclusion of scenario</td>
+       </tr> 
+       <tr> 
+        <td>afterUseCaseTemplate</td>
+        <td>Inclusion of use case context ended</td>
+       </tr> 
+       <tr> 
+        <td>relatedUseCasesTemplates</td>
+        <td>Inclusion of other use cases</td>
+       </tr> 
+       <tr>
+        <td>useCaseCommentTemplate</td>
+        <td>comment.text</td>
+        <td>Text of the comment</td>
+       </tr> 
+       <tr>
+        <td rowspan="3">beforeUseCaseTemplate</td>
+        <td>beforeUseCase.issue</td>
+        <td>Issue of the context raise of use case (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>contextInstructionTemplates</td>
+        <td>Inclusion of instructions call needed for the context raise of use case</td>
+       </tr> 
+       <tr> 
+        <td>exceptionTemplate</td>
+        <td>Inclusion of exception report if needed</td>
+       </tr> 
+       <tr>
+        <td rowspan="8">scenarioTemplate</td>
+        <td>scenario.issue</td>
+        <td>Issue of the scenario (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>scenario.name</td>
+        <td>Name of the scenario</td>
+       </tr> 
+       <tr> 
+        <td>scenarioCommentTemplate</td>
+        <td>Inclusion of scenario comment</td>
+       </tr> 
+       <tr> 
+        <td>beforeScenarioTemplate</td>
+        <td>Inclusion of scenario context raise</td>
+       </tr> 
+       <tr> 
+        <td>scenarioInstructionTemplates</td>
+        <td>Inclusion of fixtures call</td>
+       </tr> 
+       <tr> 
+        <td>afterScenarioTemplate</td>
+        <td>Inclusion of scenario context ended</td>
+       </tr> 
+       <tr> 
+        <td>displayedContextsTemplates</td>
+        <td>Inclusion of context fact</td>
+       </tr> 
+       <tr> 
+        <td>exceptionTemplate</td>
+        <td>Inclusion of exception if needed</td>
+       </tr> 
+       <tr>
+        <td>scenarioCommentTemplate</td>
+        <td>comment.text</td>
+        <td>Text of the comment</td>
+       </tr> 
+       <tr>
+        <td rowspan="3">exceptionTemplate</td>
+        <td>failure.className</td>
+        <td>Class name of the exception</td>
+       </tr> 
+       <tr> 
+        <td>failure.message</td>
+        <td>Message of the exception</td>
+       </tr> 
+       <tr> 
+        <td>failure.stacktrace</td>
+        <td>Stacktrace of the exception</td>
+       </tr> 
+       <tr>
+        <td>beforeScenarioTemplate</td>
+        <td>contextInstructionTemplates</td>
+        <td>Inclusion of one instruction call</td>
+       </tr> 
+       <tr>
+        <td rowspan="2">scenarioInstructionTemplate</td>
+        <td>instruction.issue</td>
+        <td>Issue of the fixture call (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>instruction.text</td>
+        <td>Text of the fixture call</td>
+       </tr> 
+       <tr>
+        <td>afterScenarioTemplate</td>
+        <td>contextInstructionTemplates</td>
+        <td>Inclusion of one instruction call</td>
+       </tr> 
+       <tr>
+        <td>displayedContextsTemplate</td>
+        <td>displayedContextTemplates</td>
+        <td>Inclusion of one context detail</td>
+       </tr> 
+       <tr>
+        <td>displayedContextTemplate</td>
+        <td>displayedContext.text</td>
+        <td>The detail of the context</td>
+       </tr> 
+       <tr>
+        <td rowspan="3">afterUseCaseTemplate</td>
+        <td>afterUseCase.issue</td>
+        <td>Issue of the context ended (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>contextInstructionTemplates</td>
+        <td>Inclusion of the instructions call</td>
+       </tr> 
+       <tr> 
+        <td>exceptionTemplate</td>
+        <td>Inclusion of exception if needed</td>
+       </tr> 
+       <tr>
+        <td>contextInstructionTemplate</td>
+        <td>instruction.text</td>
+        <td>Text of the instruction call</td>
+       </tr> 
+       <tr>
+        <td>relatedUseCasesTemplate</td>
+        <td>relatedUseCaseTemplates</td>
+        <td>Inclusion of related use cases</td>
+       </tr> 
+       <tr>
+        <td rowspan="4">relatedUseCaseTemplate</td>
+        <td>relatedUseCase.link</td>
+        <td>Link to the related use case report</td>
+       </tr> 
+       <tr> 
+        <td>relatedUseCase.issue</td>
+        <td>Issue of the related use case (depending of successClass, failedClass, ignoredClass defined as below)</td>
+       </tr> 
+       <tr> 
+        <td>relatedUseCase.name</td>
+        <td>Name of the related use case</td>
+       </tr> 
+       <tr> 
+        <td>relatedUseCaseErrorTemplate</td>
+        <td>Inclusion of exception if needed</td>
+       </tr> 
+       <tr>
+        <td>relatedUseCaseErrorTemplate</td>
+        <td>error.message</td>
+        <td>The message of the exception</td>
+       </tr> 
+       <tr>
+        <td>parameterTemplate</td>
+        <td>parameter.value</td>
+        <td>The value of instruction or fixture call</td>
+       </tr> 
+       <tr>
+        <td>successClass</td>
+        <td></td>
+        <td>class of issue successful; default value: success</td>
+       </tr> 
+       <tr>
+        <td>failedClass</td>
+        <td></td>
+        <td>class of issue failed; default value: failed</td>
+       </tr> 
+       <tr>
+        <td>ignoredClass</td>
+        <td></td>
+        <td>class of issue ignored; default value : warning</td>
+       </tr> 
+      </tbody>
+     </table> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>By changing template values</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>We change report generation</span> 
+     </div> 
+    </div> 
+    <div class="displayableContext panel-body"> 
+     <div> 
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkConfiguration.java.html','sft/integration/set/sut/InkConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">configuration</a>
+      </div> 
+     </div> 
+     <div> 
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkStyleUseCase.java.html','sft/integration/set/sut/InkStyleUseCase.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('HtmlReportSettings.html','')+'sut/InkStyleUseCase.html','sft/integration/set/sut/InkStyleUseCase.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
 </html>

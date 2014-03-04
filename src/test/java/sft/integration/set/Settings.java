@@ -3,11 +3,13 @@ package sft.integration.set;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.DefaultConfiguration;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.UseCase;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.set.sut.CommonUseCase;
 import sft.integration.set.sut.CustomConfiguration;
@@ -16,6 +18,7 @@ import sft.report.HtmlResources;
 
 
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class Settings {
 
     @Displayable

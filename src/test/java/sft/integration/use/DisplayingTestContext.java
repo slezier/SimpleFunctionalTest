@@ -6,8 +6,10 @@ import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.DisplayContext;
@@ -15,6 +17,7 @@ import sft.integration.use.sut.DisplayContext;
 import java.io.IOException;
 
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class DisplayingTestContext {
     private JUnitHelper functionalTest;
 

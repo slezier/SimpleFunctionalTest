@@ -15,7 +15,7 @@ public class Breadcrumb implements Decorator {
     @Override
     public String applyOnUseCase(UseCase useCase, String result) {
         final Document parse = Jsoup.parse(result);
-        parse.select(".page-header").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCase,useCase) + "</ol>");
+        parse.select(".page-header .text-center").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCase,useCase) + "</ol>");
         return parse.toString();
     }
 

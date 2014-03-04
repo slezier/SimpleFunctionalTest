@@ -1,60 +1,88 @@
 <html>
-  <head>
-    <title>Using decorator</title>
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft.css" />
-<script src="../../../sft-html-documentation/bootstrap.min.js"></script>
-<script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script>
-  </head>
-  <body class="useCase succeeded">
-    <div class="container">
-      <div class="page-header">
-        <div class="text-center">
-          <h1><span class="useCaseName">Using decorator</span></h1>
-        </div>
-        <div class="comment">
-
- The annotation @Decorate allow to prettify your html report.
-         </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Add style</span></h3>
-        </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>By adding a style decorator with parameter <i class="value">style</i>  on a element: @Decorate(decorator = Style.class, parameters ="<i class="value">style</i>") </span>          </div>
-          <div class="instruction succeeded">
-            <span>The element targeted of the html report will have the css class <i class="value">style</i></span>          </div>
-          <div class="instruction succeeded">
-            <span>Several style can be used together @Decorate(decorator = Style.class, parameters ={"<i class="value">style1</i>","<i class="value">style2</i>","<i class="value">style3</i>"}) </span>          </div>
-          <div class="instruction succeeded">
-            <span>The style decorator can be apply on use case scenario and fixture</span>          </div>
-        </div>
-        <div class="displayableContext panel-body">
-        <div>
-<div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/StyleDecoratorSample.java.html','sft/integration/use/sut/StyleDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/StyleDecoratorSample.html','sft/integration/use/sut/StyleDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div>        </div>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Add breadcrumb</span></h3>
-        </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>By adding breadcrumb decorator on use case</span>          </div>
-          <div class="instruction succeeded">
-            <span>A breadcrumbs is added</span>          </div>
-          <div class="instruction succeeded">
-            <span>By clicking on the different breacrumb we access the given use story</span>          </div>
-        </div>
-        <div class="displayableContext panel-body">
-        <div>
-parent user story:<div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/BreadcrumbDecoratorSample.java.html','sft/integration/use/sut/BreadcrumbDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/BreadcrumbDecoratorSample.html','sft/integration/use/sut/BreadcrumbDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div>child user story:<div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubUseCaseBreadcrumb.java.html','sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubUseCaseBreadcrumb.html','sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div>little child user story:<div class='resources'><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubSubUseCaseBreadcrumb.java.html','sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubSubUseCaseBreadcrumb.html','sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a></div>        </div>
-        </div>
-      </div>
-    </div>
-  </body>
+ <head> 
+  <title>Using decorator</title> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft.css" /> 
+  <script src="../../../sft-html-documentation/bootstrap.min.js"></script> 
+  <script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script> 
+ </head> 
+ <body class="useCase succeeded"> 
+  <div class="container"> 
+   <div class="page-header"> 
+    <div class="text-center"> 
+     <h1><span class="useCaseName">Using decorator</span></h1> 
+     <ol class="breadcrumb">
+      <li><a href="../HowToUseSimpleFunctionalTest.html">How to use simple functional test</a></li>
+      <li><a href="Usages.html">Usages</a></li>
+      <li class="active">Using decorator</li>
+     </ol>
+    </div> 
+    <div class="comment">
+      The annotation @Decorate allow to prettify your html report. 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Add style</span></h3> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>By adding a style decorator with parameter <i class="value">style</i> on a element: @Decorate(decorator = Style.class, parameters =&quot;<i class="value">style</i>&quot;) </span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>The element targeted of the html report will have the css class <i class="value">style</i></span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Several style can be used together @Decorate(decorator = Style.class, parameters ={&quot;<i class="value">style1</i>&quot;,&quot;<i class="value">style2</i>&quot;,&quot;<i class="value">style3</i>&quot;}) </span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>The style decorator can be apply on use case scenario and fixture</span> 
+     </div> 
+    </div> 
+    <div class="displayableContext panel-body"> 
+     <div> 
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/StyleDecoratorSample.java.html','sft/integration/use/sut/StyleDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/StyleDecoratorSample.html','sft/integration/use/sut/StyleDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Add breadcrumb</span></h3> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>By adding breadcrumb decorator on use case</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>A breadcrumbs is added</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>By clicking on the different breacrumb we access the given use story</span> 
+     </div> 
+    </div> 
+    <div class="displayableContext panel-body"> 
+     <div>
+       parent user story:
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/BreadcrumbDecoratorSample.java.html','sft/integration/use/sut/BreadcrumbDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/BreadcrumbDecoratorSample.html','sft/integration/use/sut/BreadcrumbDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div>child user story:
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubUseCaseBreadcrumb.java.html','sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubUseCaseBreadcrumb.html','sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div>little child user story:
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubSubUseCaseBreadcrumb.java.html','sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/subUseCase/SubSubUseCaseBreadcrumb.html','sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
 </html>

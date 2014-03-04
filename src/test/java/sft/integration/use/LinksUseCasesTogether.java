@@ -4,9 +4,11 @@ import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
@@ -22,6 +24,7 @@ import java.io.IOException;
     Use cases can be link together by using public field.
  */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 public class LinksUseCasesTogether {
 
     private CssParser sftCss;

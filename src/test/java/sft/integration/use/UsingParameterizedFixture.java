@@ -4,9 +4,11 @@ import org.junit.Assert;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.ParameterizedFixture;
@@ -18,6 +20,7 @@ To allow fixture re-usability, you can use private or protected methods includin
 In @Text annotation ${xxx} will be replace by the value of the proper parameter.
 */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 @Text("Re-Use your fixtures in your class: parameterized fixtures")
 public class UsingParameterizedFixture {
 

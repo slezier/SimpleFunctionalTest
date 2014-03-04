@@ -6,9 +6,11 @@ import org.jsoup.select.Elements;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.fixtures.SftResource;
@@ -22,6 +24,7 @@ import java.io.IOException;
      Fixtures could be group into FixturesHelper, and then could be shared between use cases.
  */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 @Text("Re-Use your fixtures between your classes: fixtures helpers")
 public class UsingFixturesHelper {
 

@@ -1,54 +1,62 @@
 <html>
-  <head>
-    <title>Settings</title>
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft.css" />
-<script src="../../../sft-html-documentation/bootstrap.min.js"></script>
-<script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script>
-  </head>
-  <body class="useCase succeeded">
-    <div class="container">
-      <div class="page-header">
-        <div class="text-center">
-          <h1><span class="useCaseName">Settings</span></h1>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Configuration mechanism</span></h3>
-        </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>All settings of an use case are hold by the class default configuration</span>          </div>
-          <div class="instruction succeeded">
-            <span>To modify settings you have to create an inherited class from DefaultConfiguration and change setting in the constructor</span>          </div>
-          <div class="instruction succeeded">
-            <span>Then you can inject configuration by annotated UseCase java class with: @Using( CustomConfiguration.class ).</span>          </div>
-          <div class="instruction succeeded">
-            <span>All related use cases will use this configuration</span>          </div>
-        </div>
-        <div class="displayableContext panel-body">
-        <div>
-<div class="resources"><a href="#" onclick="window.open(window.location.href.replace('#','').replace('Settings.html','')+'sut/CustomConfiguration.java.html','sft/integration/set/sut/CustomConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">custom configuration</a><a href="#" onclick="window.open(window.location.href.replace('#','').replace('Settings.html','')+'sut/UseCaseWithSpecificConfiguration.java.html','sft/integration/set/sut/UseCaseWithSpecificConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">use case using custom configuration</a></div>        </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3>Related uses cases</h3>
-        </div>
-        <div class="panel-body">
-          <ul>
-            <li class="relatedUseCase succeeded">
-              <a href="HtmlReportSettings.html"><span>Html report settings</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="SourceAndClassSettings.html"><span>Source and class settings</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </body>
+ <head> 
+  <title>Settings</title> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft.css" /> 
+  <script src="../../../sft-html-documentation/bootstrap.min.js"></script> 
+  <script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script> 
+ </head> 
+ <body class="useCase succeeded"> 
+  <div class="container"> 
+   <div class="page-header"> 
+    <div class="text-center"> 
+     <h1><span class="useCaseName">Settings</span></h1> 
+     <ol class="breadcrumb">
+      <li><a href="../HowToUseSimpleFunctionalTest.html">How to use simple functional test</a></li>
+      <li class="active">Settings</li>
+     </ol>
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Configuration mechanism</span></h3> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>All settings of an use case are hold by the class default configuration</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>To modify settings you have to create an inherited class from DefaultConfiguration and change setting in the constructor</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Then you can inject configuration by annotated UseCase java class with: @Using( CustomConfiguration.class ).</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>All related use cases will use this configuration</span> 
+     </div> 
+    </div> 
+    <div class="displayableContext panel-body"> 
+     <div> 
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('Settings.html','')+'sut/CustomConfiguration.java.html','sft/integration/set/sut/CustomConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">custom configuration</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('Settings.html','')+'sut/UseCaseWithSpecificConfiguration.java.html','sft/integration/set/sut/UseCaseWithSpecificConfiguration.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">use case using custom configuration</a>
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3>Related uses cases</h3> 
+    </div> 
+    <div class="panel-body"> 
+     <ul> 
+      <li class="relatedUseCase succeeded"> <a href="HtmlReportSettings.html"><span>Html report settings</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="SourceAndClassSettings.html"><span>Source and class settings</span></a> </li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
 </html>

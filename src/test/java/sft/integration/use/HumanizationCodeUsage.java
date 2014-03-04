@@ -3,9 +3,11 @@ package sft.integration.use;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.HumanizationCamelCaseClassNameHumanized;
@@ -18,6 +20,7 @@ import java.io.IOException;
     Class and methods could be humanized 3 different ways:
  */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 @Text("Humanized your code: using camelCase or underscore transformation or annotation")
 public class HumanizationCodeUsage {
 

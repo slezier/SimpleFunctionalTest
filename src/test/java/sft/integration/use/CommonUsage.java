@@ -6,9 +6,11 @@ import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
+import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.TestFileSystem;
 import sft.integration.fixtures.JUnitHelper;
@@ -45,6 +47,7 @@ import static org.junit.Assert.assertThat;
     </ul>
 */
 @RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
 @Text("Common usage: writing Use Cases")
 public class CommonUsage {
 

@@ -1,146 +1,144 @@
 <html>
-  <head>
-    <title>Usages</title>
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" />
-<link rel="stylesheet" href="../../../sft-html-documentation/sft.css" />
-<script src="../../../sft-html-documentation/bootstrap.min.js"></script>
-<script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script>
-  </head>
-  <body class="useCase succeeded">
-    <div class="container">
-      <div class="page-header">
-        <div class="text-center">
-          <h1><span class="useCaseName">Usages</span></h1>
-        </div>
-        <div class="comment">
-
-
-
-    <div>
-    <div style="align:center"> <a href="#" onclick="$(cheatsheet).toggle(); return false;">
-            <caption>Cheat sheet</caption>
-       </a></div>
-        <table id="cheatsheet" class="table" style="display:none">
-            <tr>
-                <th>Java/JUnit item</th>
-                <th>Functional test item</th>
-                <th>HTML item</th>
-            <tr/>
-            <tr>
-                <td><a href="CommonUsage.html">Test Class</a></td>
-                <td>Use case</td>
-                <td>HTML page</td>
-            <tr/>
-            <tr>
-                <td><a href="CommonUsage.html">Test method</a></td>
-                <td>Scenario</td>
-                <td>HTML paragraph with background color depending of test issue</td>
-            <tr/>
-            <tr>
-                <td><a href="CommonUsage.html">Other methods</a></td>
-                <td>Fixture</td>
-                <td>HTML line</td>
-            <tr/>
-            <tr>
-                <td><a href="LinksUseCasesTogether.html">Public field</a></td>
-                <td>Related useCase</td>
-                <td>HTML link</td>
-            <tr/>
-            <tr>
-                <td><a href="CommentUsage.html">Multi-lines comment beforeUseCase class declaration</a></td>
-                <td>Use case documentation</td>
-                <td>HTML div afterUseCase use case name and beforeUseCase scenarios</td>
-            <tr/>
-            <tr>
-                <td><a href="CommentUsage.html">Multi-lines comment beforeUseCase test method declaration</a></td>
-                <td>Scenario documentation</td>
-                <td>HTML div afterUseCase scenario name and beforeUseCase instructions</td>
-            <tr/>
-            <tr>
-                <td><a href="HumanizationCodeUsage.html">@Text annotation on class or method</a></td>
-                <td>Force a specific use case, scenario or fixture name</td>
-                <td>text</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContextForAnUseCase.html">@BeforeClass annotated public static method</a></td>
-                <td>Starting context of use case</td>
-                <td>HTML paragraph beforeUseCase first scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContextForAnUseCase.html">@AfterClass annotated public static method</a></td>
-                <td>Handling ending context of use case</td>
-                <td>HTML paragraph afterUseCase last scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContextForAScenario.html">@Before annotated public method</a></td>
-                <td>Starting context of scenario</td>
-                <td>HTML first part of scenario paragraph</td>
-            <tr/>
-            <tr>
-                <td><a href="DefiningTestContextForAScenario.html">@After annotated public method</a></td>
-                <td>Handling ending context of scenario</td>
-                <td>Last part of scenario HTML</td>
-            <tr/>
-            <tr>
-                <td><a href="UsingParameterizedFixture.html">Other method with parameter and @Text annnotation using ${n} variables</a></td>
-                <td>Parameterized fixture</td>
-                <td>HTML line with all ${n} replaced by real value</td>
-            <tr/>
-            <tr>
-                <td><a href="UsingFixturesHelper.html">Private or protected field with @FixturesHelper annotation</a></td>
-                <td>Fixtures helper</td>
-                <td>HTML line corresponding of FixturesHelper fixture name</td>
-            <tr/>
-            <tr>
-                <td><a href="DisplayingTestContext.html">Private or protected field with @Displayable annotation</a></td>
-                <td>Show test context</td>
-                <td>Ending the scenario description</td>
-            <tr/>
-        </table>
-    </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3>Related uses cases</h3>
-        </div>
-        <div class="panel-body">
-          <ul>
-            <li class="relatedUseCase succeeded">
-              <a href="CommonUsage.html"><span>Common usage: writing Use Cases</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="HumanizationCodeUsage.html"><span>Humanized your code: using camelCase or underscore transformation or annotation</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="LinksUseCasesTogether.html"><span>Links use cases together</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="CommentUsage.html"><span>Add literal specifications in your use case: comment usage</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="DefiningTestContextForAnUseCase.html"><span>Defining test context for an use case</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="DefiningTestContextForAScenario.html"><span>Defining test context for a scenario</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="DisplayingTestContext.html"><span>Displaying test context</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="UsingParameterizedFixture.html"><span>Re-Use your fixtures in your class: parameterized fixtures</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="UsingFixturesHelper.html"><span>Re-Use your fixtures between your classes: fixtures helpers</span></a>
-            </li>
-            <li class="relatedUseCase succeeded">
-              <a href="UsingDecorator.html"><span>Using decorator</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </body>
+ <head> 
+  <title>Usages</title> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap-theme.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft-documentation.css" /> 
+  <link rel="stylesheet" href="../../../sft-html-documentation/sft.css" /> 
+  <script src="../../../sft-html-documentation/bootstrap.min.js"></script> 
+  <script src="../../../sft-html-documentation/jquery-1.10.2.min.js"></script> 
+ </head> 
+ <body class="useCase succeeded"> 
+  <div class="container"> 
+   <div class="page-header"> 
+    <div class="text-center"> 
+     <h1><span class="useCaseName">Usages</span></h1> 
+     <ol class="breadcrumb">
+      <li><a href="../HowToUseSimpleFunctionalTest.html">How to use simple functional test</a></li>
+      <li class="active">Usages</li>
+     </ol>
+    </div> 
+    <div class="comment"> 
+     <div> 
+      <div style="align:center"> 
+       <a href="#" onclick="$(cheatsheet).toggle(); return false;"> Cheat sheet </a>
+      </div> 
+      <table id="cheatsheet" class="table" style="display:none"> 
+       <tbody>
+        <tr> 
+         <th>Java/JUnit item</th> 
+         <th>Functional test item</th> 
+         <th>HTML item</th> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="CommonUsage.html">Test Class</a></td> 
+         <td>Use case</td> 
+         <td>HTML page</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="CommonUsage.html">Test method</a></td> 
+         <td>Scenario</td> 
+         <td>HTML paragraph with background color depending of test issue</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="CommonUsage.html">Other methods</a></td> 
+         <td>Fixture</td> 
+         <td>HTML line</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="LinksUseCasesTogether.html">Public field</a></td> 
+         <td>Related useCase</td> 
+         <td>HTML link</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="CommentUsage.html">Multi-lines comment beforeUseCase class declaration</a></td> 
+         <td>Use case documentation</td> 
+         <td>HTML div afterUseCase use case name and beforeUseCase scenarios</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="CommentUsage.html">Multi-lines comment beforeUseCase test method declaration</a></td> 
+         <td>Scenario documentation</td> 
+         <td>HTML div afterUseCase scenario name and beforeUseCase instructions</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="HumanizationCodeUsage.html">@Text annotation on class or method</a></td> 
+         <td>Force a specific use case, scenario or fixture name</td> 
+         <td>text</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="DefiningTestContextForAnUseCase.html">@BeforeClass annotated public static method</a></td> 
+         <td>Starting context of use case</td> 
+         <td>HTML paragraph beforeUseCase first scenario paragraph</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="DefiningTestContextForAnUseCase.html">@AfterClass annotated public static method</a></td> 
+         <td>Handling ending context of use case</td> 
+         <td>HTML paragraph afterUseCase last scenario paragraph</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="DefiningTestContextForAScenario.html">@Before annotated public method</a></td> 
+         <td>Starting context of scenario</td> 
+         <td>HTML first part of scenario paragraph</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="DefiningTestContextForAScenario.html">@After annotated public method</a></td> 
+         <td>Handling ending context of scenario</td> 
+         <td>Last part of scenario HTML</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="UsingParameterizedFixture.html">Other method with parameter and @Text annnotation using ${n} variables</a></td> 
+         <td>Parameterized fixture</td> 
+         <td>HTML line with all ${n} replaced by real value</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="UsingFixturesHelper.html">Private or protected field with @FixturesHelper annotation</a></td> 
+         <td>Fixtures helper</td> 
+         <td>HTML line corresponding of FixturesHelper fixture name</td> 
+        </tr>
+        <tr></tr> 
+        <tr> 
+         <td><a href="DisplayingTestContext.html">Private or protected field with @Displayable annotation</a></td> 
+         <td>Show test context</td> 
+         <td>Ending the scenario description</td> 
+        </tr>
+        <tr></tr> 
+       </tbody>
+      </table> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3>Related uses cases</h3> 
+    </div> 
+    <div class="panel-body"> 
+     <ul> 
+      <li class="relatedUseCase succeeded"> <a href="CommonUsage.html"><span>Common usage: writing Use Cases</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="HumanizationCodeUsage.html"><span>Humanized your code: using camelCase or underscore transformation or annotation</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="LinksUseCasesTogether.html"><span>Links use cases together</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="CommentUsage.html"><span>Add literal specifications in your use case: comment usage</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="DefiningTestContextForAnUseCase.html"><span>Defining test context for an use case</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="DefiningTestContextForAScenario.html"><span>Defining test context for a scenario</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="DisplayingTestContext.html"><span>Displaying test context</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="UsingParameterizedFixture.html"><span>Re-Use your fixtures in your class: parameterized fixtures</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="UsingFixturesHelper.html"><span>Re-Use your fixtures between your classes: fixtures helpers</span></a> </li> 
+      <li class="relatedUseCase succeeded"> <a href="UsingDecorator.html"><span>Using decorator</span></a> </li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
 </html>
