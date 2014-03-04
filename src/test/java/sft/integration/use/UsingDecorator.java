@@ -15,7 +15,7 @@ import sft.integration.use.sut.StyleDecoratorSample;
 import sft.integration.use.sut.subUseCase.SubSubUseCaseBreadcrumb;
 import sft.integration.use.sut.subUseCase.SubUseCaseBreadcrumb;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 
 /*
@@ -24,8 +24,11 @@ import java.io.IOException;
 @RunWith(SimpleFunctionalTest.class)
 public class UsingDecorator {
 
-    @Displayable
     private SftResources sftResources;
+    private SftResources sftResources2;
+    private SftResources sftResources3;
+    @Displayable
+    private DisplayableResources displayableResources;
     private JUnitHelper jUnitHelper;
 
     @Test
@@ -49,6 +52,7 @@ public class UsingDecorator {
         jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class, "target/sft-result/sft/integration/use/sut/StyleDecoratorSample.html");
         jUnitHelper.run();
         sftResources = jUnitHelper.displayResources();
+        displayableResources = new DisplayableResources("", sftResources);
     }
 
     @Text("The element targeted of the html report will have the css class ${style}")
@@ -75,32 +79,66 @@ public class UsingDecorator {
         jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class, "target/sft-result/sft/integration/use/sut/BreadcrumbDecoratorSample.html");
         jUnitHelper.run();
         sftResources = jUnitHelper.displayResources();
+        displayableResources = new DisplayableResources("parent user story", sftResources);
     }
 
     private void aBreadcrumbsIsAdded() throws Exception {
         Elements breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
-        Assert.assertEquals(1,breadcrumbs.select("li").size());
-        Assert.assertEquals("Breadcrumb decorator sample",breadcrumbs.select("li").get(0).text());
+        Assert.assertEquals(1, breadcrumbs.select("li").size());
+        Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.html");
+        sftResources2 = jUnitHelper.displayResources();
+        displayableResources.add("child user story", sftResources2);
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
-        Assert.assertEquals(2,breadcrumbs.select("li").size());
-        Assert.assertEquals("Breadcrumb decorator sample",breadcrumbs.select("li").get(0).text());
-        Assert.assertEquals("Sub use case breadcrumb",breadcrumbs.select("li").get(1).text());
+        Assert.assertEquals(2, breadcrumbs.select("li").size());
+        Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
+        Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.html");
+        sftResources3 = jUnitHelper.displayResources();
+        displayableResources.add("little child user story", sftResources3);
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
-        Assert.assertEquals(3,breadcrumbs.select("li").size());
-        Assert.assertEquals("Breadcrumb decorator sample",breadcrumbs.select("li").get(0).text());
-        Assert.assertEquals("Sub use case breadcrumb",breadcrumbs.select("li").get(1).text());
-        Assert.assertEquals("Sub sub use case breadcrumb",breadcrumbs.select("li").get(2).text());
+        Assert.assertEquals(3, breadcrumbs.select("li").size());
+        Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
+        Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
+        Assert.assertEquals("Sub sub use case breadcrumb", breadcrumbs.select("li").get(2).text());
     }
 
     private void byClickingOnTheDifferentBreacrumbWeAccessTheGivenUseStory() throws Exception {
         final Elements breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
-        Assert.assertEquals(3,breadcrumbs.select("li").size());
-        Assert.assertEquals("../BreadcrumbDecoratorSample.html",breadcrumbs.select("li").get(0).select("a").attr("href"));
-        Assert.assertEquals("SubUseCaseBreadcrumb.html",breadcrumbs.select("li").get(1).select("a").attr("href"));
+        Assert.assertEquals(3, breadcrumbs.select("li").size());
+        Assert.assertEquals("../BreadcrumbDecoratorSample.html", breadcrumbs.select("li").get(0).select("a").attr("href"));
+        Assert.assertEquals("SubUseCaseBreadcrumb.html", breadcrumbs.select("li").get(1).select("a").attr("href"));
         Assert.assertTrue(breadcrumbs.select("li").get(2).classNames().contains("active"));
     }
+
+    private class DisplayableResources {
+        private ArrayList<String> labels = new ArrayList<String>();
+        private ArrayList<SftResources> resources = new ArrayList<SftResources>();
+
+        private DisplayableResources(String label, SftResources resources) {
+            add(label, resources);
+        }
+
+        @Override
+        public String toString() {
+            if (labels.size() == 1) {
+                return resources.get(0).toString();
+            } else {
+                String result = "";
+                for (int i = 0; i < labels.size(); i++) {
+                    result += labels.get(i) + ":" + resources.get(i).toString();
+                }
+                return result;
+            }
+        }
+
+        private void add(String label, SftResources resources) {
+            this.labels.add(label);
+            this.resources.add(resources);
+        }
+    }
+
+
 }
