@@ -72,7 +72,7 @@ import sft.integration.use.Usages;
 
 </div>
 <h2> Work In Progress </h2>
-    <li>useCase decorator (breadcrumb,toc)</li>
+    <li>useCase decorator (toc)</li>
 <ul>
 </ul>
 <h2> TODO </h2>
