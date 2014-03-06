@@ -49,7 +49,7 @@ public class TableOfContent implements Decorator {
             final String target = relativeHtmlPathResolver.getPathOf(subUseCaseResult.useCase.classUnderTest, ".html");
             final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
 
-            result += "<li class='instruction "+configuration.getReport().getHtmlResources().convertIssue(subUseCaseResult.getIssue())+"'>" +
+            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(subUseCaseResult.getIssue())+"'>" +
                     "<span><a href='"+pathToUseCaseToBreadcrumb+"'>"+subUseCaseResult.useCase.getName()+"</a></span>"+
                     printScenario(subUseCaseResult) +
                     printUseCase(initialUseCase, subUseCaseResult) +
@@ -61,7 +61,7 @@ public class TableOfContent implements Decorator {
     private String printScenario(UseCaseResult useCaseResult) {
         String result = "<ul>";
         for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
-            result += "<li class='instruction "+configuration.getReport().getHtmlResources().convertIssue(scenarioResult.issue)+"'>" +
+            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(scenarioResult.issue)+"'>" +
                     "<span>"+scenarioResult.scenario.getName()+"</span>"+
                     "</li>";
         }

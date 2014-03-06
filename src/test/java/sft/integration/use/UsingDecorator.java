@@ -52,9 +52,7 @@ public class UsingDecorator {
     @Test
     public void addTableOfContent() throws Exception {
         byAddingTableOfContentDecoratorOnUseCase();
-        aTableOfContentIsAddedAfterTitleShowingTestsIssue();
-        byClickingOnTheDifferentContentWeAccessTheGivenUseStory();
-
+        aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories();
     }
 
     @Text("By adding a style decorator with parameter ${style}  on a element: @Decorate(decorator = Style.class, parameters =\"${style}\") ")
@@ -125,7 +123,7 @@ public class UsingDecorator {
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
-    private void aTableOfContentIsAddedAfterTitleShowingTestsIssue() throws Exception {
+    private void aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories() throws Exception {
         Elements elementsLevel1 = jUnitHelper.getHtmlReport().select("div.toc > ol > li");
         Assert.assertEquals(3, elementsLevel1.size());
 
@@ -171,9 +169,6 @@ public class UsingDecorator {
         Assert.assertEquals(title, tocElement.select("span a").get(0).text());
     }
 
-    private void byClickingOnTheDifferentContentWeAccessTheGivenUseStory() {
-
-    }
 
     private class DisplayableResources {
         private ArrayList<String> labels = new ArrayList<String>();
