@@ -11,13 +11,17 @@
 package sft.decorators;
 
 
+import sft.DefaultConfiguration;
 import sft.UseCase;
+import sft.result.UseCaseResult;
 
 public interface Decorator {
 
     Decorator withParameters(String... parameters);
 
-    public String applyOnUseCase(UseCase useCase, String result);
+    Decorator withConfiguration(DefaultConfiguration configuration);
+
+    public String applyOnUseCase(UseCaseResult useCaseResult, String result);
 
     String applyOnScenario(String result);
 

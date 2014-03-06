@@ -1,0 +1,25 @@
+<html><head><title>
+sft.integration.use.sut.decorators.BreadcrumbDecoratorSample
+</title>
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/sft.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut.decorators;
+
+
+import org.junit.runner.RunWith;
+import sft.Decorate;
+import sft.SimpleFunctionalTest;
+import sft.decorators.Breadcrumb;
+import sft.integration.use.sut.decorators.subUseCase.SubUseCaseBreadcrumb;
+
+@RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Breadcrumb.class)
+public class BreadcrumbDecoratorSample {
+
+    public SubUseCaseBreadcrumb subUseCaseBreadcrumb = new SubUseCaseBreadcrumb();
+
+}
+</pre></div></div></body></html>

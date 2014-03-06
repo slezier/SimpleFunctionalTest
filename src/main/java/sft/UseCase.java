@@ -59,11 +59,11 @@ public class UseCase extends FixturesHolder {
     }
 
     private UseCase(UseCase useCase, Object object, DefaultConfiguration configuration) throws Exception {
-        super(object, FixturesVisibility.PrivateOrProtectedOnly);
+        super(object, FixturesVisibility.PrivateOrProtectedOnly,configuration);
         parent = useCase;
         this.configuration = extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
-        useCaseDecorator = DecoratorExtractor.getDecorator(classUnderTest.getDeclaredAnnotations());
+        useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration,classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
         subUseCases = extractSubUseCases();
         fixturesHelpers = extractFixturesHelpers();
@@ -151,7 +151,7 @@ public class UseCase extends FixturesHolder {
         for (Field field : getHelperFields()) {
             field.setAccessible(true);
             Object helperObject = field.get(this.object);
-            helpers.add(new Helper(helperObject));
+            helpers.add(new Helper(helperObject,configuration));
         }
 
         return helpers;

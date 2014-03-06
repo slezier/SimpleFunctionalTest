@@ -10,6 +10,7 @@ import org.w3c.dom.css.CSSStyleSheet;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CssParser {
 
@@ -45,5 +46,14 @@ public class CssParser {
 
     public CSSStyleRule get(String ruleName) {
         return rules.get(ruleName);
+    }
+
+    @Override
+    public String toString(){
+        String css= "";
+        for (Map.Entry<String, CSSStyleRule> ruleEntry : rules.entrySet()) {
+            css += ruleEntry.toString() +"\n";
+        }
+        return css;
     }
 }

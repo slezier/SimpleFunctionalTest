@@ -1,6 +1,7 @@
 package sft.integration.use;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,10 +13,11 @@ import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
-import sft.integration.use.sut.BreadcrumbDecoratorSample;
-import sft.integration.use.sut.StyleDecoratorSample;
-import sft.integration.use.sut.subUseCase.SubSubUseCaseBreadcrumb;
-import sft.integration.use.sut.subUseCase.SubUseCaseBreadcrumb;
+import sft.integration.use.sut.decorators.BreadcrumbDecoratorSample;
+import sft.integration.use.sut.decorators.StyleDecoratorSample;
+import sft.integration.use.sut.decorators.TocDecoratorSample;
+import sft.integration.use.sut.decorators.subUseCase.SubSubUseCaseBreadcrumb;
+import sft.integration.use.sut.decorators.subUseCase.SubUseCaseBreadcrumb;
 
 import java.util.ArrayList;
 
@@ -43,13 +45,21 @@ public class UsingDecorator {
     @Test
     public void addBreadcrumb() throws Exception {
         byAddingBreadcrumbDecoratorOnUseCase();
-        aBreadcrumbsIsAdded();
+        aBreadcrumbsIsAddedAfterTitle();
         byClickingOnTheDifferentBreacrumbWeAccessTheGivenUseStory();
+    }
+
+    @Test
+    public void addTableOfContent() throws Exception {
+        byAddingTableOfContentDecoratorOnUseCase();
+        aTableOfContentIsAddedAfterTitleShowingTestsIssue();
+        byClickingOnTheDifferentContentWeAccessTheGivenUseStory();
+
     }
 
     @Text("By adding a style decorator with parameter ${style}  on a element: @Decorate(decorator = Style.class, parameters =\"${style}\") ")
     private void byAddingStyleDecoratorWithParameterOnAElement(String style) throws Exception {
-        jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class, "target/sft-result/sft/integration/use/sut/StyleDecoratorSample.html");
+        jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/StyleDecoratorSample.html");
         jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
@@ -75,24 +85,24 @@ public class UsingDecorator {
     }
 
     private void byAddingBreadcrumbDecoratorOnUseCase() throws Exception {
-        jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class, "target/sft-result/sft/integration/use/sut/BreadcrumbDecoratorSample.html");
+        jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/BreadcrumbDecoratorSample.html");
         jUnitHelper.run();
         displayableResources = new DisplayableResources("parent user story", jUnitHelper.displayResources());
     }
 
-    private void aBreadcrumbsIsAdded() throws Exception {
+    private void aBreadcrumbsIsAddedAfterTitle() throws Exception {
         Elements breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
         Assert.assertEquals(1, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
 
-        jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubUseCaseBreadcrumb.html");
+        jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/decorators/subUseCase/SubUseCaseBreadcrumb.html");
         displayableResources.add("child user story", jUnitHelper.displayResources());
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
         Assert.assertEquals(2, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
         Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
 
-        jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/subUseCase/SubSubUseCaseBreadcrumb.html");
+        jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/decorators/subUseCase/SubSubUseCaseBreadcrumb.html");
         displayableResources.add("little child user story", jUnitHelper.displayResources());
         breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
@@ -107,6 +117,62 @@ public class UsingDecorator {
         Assert.assertEquals("../BreadcrumbDecoratorSample.html", breadcrumbs.select("li").get(0).select("a").attr("href"));
         Assert.assertEquals("SubUseCaseBreadcrumb.html", breadcrumbs.select("li").get(1).select("a").attr("href"));
         Assert.assertTrue(breadcrumbs.select("li").get(2).classNames().contains("active"));
+    }
+
+    private void byAddingTableOfContentDecoratorOnUseCase() {
+        jUnitHelper = new JUnitHelper(this.getClass(), TocDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TocDecoratorSample.html");
+        jUnitHelper.run();
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+    }
+
+    private void aTableOfContentIsAddedAfterTitleShowingTestsIssue() throws Exception {
+        Elements elementsLevel1 = jUnitHelper.getHtmlReport().select("div.toc > ol > li");
+        Assert.assertEquals(3, elementsLevel1.size());
+
+        assertTocElement(elementsLevel1.get(0), "succeeded", "Sub use case toc 1", "subUseCase/SubUseCaseToc1.html");
+        assertScenariosAre(elementsLevel1.get(0), "succeeded", "Scenario 11", "succeeded", "Scenario 12", "succeeded", "Scenario 13");
+        assertTocElement(elementsLevel1.get(1), "failed", "Sub use case toc 2", "subUseCase/SubUseCaseToc2.html");
+        assertScenariosAre(elementsLevel1.get(1), "succeeded", "Scenario 21", "succeeded", "Scenario 22", "succeeded", "Scenario 23");
+
+        Elements elementsLevel2 = elementsLevel1.get(1).select("> ol > li");
+        Assert.assertEquals(3, elementsLevel2.size());
+
+        assertTocElement(elementsLevel2.get(0), "succeeded", "Sub use case toc 2a", "subUseCase/SubUseCaseToc2a.html");
+        assertScenariosAre(elementsLevel2.get(0), "succeeded", "Scenario 2a 1");
+        assertTocElement(elementsLevel2.get(1), "ignored", "Sub use case toc 2b", "subUseCase/SubUseCaseToc2b.html");
+        assertScenariosAre(elementsLevel2.get(1), "ignored", "Scenario 2b 1");
+        assertTocElement(elementsLevel2.get(2), "failed", "Sub use case toc 2c", "subUseCase/SubUseCaseToc2c.html");
+        assertScenariosAre(elementsLevel2.get(2), "failed", "Scenario 2c 1");
+
+        assertTocElement(elementsLevel1.get(2), "failed", "Sub use case toc 3", "subUseCase/SubUseCaseToc3.html");
+        assertScenariosAre(elementsLevel1.get(2), "succeeded", "Scenario 31", "ignored", "Scenario 32", "failed", "Scenario 33");
+
+
+    }
+
+    private void assertScenariosAre(Element element, String... listOfTitleThenIssues) {
+        final Elements scenarios = element.select("> ul > li");
+        final int nbOfScenarios = listOfTitleThenIssues.length / 2;
+        Assert.assertEquals(nbOfScenarios,scenarios.size());
+        for (int i = 0; i < nbOfScenarios; i++) {
+            final String issue = listOfTitleThenIssues[i * 2];
+            final String title = listOfTitleThenIssues[i * 2 + 1];
+            final Element scenario = scenarios.get(i);
+
+            Assert.assertTrue("expecting for scenario #" + i + " ("+title+") issue " + issue + " having " + scenario.className(), scenario.hasClass(issue));
+            Assert.assertEquals(title, scenario.text());
+        }
+
+    }
+
+    private void assertTocElement(Element tocElement, String issue, String title, String href) {
+        Assert.assertTrue("expecting '" + issue + "' having '" + tocElement.className() + "'", tocElement.hasClass(issue));
+        Assert.assertEquals(href, tocElement.select("span a").attr("href"));
+        Assert.assertEquals(title, tocElement.select("span a").get(0).text());
+    }
+
+    private void byClickingOnTheDifferentContentWeAccessTheGivenUseStory() {
+
     }
 
     private class DisplayableResources {

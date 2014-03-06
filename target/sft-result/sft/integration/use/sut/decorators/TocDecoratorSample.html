@@ -1,0 +1,72 @@
+<html>
+ <head> 
+  <title>Toc decorator sample</title> 
+  <link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" /> 
+  <link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="../../../../../sft-html-default/sft.css" /> 
+  <script src="../../../../../sft-html-default/bootstrap.min.js"></script> 
+  <script src="../../../../../sft-html-default/jquery-1.10.2.min.js"></script> 
+ </head> 
+ <body class="useCase failed"> 
+  <div class="container"> 
+   <div class="page-header"> 
+    <div class="text-center"> 
+     <h1><span class="useCaseName">Toc decorator sample</span></h1> 
+    </div> 
+   </div>
+   <div class="panel toc">
+    <ol>
+     <li class="instruction succeeded"><span><a href="subUseCase/SubUseCaseToc1.html">Sub use case toc 1</a></span>
+      <ul>
+       <li class="instruction succeeded"><span>Scenario 11</span></li>
+       <li class="instruction succeeded"><span>Scenario 12</span></li>
+       <li class="instruction succeeded"><span>Scenario 13</span></li>
+      </ul>
+      <ol></ol></li>
+     <li class="instruction failed"><span><a href="subUseCase/SubUseCaseToc2.html">Sub use case toc 2</a></span>
+      <ul>
+       <li class="instruction succeeded"><span>Scenario 21</span></li>
+       <li class="instruction succeeded"><span>Scenario 22</span></li>
+       <li class="instruction succeeded"><span>Scenario 23</span></li>
+      </ul>
+      <ol>
+       <li class="instruction succeeded"><span><a href="subUseCase/SubUseCaseToc2a.html">Sub use case toc 2a</a></span>
+        <ul>
+         <li class="instruction succeeded"><span>Scenario 2a 1</span></li>
+        </ul>
+        <ol></ol></li>
+       <li class="instruction ignored"><span><a href="subUseCase/SubUseCaseToc2b.html">Sub use case toc 2b</a></span>
+        <ul>
+         <li class="instruction ignored"><span>Scenario 2b 1</span></li>
+        </ul>
+        <ol></ol></li>
+       <li class="instruction failed"><span><a href="subUseCase/SubUseCaseToc2c.html">Sub use case toc 2c</a></span>
+        <ul>
+         <li class="instruction failed"><span>Scenario 2c 1</span></li>
+        </ul>
+        <ol></ol></li>
+      </ol></li>
+     <li class="instruction failed"><span><a href="subUseCase/SubUseCaseToc3.html">Sub use case toc 3</a></span>
+      <ul>
+       <li class="instruction succeeded"><span>Scenario 31</span></li>
+       <li class="instruction ignored"><span>Scenario 32</span></li>
+       <li class="instruction failed"><span>Scenario 33</span></li>
+      </ul>
+      <ol></ol></li>
+    </ol>
+   </div> 
+   <div class="panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3>Related uses cases</h3> 
+    </div> 
+    <div class="panel-body"> 
+     <ul> 
+      <li class="relatedUseCase succeeded"> <a href="subUseCase/SubUseCaseToc1.html"><span>Sub use case toc 1</span></a> </li> 
+      <li class="relatedUseCase failed"> <a href="subUseCase/SubUseCaseToc2.html"><span>Sub use case toc 2</span></a> </li> 
+      <li class="relatedUseCase failed"> <a href="subUseCase/SubUseCaseToc3.html"><span>Sub use case toc 3</span></a> </li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
+</html>

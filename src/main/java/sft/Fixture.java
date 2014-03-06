@@ -24,9 +24,9 @@ public class Fixture {
     private final JavaToHumanTranslator javaToHumanTranslator = new JavaToHumanTranslator();
     public ArrayList<String> parametersName = new ArrayList<String>();
 
-    public Fixture(Method method) throws Exception {
+    public Fixture(Method method,DefaultConfiguration configuration) throws Exception {
         this.method = method;
-        this.decorator = DecoratorExtractor.getDecorator(method.getDeclaredAnnotations());
+        this.decorator = DecoratorExtractor.getDecorator(configuration, method.getDeclaredAnnotations());
     }
 
     public String getText() {

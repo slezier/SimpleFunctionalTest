@@ -2,10 +2,14 @@ package sft.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.RelativeHtmlPathResolver;
+import sft.result.UseCaseResult;
 
 public class Breadcrumb implements Decorator {
+
+    private DefaultConfiguration configuration;
 
     @Override
     public Decorator withParameters(String... parameters) {
@@ -13,9 +17,15 @@ public class Breadcrumb implements Decorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCase useCase, String result) {
+    public Decorator withConfiguration(DefaultConfiguration configuration) {
+        this.configuration = configuration;
+        return this;
+    }
+
+    @Override
+    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
         final Document parse = Jsoup.parse(result);
-        parse.select(".page-header .text-center").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCase,useCase) + "</ol>");
+        parse.select(".page-header .text-center").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCaseResult.useCase,useCaseResult.useCase) + "</ol>");
         return parse.toString();
     }
 
@@ -27,7 +37,7 @@ public class Breadcrumb implements Decorator {
         if(initialUseCase == useCaseToBreadcrumb){
             return result + "<li class=\"active\">" + useCaseToBreadcrumb.getName() + "</li>";
         }else{
-            final RelativeHtmlPathResolver relativeHtmlPathResolver = new RelativeHtmlPathResolver();
+            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport().pathResolver;
             final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
             final String target = relativeHtmlPathResolver.getPathOf(useCaseToBreadcrumb.classUnderTest, ".html");
             final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);

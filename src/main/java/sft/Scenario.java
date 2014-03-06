@@ -32,7 +32,7 @@ public class Scenario {
         this.useCase = useCase;
         this.method = method;
         this.javaToHumanTranslator = new JavaToHumanTranslator();
-        this.decorator = DecoratorExtractor.getDecorator(method.getDeclaredAnnotations());
+        this.decorator = DecoratorExtractor.getDecorator(useCase.configuration, method.getDeclaredAnnotations());
 
     }
 

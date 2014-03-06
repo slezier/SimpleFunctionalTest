@@ -31,18 +31,18 @@ body{
     background-color: #FB9B9B;
 }
 
-*.instruction span{
+*.instruction > span{
     background-position: right center;
     background-repeat: no-repeat;
     padding-right: 20px;
 }
-*.instruction.ignored span{
+*.instruction.ignored > span{
     background-image: url("ignored_16.png");
 }
-*.instruction.succeeded span{
+*.instruction.succeeded > span{
     background-image: url("success_16.png");
 }
-*.instruction.failed span{
+*.instruction.failed > span{
     background-image: url("failed_16.png");
 }
 

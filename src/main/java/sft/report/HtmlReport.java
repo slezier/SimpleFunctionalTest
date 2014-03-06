@@ -35,8 +35,7 @@ import java.util.regex.Matcher;
 
 public class HtmlReport extends Report {
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
-    private HtmlResources htmlResources;
-
+    public final RelativeHtmlPathResolver pathResolver;
     public String useCaseTemplate =
             "<html>\n" +
                     "  <head>\n" +
@@ -84,7 +83,7 @@ public class HtmlReport extends Report {
                     "@@@displayedContextsTemplates@@@" +
                     "@@@exceptionTemplate@@@" +
                     "      </div>\n";
-    public String scenarioCommentTemplate=
+    public String scenarioCommentTemplate =
             "        <div class=\"comment\">\n" +
                     "@@@comment.text@@@" +
                     "        </div>\n";
@@ -143,19 +142,18 @@ public class HtmlReport extends Report {
             "            <li class=\"relatedUseCase @@@relatedUseCase.issue@@@\">\n" +
                     "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@relatedUseCase.name@@@</span></a>\n" +
                     "            </li>\n";
-
     public String parameterTemplate = "<i class=\"value\">@@@parameter.value@@@</i>";
-
     public String ignoredClass = "ignored";
     public String failedClass = "failed";
     public String successClass = "succeeded";
-
+    private HtmlResources htmlResources;
     private DefaultConfiguration configuration;
 
     public HtmlReport(DefaultConfiguration configuration) {
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
         setReportPath(configuration.getTargetFolder().path);
+        pathResolver = new RelativeHtmlPathResolver();
     }
 
     @Override
@@ -188,8 +186,8 @@ public class HtmlReport extends Report {
                 .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
                 .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
                 .getText();
-        if(useCaseResult.useCase.useCaseDecorator != null ){
-            useCaseReport=useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult.useCase,useCaseReport);
+        if (useCaseResult.useCase.useCaseDecorator != null) {
+            useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult, useCaseReport);
         }
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
@@ -245,7 +243,7 @@ public class HtmlReport extends Report {
                 .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
                 .getText();
 
-        if(scenarioResult.scenario.decorator != null ){
+        if (scenarioResult.scenario.decorator != null) {
             scenarioHtml = scenarioResult.scenario.decorator.applyOnScenario(scenarioHtml);
 
         }
@@ -278,7 +276,7 @@ public class HtmlReport extends Report {
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
 
-            if(fixture.decorator != null ){
+            if (fixture.decorator != null) {
                 instructionHtml = fixture.decorator.applyOnFixture(instructionHtml);
             }
             result += instructionHtml;
@@ -357,7 +355,7 @@ public class HtmlReport extends Report {
                     .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.beforeUseCase))
                     .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.beforeResult))
                     .getText();
-        }else {
+        } else {
             return "";
         }
     }
@@ -370,7 +368,7 @@ public class HtmlReport extends Report {
                     .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.afterUseCase))
                     .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.afterResult))
                     .getText();
-        }else{
+        } else {
             return "";
         }
     }
@@ -425,7 +423,6 @@ public class HtmlReport extends Report {
     }
 
     private String getRelativeUrl(UseCase subUseCase, UseCaseResult useCaseResult) {
-        RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
         String source = pathResolver.getPathOf(useCaseResult.useCase.classUnderTest, ".html");
         String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
         return pathResolver.getRelativePathToFile(source, target);
@@ -436,7 +433,7 @@ public class HtmlReport extends Report {
     }
 
     public String getIssueConverter(Issue issue) {
-        switch (issue){
+        switch (issue) {
             case IGNORED:
                 return ignoredClass;
             case FAILED:

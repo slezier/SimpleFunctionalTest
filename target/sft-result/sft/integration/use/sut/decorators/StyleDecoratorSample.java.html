@@ -1,0 +1,32 @@
+<html><head><title>
+sft.integration.use.sut.decorators.StyleDecoratorSample
+</title>
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/sft.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut.decorators;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import sft.Decorate;
+import sft.SimpleFunctionalTest;
+import sft.decorators.Style;
+
+@RunWith(SimpleFunctionalTest.class)
+@Decorate(decorator = Style.class, parameters ="style")
+public class StyleDecoratorSample {
+
+    @Test
+    @Decorate(decorator = Style.class, parameters ={"style1","style2","style3"})
+    public void firstScenario() {
+        call1();
+    }
+
+    @Decorate(decorator = Style.class, parameters ="style4" )
+    private void call1() {
+    }
+
+}
+</pre></div></div></body></html>

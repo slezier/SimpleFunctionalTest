@@ -11,22 +11,22 @@
 package sft.decorators;
 
 import sft.Decorate;
+import sft.DefaultConfiguration;
 
 import java.lang.annotation.Annotation;
 
 public class DecoratorExtractor {
-    public static Decorator getDecorator(Annotation[] declaredAnnotations) throws Exception {
+    public static Decorator getDecorator(DefaultConfiguration configuration, Annotation[] declaredAnnotations) throws Exception {
         for (Annotation annotation : declaredAnnotations) {
             if (annotation instanceof Decorate) {
-                return createDecorator((Decorate) annotation);
+                return createDecorator((Decorate) annotation,configuration);
             }
         }
         return null;
     }
 
-    private static Decorator createDecorator(Decorate decorate) throws Exception {
-        return decorate.decorator().newInstance().withParameters(decorate.parameters());
+    private static Decorator createDecorator(Decorate decorate,DefaultConfiguration configuration) throws Exception {
+        return decorate.decorator().newInstance().withParameters(decorate.parameters()).withConfiguration(configuration);
     }
-
 
 }

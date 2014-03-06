@@ -23,16 +23,16 @@ public class FixturesHolder {
     public final ArrayList<Fixture> fixtures;
 
 
-    public FixturesHolder(Object object,FixturesVisibility fixturesVisibility) throws Exception {
+    public FixturesHolder(Object object,FixturesVisibility fixturesVisibility,DefaultConfiguration configuration) throws Exception {
         this.object = object;
         classUnderTest = object.getClass();
-        fixtures = extractFixtures(fixturesVisibility);
+        fixtures = extractFixtures(fixturesVisibility,configuration);
     }
 
-    protected ArrayList<Fixture> extractFixtures(FixturesVisibility fixturesVisibility) throws Exception {
+    protected ArrayList<Fixture> extractFixtures(FixturesVisibility fixturesVisibility,DefaultConfiguration configuration) throws Exception {
         ArrayList<Fixture> fixtures = new ArrayList<Fixture>();
         for (Method method : getSupportMethod(fixturesVisibility)) {
-            fixtures.add(new Fixture(method));
+            fixtures.add(new Fixture(method,configuration));
         }
         return fixtures;
     }

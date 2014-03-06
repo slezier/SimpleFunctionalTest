@@ -13,10 +13,15 @@ package sft.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import sft.DefaultConfiguration;
 import sft.UseCase;
+import sft.result.UseCaseResult;
 
 public class Style implements Decorator {
+
+
     private String[] styles;
+    private DefaultConfiguration configuration;
 
     @Override
     public Decorator withParameters(String... parameters) {
@@ -28,7 +33,13 @@ public class Style implements Decorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCase useCase,String result){
+    public Decorator withConfiguration(DefaultConfiguration configuration) {
+        this.configuration = configuration;
+        return this;
+    }
+
+    @Override
+    public String applyOnUseCase(UseCaseResult useCaseResult,String result){
         return addStyleToElementWithClass(result, ".useCase");
     }
 
@@ -44,7 +55,6 @@ public class Style implements Decorator {
         }
         return parse.toString();
     }
-
 
     @Override
     public String applyOnScenario(String result){
