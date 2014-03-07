@@ -58,13 +58,13 @@ public class UseCaseJavaParser extends JavaFileParser {
                     feedAndOrderScenario(scenarioIndex, methodDeclaration, useCase);
                     scenarioIndex++;
                 } else if (containsAnnotation(methodDeclaration, "BeforeClass")) {
-                    feedTestContext(methodDeclaration, useCase.beforeUseCase);
+                    feedTestContext(methodDeclaration, useCase.beforeUseCase,useCase);
                 } else if (containsAnnotation(methodDeclaration, "AfterClass")) {
-                    feedTestContext(methodDeclaration, useCase.afterUseCase);
+                    feedTestContext(methodDeclaration, useCase.afterUseCase,useCase);
                 } else if (containsAnnotation(methodDeclaration, "Before")) {
-                    feedTestContext(methodDeclaration, useCase.beforeScenario);
+                    feedTestContext(methodDeclaration, useCase.beforeScenario,useCase);
                 } else if (containsAnnotation(methodDeclaration, "After")) {
-                    feedTestContext(methodDeclaration, useCase.afterScenario);
+                    feedTestContext(methodDeclaration, useCase.afterScenario,useCase);
                 } else {
                     feedTestFixture(methodDeclaration, useCase);
                 }
@@ -76,8 +76,8 @@ public class UseCaseJavaParser extends JavaFileParser {
         }
     }
 
-    private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler contextHandler) {
-        contextHandler.methodCalls = extractFixtureCalls(methodDeclaration);
+    private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler contextHandler,UseCase useCase) {
+        contextHandler.fixtureCalls = extractFixtureCalls(useCase,methodDeclaration);
     }
 
     private void feedAndOrderScenario(int expectedIndex, MethodDeclaration methodDeclaration, UseCase useCase) {
@@ -90,47 +90,61 @@ public class UseCaseJavaParser extends JavaFileParser {
                 if (methodDeclaration.getComment() != null) {
                     scenario.setComment(methodDeclaration.getComment().getContent());
                 }
-                scenario.methodCalls.addAll(extractFixtureCalls(methodDeclaration));
+                scenario.fixtureCalls.addAll(extractFixtureCalls(useCase,methodDeclaration));
                 return;
             }
         }
     }
 
-    private ArrayList<MethodCall> extractFixtureCalls(MethodDeclaration methodDeclaration) {
-        ArrayList<MethodCall> methodCalls = new ArrayList<MethodCall>();
+    private ArrayList<FixtureCall> extractFixtureCalls(UseCase useCase,MethodDeclaration methodDeclaration) {
+        ArrayList<FixtureCall> fixtureCalls = new ArrayList<FixtureCall>();
         if( methodDeclaration.getBody().getStmts() == null){
             System.err.println("In class "+javaClass.getCanonicalName()+" method " + methodDeclaration.getName() + " don't have any fixture call.");
-            return methodCalls;
+            return fixtureCalls;
         }
         for (Statement stmt : methodDeclaration.getBody().getStmts()) {
             if (stmt instanceof ExpressionStmt) {
                 Expression expr = ((ExpressionStmt) stmt).getExpression();
                 if (expr instanceof MethodCallExpr) {
-                    MethodCallExpr methodCall = (MethodCallExpr) expr;
-                    Expression scope = methodCall.getScope();
-                    String methodCallName = "";
-                    if (scope != null) {
-                        methodCallName = scope + ".";
-                    }
-                    methodCallName += methodCall.getName();
-                    MethodCall call = new MethodCall(methodCallName, methodCall.getBeginLine());
-                    if (methodCall.getArgs() != null) {
-                        for (Expression expression : methodCall.getArgs()) {
-                            if (expression instanceof StringLiteralExpr) {
-                                StringLiteralExpr stringLiteralExpr = (StringLiteralExpr) expression;
-                                call.parameters.add(stringLiteralExpr.getValue());
-                            } else if (expression instanceof LiteralExpr) {
-                                LiteralExpr literalExpr = (LiteralExpr) expression;
-                                call.parameters.add(literalExpr.toString());
-                            }
-                        }
-                    }
-                    methodCalls.add(call);
+                    fixtureCalls.add(extractFixtureCall(useCase, (MethodCallExpr) expr));
                 }
             }
-
         }
-        return methodCalls;
+        return fixtureCalls;
+    }
+
+    private FixtureCall extractFixtureCall(UseCase useCase, MethodCallExpr methodCall) {
+        final String methodCallName = extractMethodCallName(methodCall);
+        final ArrayList<String> parameters = extractParameters(methodCall);
+        final Fixture fixture = useCase.getFixtureByMethodName(methodCallName);
+        final int callLine = methodCall.getBeginLine();
+        return new FixtureCall(methodCallName, callLine, fixture, parameters);
+    }
+
+    private ArrayList<String> extractParameters(MethodCallExpr methodCall) {
+        ArrayList<String> parameters = new ArrayList<String>();
+        if (methodCall.getArgs() != null) {
+            for (Expression expression : methodCall.getArgs()) {
+                if (expression instanceof StringLiteralExpr) {
+                    StringLiteralExpr stringLiteralExpr = (StringLiteralExpr) expression;
+                    parameters.add(stringLiteralExpr.getValue());
+                } else if (expression instanceof LiteralExpr) {
+                    LiteralExpr literalExpr = (LiteralExpr) expression;
+                    parameters.add(literalExpr.toString());
+                }
+            }
+        }
+        return parameters;
+    }
+
+    private String extractMethodCallName(MethodCallExpr methodCall) {
+        Expression scope = methodCall.getScope();
+        String methodCallName = "";
+        if (scope != null) {
+            methodCallName = scope + ".";
+        }
+        methodCallName += methodCall.getName();
+        return methodCallName;
     }
 
     private boolean containsAnnotation(BodyDeclaration methodDeclaration, String annotation) {

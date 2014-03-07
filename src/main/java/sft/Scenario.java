@@ -13,26 +13,27 @@ package sft;
 
 import org.junit.Ignore;
 import sft.decorators.Decorator;
-import sft.decorators.DecoratorExtractor;
 import sft.javalang.JavaToHumanTranslator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
+import static sft.decorators.DecoratorExtractor.getDecorator;
+
 public class Scenario {
     public final Method method;
     public final UseCase useCase;
     public final Decorator decorator;
     private final JavaToHumanTranslator javaToHumanTranslator;
-    public LinkedList<MethodCall> methodCalls = new LinkedList<MethodCall>();
+    public LinkedList<FixtureCall> fixtureCalls = new LinkedList<FixtureCall>();
     private String comment;
 
     public Scenario(UseCase useCase, Method method) throws Exception {
         this.useCase = useCase;
         this.method = method;
         this.javaToHumanTranslator = new JavaToHumanTranslator();
-        this.decorator = DecoratorExtractor.getDecorator(useCase.configuration, method.getDeclaredAnnotations());
+        this.decorator = getDecorator(useCase.configuration, method.getDeclaredAnnotations());
 
     }
 

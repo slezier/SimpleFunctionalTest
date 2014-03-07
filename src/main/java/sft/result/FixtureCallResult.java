@@ -10,15 +10,15 @@
  *******************************************************************************/
 package sft.result;
 
-import sft.MethodCall;
+import sft.FixtureCall;
 
 public class FixtureCallResult {
 
     public final Issue issue;
-    public final MethodCall methodCall;
+    public final FixtureCall fixtureCall;
 
-    public FixtureCallResult(MethodCall methodCall, Issue issue) {
-        this.methodCall = methodCall;
+    public FixtureCallResult(FixtureCall fixtureCall, Issue issue) {
+        this.fixtureCall = fixtureCall;
         this.issue = issue;
     }
 

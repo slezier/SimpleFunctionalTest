@@ -13,7 +13,7 @@ package sft.report;
 import sft.ContextHandler;
 import sft.DefaultConfiguration;
 import sft.Fixture;
-import sft.MethodCall;
+import sft.FixtureCall;
 import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
@@ -255,14 +255,14 @@ public class HtmlReport extends Report {
 
         String result = "";
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
-            String instruction = getInstructionWithParameter(fixtureCallResult.methodCall, scenarioResult.scenario.useCase);
+            String instruction = getInstructionWithParameter(fixtureCallResult.fixtureCall, scenarioResult.scenario.useCase);
 
             String instructionHtml = new TemplateString(scenarioInstructionTemplate)
                     .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
 
-            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(fixtureCallResult.methodCall.name);
+            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(fixtureCallResult.fixtureCall.name);
             if (fixture.decorator != null) {
                 instructionHtml = fixture.decorator.applyOnFixture(instructionHtml);
             }
@@ -370,20 +370,20 @@ public class HtmlReport extends Report {
 
     private String getContextInstructions(UseCase useCase, ContextHandler context) {
         String instructions = "";
-        for (MethodCall methodCall : context.methodCalls) {
+        for (FixtureCall fixtureCall : context.fixtureCalls) {
             instructions += new TemplateString(contextInstructionTemplate)
-                    .replace("@@@instruction.text@@@", getInstructionWithParameter(methodCall, useCase))
+                    .replace("@@@instruction.text@@@", getInstructionWithParameter(fixtureCall, useCase))
                     .getText();
         }
         return instructions;
     }
 
-    private String getInstructionWithParameter(MethodCall methodCall, UseCase useCase) {
-        Fixture fixture = useCase.getFixtureByMethodName(methodCall.name);
-        return getInstructionWithParameter(methodCall, fixture);
+    private String getInstructionWithParameter(FixtureCall fixtureCall, UseCase useCase) {
+        Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
+        return getInstructionWithParameter(fixtureCall, fixture);
     }
 
-    private String getInstructionWithParameter(MethodCall testFixture, Fixture fixture) {
+    private String getInstructionWithParameter(FixtureCall testFixture, Fixture fixture) {
         String instruction = fixture.getText();
         for (int index = 0; index < fixture.parametersName.size(); index++) {
             String name = fixture.parametersName.get(index);

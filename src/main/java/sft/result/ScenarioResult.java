@@ -10,7 +10,7 @@
  *******************************************************************************/
 package sft.result;
 
-import sft.MethodCall;
+import sft.FixtureCall;
 import sft.Scenario;
 
 import java.util.ArrayList;
@@ -60,15 +60,15 @@ public class ScenarioResult {
     private ArrayList<FixtureCallResult> generateFixtureResults() {
         final ArrayList<FixtureCallResult> fixtureCallResults = new ArrayList<FixtureCallResult>();
 
-        for (MethodCall methodCall : scenario.methodCalls) {
-            Issue methodCallIssue = getIssueOf(methodCall);
-            fixtureCallResults.add(new FixtureCallResult(methodCall, methodCallIssue));
+        for (FixtureCall fixtureCall : scenario.fixtureCalls) {
+            Issue methodCallIssue = getIssueOf(fixtureCall);
+            fixtureCallResults.add(new FixtureCallResult(fixtureCall, methodCallIssue));
         }
 
         return fixtureCallResults;
     }
 
-    private Issue getIssueOf(MethodCall methodCall) {
+    private Issue getIssueOf(FixtureCall fixtureCall) {
         Issue methodIssue = resolveIssueWithUseCaseIssue();
         if (methodIssue != null) {
             return methodIssue;
@@ -78,7 +78,7 @@ public class ScenarioResult {
             return methodIssue;
         }
 
-        return resolveIssueWithLineError(methodCall);
+        return resolveIssueWithLineError(fixtureCall);
     }
 
     private Issue resolveIssueWithErrorLocation() {
@@ -106,10 +106,10 @@ public class ScenarioResult {
         }
     }
 
-    private Issue resolveIssueWithLineError(MethodCall methodCall) {
-        if (getFailedLine() > methodCall.line) {
+    private Issue resolveIssueWithLineError(FixtureCall fixtureCall) {
+        if (getFailedLine() > fixtureCall.line) {
             return Issue.SUCCEEDED;
-        } else if (getFailedLine() == methodCall.line) {
+        } else if (getFailedLine() == fixtureCall.line) {
             return Issue.FAILED;
         } else {
             return Issue.IGNORED;

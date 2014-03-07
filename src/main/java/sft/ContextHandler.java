@@ -17,7 +17,7 @@ import java.util.List;
 public class ContextHandler {
     public final Method method;
     public final UseCase useCase;
-    public List<MethodCall> methodCalls;
+    public List<FixtureCall> fixtureCalls;
 
     public ContextHandler(UseCase useCase ,Method method) {
         this.useCase = useCase;
