@@ -72,14 +72,15 @@ import sft.integration.use.Usages;
 
 </div>
 <h2> Work In Progress </h2>
-    <li>useCase decorator (toc)</li>
 <ul>
+    <li>fixture decorators (group)</li>
 </ul>
 <h2> TODO </h2>
 <ul>
     <li>scenario decorators (group)</li>
-    <li>fixture decorators (table, group)</li>
+    <li>fixture decorators (table)</li>
     <li>subUseCase decorator (group)</li>
+    <li>decorators</li>
     <li>enhance hacking (extract interface by responsibility)</li>
     <li>enhance extension (allow injection)</li>
     <li>runner extension: concurrent testing</li>

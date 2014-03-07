@@ -18,6 +18,7 @@ import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
 import sft.result.ContextResult;
+import sft.result.FixtureCallResult;
 import sft.result.Issue;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
@@ -251,31 +252,17 @@ public class HtmlReport extends Report {
     }
 
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
-        Issue lastIssue;
-        if (scenarioResult.beforeScenarioFailed() || scenarioResult.issue == Issue.IGNORED) {
-            lastIssue = Issue.IGNORED;
-        } else {
-            lastIssue = Issue.SUCCEEDED;
-        }
 
         String result = "";
-        for (MethodCall methodCall : scenarioResult.scenario.methodCalls) {
-            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(methodCall.name);
-            final Issue issue;
-            if (lastIssue == Issue.SUCCEEDED && scenarioResult.failureOccurs(fixture, methodCall)) {
-                issue = Issue.FAILED;
-                lastIssue = Issue.IGNORED;
-            } else {
-                issue = lastIssue;
-            }
-
-            String instruction = getInstructionWithParameter(methodCall, scenarioResult.scenario.useCase);
+        for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
+            String instruction = getInstructionWithParameter(fixtureCallResult.methodCall, scenarioResult.scenario.useCase);
 
             String instructionHtml = new TemplateString(scenarioInstructionTemplate)
-                    .replace("@@@instruction.issue@@@", htmlResources.convertIssue(issue))
+                    .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
 
+            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(fixtureCallResult.methodCall.name);
             if (fixture.decorator != null) {
                 instructionHtml = fixture.decorator.applyOnFixture(instructionHtml);
             }
