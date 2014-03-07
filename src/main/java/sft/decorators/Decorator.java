@@ -26,4 +26,6 @@ public interface Decorator {
     String applyOnScenario(String result);
 
     String applyOnFixture(String result);
+
+    boolean comply(Decorator other);
 }

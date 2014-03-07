@@ -17,6 +17,7 @@ import sft.FixtureCall;
 import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
+import sft.decorators.Decorator;
 import sft.result.ContextResult;
 import sft.result.FixtureCallResult;
 import sft.result.Issue;
@@ -30,6 +31,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -255,7 +257,16 @@ public class HtmlReport extends Report {
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
 
         String result = "";
+        Decorator decorator = null;
+
+        final ArrayList<String> instructions = new ArrayList<String>();
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
+            final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
+            if(! decoratorsComplyEachOther(decorator, fixture.decorator)){
+                result+= flushInstructions(decorator, instructions);
+                decorator = fixture.decorator;
+            }
+
             String instruction = getInstructionWithParameter(fixtureCallResult.fixtureCall);
 
             String instructionHtml = new TemplateString(scenarioInstructionTemplate)
@@ -263,12 +274,34 @@ public class HtmlReport extends Report {
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
 
-            if (fixtureCallResult.fixtureCall.fixture.decorator != null) {
-                instructionHtml = fixtureCallResult.fixtureCall.fixture.decorator.applyOnFixture(instructionHtml);
-            }
-            result += instructionHtml;
+            instructions.add(instructionHtml);
         }
+        result+= flushInstructions(decorator, instructions);
         return result;
+    }
+
+    private String flushInstructions(Decorator decorator, ArrayList<String> instructions) {
+        String toAdd ="";
+        if (decorator != null){
+            for (String instruction : instructions) {
+                toAdd += decorator.applyOnFixture(instruction);
+            }
+        }else{
+            for (String instruction : instructions) {
+                toAdd += instruction;
+            }
+        }
+        return toAdd;
+    }
+
+    private boolean decoratorsComplyEachOther(Decorator previous, Decorator actual) {
+        if(previous == null && actual == null){
+            return true;
+        }else if( previous != null && previous.comply(actual)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private String getBeforeScenario(ScenarioResult scenarioResult) {

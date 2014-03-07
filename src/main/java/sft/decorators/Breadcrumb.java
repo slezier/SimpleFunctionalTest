@@ -54,4 +54,10 @@ public class Breadcrumb implements Decorator {
     public String applyOnFixture(String result) {
         throw new RuntimeException("Breadcrumb can't be apply on scenario");
     }
+
+    @Override
+    public boolean comply(Decorator other) {
+        return other instanceof  Breadcrumb;
+    }
+
 }

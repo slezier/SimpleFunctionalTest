@@ -65,4 +65,18 @@ public class Style implements Decorator {
     public String applyOnFixture(String result){
         return addStyleToElementWithClass(result, ".instruction");
     }
+
+    @Override
+    public boolean comply(Decorator other) {
+        return other instanceof  Style && this.toString().equals(other.toString());
+    }
+
+    @Override
+    public String toString(){
+        String result = "";
+        for (String style : styles) {
+            result += " "+style;
+        }
+        return "Style("+result+")";
+    }
 }

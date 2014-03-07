@@ -77,4 +77,9 @@ public class TableOfContent implements Decorator {
     public String applyOnFixture(String result) {
         throw new RuntimeException("TableOfContent can't be apply on fixture");
     }
+
+    @Override
+    public boolean comply(Decorator other) {
+        return other instanceof TableOfContent;
+    }
 }
