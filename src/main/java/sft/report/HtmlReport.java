@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 
@@ -255,16 +256,15 @@ public class HtmlReport extends Report {
 
         String result = "";
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
-            String instruction = getInstructionWithParameter(fixtureCallResult.fixtureCall, scenarioResult.scenario.useCase);
+            String instruction = getInstructionWithParameter(fixtureCallResult.fixtureCall);
 
             String instructionHtml = new TemplateString(scenarioInstructionTemplate)
                     .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
                     .replace("@@@instruction.text@@@", instruction)
                     .getText();
 
-            Fixture fixture = scenarioResult.scenario.useCase.getFixtureByMethodName(fixtureCallResult.fixtureCall.name);
-            if (fixture.decorator != null) {
-                instructionHtml = fixture.decorator.applyOnFixture(instructionHtml);
+            if (fixtureCallResult.fixtureCall.fixture.decorator != null) {
+                instructionHtml = fixtureCallResult.fixtureCall.fixture.decorator.applyOnFixture(instructionHtml);
             }
             result += instructionHtml;
         }
@@ -273,7 +273,7 @@ public class HtmlReport extends Report {
 
     private String getBeforeScenario(ScenarioResult scenarioResult) {
         if (scenarioResult.scenario.useCase.beforeScenario != null) {
-            String instructions = getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.beforeScenario);
+            String instructions = getContextInstructions(scenarioResult.scenario.useCase.beforeScenario);
             return new TemplateString(beforeScenarioTemplate)
                     .replace("@@@contextInstructionTemplates@@@", instructions)
                     .getText();
@@ -283,7 +283,7 @@ public class HtmlReport extends Report {
 
     private String getAfterScenario(ScenarioResult scenarioResult) {
         if (scenarioResult.scenario.useCase.afterScenario != null) {
-            String instructions = getContextInstructions(scenarioResult.scenario.useCase, scenarioResult.scenario.useCase.afterScenario);
+            String instructions = getContextInstructions(scenarioResult.scenario.useCase.afterScenario);
             return new TemplateString(afterScenarioTemplate)
                     .replace("@@@contextInstructionTemplates@@@", instructions)
                     .getText();
@@ -339,7 +339,7 @@ public class HtmlReport extends Report {
         if (useCase.beforeUseCase != null) {
             return new TemplateString(beforeUseCaseTemplate)
                     .replace("@@@beforeUseCase.issue@@@", htmlResources.convertIssue(useCaseResult.beforeResult.issue))
-                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.beforeUseCase))
+                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase.beforeUseCase))
                     .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.beforeResult))
                     .getText();
         } else {
@@ -352,7 +352,7 @@ public class HtmlReport extends Report {
         if (useCase.afterUseCase != null) {
             return new TemplateString(afterUseCaseTemplate)
                     .replace("@@@afterUseCase.issue@@@", htmlResources.convertIssue(useCaseResult.afterResult.issue))
-                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase, useCase.afterUseCase))
+                    .replace("@@@contextInstructionTemplates@@@", getContextInstructions(useCase.afterUseCase))
                     .replace("@@@exceptionTemplate@@@", getStackTrace(useCaseResult.afterResult))
                     .getText();
         } else {
@@ -368,27 +368,21 @@ public class HtmlReport extends Report {
         }
     }
 
-    private String getContextInstructions(UseCase useCase, ContextHandler context) {
+    private String getContextInstructions(ContextHandler context) {
         String instructions = "";
         for (FixtureCall fixtureCall : context.fixtureCalls) {
             instructions += new TemplateString(contextInstructionTemplate)
-                    .replace("@@@instruction.text@@@", getInstructionWithParameter(fixtureCall, useCase))
+                    .replace("@@@instruction.text@@@", getInstructionWithParameter(fixtureCall))
                     .getText();
         }
         return instructions;
     }
 
-    private String getInstructionWithParameter(FixtureCall fixtureCall, UseCase useCase) {
-        Fixture fixture = useCase.getFixtureByMethodName(fixtureCall.name);
-        return getInstructionWithParameter(fixtureCall, fixture);
-    }
-
-    private String getInstructionWithParameter(FixtureCall testFixture, Fixture fixture) {
-        String instruction = fixture.getText();
-        for (int index = 0; index < fixture.parametersName.size(); index++) {
-            String name = fixture.parametersName.get(index);
-            String value = Matcher.quoteReplacement(getParameter(testFixture.parameters.get(index)));
-            instruction = instruction.replaceAll("\\$\\{" + name + "\\}", value).replaceAll("\\$\\{" + (index + 1) + "\\}", value);
+    private String getInstructionWithParameter(FixtureCall testFixture) {
+        String instruction = testFixture.fixture.getText();
+        for (Map.Entry<String, String> parameter: testFixture.getParameters().entrySet()) {
+            String value = Matcher.quoteReplacement(getParameter(parameter.getValue()));
+            instruction = instruction.replaceAll("\\$\\{" + parameter.getKey() + "\\}", value);
         }
         return instruction;
     }

@@ -28,16 +28,17 @@ public class ParameterizedFixture {
         withAs('A', "Achtung");
     }
 
-    @Text("The name ${1} start with ${2}")
+    @Text("The name ${name} start with ${startWith}")
     private void theNameStartWith(String name, char startWith) {
         Assert.assertTrue(name.charAt(0) == startWith);
     }
 
-    @Text("With ${1} as ${2}")
+    @Text("With ${character} as ${word}")
     private void withAs(char character, String word) {
+        Assert.assertEquals(word.toCharArray()[0],character);
     }
 
-    @Text("${1} is greater than ${2}")
+    @Text("${first} is greater than ${second}")
     private void isGreaterThan(int first, int second) {
         Assert.assertTrue(first &gt; second);
     }

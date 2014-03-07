@@ -16,7 +16,7 @@ import sft.integration.use.sut.ParameterizedFixture;
 import java.io.IOException;
 
 /*
-To allow fixture re-usability, you can use private or protected methods including parameters.<br/>
+To allow fixture re-usability, you can use private or protected methods including parametersValues.<br/>
 In @Text annotation ${xxx} will be replace by the value of the proper parameter.
 */
 @RunWith(SimpleFunctionalTest.class)
@@ -32,7 +32,6 @@ public class UsingParameterizedFixture {
     @Test
     public void parameterizedFixture() throws IOException {
         byDeclaringParameterToYourFixtureYouCanReuseIt();
-        theValueOfParameterIsIncludedInAnnotatedTextUsingParameterIndexPrefixedByDollar();
         theValueOfParameterIsIncludedInAnnotatedTextUsingParameterNamePrefixedByDollar();
         valuesOfFixtureCallsThatFailedAreIndicated();
     }
@@ -45,16 +44,12 @@ public class UsingParameterizedFixture {
 
     }
 
-    @Text("The value of parameter is included in annotated text using parameter index surround by dollar like ${1}")
-    private void theValueOfParameterIsIncludedInAnnotatedTextUsingParameterIndexPrefixedByDollar() {
+    @Text("The value of parameter is included in annotated text using parameter name surround by dollar like ${parameterName}")
+    private void theValueOfParameterIsIncludedInAnnotatedTextUsingParameterNamePrefixedByDollar() {
         Assert.assertEquals("2 is greater than 1", parameterizedCalls.get(0).text());
         Assert.assertEquals("500 is greater than 38", parameterizedCalls.get(1).text());
         Assert.assertEquals("1 is greater than 2", parameterizedCalls.get(2).text());
         Assert.assertEquals("2 is greater than 1", parameterizedCalls.get(3).text());
-    }
-
-    @Text("The value of parameter is included in annotated text using parameter name surround by dollar like ${parameterName}")
-    private void theValueOfParameterIsIncludedInAnnotatedTextUsingParameterNamePrefixedByDollar() {
         Assert.assertEquals("2 is lower than 5",parameterizedCalls.get(4).text());
     }
 
