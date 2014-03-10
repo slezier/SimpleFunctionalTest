@@ -10,63 +10,44 @@
  *******************************************************************************/
 package sft.decorators;
 
+
 import sft.DefaultConfiguration;
 import sft.result.UseCaseResult;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
-public class Group implements Decorator {
-
-    private String name;
-    private DefaultConfiguration configuration;
-
+public class NullDecorator implements Decorator {
     @Override
     public Decorator withParameters(String... parameters) {
-        if (parameters != null && parameters.length > 0) {
-            this.name = parameters[0];
-        }
         return this;
     }
 
     @Override
     public Decorator withConfiguration(DefaultConfiguration configuration) {
-        this.configuration = configuration;
         return this;
     }
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
-        throw new NotImplementedException();
+        return result;
     }
 
     @Override
     public String applyOnScenario(String result) {
-        throw new NotImplementedException();
+        return result;
     }
 
     @Override
     public String applyOnFixtures(List<String> fixtures) {
-        if (fixtures.isEmpty()) {
-            return "";
-        }
-        String result = "<div>";
-        if (name != null) {
-            result += "<h4 class='group'>" + name + "</h4>";
-        }
+        String result ="";
         for (String fixture : fixtures) {
-            result += fixture;
+            result+=fixture;
         }
-        return result + "</div>";
+        return result;
     }
 
     @Override
     public boolean comply(Decorator other) {
-        return other instanceof Group && this.toString().equals(other.toString());
-    }
-
-    @Override
-    public String toString() {
-        return "Group(" + name + ")";
+        return other.getClass()==NullDecorator.class;
     }
 }

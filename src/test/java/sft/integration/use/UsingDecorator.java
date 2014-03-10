@@ -14,11 +14,13 @@ import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.decorators.BreadcrumbDecoratorSample;
+import sft.integration.use.sut.decorators.GroupDecoratorSample;
 import sft.integration.use.sut.decorators.StyleDecoratorSample;
 import sft.integration.use.sut.decorators.TocDecoratorSample;
 import sft.integration.use.sut.decorators.subUseCase.SubSubUseCaseBreadcrumb;
 import sft.integration.use.sut.decorators.subUseCase.SubUseCaseBreadcrumb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -53,6 +55,27 @@ public class UsingDecorator {
     public void addTableOfContent() throws Exception {
         byAddingTableOfContentDecoratorOnUseCase();
         aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories();
+    }
+
+    @Test
+    public void groupFixtures() throws Exception {
+        byAddingAGroupDecoratorWithParameterOnFixtures("When");
+        fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle("When");
+    }
+
+    @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
+    private void byAddingAGroupDecoratorWithParameterOnFixtures(String name) throws Exception {
+        jUnitHelper = new JUnitHelper(this.getClass(), GroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/GroupDecoratorSample.html");
+        jUnitHelper.run();
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+    }
+
+    private void fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
+        final Elements groups = jUnitHelper.getHtmlReport().select("div.panel-body > div");
+        Assert.assertEquals(3,groups.size());
+        Assert.assertEquals(name,groups.get(1).select("h4").text());
+        Assert.assertEquals("I ask something",groups.get(1).select("*.instruction").get(0).text());
+        Assert.assertEquals("And required another action",groups.get(1).select("*.instruction").get(1).text());
     }
 
     @Text("By adding a style decorator with parameter ${style}  on a element: @Decorate(decorator = Style.class, parameters =\"${style}\") ")

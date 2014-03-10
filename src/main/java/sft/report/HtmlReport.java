@@ -18,6 +18,7 @@ import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
 import sft.decorators.Decorator;
+import sft.decorators.NullDecorator;
 import sft.result.ContextResult;
 import sft.result.FixtureCallResult;
 import sft.result.Issue;
@@ -190,9 +191,8 @@ public class HtmlReport extends Report {
                 .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
                 .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
                 .getText();
-        if (useCaseResult.useCase.useCaseDecorator != null) {
-            useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult, useCaseReport);
-        }
+
+        useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult, useCaseReport);
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
@@ -247,23 +247,22 @@ public class HtmlReport extends Report {
                 .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
                 .getText();
 
-        if (scenarioResult.scenario.decorator != null) {
-            scenarioHtml = scenarioResult.scenario.decorator.applyOnScenario(scenarioHtml);
+        scenarioHtml = scenarioResult.scenario.decorator.applyOnScenario(scenarioHtml);
 
-        }
         return scenarioHtml;
     }
 
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
 
         String result = "";
-        Decorator decorator = null;
+        Decorator decorator = new NullDecorator();
 
         final ArrayList<String> instructions = new ArrayList<String>();
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
-            if(! decoratorsComplyEachOther(decorator, fixture.decorator)){
-                result+= flushInstructions(decorator, instructions);
+            if( ! decorator.comply(fixture.decorator)){
+                result+= decorator.applyOnFixtures(instructions);
+                instructions.clear();
                 decorator = fixture.decorator;
             }
 
@@ -276,32 +275,8 @@ public class HtmlReport extends Report {
 
             instructions.add(instructionHtml);
         }
-        result+= flushInstructions(decorator, instructions);
+        result+= decorator.applyOnFixtures(instructions);
         return result;
-    }
-
-    private String flushInstructions(Decorator decorator, ArrayList<String> instructions) {
-        String toAdd ="";
-        if (decorator != null){
-            for (String instruction : instructions) {
-                toAdd += decorator.applyOnFixture(instruction);
-            }
-        }else{
-            for (String instruction : instructions) {
-                toAdd += instruction;
-            }
-        }
-        return toAdd;
-    }
-
-    private boolean decoratorsComplyEachOther(Decorator previous, Decorator actual) {
-        if(previous == null && actual == null){
-            return true;
-        }else if( previous != null && previous.comply(actual)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     private String getBeforeScenario(ScenarioResult scenarioResult) {

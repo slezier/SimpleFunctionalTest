@@ -12,6 +12,7 @@ package sft;
 
 import sft.decorators.Decorator;
 import sft.decorators.DecoratorExtractor;
+import sft.decorators.NullDecorator;
 import sft.javalang.JavaToHumanTranslator;
 
 import java.lang.reflect.Method;

@@ -22,7 +22,7 @@ public class DecoratorExtractor {
                 return createDecorator((Decorate) annotation,configuration);
             }
         }
-        return null;
+        return new NullDecorator();
     }
 
     private static Decorator createDecorator(Decorate decorate,DefaultConfiguration configuration) throws Exception {

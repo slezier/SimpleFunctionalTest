@@ -18,6 +18,8 @@ import sft.report.RelativeHtmlPathResolver;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
+import java.util.List;
+
 public class TableOfContent implements Decorator {
 
     private DefaultConfiguration configuration;
@@ -74,7 +76,7 @@ public class TableOfContent implements Decorator {
     }
 
     @Override
-    public String applyOnFixture(String result) {
+    public String applyOnFixtures(List<String> result) {
         throw new RuntimeException("TableOfContent can't be apply on fixture");
     }
 

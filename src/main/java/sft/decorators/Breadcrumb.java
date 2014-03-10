@@ -7,6 +7,8 @@ import sft.UseCase;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.UseCaseResult;
 
+import java.util.List;
+
 public class Breadcrumb implements Decorator {
 
     private DefaultConfiguration configuration;
@@ -51,7 +53,7 @@ public class Breadcrumb implements Decorator {
     }
 
     @Override
-    public String applyOnFixture(String result) {
+    public String applyOnFixtures(List<String> result) {
         throw new RuntimeException("Breadcrumb can't be apply on scenario");
     }
 

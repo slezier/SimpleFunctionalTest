@@ -17,6 +17,8 @@ import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.result.UseCaseResult;
 
+import java.util.List;
+
 public class Style implements Decorator {
 
 
@@ -62,8 +64,12 @@ public class Style implements Decorator {
     }
 
     @Override
-    public String applyOnFixture(String result){
-        return addStyleToElementWithClass(result, ".instruction");
+    public String applyOnFixtures(List<String> fixtures){
+        String result = "";
+        for (String fixture : fixtures) {
+            result+= addStyleToElementWithClass(fixture, ".instruction");
+        }
+        return result;
     }
 
     @Override
