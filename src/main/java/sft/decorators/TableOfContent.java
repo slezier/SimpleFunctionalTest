@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.RelativeHtmlPathResolver;
+import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
@@ -76,7 +77,7 @@ public class TableOfContent implements Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> result) {
+    public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
         throw new RuntimeException("TableOfContent can't be apply on fixture");
     }
 

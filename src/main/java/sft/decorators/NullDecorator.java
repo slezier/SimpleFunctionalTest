@@ -12,6 +12,7 @@ package sft.decorators;
 
 
 import sft.DefaultConfiguration;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class NullDecorator implements Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures) {
+    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
         String result ="";
         for (String fixture : fixtures) {
             result+=fixture;

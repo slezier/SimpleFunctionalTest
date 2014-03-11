@@ -11,6 +11,7 @@
 package sft.decorators;
 
 import sft.DefaultConfiguration;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -46,7 +47,7 @@ public class Group implements Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures) {
+    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
         if (fixtures.isEmpty()) {
             return "";
         }
@@ -69,4 +70,5 @@ public class Group implements Decorator {
     public String toString() {
         return "Group(" + name + ")";
     }
+
 }

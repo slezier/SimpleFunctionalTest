@@ -12,6 +12,7 @@ package sft.decorators;
 
 
 import sft.DefaultConfiguration;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface Decorator {
 
     String applyOnScenario(String result);
 
-    String applyOnFixtures(List<String> instructions);
+    String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
 
     boolean comply(Decorator other);
 }

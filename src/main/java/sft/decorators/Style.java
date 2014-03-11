@@ -14,7 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import sft.DefaultConfiguration;
-import sft.UseCase;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class Style implements Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures){
+    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts){
         String result = "";
         for (String fixture : fixtures) {
             result+= addStyleToElementWithClass(fixture, ".instruction");

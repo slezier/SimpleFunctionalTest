@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013, 2014 Sylvain Lézier.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Sylvain Lézier - initial implementation
+ *******************************************************************************/
 package sft.decorators;
 
 import org.jsoup.Jsoup;
@@ -5,6 +15,7 @@ import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.RelativeHtmlPathResolver;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -53,7 +64,7 @@ public class Breadcrumb implements Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> result) {
+    public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
         throw new RuntimeException("Breadcrumb can't be apply on scenario");
     }
 
