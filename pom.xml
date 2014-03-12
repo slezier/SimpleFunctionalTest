@@ -16,7 +16,7 @@
 
     <groupId>com.github.slezier</groupId>
     <artifactId>SimpleFunctionalTest</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
 
@@ -43,7 +43,7 @@
     <scm>
         <connection>scm:git:https://github.com/slezier/SimpleFunctionalTest.git</connection>
         <url>https://github.com/slezier/SimpleFunctionalTest.git</url>
-      <tag>SimpleFunctionalTest-1.3</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
