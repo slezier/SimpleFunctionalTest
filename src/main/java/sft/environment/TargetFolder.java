@@ -10,16 +10,10 @@
  *******************************************************************************/
 package sft.environment;
 
-import sft.environment.ResourceFolder;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,53 +30,18 @@ public class TargetFolder extends ResourceFolder {
 
     public List<String> copyFromResources(String fileName) throws IOException {
         try {
-            File resourceFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
             File targetDirectory = ensureExists();
-            List<String> paths = copyFromResources(targetDirectory, resourceFile, "");
+            final URL resource = this .getClass().getClassLoader().getResource(fileName);
+            List<String> paths = null;
+            if (resource.getProtocol().equals("jar")) {
+                paths = new FromJar(resource).copy(targetDirectory);
+            } else {
+                paths = new FromDirectory(resource).copy(targetDirectory);
+            }
             Collections.sort(paths);
             return paths;
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private List<String> copyFromResources(File targetDirectory, File sourceFile,String relativePath) throws IOException {
-        ArrayList<String> filesCopied = new ArrayList<String>();
-        if (sourceFile.isDirectory()) {
-            File newTargetDirectory = new File(targetDirectory, sourceFile.getName());
-            if (!newTargetDirectory.exists()) {
-                newTargetDirectory.mkdir();
-            }
-            for (File innerFile : sourceFile.listFiles()) {
-                filesCopied.addAll(copyFromResources(newTargetDirectory, innerFile,relativePath+newTargetDirectory.getName()+"/"));
-            }
-        } else {
-            String fileToInclude = copyFileFromResources(targetDirectory, sourceFile,relativePath);
-            filesCopied.add(fileToInclude);
-        }
-        return filesCopied;
-    }
-
-    private String copyFileFromResources(File targetDirectory, File sourceFile,String relativePath) throws IOException {
-        InputStream sourceAsStream = null;
-        OutputStream targetAsStream = null;
-        try {
-            sourceAsStream = new FileInputStream(sourceFile);
-            File targetFile = new File(targetDirectory, sourceFile.getName());
-            targetAsStream = new FileOutputStream(targetFile);
-            int readBytes;
-            byte[] buffer = new byte[4096];
-            while ((readBytes = sourceAsStream.read(buffer)) > 0) {
-                targetAsStream.write(buffer, 0, readBytes);
-            }
-            return relativePath + targetFile.getName();
-        } finally {
-            if (sourceAsStream != null) {
-                sourceAsStream.close();
-            }
-            if (targetAsStream != null) {
-                targetAsStream.close();
-            }
         }
     }
 
