@@ -4,7 +4,7 @@ target/test-classes
 target/surefire-reports
 target/*-SNAPSHOT.jar
 .idea/
-sft.iml
+*.iml
 .classpath
 .project
 .settings/
