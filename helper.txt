@@ -1,0 +1,68 @@
+Story: Account Holder withdraws cash
+
+As an Account Holder
+I want to withdraw cash from an ATM
+So that I can get money when the bank is closed
+
+Scenario 1: Account has sufficient funds
+Given the account balance is \$100
+ And the card is valid
+ And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should dispense \$20
+ And the account balance should be \$80
+ And the card should be returned
+
+Scenario 2: Account has insufficient funds
+Given the account balance is \$10
+ And the card is valid
+ And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should not dispense any money
+ And the ATM should say there are insufficient funds
+ And the account balance should be \$20
+ And the card should be returned
+
+Scenario 3: Card has been disabled
+Given the card is disabled
+When the Account Holder requests \$20
+Then the ATM should retain the card
+And the ATM should say the card has been retained
+
+========================================================================
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.slezier</groupId>
+            <artifactId>SimpleFunctionalTest</artifactId>
+            <version>1.4</version>
+        </dependency>
+    </dependencies>
+
+========================================================================
+
+
+   Scenario 1:accountHasSufficientFunds
+givenTheAccountBalanceIs \$100
+andTheCardIsValid
+andTheMachineContainsEnoughMoney
+whenTheAccount HolderRequests \$20
+thenTheAtmShould dIspense \$20
+andTheAccountBalanceShouldBe \$80
+andTheCardShouldBeReturned
+
+   Scenario 2: accountHasInSufficientFunds
+pivenTheAccountBalanceIs \$10
+andTheCardIsValid
+andTheMachineContainsEnoughMoney
+whenTheAccount HolderRequests \$20
+thenTheAtmShould not dIspenseAnyMoney
+andTheAtmShouldSayThereAreInSufficientFunds
+andTheAccountBalanceShouldBe \$20
+andTheCardShouldBeReturned
+
+Scenario 3:cardHasBeenDisabled
+givenTheCardIsDisabled
+whenTheAccountHolderRequests \$20
+thenTheAtmShouldRetainTheCard
+andTheAtmShouldSayTheCardHasBeenRetained
