@@ -24,7 +24,7 @@ public class WithdrawalsTest {
         withdrawals = atmSession.withdraw(20);
 
         assertEquals(withdrawals, 20);
-        assertEquals(account.amount(), 80);
+        assertEquals(account.balance(), 80);
         assertTrue("Card not returned", atm.returnCard());
     }
 
