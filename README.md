@@ -1,7 +1,20 @@
-SFT-tutoriel
+SFT-tutorial
 ============
 
-# Pr&eacute;sentation de SimpleFunctionnalTest
+# Functional and acceptance testing using SimpleFunctionalTest
+
+A quality is an obvious attribute or a property.
+
+Quality assurance, is a way of ensuring the presence of qualities.
+
+Many kind of test ensure the software quality:
+* Unit Test ensure the correctness of an algorithm
+* Integration Test ensure the component is integrated
+* Benchmark ensure the performance.
+* ...
+
+All of them (except maybe UI testing)
+
 
 Les tests deviennent vites indispensables lors de l'laboration d'un logiciel de qualit&eacute;.
   
