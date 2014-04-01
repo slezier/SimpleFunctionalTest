@@ -1,40 +1,70 @@
-SFT-tutorial
-============
+# SFT-tutorial
 
-# Functional and acceptance testing using SimpleFunctionalTest
+
+## Functional and acceptance testing using SimpleFunctionalTest
 
 A quality is an obvious attribute or a property.
 
 Quality assurance, is a way of ensuring the presence of qualities.
 
-Many kind of test ensure the software quality:
+This could be done with tests.
+
+In software, many kind of test ensure the quality:
+
 * Unit Test ensure the correctness of an algorithm
 * Integration Test ensure the component is integrated
 * Benchmark ensure the performance.
 * ...
 
-All of them (except maybe UI testing)
+The majority of them can be automatized.
+
+Two kinds of tests ensure the compliance with customer/user needs:
+
+* Acceptance test ensure a needs is developed
+* Functional test ensure a functionality
+
+These tests are bridges between human needs and software implementation: implementers are developers (in our case fluent java writers) and recipients are project managers or product owners (less comfortable with code).
 
 
-Les tests deviennent vites indispensables lors de l'laboration d'un logiciel de qualit&eacute;.
-  
-Ceux-ci sont de plusieurs types en fonction du p&eacute;rimêtre test et sont souvent automatisables: tests unitaires, tests de charges, tests d'int&eacute;grations...
-Dans cette palette d'outils, deux types test permettent de centrer le dveloppement sur l'expression des besoins:
-
-* les tests fonctionnels (permet de dcrire d'un point de vue client ou utilisateur le logiciel) 
-* les tests de validations (dtermine les objectifs d'un dveloppement et les moyens pour les valider).
-
- SimpleFunctionnalTest propose un moyen simple pour un dveloppeur de rdiger rapidement des tests de validation ou des tests fonctionnels.
+SimpleFunctionalTest is a simple way to improve unit tests, to make them readable by non-developers.
 
 
-# M&eacute;thodes 
-Afin de facilter le d&eacute;roullement de ce tutoriels les sources utilis&eacute;es sont disponibles sur [github](https://github.com/slezier/SFT-tutoriel) et [t&eacute;l&eacute;chargeable](https://github.com/slezier/SFT-tutoriel/archive/master.zip).
+# Methods
 
-* Ce projet utilisera maven 3.1, une JDK 1.6+ et l'IDE de votre choix.
-* Un minimum de connaissance sur JUnit 1.4 et les tests utnitaires sont n&eacute;cessaires.
-* Le projet &agrave; couvrir est un distributeur automatique de billets (ATM en anglais) 
+* The tutorial will used an ATM project as described in [What's in a story?](http://dannorth.net/whats-in-a-story/)
+* All source used in this tutorial are available on [github](https://github.com/slezier/SFT-tutoriel); the different steps are versioned in the branches of the same name (step1,step2....).
+* This project is build using maven 3.1 and JDK 1.6
+* Basic knowledge of unit testing and JUnit 1.4 are needed.
 
-# Premier Test
+# Step1: From an unit test to an functional test
+
+This code can validate a functional test:
+
+    public class WithdrawalsTest {
+
+        private SessionDab atmSession;
+        private int withdrawals;
+
+        @Test
+        public void testWithdrawals() {
+            Bank bank = new Bank();
+            User user = new User();
+            Account account = bank.createAccount(user, 100);
+            account.addValidCreditCard("1234");
+            Atm atm = bank.getAtm(1000);
+
+            atmSession = atm.authenticate(user);
+            withdrawals = atmSession.withdraw(20);
+
+            assertEquals(withdrawals, 20);
+            assertEquals(account.balance(), 80);
+            assertTrue("Card not returned", atm.returnCard());
+        }
+    }
+
+As it is not _human readable_, it can't be shared between project manager and developers.
+
+
 ##  R&eacute;daction d'un test humainement 'lisible'
 
  Premier fonctionnalit&eacute; &agrave; tester: un retrait bancaire classique.
