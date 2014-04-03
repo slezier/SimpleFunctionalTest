@@ -233,6 +233,35 @@ Then you will need to share fixtures between use cases.
 
 Instead share fixtures with inheritance, you can aggregates fixture as public method into _fixtures helper class_.
 
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    public class BankHelper {
+
+        private Bank bank;
+        private User user;
+        public Account account;
+        ...
+    
+        @Text("Given the account balance is ${initialAmount} $")
+        public void givenTheAccountBalanceIs(int initialAmount) {
+            bank = new Bank();
+            user = new User();
+            account = bank.createAccount(user, initialAmount);
+        }
+
+        public void andTheCardIsValid() {
+            account.addValidCreditCard("1234");
+        }
+        ...
+        
+        @Text("And the account balance should be ${balance} $")
+        public void andTheAccountBalanceShouldBe(int balance) {
+            assertEquals(account.balance(), balance);
+        }
+        ...
+    }
+
 By declaring these _fixtures helper class_ into your use case as non-public fied with the annotation @FixturesHelper,
 you can use these fixtures as _local_ fixtures.
 
@@ -263,54 +292,120 @@ _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
         }
         ...
 
-
-_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
-
-    ...
-    public class BankHelper {
-
-        private Bank bank;
-        private User user;
-        public Account account;
-        public Atm atm;
-        private SessionDab atmSession;
-        public int withdrawals;
-
-        @Text("Given the account balance is ${initialAmount} $")
-        public void givenTheAccountBalanceIs(int initialAmount) {
-            bank = new Bank();
-            user = new User();
-            account = bank.createAccount(user, initialAmount);
-        }
-
-        public void andTheCardIsValid() {
-            account.addValidCreditCard("1234");
-        }
-
-        public void andTheMachineContainsEnoughMoney() {
-            atm = bank.getAtm(1000);
-        }
-
-        @Text("When the account holder requests ${amount} $")
-        public void whenTheAccountHolderRequests(int amount) {
-            atmSession = atm.authenticate(user);
-            withdrawals = atmSession.withdraw(amount);
-        }
-
-        @Text("And the account balance should be ${balance} $")
-        public void andTheAccountBalanceShouldBe(int balance) {
-            assertEquals(account.balance(), balance);
-        }
-
-        public void andTheCardShouldBeReturned() {
-            assertTrue("Card not returned", atm.returnCard());
-        }
-    }
     
 
 ## Step4: Manage context setup and teardown
 
+Often use case raise (and terminate) a specific context in which scenario occurs.
+
+SFT re-use JUnit annotation to raise and terminate test context:  
+
+* @Before: executed before each scenario 
+* @After: executed after each scenario 
+* @BeforeClass: executed once before any scenario
+* @AfterClass: executed once after all scenarios
+
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    public class AccountHolderWithdrawCash {
+        ...
+        @BeforeClass
+        public static void setupUseCase(){
+            bankHelper.givenABank();
+        }
+        @Before
+        public void setupScenario(){
+            bankHelper.givenAClientOfThisBank();
+        }
+        ...
+        
+This context management is displayed when it occurs :
+
+![Managing test context](./images/step4.png "Managing test context")
+
 ## Step5: Displaying context informations
 
+When running a test, created information or some outcome could be insteresting to displayed.
+
+Thus could be done using non-public field  with @Displayable annotation:
+
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    public class AccountHolderWithdrawCash {
+        ...
+        @Displayable
+        private String ticket;
+        ...
+  
+This field will be displayed if not null, using the toString() method, after each scenario.
+
+![Displaying test context](./images/step5.png "Displaying test context")
+
+After each scenario this field is set to null.
+        
 ## Step6: Decorated use cases
 
+It's nice but not enough.
+
+The annotion @Decorate add decoration to your functional test.
+
+### Table of content
+
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    @Decorate(decorator = TableOfContent.class)
+    public class AccountHolderWithdrawCash {
+        ...
+        
+![Add table of content to an use case](./images/step6a.png "Add table of content to an use case")     
+    
+### Bread crumb
+
+_src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
+
+    ...    
+    @Decorate(decorator = Breadcrumb.class)
+    public class AccountHolderWithdrawCashAlternateCases {
+        ...
+          
+![Add bread crumb to an use case](./images/step6b.png "Add bread crumb to an use case")     
+
+### Fixtures displayed as a table
+
+_src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
+
+    ...    
+    public class AccountHolderWithdrawCashAlternateCases {
+        ...
+        @Decorate(decorator = Table.class,parameters = "withdraws and cash received per visit")
+        private void whenTheAccountHolderRequestsThenTheAtmProvidesCash(int amount, int cash) {
+        
+
+![Display fixtures as a table](./images/step6c.png "Display fixtures as a table")     
+
+### Group fixtures 
+
+_src/test/java/bancomat/BankHelper.java_:
+
+    ...
+    public class BankHelper {
+        ...
+        public final static String GIVEN="Given";
+        
+        ...
+        @Decorate(decorator = Group.class,parameters = GIVEN)
+        public void andTheCardIsValid() {
+            account.addValidCreditCard("1234");
+        }
+
+        @Decorate(decorator = Group.class,parameters = GIVEN)
+        public void andTheMachineContainsEnoughMoney() {
+            atm = bank.getAtm(1000);
+        }
+        ...
+        
+![Group fixtures](./images/step6d.png "Group fixtures")     
+        
