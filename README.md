@@ -4,12 +4,12 @@
 ## Contents
 - [Functional and acceptance testing using SimpleFunctionalTest](#functional-and-acceptance-testing-using-simplefunctionaltest)
 - [Methods](#methods)
-- [Step1: From an unit test to a functional test](#step1:-from-an-unit-test-to-a-functional-test)
-- [Step2: Re-use fixture](step2:-re-use-fixture)
-- [Step3: Links use cases together](step3:-links-use-cases-together)
-- [Step4: Manage context setup and teardown](step4:-manage-context-setup-and-teardown)
-- [Step5: Displaying context informations](step5:-displaying-context-informations)
-- [Step6: Decorated use cases](step6:-decorated-use-cases)
+- [Step1: From an unit test to a functional test](#step1-from-an-unit-test-to-a-functional-test)
+- [Step2: Re-use fixture](step2-re-use-fixture)
+- [Step3: Links use cases together](step3-links-use-cases-together)
+- [Step4: Manage context setup and teardown](step4-manage-context-setup-and-teardown)
+- [Step5: Displaying context informations](step5-displaying-context-informations)
+- [Step6: Decorated use cases](step6-decorated-use-cases)
 
 ## Functional and acceptance testing using SimpleFunctionalTest
 
