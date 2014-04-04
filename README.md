@@ -1,5 +1,16 @@
 # SFT-tutorial
 
+
+## Contents
+- [Functional and acceptance testing using SimpleFunctionalTest](#functional-and-acceptance-testing-using-simplefunctionaltest)
+- [Methods](#methods)
+- [Step1: From an unit test to a functional test](#step1:-from-an-unit-test-to-a-functional-test)
+- [Step2: Re-use fixture](step2:-re-use-fixture)
+- [Step3: Links use cases together](step3:-links-use-cases-together)
+- [Step4: Manage context setup and teardown](step4:-manage-context-setup-and-teardown)
+- [Step5: Displaying context informations](step5:-displaying-context-informations)
+- [Step6: Decorated use cases](step6:-decorated-use-cases)
+
 ## Functional and acceptance testing using SimpleFunctionalTest
 
 A quality is an obvious attribute or a property.
@@ -214,7 +225,7 @@ _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
 
 ## Step3: Links use cases together
 
-To ease scenarios management (nominal case, alternate case, error case...), you can call _use case_ each other using an instancied field of the _related use case_.
+To ease scenarios management (nominal case, alternate case, error case...), you can call _use case_ each other with an instancied field of the _related use case_.
 A new section is added on the report : the list of related use cases. 
 
 _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
@@ -225,11 +236,11 @@ _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
         public  AccountHolderWithdrawCashAlternateCases accountHolderWithdrawCashAlternateCases = new AccountHolderWithdrawCashAlternateCases();
         ...
 
-The related use cases don't need to declare the SimpleFunctionalTest JUnit runner; all public fields of an use case will be ran as an related use case.
+The related use cases don't need to declare the SimpleFunctionalTest JUnit runner; all public fields of an use case will be run as an related use case.
 
 ![Related use cases](./images/step3.png "Related use cases")
 
-Then you will need to share fixtures between use cases.
+At this step, you will need to share fixtures between use cases.
 
 Instead share fixtures with inheritance, you can aggregates fixture as public method into _fixtures helper class_.
 
@@ -349,9 +360,31 @@ After each scenario this field is set to null.
 
 It's nice but not enough.
 
-The annotion @Decorate add decoration to your functional test.
+The annotation @Decorate add decoration to your functional test.
 
-### Table of content
+The decorator shall be specify.
+
+Example:
+
+    @Decorate(decorator = TableOfContent.class)
+
+The annotation could be add to class, test method, fixture method or related use case field, but the decorator specified must be compliant with the item annotated.
+
+For example the TableOfContent add an table of content only when the annotated target is a class
+
+If needed by the decorator parameters could be add:
+
+    @Decorate(decorator = TableOfContent.class, parameters = {"val1"})
+    @Decorate(decorator = TableOfContent.class, parameters = {"val1","val2"})
+
+
+### Use Case: Add Table of content
+
+TableOfContent decorator could be add at class level (use case).
+
+It adds an table of content after use case description, all items links to related use cases and scenarios.
+
+This code:
 
 _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
 
@@ -359,10 +392,18 @@ _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
     @Decorate(decorator = TableOfContent.class)
     public class AccountHolderWithdrawCash {
         ...
-        
+
+Produces:
+
 ![Add table of content to an use case](./images/step6a.png "Add table of content to an use case")     
     
-### Bread crumb
+### Use Case: Add Bread crumb
+
+Breadcrumb decorator could be add at class level (use case).
+
+It adds an bread crumb after title.
+
+This code:
 
 _src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
 
@@ -370,23 +411,52 @@ _src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
     @Decorate(decorator = Breadcrumb.class)
     public class AccountHolderWithdrawCashAlternateCases {
         ...
-          
+
+Produces:
+
 ![Add bread crumb to an use case](./images/step6b.png "Add bread crumb to an use case")     
 
-### Fixtures displayed as a table
+### Fixture: Display as a table
+
+Table decorator could be add at non-public method level (fixture).
+
+Instead adding text for each fixture call, the decorator presents issue as table.
+Parameters names are used as column title. Table title could be specify as parameter.
+
+This code:
 
 _src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
 
-    ...    
+    ...
     public class AccountHolderWithdrawCashAlternateCases {
+        ...
+        @Test
+        public void maximumWithdraw(){
+            ...
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10,10);
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10,10);
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10,10);
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10,10);
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10,10);
+            whenTheAccountHolderRequestsThenTheAtmProvidesCash(10, 0);
+        }
         ...
         @Decorate(decorator = Table.class,parameters = "withdraws and cash received per visit")
         private void whenTheAccountHolderRequestsThenTheAtmProvidesCash(int amount, int cash) {
-        
+        ...
+
+Produces:
 
 ![Display fixtures as a table](./images/step6c.png "Display fixtures as a table")     
 
-### Group fixtures 
+### Fixture: Group fixtures
+
+Group decorator could be add at non-public method level (fixture).
+
+This  decorator needs a group name as parameter.
+All fixture having the same group name are displayed in the same paragraph with the group name as title.
+
+This code:
 
 _src/test/java/bancomat/BankHelper.java_:
 
@@ -406,6 +476,28 @@ _src/test/java/bancomat/BankHelper.java_:
             atm = bank.getAtm(1000);
         }
         ...
-        
+
+
+_src/test/java/bancomat/AccountHolderWithdrawCashAlternateCases.java_:
+
+    ...
+    public class AccountHolderWithdrawCashAlternateCases {
+
+        ...
+        @Test
+        public void accountHasInsufficientFunds(){
+            bankHelper.theAccountBalanceIs(10);
+            bankHelper.andTheCardIsValid();
+            bankHelper.andTheMachineContainsEnoughMoney();
+
+            bankHelper.theAccountHolderRequests(20);
+
+            theAtmShouldNotDispenseAnyMoney();
+            andTheAtmShouldDisplay("Insufficient funds");
+        ...
+
+
+Produces:
+
 ![Group fixtures](./images/step6d.png "Group fixtures")     
         
