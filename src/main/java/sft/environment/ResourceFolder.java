@@ -42,7 +42,7 @@ public class ResourceFolder {
     }
 
     protected String getResourceFolder() {
-        return this.getClass().getClassLoader().getResource(".").getPath() + toProjectPath;
+        return this.getClass().getClassLoader().getResource("").getPath() + toProjectPath;
     }
 
     protected File getFile(String path) {
