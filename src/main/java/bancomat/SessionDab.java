@@ -1,6 +1,5 @@
 package bancomat;
 
-import org.omg.SendingContext.RunTime;
 
 public class SessionDab {
 
