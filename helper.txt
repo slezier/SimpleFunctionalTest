@@ -65,6 +65,16 @@ andTheCardShouldBeReturned
 @Text("And the account balance should be 80$")
 
 ========================================================================
+
+   @BeforeClass
+    public static void setupUseCase(){
+        bankHelper.givenABank();
+    }
+    @Before
+    public void setupScenario(){
+        bankHelper.givenAClientOfThisBank();
+    }
+
 ========================================================================
 
 
