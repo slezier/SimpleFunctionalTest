@@ -31,14 +31,40 @@ And the ATM should say the card has been retained
 
 ========================================================================
 
-    <dependencies>
+/*
+As an Account Holder
+I want to withdraw cash from an ATM
+So that I can get money when the bank is closed
+*/
+
+AccountHolderWithdrawCash
+
+accountHasSufficientFunds
+
+givenTheAccountBalanceIs100Dollars
+andTheCardIsValid
+andTheMachineContainsEnoughMoney
+whenTheAccountHolderRequests20Dollars
+thenTheAtmShouldDispense20Dollars
+andTheAccountBalanceShouldBe80Dollars
+andTheCardShouldBeReturned
+
+========================================================================
+
         <dependency>
             <groupId>com.github.slezier</groupId>
             <artifactId>SimpleFunctionalTest</artifactId>
             <version>1.4</version>
         </dependency>
-    </dependencies>
 
+========================================================================
+
+@Text("Given the account balance is 100$")
+@Text("When the account holder requests 20$")
+@Text("Then the atm should dispense 20$")
+@Text("And the account balance should be 80$")
+
+========================================================================
 ========================================================================
 
 
