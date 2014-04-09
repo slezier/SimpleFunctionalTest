@@ -66,6 +66,17 @@ andTheCardShouldBeReturned
 
 ========================================================================
 
+    @Test
+    public void terroristWithdraw(){
+        boom();
+    }
+
+    private void boom() {
+        throw new RuntimeException("Boom");
+    }
+
+========================================================================
+
    @BeforeClass
     public static void setupUseCase(){
         bankHelper.givenABank();
