@@ -77,6 +77,57 @@ andTheCardShouldBeReturned
 
 ========================================================================
 
+    public Bank bank;
+    public User user;
+    public Account account;
+
+    public void givenTheCardIsDisabled() {
+        account.addValidCreditCard("1234");
+        account.declareCardLoss();
+    }
+
+
+    public void andTheCardIsValid() {
+        account.addValidCreditCard("1234");
+    }
+
+    @Text("And the account balance should be ${balance} $")
+    public void andTheAccountBalanceShouldBe(int balance) {
+        assertEquals(account.balance(), balance);
+    }
+
+    @Text("Given the account balance is ${initialAmount} $")
+    public void givenTheAccountBalanceIs(int initialAmount) {
+        bank = new Bank();
+        user = new User();
+        account = bank.createAccount(user, initialAmount);
+    }
+
+
+    public Atm getAtm(int initialFunds) {
+        return getAtm(initialFunds);
+    }
+========================================================================
+        givenABank();
+        givenAClientOfThisBank();
+        givenHisAccountBalanceIs(initialAmount);
+    }
+
+
+    @Text("Given the account balance is ${initialAmount} $")
+    public void givenHisAccountBalanceIs(int initialAmount) {
+        account = bank.createAccount(user, initialAmount);
+    }
+
+    public void givenAClientOfThisBank() {
+        user = new User();
+    }
+
+    public void givenABank() {
+        bank = new Bank();
+    }
+========================================================================
+
    @BeforeClass
     public static void setupUseCase(){
         bankHelper.givenABank();
@@ -85,31 +136,3 @@ andTheCardShouldBeReturned
     public void setupScenario(){
         bankHelper.givenAClientOfThisBank();
     }
-
-========================================================================
-
-
-   Scenario 1:accountHasSufficientFunds
-givenTheAccountBalanceIs \$100
-andTheCardIsValid
-andTheMachineContainsEnoughMoney
-whenTheAccount HolderRequests \$20
-thenTheAtmShould dIspense \$20
-andTheAccountBalanceShouldBe \$80
-andTheCardShouldBeReturned
-
-   Scenario 2: accountHasInSufficientFunds
-pivenTheAccountBalanceIs \$10
-andTheCardIsValid
-andTheMachineContainsEnoughMoney
-whenTheAccount HolderRequests \$20
-thenTheAtmShould not dIspenseAnyMoney
-andTheAtmShouldSayThereAreInSufficientFunds
-andTheAccountBalanceShouldBe \$20
-andTheCardShouldBeReturned
-
-Scenario 3:cardHasBeenDisabled
-givenTheCardIsDisabled
-whenTheAccountHolderRequests \$20
-thenTheAtmShouldRetainTheCard
-andTheAtmShouldSayTheCardHasBeenRetained
