@@ -105,7 +105,7 @@ andTheCardShouldBeReturned
 
 
     public Atm getAtm(int initialFunds) {
-        return getAtm(initialFunds);
+        return bank.getAtm(initialFunds);
     }
 ========================================================================
         givenABank();
