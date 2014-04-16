@@ -70,6 +70,7 @@ Open the html file generated:
 ![A simple acceptance test using SFT](./images/SimpleUseCase.png "A simple acceptance test using SFT")
 
 ## Other fixtures
+[Use weirds characters or specify the way is displayed](./Text.md "Title") inline link.
 
 ### Use &~"#'{([-|\^@°)]+=}$£%*?./§,;:! characters or specify the way your test is displayed
 Annotate class and method with @Text("The text that should be displayed!!!").
