@@ -70,27 +70,11 @@ Open the html file generated:
 ![A simple acceptance test using SFT](./images/SimpleUseCase.png "A simple acceptance test using SFT")
 
 ## Other fixtures
-[Use weirds characters or specify the way is displayed](./Text.md "Title") inline link.
+* [Use weirds characters or specify the way is displayed](./Text.md "Use weirds characters or specify the way is displayed").
+* [Parameterize your fixture](./ParameterizeFixture.md "Parameterize your fixture").
+* [Links use cases together](./LinksUseCases.md "Links use cases together").
 
-### Use &~"#'{([-|\^@°)]+=}$£%*?./§,;:! characters or specify the way your test is displayed
-Annotate class and method with @Text("The text that should be displayed!!!").
-
-    ...
-    @Text("Given the account balance is 100$")
-    private void givenTheAccountBalanceIs100Dollars(){
-        ...
-
-### Parameterize your fixture
-Add ${myParameterName} to displayed value used when called.
-
-    ...
-    @Text("Given the account balance is ${initialAmount} $")
-    private void givenTheAccountBalanceIs(int initialAmount) {
-        ...
-
-![Fixture with parameter](./images/FixtureWithParameter.png "Fixture with parameter")
-
-### Links use cases together
+### Links use cases together
 Add a public field, it'll be run as a related use case with SimpleFunctionalTest.
 
     ...
@@ -102,6 +86,7 @@ Add a public field, it'll be run as a related use case with SimpleFunctionalTest
 A new section is added  with all related use cases:
 
 ![Related use cases](./images/RelatedUseCases.png "Related use cases")
+
 
 ### Manage test context
 
@@ -118,6 +103,8 @@ Show scenario context: add @Displayable on private or protected field to display
         ...
 
 ![Display context](./images/DisplayContext.png "Display context")
+
+[Back](./README.md)
 
 ### Share fixtures
 
@@ -149,6 +136,8 @@ Reference the FixtureHelper and call its fixture:
         }
         ...
     }
+
+[Back](./README.md)
 
 ### Decorate
 #### Add table of content
@@ -235,6 +224,8 @@ On fixture level add  @Decorate(decorator = Table.class,parameters = "Table titl
     }
 
 ![Display fixture as table](./images/DecoratorTable.png "Display fixture as table")
+
+[Back](./README.md)
 
 ## Deeper
 [How to use SimpleFunctionalTest](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/master/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
