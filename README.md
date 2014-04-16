@@ -207,7 +207,7 @@ For each fixture to group add @Decorate(decorator = Group.class,parameters = "Gr
 	    ...
 	}
 
-![Decorate group fixtures](./images/DecoratorGroupFictures.png "Decorate group fixtures")
+![Decorate group fixtures](./images/DecoratorGroupFixtures.png "Decorate group fixtures")
 
 #### Display fixtures as table
 On fixture level add  @Decorate(decorator = Table.class,parameters = "Table title")
