@@ -6,4 +6,4 @@ Annotate class and method with @Text("The text that should be displayed!!!").
     private void givenTheAccountBalanceIs100Dollars(){
         ...
 
-[Back](./README.md)
+[Back](./README.md#other-fixtures)

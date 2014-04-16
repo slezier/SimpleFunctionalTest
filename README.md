@@ -2,7 +2,7 @@
 
 A JUnit extension to easily adopt functional testing and acceptance testing
 
-## 1 step: make your test readable
+## step 1: make your test readable
 
 In JUnit test refactor your test in order to make it more readable by non java native speaker.
 
@@ -39,7 +39,7 @@ A 'more' readable JUnit test for a non native java speaker:
         ...
 	}
 
-## 2 step: add SimpleFunctionalTest
+## step 2: add SimpleFunctionalTest
 In your pom file insert dependencies to SimpleFunctionalTest
 
 	<project>
@@ -62,7 +62,7 @@ and specify SimpleFuntionalTest as JUnit runner:
 	public class AccountHolderWithdrawCash {
 		...
 
-## 3 step: enjoy
+## step 3: enjoy
 Run the test.
 
 Open the html file generated:
