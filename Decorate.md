@@ -84,4 +84,4 @@ On fixture level add  @Decorate(decorator = Table.class,parameters = "Table titl
 
 ![Display fixture as table](./images/DecoratorTable.png "Display fixture as table")
 
-[Back](./README.md)
+[Back](./README.md#other-fixtures)
