@@ -13,10 +13,7 @@ import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
-import sft.integration.use.sut.decorators.BreadcrumbDecoratorSample;
-import sft.integration.use.sut.decorators.GroupDecoratorSample;
-import sft.integration.use.sut.decorators.StyleDecoratorSample;
-import sft.integration.use.sut.decorators.TocDecoratorSample;
+import sft.integration.use.sut.decorators.*;
 import sft.integration.use.sut.decorators.subUseCase.SubSubUseCaseBreadcrumb;
 import sft.integration.use.sut.decorators.subUseCase.SubUseCaseBreadcrumb;
 
@@ -61,6 +58,70 @@ public class UsingDecorator {
     public void groupFixtures() throws Exception {
         byAddingAGroupDecoratorWithParameterOnFixtures("When");
         fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle("When");
+    }
+
+    @Test
+    public void displayFixtureAsTable() throws IOException {
+        byAddingATableDecoratorOnFixture("Addition sample");
+        fixturesCallAreAggregatedInATable();
+        tableTitleIs("Addition sample");
+        columnHeaderAreFieldNames();
+        eachValuesAreDisplayed();
+        theIssueOfEachFixtureCallsIsAddedAtEachRow();
+    }
+
+    private void theIssueOfEachFixtureCallsIsAddedAtEachRow() throws IOException {
+        Document htmlReport = jUnitHelper.getHtmlReport();
+        Elements raws = htmlReport.select("div.panel-body > table > tbody > tr ");
+        Assert.assertTrue(raws.get(0).select("td").get(3).hasClass("succeeded"));
+        Assert.assertTrue(raws.get(1).select("td").get(3).hasClass("succeeded"));
+        Assert.assertTrue(raws.get(2).select("td").get(3).hasClass("failed"));
+        Assert.assertTrue(raws.get(3).select("td").get(3).hasClass("ignored"));
+    }
+
+    private void columnHeaderAreFieldNames() throws IOException {
+        Document htmlReport = jUnitHelper.getHtmlReport();
+        Elements columnHeaders = htmlReport.select("div.panel-body > table > thead > tr > th");
+        Assert.assertEquals(4, columnHeaders.size());
+        Assert.assertEquals("first", columnHeaders.get(0).text());
+        Assert.assertEquals("second", columnHeaders.get(1).text());
+        Assert.assertEquals("sum", columnHeaders.get(2).text());
+        Assert.assertEquals("", columnHeaders.get(3).text());
+    }
+
+    private void eachValuesAreDisplayed() throws IOException {
+        Document htmlReport = jUnitHelper.getHtmlReport();
+        Elements raws = htmlReport.select("div.panel-body > table > tbody > tr ");
+        Assert.assertEquals(4, raws.size());
+        Assert.assertEquals("1", raws.get(0).select("td").get(0).text());
+        Assert.assertEquals("1", raws.get(0).select("td").get(1).text());
+        Assert.assertEquals("2", raws.get(0).select("td").get(2).text());
+
+        Assert.assertEquals("8", raws.get(2).select("td").get(0).text());
+        Assert.assertEquals("2", raws.get(2).select("td").get(1).text());
+        Assert.assertEquals("9", raws.get(2).select("td").get(2).text());
+    }
+
+    @Text("The table title is ${tableTitle} ")
+    private void tableTitleIs(String tableTitle) throws IOException {
+        Document htmlReport = jUnitHelper.getHtmlReport();
+        Elements title = htmlReport.select("div.panel-body > table > caption");
+        Assert.assertEquals(tableTitle,title.text());
+    }
+
+    private void fixturesCallAreAggregatedInATable() throws IOException {
+        Document htmlReport = jUnitHelper.getHtmlReport();
+        Elements table = htmlReport.select("div.panel-body > table");
+        Assert.assertEquals(1, table.size());
+        Elements rows = table.select(" tbody > tr");
+        Assert.assertEquals(4, rows.size());
+    }
+
+    @Text("By adding a table decorator with parameter ${tableTitle} on a fixture: @Decorate(decorator = Table.class, parameters =\"${tableTitle}\") ")
+    private void byAddingATableDecoratorOnFixture(String tableTitle) {
+        jUnitHelper = new JUnitHelper(this.getClass(), TableDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TableDecoratorSample.html");
+        jUnitHelper.run();
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
     @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")

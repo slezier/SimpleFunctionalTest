@@ -1,0 +1,35 @@
+<html><head><title>
+sft.integration.use.sut.decorators.TableDecoratorSample
+</title>
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/sft.css" />
+</head>
+<body><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Source file</h3></div><div class='panel-body'><pre>
+package sft.integration.use.sut.decorators;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import sft.Decorate;
+import sft.SimpleFunctionalTest;
+import sft.decorators.Table;
+
+@RunWith(SimpleFunctionalTest.class)
+public class TableDecoratorSample {
+
+    @Test
+    public void table(){
+        addition(1,1,2);
+        addition(2,3,5);
+        addition(8,2,9);
+        addition(2,3,5);
+    }
+
+    @Decorate(decorator = Table.class, parameters = "Addition sample")
+    private void addition(int first, int second, int sum){
+        Assert.assertEquals(sum,first+second);
+
+    }
+}
+</pre></div></div></body></html>

@@ -1,51 +1,36 @@
 <html>
   <head>
-    <title>Sub use case toc 3</title>
-<link rel="stylesheet" href="../../../../../../sft-html-default/bootstrap-theme.min.css" />
-<link rel="stylesheet" href="../../../../../../sft-html-default/bootstrap.min.css" />
-<link rel="stylesheet" href="../../../../../../sft-html-default/sft.css" />
-<script src="../../../../../../sft-html-default/bootstrap.min.js"></script>
-<script src="../../../../../../sft-html-default/jquery-1.10.2.min.js"></script>
+    <title>Table decorator sample</title>
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/bootstrap.min.css" />
+<link rel="stylesheet" href="../../../../../sft-html-default/sft.css" />
+<script src="../../../../../sft-html-default/bootstrap.min.js"></script>
+<script src="../../../../../sft-html-default/jquery-1.10.2.min.js"></script>
   </head>
   <body class="useCase failed">
     <div class="container">
       <div class="page-header">
         <div class="text-center">
-          <h1><span class="useCaseName">Sub use case toc 3</span></h1>
-        </div>
-      </div>
-      <div class="scenario succeeded panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Scenario 31</span></h3>
-        </div>
-        <div class="panel-body">
-          <div class="instruction succeeded">
-            <span>Success</span>          </div>
-        </div>
-      </div>
-      <div class="scenario ignored panel panel-default">
-        <div class="panel-heading">
-          <h3><span class="scenarioName">Scenario 32</span></h3>
-        </div>
-        <div class="panel-body">
-          <div class="instruction ignored">
-            <span>Success</span>          </div>
+          <h1><span class="useCaseName">Table decorator sample</span></h1>
         </div>
       </div>
       <div class="scenario failed panel panel-default">
         <div class="panel-heading">
-          <h3><span class="scenarioName">Scenario 33</span></h3>
+          <h3><span class="scenarioName">Table</span></h3>
         </div>
         <div class="panel-body">
-          <div class="instruction failed">
-            <span>Failed</span>          </div>
-        </div>
+<table class='table'><caption>Addition sample</caption><thead><tr><th>first</th><th>second</th><th>sum</th><th></th></tr></thead><tbody><tr><td>1</td><td>1</td><td>2</td><td class='instruction succeeded''><span></span></td></tr><tr><td>2</td><td>3</td><td>5</td><td class='instruction succeeded''><span></span></td></tr><tr><td>8</td><td>2</td><td>9</td><td class='instruction failed''><span></span></td></tr><tr><td>2</td><td>3</td><td>5</td><td class='instruction ignored''><span></span></td></tr></tbody></table>        </div>
       <div class="panel-body">
         <div class="exception">
-          <a onClick="$(this).next().toggle()" >RuntimeException: Boom</a>
-          <pre class="stacktrace pre-scrollable" >java.lang.RuntimeException: Boom
-	at sft.integration.use.sut.decorators.subUseCase.SubUseCaseToc3.failed(SubUseCaseToc3.java:24)
-	at sft.integration.use.sut.decorators.subUseCase.SubUseCaseToc3.scenario3_3(SubUseCaseToc3.java:20)
+          <a onClick="$(this).next().toggle()" >AssertionError: expected:<9> but was:<10></a>
+          <pre class="stacktrace pre-scrollable" >java.lang.AssertionError: expected:<9> but was:<10>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:743)
+	at org.junit.Assert.assertEquals(Assert.java:118)
+	at org.junit.Assert.assertEquals(Assert.java:555)
+	at org.junit.Assert.assertEquals(Assert.java:542)
+	at sft.integration.use.sut.decorators.TableDecoratorSample.addition(TableDecoratorSample.java:23)
+	at sft.integration.use.sut.decorators.TableDecoratorSample.table(TableDecoratorSample.java:17)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -53,7 +38,6 @@
 	at sft.Scenario.run(Scenario.java:45)
 	at sft.junit.ScenarioRunner.run(ScenarioRunner.java:50)
 	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:71)
-	at sft.junit.UseCaseRunner.run(UseCaseRunner.java:82)
 	at sft.SimpleFunctionalTest.run(SimpleFunctionalTest.java:48)
 	at org.junit.runners.Suite.runChild(Suite.java:127)
 	at org.junit.runners.Suite.runChild(Suite.java:26)
@@ -67,8 +51,8 @@
 	at org.junit.runner.JUnitCore.run(JUnitCore.java:138)
 	at org.junit.runner.JUnitCore.run(JUnitCore.java:117)
 	at sft.integration.fixtures.JUnitHelper.run(JUnitHelper.java:34)
-	at sft.integration.use.UsingDecorator.byAddingTableOfContentDecoratorOnUseCase(UsingDecorator.java:206)
-	at sft.integration.use.UsingDecorator.addTableOfContent(UsingDecorator.java:53)
+	at sft.integration.use.UsingDecorator.byAddingATableDecoratorOnFixture(UsingDecorator.java:123)
+	at sft.integration.use.UsingDecorator.displayFixtureAsTable(UsingDecorator.java:65)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
