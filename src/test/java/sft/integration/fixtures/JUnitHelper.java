@@ -16,10 +16,6 @@ public class JUnitHelper {
     public final Result result;
     public final Document html;
 
-    public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
-        this( null, functionalTestClass, expectedPathToHtmlResultFile);
-    }
-
     public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
         this.caller = caller;
         this.functionalTestClass = functionalTestClass;
