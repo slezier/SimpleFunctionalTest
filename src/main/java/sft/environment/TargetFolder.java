@@ -30,7 +30,7 @@ public class TargetFolder extends ResourceFolder {
 
     public List<String> copyFromResources(String fileName) throws IOException {
         try {
-            File targetDirectory = ensureExists();
+            final File targetDirectory = ensureTargetDirectoryExists();
             final URL resource = this .getClass().getClassLoader().getResource(fileName);
             final List<String> paths ;
             if (resource.getProtocol().equals("jar")) {
@@ -46,7 +46,7 @@ public class TargetFolder extends ResourceFolder {
     }
 
     private void makeDir(String path) {
-        File parentDirectory = ensureExists();
+        File parentDirectory = ensureTargetDirectoryExists();
         for (String file : path.split("/")) {
             if (!file.contains(".")) {
                 parentDirectory = new File(parentDirectory, file);
@@ -57,8 +57,8 @@ public class TargetFolder extends ResourceFolder {
         }
     }
 
-    private File ensureExists() {
-        File targetDirectory = new File(getResourceFolder() + path);
+    private File ensureTargetDirectoryExists() {
+        final File targetDirectory = new File(getResourceFolder() + path);
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }

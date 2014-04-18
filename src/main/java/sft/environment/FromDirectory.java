@@ -21,7 +21,6 @@ public class FromDirectory {
         return copyFromResources(targetDirectory, new File(resource.toURI()),"");
     }
 
-
     private List<String> copyFromResources(File targetDirectory, File sourceFile, String relativePath) throws IOException {
         ArrayList<String> filesCopied = new ArrayList<String>();
         if (sourceFile.isDirectory()) {
@@ -39,8 +38,6 @@ public class FromDirectory {
         return filesCopied;
     }
 
-
-
     private String copyFileFromResources(File targetDirectory, File sourceFile, String relativePath) throws IOException {
         InputStream sourceAsStream = null;
         try {
@@ -52,7 +49,6 @@ public class FromDirectory {
             }
         }
     }
-
 
     private String copyFileFromStream(File targetDirectory, File sourceFile, String relativePath, InputStream sourceAsStream) throws IOException {
         FileOutputStream targetAsStream =null;

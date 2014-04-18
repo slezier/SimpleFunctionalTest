@@ -1,7 +1,6 @@
 package sft.environment;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,16 +14,20 @@ import java.util.jar.JarFile;
 
 public class FromJar {
     private final URL resource;
+    private final String folderName;
 
     public FromJar(URL resource) {
         this.resource = resource;
+        this.folderName = getFolderName(resource);
+    }
+
+    private static String getFolderName(URL resource) {
+        return resource.getPath().substring(resource.getPath().indexOf("!/") + 2);
     }
 
     public List<String> copy(File targetDirectory) throws IOException {
         return copyFromJar(targetDirectory);
     }
-
-
 
     private List<String> copyFromJar(File targetDirectory) throws IOException {
         List<String> result = new ArrayList<String>();
@@ -33,7 +36,6 @@ public class FromJar {
         while (entries.hasMoreElements()) {
             final JarEntry jarEntry = entries.nextElement();
             final String name = jarEntry.getName();
-            final String folderName = getFolderName();
             if (name.startsWith(folderName) && ! name.endsWith("/")) {
                 InputStream inputStream = FromJar.class.getClassLoader().getResourceAsStream(name);
                 copyFileFromStream(makeDir(targetDirectory,name), new File(targetDirectory, name), inputStream);
@@ -44,12 +46,7 @@ public class FromJar {
     }
 
     private Enumeration<JarEntry> getJarEntries() throws IOException {
-        JarFile jar = new JarFile(URLDecoder.decode(getJarName(), "UTF-8"));
-        return jar.entries();
-    }
-
-    private String getFolderName() {
-        return resource.getPath().substring(resource.getPath().indexOf("!/") + 2);
+        return new JarFile(URLDecoder.decode(getJarName(), "UTF-8")).entries();
     }
 
     private String getJarName() {
@@ -73,8 +70,6 @@ public class FromJar {
             }
         }
     }
-
-
 
     private File makeDir(File parentDirectory, String path) {
         for (String file : path.split("/")) {
