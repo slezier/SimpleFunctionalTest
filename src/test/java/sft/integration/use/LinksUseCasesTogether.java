@@ -42,7 +42,7 @@ public class LinksUseCasesTogether {
 
         whenInvokingJUnit();
 
-        thenTheHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection();
+        thenTheHtmlFilePresentLinksToRelatedUseCasesAsListItemInTheLastSection();
 
         successfullRelatedUseCaseAreDisplayedWithGreenCheckMark();
         failedRelatedUseCaseAreDisplayedWithRedCrossMark();
@@ -71,8 +71,12 @@ public class LinksUseCasesTogether {
         sftCss = new CssParser();
     }
 
-    private void thenTheHtmlFilePresentRelatedUseCasesAsListItemInTheLastSection() throws IOException {
+    private void thenTheHtmlFilePresentLinksToRelatedUseCasesAsListItemInTheLastSection() throws IOException {
         relatedUseCases = functionalTest.getHtmlReport().select("*.relatedUseCase");
+        Assert.assertEquals(3,relatedUseCases.size());
+        Assert.assertEquals("subUseCase/SubUseCaseSucceeded.html",relatedUseCases.get(0).select("a").first().attr("href"));
+        Assert.assertEquals("subUseCase/SubUseCaseFailed.html",relatedUseCases.get(1).select("a").first().attr("href"));
+        Assert.assertEquals("subUseCase/SubUseCaseIgnored.html",relatedUseCases.get(2).select("a").first().attr("href"));
     }
 
     private void successfullRelatedUseCaseAreDisplayedWithGreenCheckMark() {
@@ -84,7 +88,6 @@ public class LinksUseCasesTogether {
         Assert.assertTrue("Related use case without class 'failed'", relatedUseCases.get(1).hasClass("failed"));
         Assert.assertEquals("url(failed_16.png)", sftCss.get("*.relatedUseCase.failed a span").getStyle().getPropertyCSSValue("background-image").getCssText());
     }
-
 
     private void ignoredRelatedUseCaseAreDisplayedWithYellowInterrogationMark() {
         Assert.assertTrue("Related use case without class 'ignored'", relatedUseCases.get(2).hasClass("ignored"));

@@ -2,28 +2,24 @@ package sft.integration.use.sut.decorators.subUseCase;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import sft.FixturesHelper;
 
 public class SubUseCaseToc3 {
+    @FixturesHelper
+    private SftFixturesHelper sftFixturesHelper = new SftFixturesHelper();
 
     @Test
     public void scenario3_1(){
-        success();
+        sftFixturesHelper.success();
     }
 
     @Test
     @Ignore
     public void scenario3_2(){
-        success();
+        sftFixturesHelper.success();
     }
     @Test
     public void scenario3_3(){
-        failed();
-    }
-
-    private void failed() {
-        throw new RuntimeException("Boom");
-    }
-
-    private void success() {
+        sftFixturesHelper.failed();
     }
 }

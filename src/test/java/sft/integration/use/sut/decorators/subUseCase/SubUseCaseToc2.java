@@ -1,25 +1,24 @@
 package sft.integration.use.sut.decorators.subUseCase;
 
 import org.junit.Test;
+import sft.FixturesHelper;
 
 public class SubUseCaseToc2 {
+    @FixturesHelper
+    private SftFixturesHelper sftFixturesHelper = new SftFixturesHelper();
 
     @Test
     public void scenario2_1(){
-        success();
+        sftFixturesHelper.success();
     }
     @Test
     public void scenario2_2(){
-        success();
+        sftFixturesHelper.success();
     }
     @Test
     public void scenario2_3(){
-        success();
+        sftFixturesHelper.success();
     }
-
-    private void success() {
-    }
-
 
     public SubUseCaseToc2a subUseCaseToc2a = new SubUseCaseToc2a();
     public SubUseCaseToc2b subUseCaseToc2b = new SubUseCaseToc2b();

@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -61,6 +62,13 @@ public class UsingDecorator {
     }
 
     @Test
+    @Ignore
+    public void groupRelatedUseCases() throws Exception {
+        byAddingAGroupDecoratorWithParameterOnUseCase("Error cases");
+        relatedUseCaseWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle("Error cases");
+    }
+
+    @Test
     public void displayFixtureAsTable() throws IOException {
         byAddingATableDecoratorOnFixture("Addition sample");
         fixturesCallAreAggregatedInATable();
@@ -68,6 +76,21 @@ public class UsingDecorator {
         columnHeaderAreFieldNames();
         eachValuesAreDisplayed();
         theIssueOfEachFixtureCallsIsAddedAtEachRow();
+    }
+
+    private void relatedUseCaseWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
+        final Elements useCaseGroup = jUnitHelper.getHtmlReport().select("div.relatedUseCases");
+        Assert.assertEquals(2, useCaseGroup.size());
+        Assert.assertEquals(name, useCaseGroup.get(0).select("h4").text());
+        Assert.assertEquals(2, useCaseGroup.get(0).select("relatedUseCase").size());
+        Assert.assertEquals(0, useCaseGroup.get(1).select("h4").size());
+    }
+
+    @Text("By adding a group decorator with parameter ${name}  on field implemetig related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
+    private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) {
+        jUnitHelper = new JUnitHelper(this.getClass(), UseCaseGroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/UseCaseGroupDecoratorSample.html");
+        jUnitHelper.run();
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
     private void theIssueOfEachFixtureCallsIsAddedAtEachRow() throws IOException {
@@ -126,7 +149,7 @@ public class UsingDecorator {
 
     @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnFixtures(String name) throws Exception {
-        jUnitHelper = new JUnitHelper(this.getClass(), GroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/GroupDecoratorSample.html");
+        jUnitHelper = new JUnitHelper(this.getClass(), FixtureGroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/FixtureGroupDecoratorSample.html");
         jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
