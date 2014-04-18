@@ -50,7 +50,7 @@ public class LinksUseCasesTogether {
 
     }
 
-    private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() {
+    private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(), UseCaseLinks.class, "target/sft-result/sft/integration/use/sut/UseCaseLinks.html");
 
         JavaResource subSuccessfulUseCaseSource = new JavaResource(SubUseCaseSucceeded.class);

@@ -87,7 +87,7 @@ public class UsingDecorator {
     }
 
     @Text("By adding a group decorator with parameter ${name}  on field implemetig related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
-    private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) {
+    private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), UseCaseGroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/UseCaseGroupDecoratorSample.html");
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
@@ -140,7 +140,7 @@ public class UsingDecorator {
     }
 
     @Text("By adding a table decorator with parameter ${tableTitle} on a fixture: @Decorate(decorator = Table.class, parameters =\"${tableTitle}\") ")
-    private void byAddingATableDecoratorOnFixture(String tableTitle) {
+    private void byAddingATableDecoratorOnFixture(String tableTitle) throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), TableDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TableDecoratorSample.html");
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
@@ -219,7 +219,7 @@ public class UsingDecorator {
         Assert.assertTrue(breadcrumbs.select("li").get(2).classNames().contains("active"));
     }
 
-    private void byAddingTableOfContentDecoratorOnUseCase() {
+    private void byAddingTableOfContentDecoratorOnUseCase() throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), TocDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TocDecoratorSample.html");
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }

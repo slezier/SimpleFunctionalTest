@@ -123,18 +123,18 @@ public class CommonUsage {
     }
 
     @Text("With a JUnit test class annotated with @Ignore")
-    private void withAJUnitTestClassIgnored() {
+    private void withAJUnitTestClassIgnored() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),FunctionalTestIgnored.class, "target/sft-result/sft/integration/use/sut/FunctionalTestIgnored.html");
     }
 
 
     @Text("Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)")
-    private void createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest() {
+    private void createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),YourFirstFunctionalTest.class, FIRST_HTML_REPORT_PATH);
     }
 
     @Text("With a JUnit test class expecting failure")
-    private void withAJUnitTestClassExpectingFailure() {
+    private void withAJUnitTestClassExpectingFailure() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),WhenFunctionalTestFailed.class, "target/sft-result/sft/integration/use/sut/WhenFunctionalTestFailed.html");
     }
 

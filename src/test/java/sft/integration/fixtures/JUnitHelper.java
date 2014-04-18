@@ -16,24 +16,21 @@ public class JUnitHelper {
     public final Result result;
     private Document html;
 
-    public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) {
+    public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
         this( null, functionalTestClass, expectedPathToHtmlResultFile);
     }
 
-    public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) {
+    public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
         this.caller = caller;
         this.functionalTestClass = functionalTestClass;
         this.expectedPathToHtmlResultFile = expectedPathToHtmlResultFile;
         JUnitCore core = new JUnitCore();
         result= core.run(functionalTestClass);
+        TestFileSystem.filesExists(expectedPathToHtmlResultFile);
+        html = Jsoup.parse(new File(expectedPathToHtmlResultFile), "UTF-8", "http://example.com/");
     }
 
     public Document getHtmlReport() throws IOException {
-        if(html == null){
-            TestFileSystem.filesExists(expectedPathToHtmlResultFile);
-
-            html = Jsoup.parse(new File(expectedPathToHtmlResultFile), "UTF-8", "http://example.com/");
-        }
         return html;
     }
 

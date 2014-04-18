@@ -33,11 +33,11 @@ public class CommentUsage {
         itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario();
     }
 
-    private void useCaseExplanationCouldBeWriteInAMultilinesCommentBeforeClassDeclaration() {
+    private void useCaseExplanationCouldBeWriteInAMultilinesCommentBeforeClassDeclaration() throws IOException {
         runCommentUsageTest();
     }
 
-    private void runCommentUsageTest() {
+    private void runCommentUsageTest() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class, "target/sft-result/sft/integration/use/sut/CommentUsage.html");
         sftResources = functionalTest.displayResources();
     }
@@ -52,7 +52,7 @@ public class CommentUsage {
         itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps();
     }
 
-    private void scenarioExplanationCouldBeWriteInAMultilinesCommentBeforeMethodDeclaration() {
+    private void scenarioExplanationCouldBeWriteInAMultilinesCommentBeforeMethodDeclaration() throws IOException {
         runCommentUsageTest();
     }
 
