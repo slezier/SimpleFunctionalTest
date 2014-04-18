@@ -35,7 +35,6 @@ public class DisplayingTestContext {
 
     private void allPrivateObjectsAnnotatedByDisplayableShouldBeDysplayedAfterScenario() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),DisplayContext.class, "target/sft-result/sft/integration/use/sut/DisplayContext.html");
-        functionalTest.run();
         sftResources = functionalTest.displayResources();
         html = functionalTest.getHtmlReport();
     }

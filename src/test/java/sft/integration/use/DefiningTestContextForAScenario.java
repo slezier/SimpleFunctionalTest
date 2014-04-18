@@ -9,21 +9,15 @@ import sft.Displayable;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.CssParser;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.ContextInAction;
-import sft.integration.use.sut.ErrorOccursWhenRaisingAnUseCaseContext;
 import sft.integration.use.sut.ErrorOccursWhenRaisingScenario;
-import sft.integration.use.sut.ErrorOccursWhenTerminatingAnUseCaseContext;
 import sft.integration.use.sut.ErrorOccursWhenTerminatingScenario;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static sft.integration.use.sut.ContextInAction.getCallSequence;
 
 /*
@@ -92,7 +86,6 @@ public class DefiningTestContextForAScenario {
     private void whenAnErrorOccursWhenRaisingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenRaisingScenario.html");
-        functionalTest.run();
         sftResources = functionalTest.displayResources();
 
         html = functionalTest.getHtmlReport();
@@ -101,7 +94,6 @@ public class DefiningTestContextForAScenario {
     private void whenAnErrorOccursWhenTerminatingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenTerminatingScenario.html");
-        functionalTest.run();
         sftResources = functionalTest.displayResources();
 
         html = functionalTest.getHtmlReport();
@@ -111,7 +103,6 @@ public class DefiningTestContextForAScenario {
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
-        functionalTest.run();
         sftResources = functionalTest.displayResources();
 
         html = functionalTest.getHtmlReport();

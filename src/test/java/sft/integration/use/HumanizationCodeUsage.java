@@ -46,7 +46,6 @@ public class HumanizationCodeUsage {
 
     private void allCaseChangesAreReplacedBySpaces() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationCamelCaseClassNameHumanized.class,"target/sft-result/sft/integration/use/sut/HumanizationCamelCaseClassNameHumanized.html");
-        functionalTest.run();
         sftResources1 =functionalTest.displayResources();
         functionalTest.getHtmlReport();
         Assert.assertEquals("Humanization camel case class name humanized", functionalTest.getHtmlReport().select("*.useCaseName").text());
@@ -56,7 +55,6 @@ public class HumanizationCodeUsage {
 
     private void underscoreAreReplacedBySpace() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),Humanization_underscore_class_name_humanized.class,"target/sft-result/sft/integration/use/sut/Humanization_underscore_class_name_humanized.html");
-        functionalTest.run();
         sftResources2 =functionalTest.displayResources();
         functionalTest.getHtmlReport();
         Assert.assertEquals("Humanization underscore class name humanized", functionalTest.getHtmlReport().select("*.useCaseName").text());
@@ -66,7 +64,6 @@ public class HumanizationCodeUsage {
 
     private void textsAreDisplayedUnchanged() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationUsingTextAnnotation.class,"target/sft-result/sft/integration/use/sut/HumanizationUsingTextAnnotation.html");
-        functionalTest.run();
         sftResources3 =functionalTest.displayResources();
         Assert.assertEquals("Use case name specified in @Text", functionalTest.getHtmlReport().select("*.useCaseName").text());
         Assert.assertEquals("Scenario name specified in @Text", functionalTest.getHtmlReport().select("*.scenarioName").text());

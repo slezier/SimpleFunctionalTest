@@ -40,7 +40,6 @@ public class CommentUsage {
     private void runCommentUsageTest() {
         functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class, "target/sft-result/sft/integration/use/sut/CommentUsage.html");
         sftResources = functionalTest.displayResources();
-        functionalTest.run();
     }
 
     private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {

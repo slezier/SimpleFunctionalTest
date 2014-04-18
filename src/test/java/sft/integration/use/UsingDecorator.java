@@ -89,7 +89,6 @@ public class UsingDecorator {
     @Text("By adding a group decorator with parameter ${name}  on field implemetig related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) {
         jUnitHelper = new JUnitHelper(this.getClass(), UseCaseGroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/UseCaseGroupDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
@@ -143,14 +142,12 @@ public class UsingDecorator {
     @Text("By adding a table decorator with parameter ${tableTitle} on a fixture: @Decorate(decorator = Table.class, parameters =\"${tableTitle}\") ")
     private void byAddingATableDecoratorOnFixture(String tableTitle) {
         jUnitHelper = new JUnitHelper(this.getClass(), TableDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TableDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
     @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnFixtures(String name) throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), FixtureGroupDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/FixtureGroupDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
@@ -165,7 +162,6 @@ public class UsingDecorator {
     @Text("By adding a style decorator with parameter ${style}  on a element: @Decorate(decorator = Style.class, parameters =\"${style}\") ")
     private void byAddingStyleDecoratorWithParameterOnAElement(String style) throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/StyleDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 
@@ -191,7 +187,6 @@ public class UsingDecorator {
 
     private void byAddingBreadcrumbDecoratorOnUseCase() throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/BreadcrumbDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("parent user story", jUnitHelper.displayResources());
     }
 
@@ -226,7 +221,6 @@ public class UsingDecorator {
 
     private void byAddingTableOfContentDecoratorOnUseCase() {
         jUnitHelper = new JUnitHelper(this.getClass(), TocDecoratorSample.class, "target/sft-result/sft/integration/use/sut/decorators/TocDecoratorSample.html");
-        jUnitHelper.run();
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
     }
 

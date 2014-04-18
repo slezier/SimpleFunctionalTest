@@ -4,8 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
-import sft.DefaultConfiguration;
-import sft.integration.SftDocumentationConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,23 +13,19 @@ public class JUnitHelper {
     private final Class functionalTestClass;
     private final String expectedPathToHtmlResultFile;
     private final Class caller;
+    public final Result result;
     private Document html;
 
     public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) {
-        this.caller = null;
-        this.functionalTestClass = functionalTestClass;
-        this.expectedPathToHtmlResultFile = expectedPathToHtmlResultFile;
+        this( null, functionalTestClass, expectedPathToHtmlResultFile);
     }
 
     public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) {
         this.caller = caller;
         this.functionalTestClass = functionalTestClass;
         this.expectedPathToHtmlResultFile = expectedPathToHtmlResultFile;
-    }
-
-    public Result run() {
         JUnitCore core = new JUnitCore();
-        return core.run(functionalTestClass);
+        result= core.run(functionalTestClass);
     }
 
     public Document getHtmlReport() throws IOException {

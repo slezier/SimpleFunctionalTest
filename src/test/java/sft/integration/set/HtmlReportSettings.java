@@ -341,7 +341,6 @@ public class HtmlReportSettings {
 
     private void byChangingTemplateValues() throws IOException {
         JUnitHelper jUnitHelper = new JUnitHelper(this.getClass(),InkStyleUseCase.class, "target/sft-result/sft/integration/set/sut/InkStyleUseCase.html");
-        jUnitHelper.run();
         htmlReport = jUnitHelper.getHtmlReport();
         sftResources = jUnitHelper.displayResources();
 

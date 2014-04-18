@@ -1,9 +1,8 @@
 package sft.integration.use;
 
-import org.junit.Assert;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -13,7 +12,6 @@ import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
-import sft.integration.fixtures.SftResource;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.DelegatedFixtures;
 import sft.integration.use.sut.FixturesHelperUsage;
@@ -51,7 +49,6 @@ public class UsingFixturesHelper {
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
     private void inTheUseCaseInstanciateThisFixturesHelperWithAnnotation() {
         jUnitHelper = new JUnitHelper(this.getClass(),FixturesHelperUsage.class, "target/sft-result/sft/integration/use/sut/FixturesHelperUsage.html");
-        jUnitHelper.run();
         sftResources=jUnitHelper.displayResources();
     }
 
