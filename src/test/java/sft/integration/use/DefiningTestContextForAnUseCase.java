@@ -99,7 +99,7 @@ public class DefiningTestContextForAnUseCase {
     private void whenAnErrorOccursWhenTerminatingAnUseCaseContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     private void allScenariosAreRan() {
@@ -110,7 +110,7 @@ public class DefiningTestContextForAnUseCase {
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
 
     }
 
@@ -136,7 +136,7 @@ public class DefiningTestContextForAnUseCase {
 
     private void whenAnErrorOccursWhenRaisingAnUseCaseContext() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
         cssParser = new CssParser();
     }
 

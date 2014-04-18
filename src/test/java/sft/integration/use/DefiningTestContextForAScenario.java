@@ -84,20 +84,20 @@ public class DefiningTestContextForAScenario {
     private void whenAnErrorOccursWhenRaisingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingScenario.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     private void whenAnErrorOccursWhenTerminatingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingScenario.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     private void finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario() {

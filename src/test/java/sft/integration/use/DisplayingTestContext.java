@@ -33,7 +33,7 @@ public class DisplayingTestContext {
 
     private void allPrivateObjectsAnnotatedByDisplayableShouldBeDysplayedAfterScenario() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),DisplayContext.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     private void displayableObjectsAreDisplayedOnlyIfThereAreNotNull() {

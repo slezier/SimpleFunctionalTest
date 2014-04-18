@@ -342,7 +342,7 @@ public class HtmlReportSettings {
     private void byChangingTemplateValues() throws IOException {
         JUnitHelper jUnitHelper = new JUnitHelper(this.getClass(),InkStyleUseCase.class);
         htmlReport = jUnitHelper.html;
-        sftResources = jUnitHelper.displayResources();
+        sftResources = jUnitHelper.displayResources;
 
 
         JavaResource configurationClass = new JavaResource(InkConfiguration.class);

@@ -48,7 +48,7 @@ public class UsingFixturesHelper {
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
     private void inTheUseCaseInstanciateThisFixturesHelperWithAnnotation() throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(),FixturesHelperUsage.class);
-        sftResources=jUnitHelper.displayResources();
+        sftResources=jUnitHelper.displayResources;
     }
 
     private void thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn() throws IOException {

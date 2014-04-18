@@ -66,7 +66,7 @@ public class LinksUseCasesTogether {
 
     @Text("When invoking JUnit")
     private void whenInvokingJUnit() {
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
         sftCss = new CssParser();
     }
 

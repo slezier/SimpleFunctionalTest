@@ -39,7 +39,7 @@ public class CommentUsage {
 
     private void runCommentUsageTest() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class);
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
     }
 
     private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {

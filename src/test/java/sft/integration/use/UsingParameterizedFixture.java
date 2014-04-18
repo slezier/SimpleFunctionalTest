@@ -38,7 +38,7 @@ public class UsingParameterizedFixture {
 
     private void byDeclaringParameterToYourFixtureYouCanReuseIt() throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(),ParameterizedFixture.class);
-        sftResources=jUnitHelper.displayResources();
+        sftResources=jUnitHelper.displayResources;
         parameterizedCalls = jUnitHelper.html.select("*.instruction");
 
     }

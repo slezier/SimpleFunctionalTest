@@ -89,7 +89,7 @@ public class UsingDecorator {
     @Text("By adding a group decorator with parameter ${name}  on field implemetig related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), UseCaseGroupDecoratorSample.class);
-        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources);
     }
 
     private void theIssueOfEachFixtureCallsIsAddedAtEachRow() throws IOException {
@@ -137,13 +137,13 @@ public class UsingDecorator {
     @Text("By adding a table decorator with parameter ${tableTitle} on a fixture: @Decorate(decorator = Table.class, parameters =\"${tableTitle}\") ")
     private void byAddingATableDecoratorOnFixture(String tableTitle) throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), TableDecoratorSample.class);
-        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources);
     }
 
     @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnFixtures(String name) throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), FixtureGroupDecoratorSample.class);
-        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources);
     }
 
     private void fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
@@ -157,7 +157,7 @@ public class UsingDecorator {
     @Text("By adding a style decorator with parameter ${style}  on a element: @Decorate(decorator = Style.class, parameters =\"${style}\") ")
     private void byAddingStyleDecoratorWithParameterOnAElement(String style) throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), StyleDecoratorSample.class);
-        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources);
     }
 
     @Text("The element targeted of the html report will have the css class ${style}")
@@ -182,7 +182,7 @@ public class UsingDecorator {
 
     private void byAddingBreadcrumbDecoratorOnUseCase() throws Exception {
         jUnitHelper = new JUnitHelper(this.getClass(), BreadcrumbDecoratorSample.class);
-        displayableResources = new DisplayableResources("parent user story", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("parent user story", jUnitHelper.displayResources);
     }
 
     private void aBreadcrumbsIsAddedAfterTitle() throws Exception {
@@ -191,14 +191,14 @@ public class UsingDecorator {
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class);
-        displayableResources.add("child user story", jUnitHelper.displayResources());
+        displayableResources.add("child user story", jUnitHelper.displayResources);
         breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(2, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
         Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class);
-        displayableResources.add("little child user story", jUnitHelper.displayResources());
+        displayableResources.add("little child user story", jUnitHelper.displayResources);
         breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
@@ -216,7 +216,7 @@ public class UsingDecorator {
 
     private void byAddingTableOfContentDecoratorOnUseCase() throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), TocDecoratorSample.class);
-        displayableResources = new DisplayableResources("", jUnitHelper.displayResources());
+        displayableResources = new DisplayableResources("", jUnitHelper.displayResources);
     }
 
     private void aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories() throws Exception {

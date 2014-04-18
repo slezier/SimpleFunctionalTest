@@ -131,7 +131,7 @@ public class CommonUsage {
 
     @Text("When invoking JUnit")
     private void whenInvokingJUnit() {
-        sftResources = functionalTest.displayResources();
+        sftResources = functionalTest.displayResources;
         sftCss= new CssParser();
     }
 

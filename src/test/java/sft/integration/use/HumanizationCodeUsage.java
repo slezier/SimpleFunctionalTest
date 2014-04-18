@@ -25,11 +25,7 @@ import java.io.IOException;
 public class HumanizationCodeUsage {
 
     @Displayable
-    private SftResources sftResources1;
-    @Displayable
-    private SftResources sftResources2;
-    @Displayable
-    private SftResources sftResources3;
+    private SftResources sftResources;
 
     @Test
     public void namingInCamelCase() throws IOException {
@@ -46,7 +42,7 @@ public class HumanizationCodeUsage {
 
     private void allCaseChangesAreReplacedBySpaces() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationCamelCaseClassNameHumanized.class);
-        sftResources1 =functionalTest.displayResources();
+        sftResources =functionalTest.displayResources;
         Assert.assertEquals("Humanization camel case class name humanized", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Camel case scenario name humanized", functionalTest.html.select("*.scenarioName").text());
         Assert.assertEquals("Camel case fixture name humanized", functionalTest.html.select("*.instruction").text());
@@ -54,7 +50,7 @@ public class HumanizationCodeUsage {
 
     private void underscoreAreReplacedBySpace() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),Humanization_underscore_class_name_humanized.class);
-        sftResources2 =functionalTest.displayResources();
+        sftResources =functionalTest.displayResources;
         Assert.assertEquals("Humanization underscore class name humanized", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Underscore scenario name humanized", functionalTest.html.select("*.scenarioName").text());
         Assert.assertEquals("Underscore fixture name humanized", functionalTest.html.select("*.instruction").text());
@@ -62,7 +58,7 @@ public class HumanizationCodeUsage {
 
     private void textsAreDisplayedUnchanged() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationUsingTextAnnotation.class);
-        sftResources3 =functionalTest.displayResources();
+        sftResources =functionalTest.displayResources;
         Assert.assertEquals("Use case name specified in @Text", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Scenario name specified in @Text", functionalTest.html.select("*.scenarioName").text());
         Assert.assertEquals("Fixture name specified in @Text", functionalTest.html.select("*.instruction").text());
