@@ -19,6 +19,7 @@ import sft.Scenario;
 import sft.UseCase;
 import sft.decorators.Decorator;
 import sft.decorators.NullDecorator;
+import sft.report.decorators.HtmlBreadcrumb;
 import sft.result.ContextResult;
 import sft.result.FixtureCallResult;
 import sft.result.Issue;
@@ -167,6 +168,11 @@ public class HtmlReport extends Report {
             super.setReportPath(reportPath);
             configuration.setTargetPath(reportPath);
         }
+    }
+
+    @Override
+    public Decorator getDecoratorImplementation(Decorator decorator) {
+        return  new HtmlBreadcrumb(decorator);
     }
 
     @Override

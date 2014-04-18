@@ -27,6 +27,10 @@ public class HtmlBreadcrumb extends Breadcrumb {
 
     private DefaultConfiguration configuration;
 
+    public HtmlBreadcrumb(Decorator decorator) {
+        configuration = ((Breadcrumb)decorator).configuration;
+    }
+
     @Override
     public Decorator withParameters(String... parameters) {
         return this;

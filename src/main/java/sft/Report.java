@@ -10,6 +10,8 @@
  *******************************************************************************/
 package sft;
 
+import sft.decorators.Decorator;
+
 public abstract class Report {
 
     private String resourcePath;
@@ -30,4 +32,6 @@ public abstract class Report {
     public void setReportPath(String reportPath) {
         this.reportPath = reportPath;
     }
+
+    public abstract Decorator getDecoratorImplementation(Decorator decorator);
 }

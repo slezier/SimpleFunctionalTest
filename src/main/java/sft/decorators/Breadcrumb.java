@@ -10,11 +10,7 @@
  *******************************************************************************/
 package sft.decorators;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
-import sft.UseCase;
-import sft.report.RelativeHtmlPathResolver;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
@@ -22,7 +18,7 @@ import java.util.List;
 
 public class Breadcrumb implements Decorator {
 
-    private DefaultConfiguration configuration;
+    public DefaultConfiguration configuration;
 
     @Override
     public Decorator withParameters(String... parameters) {
@@ -37,25 +33,7 @@ public class Breadcrumb implements Decorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
-        final Document parse = Jsoup.parse(result);
-        parse.select(".page-header .text-center").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCaseResult.useCase,useCaseResult.useCase) + "</ol>");
-        return parse.toString();
-    }
-
-    private String printFirstUseCase(UseCase initialUseCase,UseCase useCaseToBreadcrumb) {
-        String result = "";
-        if (useCaseToBreadcrumb.parent != null) {
-            result = printFirstUseCase(initialUseCase,useCaseToBreadcrumb.parent);
-        }
-        if(initialUseCase == useCaseToBreadcrumb){
-            return result + "<li class=\"active\">" + useCaseToBreadcrumb.getName() + "</li>";
-        }else{
-            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport().pathResolver;
-            final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
-            final String target = relativeHtmlPathResolver.getPathOf(useCaseToBreadcrumb.classUnderTest, ".html");
-            final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
-            return result + "<li><a href=\"" +pathToUseCaseToBreadcrumb+ "\">" + useCaseToBreadcrumb.getName() + "</a></li>";
-        }
+        return this.configuration.getReport().getDecoratorImplementation(this).applyOnUseCase(useCaseResult, result);
     }
 
     @Override
@@ -65,7 +43,7 @@ public class Breadcrumb implements Decorator {
 
     @Override
     public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
-        throw new RuntimeException("Breadcrumb can't be apply on scenario");
+        throw new RuntimeException("Breadcrumb can't be apply on fixture");
     }
 
     @Override
