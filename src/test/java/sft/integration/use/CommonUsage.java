@@ -50,7 +50,6 @@ import static org.junit.Assert.assertThat;
 @Text("Common usage: writing Use Cases")
 public class CommonUsage {
 
-    private static final String FIRST_HTML_REPORT_PATH = "target/sft-result/sft/integration/use/sut/YourFirstFunctionalTest.html";
     private CssParser sftCss;
 
     private JUnitHelper functionalTest;
@@ -116,18 +115,18 @@ public class CommonUsage {
 
     @Text("With a JUnit test class annotated with @Ignore")
     private void withAJUnitTestClassIgnored() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),FunctionalTestIgnored.class, "target/sft-result/sft/integration/use/sut/FunctionalTestIgnored.html");
+        functionalTest = new JUnitHelper(this.getClass(),FunctionalTestIgnored.class);
     }
 
 
     @Text("Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)")
     private void createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),YourFirstFunctionalTest.class, FIRST_HTML_REPORT_PATH);
+        functionalTest = new JUnitHelper(this.getClass(),YourFirstFunctionalTest.class);
     }
 
     @Text("With a JUnit test class expecting failure")
     private void withAJUnitTestClassExpectingFailure() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),WhenFunctionalTestFailed.class, "target/sft-result/sft/integration/use/sut/WhenFunctionalTestFailed.html");
+        functionalTest = new JUnitHelper(this.getClass(),WhenFunctionalTestFailed.class);
     }
 
     @Text("When invoking JUnit")
@@ -137,7 +136,7 @@ public class CommonUsage {
     }
 
     private void thenAnHtmlFileIsGeneratedUsingTheFullyQualifiedClassNameAsPath() throws IOException {
-        TestFileSystem.filesExists(FIRST_HTML_REPORT_PATH);
+        TestFileSystem.filesExists("target/sft-result/sft/integration/use/sut/YourFirstFunctionalTest.html");
     }
 
     private void successfulUseCaseScenarioAndFixtureCallAreDisplayedWithEndingGreenCheckMark() throws IOException {

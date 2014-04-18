@@ -13,12 +13,12 @@ public class JUnitHelper {
     private final Class caller;
     public final Document html;
 
-    public JUnitHelper(Class caller,Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
+    public JUnitHelper(Class caller, Class functionalTestClass) throws IOException {
         this.caller = caller;
         this.functionalTestClass = functionalTestClass;
         new JUnitCore().run(functionalTestClass);
-        TestFileSystem.filesExists(expectedPathToHtmlResultFile);
-        html = Jsoup.parse(new File(expectedPathToHtmlResultFile), "UTF-8", "http://example.com/");
+        String pathFromClass = TestFileSystem.createFilePathFromClassAndEnsureItExists(functionalTestClass);
+        html = Jsoup.parse(new File(pathFromClass), "UTF-8", "http://example.com/");
     }
 
     public SftResources displayResources() {

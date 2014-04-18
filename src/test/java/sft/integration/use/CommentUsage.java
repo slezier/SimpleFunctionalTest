@@ -38,7 +38,7 @@ public class CommentUsage {
     }
 
     private void runCommentUsageTest() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class, "target/sft-result/sft/integration/use/sut/CommentUsage.html");
+        functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class);
         sftResources = functionalTest.displayResources();
     }
 

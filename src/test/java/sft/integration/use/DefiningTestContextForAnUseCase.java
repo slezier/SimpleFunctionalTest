@@ -98,7 +98,7 @@ public class DefiningTestContextForAnUseCase {
 
     private void whenAnErrorOccursWhenTerminatingAnUseCaseContext() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenTerminatingAnUseCaseContext.html");
+        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class);
         sftResources = functionalTest.displayResources();
     }
 
@@ -109,7 +109,7 @@ public class DefiningTestContextForAnUseCase {
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
+        functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class);
         sftResources = functionalTest.displayResources();
 
     }
@@ -135,7 +135,7 @@ public class DefiningTestContextForAnUseCase {
     }
 
     private void whenAnErrorOccursWhenRaisingAnUseCaseContext() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenRaisingAnUseCaseContext.html");
+        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class);
         sftResources = functionalTest.displayResources();
         cssParser = new CssParser();
     }

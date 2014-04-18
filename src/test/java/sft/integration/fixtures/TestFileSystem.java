@@ -11,4 +11,10 @@ public class TestFileSystem {
             Assert.assertTrue("Missing file " + fileToCheck, new File(fileToCheck).exists());
         }
     }
+
+    public static String createFilePathFromClassAndEnsureItExists(Class useCaseClass) {
+        String pathToFile = "target/sft-result/" + useCaseClass.getCanonicalName().replace('.', '/') + ".html";
+        filesExists(pathToFile);
+        return pathToFile;
+    }
 }

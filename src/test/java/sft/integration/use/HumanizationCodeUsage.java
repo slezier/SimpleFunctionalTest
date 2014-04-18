@@ -45,7 +45,7 @@ public class HumanizationCodeUsage {
     }
 
     private void allCaseChangesAreReplacedBySpaces() throws IOException {
-        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationCamelCaseClassNameHumanized.class,"target/sft-result/sft/integration/use/sut/HumanizationCamelCaseClassNameHumanized.html");
+        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationCamelCaseClassNameHumanized.class);
         sftResources1 =functionalTest.displayResources();
         Assert.assertEquals("Humanization camel case class name humanized", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Camel case scenario name humanized", functionalTest.html.select("*.scenarioName").text());
@@ -53,7 +53,7 @@ public class HumanizationCodeUsage {
     }
 
     private void underscoreAreReplacedBySpace() throws IOException {
-        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),Humanization_underscore_class_name_humanized.class,"target/sft-result/sft/integration/use/sut/Humanization_underscore_class_name_humanized.html");
+        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),Humanization_underscore_class_name_humanized.class);
         sftResources2 =functionalTest.displayResources();
         Assert.assertEquals("Humanization underscore class name humanized", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Underscore scenario name humanized", functionalTest.html.select("*.scenarioName").text());
@@ -61,7 +61,7 @@ public class HumanizationCodeUsage {
     }
 
     private void textsAreDisplayedUnchanged() throws IOException {
-        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationUsingTextAnnotation.class,"target/sft-result/sft/integration/use/sut/HumanizationUsingTextAnnotation.html");
+        JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationUsingTextAnnotation.class);
         sftResources3 =functionalTest.displayResources();
         Assert.assertEquals("Use case name specified in @Text", functionalTest.html.select("*.useCaseName").text());
         Assert.assertEquals("Scenario name specified in @Text", functionalTest.html.select("*.scenarioName").text());
