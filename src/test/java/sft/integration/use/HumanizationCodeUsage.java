@@ -47,27 +47,25 @@ public class HumanizationCodeUsage {
     private void allCaseChangesAreReplacedBySpaces() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationCamelCaseClassNameHumanized.class,"target/sft-result/sft/integration/use/sut/HumanizationCamelCaseClassNameHumanized.html");
         sftResources1 =functionalTest.displayResources();
-        functionalTest.getHtmlReport();
-        Assert.assertEquals("Humanization camel case class name humanized", functionalTest.getHtmlReport().select("*.useCaseName").text());
-        Assert.assertEquals("Camel case scenario name humanized", functionalTest.getHtmlReport().select("*.scenarioName").text());
-        Assert.assertEquals("Camel case fixture name humanized", functionalTest.getHtmlReport().select("*.instruction").text());
+        Assert.assertEquals("Humanization camel case class name humanized", functionalTest.html.select("*.useCaseName").text());
+        Assert.assertEquals("Camel case scenario name humanized", functionalTest.html.select("*.scenarioName").text());
+        Assert.assertEquals("Camel case fixture name humanized", functionalTest.html.select("*.instruction").text());
     }
 
     private void underscoreAreReplacedBySpace() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),Humanization_underscore_class_name_humanized.class,"target/sft-result/sft/integration/use/sut/Humanization_underscore_class_name_humanized.html");
         sftResources2 =functionalTest.displayResources();
-        functionalTest.getHtmlReport();
-        Assert.assertEquals("Humanization underscore class name humanized", functionalTest.getHtmlReport().select("*.useCaseName").text());
-        Assert.assertEquals("Underscore scenario name humanized", functionalTest.getHtmlReport().select("*.scenarioName").text());
-        Assert.assertEquals("Underscore fixture name humanized", functionalTest.getHtmlReport().select("*.instruction").text());
+        Assert.assertEquals("Humanization underscore class name humanized", functionalTest.html.select("*.useCaseName").text());
+        Assert.assertEquals("Underscore scenario name humanized", functionalTest.html.select("*.scenarioName").text());
+        Assert.assertEquals("Underscore fixture name humanized", functionalTest.html.select("*.instruction").text());
     }
 
     private void textsAreDisplayedUnchanged() throws IOException {
         JUnitHelper functionalTest = new JUnitHelper(this.getClass(),HumanizationUsingTextAnnotation.class,"target/sft-result/sft/integration/use/sut/HumanizationUsingTextAnnotation.html");
         sftResources3 =functionalTest.displayResources();
-        Assert.assertEquals("Use case name specified in @Text", functionalTest.getHtmlReport().select("*.useCaseName").text());
-        Assert.assertEquals("Scenario name specified in @Text", functionalTest.getHtmlReport().select("*.scenarioName").text());
-        Assert.assertEquals("Fixture name specified in @Text", functionalTest.getHtmlReport().select("*.instruction").text());
+        Assert.assertEquals("Use case name specified in @Text", functionalTest.html.select("*.useCaseName").text());
+        Assert.assertEquals("Scenario name specified in @Text", functionalTest.html.select("*.scenarioName").text());
+        Assert.assertEquals("Fixture name specified in @Text", functionalTest.html.select("*.instruction").text());
     }
 
 

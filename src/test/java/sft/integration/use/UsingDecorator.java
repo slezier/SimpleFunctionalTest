@@ -79,7 +79,7 @@ public class UsingDecorator {
     }
 
     private void relatedUseCaseWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
-        final Elements useCaseGroup = jUnitHelper.getHtmlReport().select("div.relatedUseCases");
+        final Elements useCaseGroup = jUnitHelper.html.select("div.relatedUseCases");
         Assert.assertEquals(2, useCaseGroup.size());
         Assert.assertEquals(name, useCaseGroup.get(0).select("h4").text());
         Assert.assertEquals(2, useCaseGroup.get(0).select("relatedUseCase").size());
@@ -93,8 +93,7 @@ public class UsingDecorator {
     }
 
     private void theIssueOfEachFixtureCallsIsAddedAtEachRow() throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements raws = htmlReport.select("div.panel-body > table > tbody > tr ");
+        Elements raws = jUnitHelper.html.select("div.panel-body > table > tbody > tr ");
         Assert.assertTrue(raws.get(0).select("td").get(3).hasClass("succeeded"));
         Assert.assertTrue(raws.get(1).select("td").get(3).hasClass("succeeded"));
         Assert.assertTrue(raws.get(2).select("td").get(3).hasClass("failed"));
@@ -102,8 +101,7 @@ public class UsingDecorator {
     }
 
     private void columnHeaderAreFieldNames() throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements columnHeaders = htmlReport.select("div.panel-body > table > thead > tr > th");
+        Elements columnHeaders = jUnitHelper.html.select("div.panel-body > table > thead > tr > th");
         Assert.assertEquals(4, columnHeaders.size());
         Assert.assertEquals("first", columnHeaders.get(0).text());
         Assert.assertEquals("second", columnHeaders.get(1).text());
@@ -112,8 +110,7 @@ public class UsingDecorator {
     }
 
     private void eachValuesAreDisplayed() throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements raws = htmlReport.select("div.panel-body > table > tbody > tr ");
+        Elements raws = jUnitHelper.html.select("div.panel-body > table > tbody > tr ");
         Assert.assertEquals(4, raws.size());
         Assert.assertEquals("1", raws.get(0).select("td").get(0).text());
         Assert.assertEquals("1", raws.get(0).select("td").get(1).text());
@@ -126,14 +123,12 @@ public class UsingDecorator {
 
     @Text("The table title is ${tableTitle} ")
     private void tableTitleIs(String tableTitle) throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements title = htmlReport.select("div.panel-body > table > caption");
+        Elements title = jUnitHelper.html.select("div.panel-body > table > caption");
         Assert.assertEquals(tableTitle,title.text());
     }
 
     private void fixturesCallAreAggregatedInATable() throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements table = htmlReport.select("div.panel-body > table");
+        Elements table = jUnitHelper.html.select("div.panel-body > table");
         Assert.assertEquals(1, table.size());
         Elements rows = table.select(" tbody > tr");
         Assert.assertEquals(4, rows.size());
@@ -152,7 +147,7 @@ public class UsingDecorator {
     }
 
     private void fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
-        final Elements groups = jUnitHelper.getHtmlReport().select("div.panel-body > div");
+        final Elements groups = jUnitHelper.html.select("div.panel-body > div");
         Assert.assertEquals(3,groups.size());
         Assert.assertEquals(name,groups.get(1).select("h4").text());
         Assert.assertEquals("I ask something",groups.get(1).select("*.instruction").get(0).text());
@@ -167,19 +162,19 @@ public class UsingDecorator {
 
     @Text("The element targeted of the html report will have the css class ${style}")
     private void theElementWillHaveTheCssClass(String style) throws Exception {
-        Assert.assertTrue("Expecting class " + style + " in body", jUnitHelper.getHtmlReport().select("body.useCase").hasClass(style));
+        Assert.assertTrue("Expecting class " + style + " in body", jUnitHelper.html.select("body.useCase").hasClass(style));
     }
 
     @Text("Several style can be used together @Decorate(decorator = Style.class, parameters ={\"${style1}\",\"${style2}\",\"${style3}\"}) ")
     private void severalStylesCanBeSpecified(String style1, String style2, String style3) throws Exception {
-        final Elements select = jUnitHelper.getHtmlReport().select("div.scenario");
+        final Elements select = jUnitHelper.html.select("div.scenario");
         Assert.assertTrue("Expecting class " + style1 + " in scenario div", select.hasClass(style1));
         Assert.assertTrue("Expecting class " + style2 + " in scenario div", select.hasClass(style2));
         Assert.assertTrue("Expecting class " + style3 + " in scenario div", select.hasClass(style3));
     }
 
     private void theStyleDecoratorCanBeApplyOnUseCaseScenarioAndFixture() throws Exception {
-        final Document htmlReport = jUnitHelper.getHtmlReport();
+        final Document htmlReport = jUnitHelper.html;
         Assert.assertTrue("Expecting class style in body", htmlReport.select("body.useCase").hasClass("style"));
         Assert.assertTrue("Expecting class style1 in scenario div", htmlReport.select("div.scenario").hasClass("style1"));
         Assert.assertTrue("Expecting class style4 in instruction div", htmlReport.select("div.instruction").hasClass("style4"));
@@ -191,20 +186,20 @@ public class UsingDecorator {
     }
 
     private void aBreadcrumbsIsAddedAfterTitle() throws Exception {
-        Elements breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
+        Elements breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(1, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/decorators/subUseCase/SubUseCaseBreadcrumb.html");
         displayableResources.add("child user story", jUnitHelper.displayResources());
-        breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
+        breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(2, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
         Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
 
         jUnitHelper = new JUnitHelper(this.getClass(), SubSubUseCaseBreadcrumb.class, "target/sft-result/sft/integration/use/sut/decorators/subUseCase/SubSubUseCaseBreadcrumb.html");
         displayableResources.add("little child user story", jUnitHelper.displayResources());
-        breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
+        breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
         Assert.assertEquals("Breadcrumb decorator sample", breadcrumbs.select("li").get(0).text());
         Assert.assertEquals("Sub use case breadcrumb", breadcrumbs.select("li").get(1).text());
@@ -212,7 +207,7 @@ public class UsingDecorator {
     }
 
     private void byClickingOnTheDifferentBreacrumbWeAccessTheGivenUseStory() throws Exception {
-        final Elements breadcrumbs = jUnitHelper.getHtmlReport().select("ol.breadcrumb");
+        final Elements breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
         Assert.assertEquals("../BreadcrumbDecoratorSample.html", breadcrumbs.select("li").get(0).select("a").attr("href"));
         Assert.assertEquals("SubUseCaseBreadcrumb.html", breadcrumbs.select("li").get(1).select("a").attr("href"));
@@ -225,7 +220,7 @@ public class UsingDecorator {
     }
 
     private void aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories() throws Exception {
-        Elements elementsLevel1 = jUnitHelper.getHtmlReport().select("div.toc > ol > li");
+        Elements elementsLevel1 = jUnitHelper.html.select("div.toc > ol > li");
         Assert.assertEquals(3, elementsLevel1.size());
 
         assertTocElement(elementsLevel1.get(0), "succeeded", "Sub use case toc 1", "subUseCase/SubUseCaseToc1.html");

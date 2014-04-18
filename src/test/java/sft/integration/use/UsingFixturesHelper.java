@@ -1,6 +1,5 @@
 package sft.integration.use;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,8 +52,7 @@ public class UsingFixturesHelper {
     }
 
     private void thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn() throws IOException {
-        Document htmlReport = jUnitHelper.getHtmlReport();
-        Elements  delegatedFixtureCall = htmlReport.select("div.instruction span");
+        Elements  delegatedFixtureCall = jUnitHelper.html.select("div.instruction span");
         Assert.assertEquals("First fixture",delegatedFixtureCall.get(0).text());
         Assert.assertEquals("Second fixture with parameter ABCDEFGHIJKLMNOPQRSTUVWXYZ and 99",delegatedFixtureCall.get(1).text());
     }

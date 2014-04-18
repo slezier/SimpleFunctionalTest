@@ -14,7 +14,7 @@ public class JUnitHelper {
     private final String expectedPathToHtmlResultFile;
     private final Class caller;
     public final Result result;
-    private Document html;
+    public final Document html;
 
     public JUnitHelper(Class functionalTestClass, String expectedPathToHtmlResultFile) throws IOException {
         this( null, functionalTestClass, expectedPathToHtmlResultFile);
@@ -28,10 +28,6 @@ public class JUnitHelper {
         result= core.run(functionalTestClass);
         TestFileSystem.filesExists(expectedPathToHtmlResultFile);
         html = Jsoup.parse(new File(expectedPathToHtmlResultFile), "UTF-8", "http://example.com/");
-    }
-
-    public Document getHtmlReport() throws IOException {
-        return html;
     }
 
     public SftResources displayResources() {

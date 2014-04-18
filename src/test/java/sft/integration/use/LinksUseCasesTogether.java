@@ -71,7 +71,7 @@ public class LinksUseCasesTogether {
     }
 
     private void thenTheHtmlFilePresentLinksToRelatedUseCasesAsListItemInTheLastSection() throws IOException {
-        relatedUseCases = functionalTest.getHtmlReport().select("*.relatedUseCase");
+        relatedUseCases = functionalTest.html.select("*.relatedUseCase");
         Assert.assertEquals(3,relatedUseCases.size());
         Assert.assertEquals("subUseCase/SubUseCaseSucceeded.html",relatedUseCases.get(0).select("a").first().attr("href"));
         Assert.assertEquals("subUseCase/SubUseCaseFailed.html",relatedUseCases.get(1).select("a").first().attr("href"));

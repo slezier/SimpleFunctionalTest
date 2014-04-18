@@ -1,6 +1,5 @@
 package sft.integration.use;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
@@ -12,9 +11,9 @@ import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.TestFileSystem;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.TestFileSystem;
 import sft.integration.use.sut.FunctionalTestIgnored;
 import sft.integration.use.sut.WhenFunctionalTestFailed;
 import sft.integration.use.sut.YourFirstFunctionalTest;
@@ -55,7 +54,6 @@ public class CommonUsage {
     private CssParser sftCss;
 
     private JUnitHelper functionalTest;
-    private Document html;
 
     @Displayable
     private SftResources sftResources;
@@ -65,11 +63,9 @@ public class CommonUsage {
         createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest();
         whenInvokingJUnit();
 
-        thenTheFullyQualifiedClassNameIsConvertedIntoPahToHtmlFile();
+        thenAnHtmlFileIsGeneratedUsingTheFullyQualifiedClassNameAsPath();
 
-        theFunctionalTestResultIsDisplayInHtml();
-
-        classNameIsHumanizedAsUseCaseTitle();
+        thenClassNameIsHumanizedAsUseCaseTitle();
         testMethodIsHumanizedAsScenarioSection();
         innerMethodCallIsHumanizedAsFixtureCall();
 
@@ -81,11 +77,10 @@ public class CommonUsage {
     @Test
     public void whenFunctionalTestFailed() throws Exception {
         withAJUnitTestClassExpectingFailure();
+
         whenInvokingJUnit();
 
-        thenTheHtmlFilePresentFailures();
-
-        failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark();
+        thenFailedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark();
         fixtureCallsAreGreenUntilFailedFixturesThenYellow();
         failedScenarioSectionAreAlsoDisplayWithRedBackgroundAndWithErrorStackTrace();
     }
@@ -96,16 +91,13 @@ public class CommonUsage {
 
         whenInvokingJUnit();
 
-        thenTheHtmlFilePresentUseCaseIgnored();
-
-
-        ignoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark();
+        thenIgnoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark();
         ignoredScenarioSectionAreAlsoDisplayWithYellowBackground();
     }
 
-    private void ignoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark() throws IOException {
-        Assert.assertTrue("Use case without class 'ignored'", html.select("body").hasClass("ignored"));
-        Elements scenarios = html.select("div.scenario");
+    private void thenIgnoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark() throws IOException {
+        Assert.assertTrue("Use case without class 'ignored'", functionalTest.html.select("body").hasClass("ignored"));
+        Elements scenarios = functionalTest.html.select("div.scenario");
 
         Assert.assertTrue("Scenario without class 'ignored'", scenarios.get(0).hasClass("ignored"));
         Assert.assertTrue("Instruction without class 'ignored'", scenarios.get(0).select("div.instruction").get(0).hasClass("ignored"));
@@ -118,7 +110,7 @@ public class CommonUsage {
     }
 
     private void ignoredScenarioSectionAreAlsoDisplayWithYellowBackground() {
-        Assert.assertTrue("Scenario without class 'succeeded'", html.select("div.scenario").hasClass("ignored"));
+        Assert.assertTrue("Scenario without class 'succeeded'", functionalTest.html.select("div.scenario").hasClass("ignored"));
         Assert.assertEquals("rgb(255, 255, 163)", sftCss.get("*.scenario.ignored").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
@@ -144,26 +136,14 @@ public class CommonUsage {
         sftCss= new CssParser();
     }
 
-    private void thenTheFullyQualifiedClassNameIsConvertedIntoPahToHtmlFile() throws IOException {
+    private void thenAnHtmlFileIsGeneratedUsingTheFullyQualifiedClassNameAsPath() throws IOException {
         TestFileSystem.filesExists(FIRST_HTML_REPORT_PATH);
     }
 
-    private void thenTheHtmlFilePresentFailures() throws Exception {
-        html = functionalTest.getHtmlReport();
-    }
-
-    private void thenTheHtmlFilePresentUseCaseIgnored() throws Exception {
-        html = functionalTest.getHtmlReport();
-    }
-
-    private void theFunctionalTestResultIsDisplayInHtml() throws Exception {
-        html = functionalTest.getHtmlReport();
-    }
-
     private void successfulUseCaseScenarioAndFixtureCallAreDisplayedWithEndingGreenCheckMark() throws IOException {
-        Assert.assertTrue("Use case without class 'succeeded'", html.select("*.useCase").get(0).hasClass("succeeded"));
-        Assert.assertTrue("Scenario without class 'succeeded'", html.select("*.scenario").get(0).hasClass("succeeded"));
-        Assert.assertTrue("Fixture without class 'succeeded'", html.select("*.instruction").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Use case without class 'succeeded'", functionalTest.html.select("*.useCase").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Scenario without class 'succeeded'", functionalTest.html.select("*.scenario").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Fixture without class 'succeeded'", functionalTest.html.select("*.instruction").get(0).hasClass("succeeded"));
 
         Assert.assertEquals("url(success_32.png)", sftCss.get("*.useCase.succeeded *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(success_24.png)", sftCss.get("*.scenario.succeeded *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
@@ -173,9 +153,9 @@ public class CommonUsage {
         TestFileSystem.filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
     }
 
-    private void failedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
-        Assert.assertTrue("Use case without class 'failed'", html.select("body").hasClass("failed"));
-        Assert.assertTrue("Scenario without class 'failed'", html.select("div.scenario").hasClass("failed"));
+    private void thenFailedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
+        Assert.assertTrue("Use case without class 'failed'", functionalTest.html.select("body").hasClass("failed"));
+        Assert.assertTrue("Scenario without class 'failed'", functionalTest.html.select("div.scenario").hasClass("failed"));
 
         Assert.assertEquals("url(failed_32.png)", sftCss.get("*.useCase.failed *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
@@ -185,8 +165,8 @@ public class CommonUsage {
 
     @Text("Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.")
     private void fixtureCallsAreGreenUntilFailedFixturesThenYellow() throws IOException {
-        Assert.assertTrue("Use case without class 'failed'", html.select("body").hasClass("failed"));
-        Elements scenarios = html.select("div.scenario");
+        Assert.assertTrue("Use case without class 'failed'", functionalTest.html.select("body").hasClass("failed"));
+        Elements scenarios = functionalTest.html.select("div.scenario");
 
         Assert.assertTrue("Scenario without class 'failed'", scenarios.get(0).hasClass("failed"));
         Assert.assertTrue("Instruction without class 'succeeded'", scenarios.get(0).select("*.instruction").get(0).hasClass("succeeded"));
@@ -206,13 +186,13 @@ public class CommonUsage {
     }
 
     private void successfulScenarioSectionAreAlsoDisplayWithGreenBackground() {
-        Assert.assertTrue("Scenario without class 'succeeded'", html.select("div.scenario").hasClass("succeeded"));
+        Assert.assertTrue("Scenario without class 'succeeded'", functionalTest.html.select("div.scenario").hasClass("succeeded"));
         Assert.assertEquals("rgb(224, 255, 209)", sftCss.get("*.scenario.succeeded").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
 
     private void failedScenarioSectionAreAlsoDisplayWithRedBackgroundAndWithErrorStackTrace() {
-        Elements scenarios = html.select("div.scenario");
+        Elements scenarios = functionalTest.html.select("div.scenario");
         expectScenarioFailed(scenarios.get(0), "AssertionError: Condition failed");
         expectScenarioFailed(scenarios.get(1), "RuntimeException: Boom");
 
@@ -230,17 +210,17 @@ public class CommonUsage {
         Assert.assertFalse("StackTrace is empty", stackTrace.text().trim().isEmpty());
     }
 
-    private void classNameIsHumanizedAsUseCaseTitle() {
-        assertThat(html.title(), is("Your first functional test"));
-        assertThat(html.select("html body h1 span").text(), is("Your first functional test"));
+    private void thenClassNameIsHumanizedAsUseCaseTitle() {
+        assertThat(functionalTest.html.title(), is("Your first functional test"));
+        assertThat(functionalTest.html.select("html body h1 span").text(), is("Your first functional test"));
     }
 
     private void testMethodIsHumanizedAsScenarioSection() {
-        assertThat(html.select("*.scenario *.scenarioName").text(), is("Public method"));
+        assertThat(functionalTest.html.select("*.scenario *.scenarioName").text(), is("Public method"));
     }
 
     private void innerMethodCallIsHumanizedAsFixtureCall() {
-        assertThat(html.select("*.scenario *.instruction span").text(), is("Fixture call"));
+        assertThat(functionalTest.html.select("*.scenario *.instruction span").text(), is("Fixture call"));
     }
 
 }

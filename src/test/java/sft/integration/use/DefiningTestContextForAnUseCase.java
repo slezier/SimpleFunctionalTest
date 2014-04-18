@@ -1,6 +1,5 @@
 package sft.integration.use;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,6 @@ Context could be defined and handle for the whole use case
 public class DefiningTestContextForAnUseCase {
 
     private JUnitHelper functionalTest;
-    private Document html;
     private CssParser cssParser;
 
     @Displayable
@@ -64,37 +62,37 @@ public class DefiningTestContextForAnUseCase {
     }
 
     private void stackTraceIsDisplayedAtUseCaseEnd() {
-        Elements teardDown = html.select("*.afterUseCase > div");
+        Elements teardDown = functionalTest.html.select("*.afterUseCase > div");
         assertEquals(2,teardDown.size());
         assertNotNull(teardDown.get(1).select("*.exception"));
     }
 
     private void stackTraceIsDisplayedAtUseCaseStart() {
-        Elements setup = html.select("*.beforeUseCase > div");
+        Elements setup = functionalTest.html.select("*.beforeUseCase > div");
         assertEquals(2, setup.size());
         assertNotNull(setup.get(1).select("*.exception"));
     }
 
     private void theUseCaseIsSeenAsFailed() {
-        assertTrue(html.select("*.useCase").get(0).hasClass("failed"));
+        assertTrue(functionalTest.html.select("*.useCase").get(0).hasClass("failed"));
     }
 
     private void theUseCaseContextTerminationIsIgnoredAndShownInYellow() {
-        assertTrue(html.select("*.afterUseCase").hasClass("ignored"));
+        assertTrue(functionalTest.html.select("*.afterUseCase").hasClass("ignored"));
         assertEquals("rgb(255, 255, 163)", cssParser.get("*.afterUseCase.ignored").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
     private void allScenariosAreIgnored() {
-        assertTrue(html.select("*.scenario").hasClass("ignored"));
+        assertTrue(functionalTest.html.select("*.scenario").hasClass("ignored"));
     }
 
     private void theFailedContextIsShowInRed() {
-        assertTrue(html.select("*.beforeUseCase").hasClass("failed"));
+        assertTrue(functionalTest.html.select("*.beforeUseCase").hasClass("failed"));
         assertEquals("rgb(255, 194, 194)", cssParser.get("*.beforeUseCase.failed").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
     private void theTerminatingFailedContextIsShowInRed() {
-        assertTrue(html.select("*.afterUseCase").hasClass("failed"));
+        assertTrue(functionalTest.html.select("*.afterUseCase").hasClass("failed"));
         assertEquals("rgb(255, 194, 194)", cssParser.get("*.afterUseCase.failed").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
@@ -102,12 +100,10 @@ public class DefiningTestContextForAnUseCase {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenTerminatingAnUseCaseContext.html");
         sftResources = functionalTest.displayResources();
-
-        html = functionalTest.getHtmlReport();
     }
 
     private void allScenariosAreRan() {
-        assertTrue(html.select("*.scenario").hasClass("succeeded"));
+        assertTrue(functionalTest.html.select("*.scenario").hasClass("succeeded"));
     }
 
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
@@ -116,7 +112,6 @@ public class DefiningTestContextForAnUseCase {
         functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
         sftResources = functionalTest.displayResources();
 
-        html = functionalTest.getHtmlReport();
     }
 
     private void theContextInstantiationIsRunOnceBeforeAllScenariosAndTheContextFinalizationIsRunOnceAfterAllScenarios() {
@@ -131,7 +126,7 @@ public class DefiningTestContextForAnUseCase {
     }
 
     private void finallyTheContextInstantiationIsDisplayedInAParagraphBeforeAllScenariosAndTheContextFinalizationIsDisplayedInAnotherParagraphBeforeAllScenarios() {
-        Elements useCaseElements = html.select("*.useCase *.container > div");
+        Elements useCaseElements = functionalTest.html.select("*.useCase *.container > div");
         assertTrue(useCaseElements.get(0).hasClass("page-header"));
         assertTrue(useCaseElements.get(1).hasClass("beforeUseCase"));
         assertTrue(useCaseElements.get(2).hasClass("scenario"));
@@ -142,7 +137,6 @@ public class DefiningTestContextForAnUseCase {
     private void whenAnErrorOccursWhenRaisingAnUseCaseContext() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenRaisingAnUseCaseContext.html");
         sftResources = functionalTest.displayResources();
-        html = functionalTest.getHtmlReport();
         cssParser = new CssParser();
     }
 

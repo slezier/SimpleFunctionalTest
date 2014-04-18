@@ -43,7 +43,7 @@ public class CommentUsage {
     }
 
     private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {
-        Assert.assertEquals("use case comment", functionalTest.getHtmlReport().select("*.comment").get(0).text());
+        Assert.assertEquals("use case comment", functionalTest.html.select("*.comment").get(0).text());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CommentUsage {
     }
 
     private void itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps() throws IOException {
-        Assert.assertEquals("scenario comment", functionalTest.getHtmlReport().select("*.scenario *.comment").text());
+        Assert.assertEquals("scenario comment", functionalTest.html.select("*.scenario *.comment").text());
     }
 
 }

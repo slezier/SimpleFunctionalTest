@@ -1,6 +1,5 @@
 package sft.integration.use;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
@@ -23,7 +22,6 @@ public class DisplayingTestContext {
 
     @Displayable
     private SftResources sftResources;
-    private Document html;
 
     @Test
     public void displayTestContextWithObjectsAnnotatedByDisplayable() throws IOException {
@@ -36,16 +34,15 @@ public class DisplayingTestContext {
     private void allPrivateObjectsAnnotatedByDisplayableShouldBeDysplayedAfterScenario() throws IOException {
         functionalTest = new JUnitHelper(this.getClass(),DisplayContext.class, "target/sft-result/sft/integration/use/sut/DisplayContext.html");
         sftResources = functionalTest.displayResources();
-        html = functionalTest.getHtmlReport();
     }
 
     private void displayableObjectsAreDisplayedOnlyIfThereAreNotNull() {
-        Element firstScenario = html.select("*.scenario").get(0);
+        Element firstScenario = functionalTest.html.select("*.scenario").get(0);
         Assert.assertTrue(firstScenario.select("*.displayableContext").isEmpty());
     }
 
     private void allDisplayableObjectsAreDisplayedAfterScenario() {
-        Element secondScenario = html.select("*.scenario").get(1);
+        Element secondScenario = functionalTest.html.select("*.scenario").get(1);
         Element contextDisplayed = secondScenario.select("*.displayableContext").get(0);
         Assert.assertNotNull("Missing displayableContext", contextDisplayed);
         Elements texts = contextDisplayed.select(">div");
@@ -54,7 +51,7 @@ public class DisplayingTestContext {
     }
 
     private void allDisplayableObjectsAreUnsetBetweenScenarios() {
-        Element thirdScenario = html.select("*.scenario").get(2);
+        Element thirdScenario = functionalTest.html.select("*.scenario").get(2);
 
         Element contextDisplayed = thirdScenario.select("*.displayableContext").get(0);
         Assert.assertNotNull("Missing displayableContext", contextDisplayed);

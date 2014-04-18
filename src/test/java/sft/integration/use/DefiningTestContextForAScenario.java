@@ -1,6 +1,5 @@
 package sft.integration.use;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,6 @@ Context could be defined and handle for each scenario
 public class DefiningTestContextForAScenario {
 
     private JUnitHelper functionalTest;
-    private Document html;
 
     @Displayable
     private SftResources sftResources;
@@ -60,7 +58,7 @@ public class DefiningTestContextForAScenario {
     }
 
     private void stackTraceIsDisplayedAtScenarioEnd() {
-        Elements scenarioPart = html.select("*.scenario *.panel-body");
+        Elements scenarioPart = functionalTest.html.select("*.scenario *.panel-body");
         assertEquals(4,scenarioPart.size());
         assertTrue(scenarioPart.get(0).hasClass("beforeScenario"));
         assertFalse(scenarioPart.get(1).select("*.instruction").isEmpty());
@@ -69,34 +67,30 @@ public class DefiningTestContextForAScenario {
     }
 
     private void allScenarioStepsAreRan() {
-        assertTrue(html.select("*.instruction").hasClass("succeeded"));
+        assertTrue(functionalTest.html.select("*.instruction").hasClass("succeeded"));
     }
 
     private void allScenarioStepsAreIgnored() {
-        assertTrue(html.select("*.instruction").hasClass("ignored"));
+        assertTrue(functionalTest.html.select("*.instruction").hasClass("ignored"));
     }
     private void theUseCaseIsSeenAsFailed() {
-        assertTrue(html.select("*.useCase").get(0).hasClass("failed"));
+        assertTrue(functionalTest.html.select("*.useCase").get(0).hasClass("failed"));
     }
 
     private void theFailedScenarioIsShowInRed() {
-        assertTrue(html.select("*.scenario").hasClass("failed"));
+        assertTrue(functionalTest.html.select("*.scenario").hasClass("failed"));
     }
 
     private void whenAnErrorOccursWhenRaisingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenRaisingScenario.html");
         sftResources = functionalTest.displayResources();
-
-        html = functionalTest.getHtmlReport();
     }
 
     private void whenAnErrorOccursWhenTerminatingAnScenarioContext() throws IOException {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingScenario.class, "target/sft-result/sft/integration/use/sut/ErrorOccursWhenTerminatingScenario.html");
         sftResources = functionalTest.displayResources();
-
-        html = functionalTest.getHtmlReport();
     }
 
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
@@ -104,12 +98,10 @@ public class DefiningTestContextForAScenario {
         getCallSequence().clear();
         functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class, "target/sft-result/sft/integration/use/sut/ContextInAction.html");
         sftResources = functionalTest.displayResources();
-
-        html = functionalTest.getHtmlReport();
     }
 
     private void finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario() {
-        Elements scenarioElements = html.select("*.useCase *.container *.scenario");
+        Elements scenarioElements = functionalTest.html.select("*.useCase *.container *.scenario");
         assertTrue(scenarioElements.get(0).select("> div").get(1).hasClass("beforeScenario"));
         assertTrue(scenarioElements.get(0).select("> div").get(3).hasClass("afterScenario"));
         assertTrue(scenarioElements.get(1).select("> div").get(1).hasClass("beforeScenario"));
