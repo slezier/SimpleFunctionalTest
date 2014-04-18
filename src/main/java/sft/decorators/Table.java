@@ -16,19 +16,7 @@ import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class Table implements Decorator {
-
-
-    private DefaultConfiguration configuration;
-    private String name;
-
-    @Override
-    public Decorator withParameters(String... parameters) {
-        if(parameters.length > 0){
-            name=parameters[0];
-        }
-        return this;
-    }
+public class Table extends Decorator {
 
     @Override
     public Decorator withConfiguration(DefaultConfiguration configuration) {
@@ -49,8 +37,8 @@ public class Table implements Decorator {
     @Override
     public String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts) {
         String result = "<table class='table'>";
-        if(name != null ){
-            result+="<caption>"+name+"</caption>";
+        if(getTitle() != null ){
+            result+="<caption>"+ getTitle()+"</caption>";
         }
 
 
@@ -73,6 +61,10 @@ public class Table implements Decorator {
         }
         result+="</tbody>";
         return result+"</table>";
+    }
+
+    private String getTitle(){
+        return parameters[0];
     }
 
     @Override

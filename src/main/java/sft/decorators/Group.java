@@ -10,31 +10,13 @@
  *******************************************************************************/
 package sft.decorators;
 
-import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
-public class Group implements Decorator {
-
-    private String name;
-    private DefaultConfiguration configuration;
-
-    @Override
-    public Decorator withParameters(String... parameters) {
-        if (parameters != null && parameters.length > 0) {
-            this.name = parameters[0];
-        }
-        return this;
-    }
-
-    @Override
-    public Decorator withConfiguration(DefaultConfiguration configuration) {
-        this.configuration = configuration;
-        return this;
-    }
+public class Group extends Decorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
@@ -52,8 +34,8 @@ public class Group implements Decorator {
             return "";
         }
         String result = "<div>";
-        if (name != null) {
-            result += "<h4 class='group'>" + name + "</h4>";
+        if (getName() != null) {
+            result += "<h4 class='group'>" + getName() + "</h4>";
         }
         for (String fixture : fixtures) {
             result += fixture;
@@ -66,9 +48,17 @@ public class Group implements Decorator {
         return other instanceof Group && this.toString().equals(other.toString());
     }
 
+    private String getName(){
+        if (parameters != null && parameters.length > 0) {
+            return parameters[0];
+        }else{
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
-        return "Group(" + name + ")";
+        return "Group(" + getName() + ")";
     }
 
 }

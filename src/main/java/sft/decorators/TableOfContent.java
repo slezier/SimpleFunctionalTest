@@ -12,7 +12,6 @@ package sft.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.FixtureCallResult;
@@ -21,21 +20,7 @@ import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class TableOfContent implements Decorator {
-
-    private DefaultConfiguration configuration;
-
-    @Override
-    public Decorator withParameters(String... parameters) {
-
-        return this;
-    }
-
-    @Override
-    public Decorator withConfiguration(DefaultConfiguration configuration) {
-        this.configuration = configuration;
-        return this;
-    }
+public class TableOfContent extends Decorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {

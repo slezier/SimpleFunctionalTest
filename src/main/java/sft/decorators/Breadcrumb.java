@@ -16,7 +16,7 @@ import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class Breadcrumb implements Decorator {
+public class Breadcrumb extends Decorator {
 
     public DefaultConfiguration configuration;
 

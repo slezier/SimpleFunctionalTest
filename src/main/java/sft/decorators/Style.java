@@ -13,31 +13,18 @@ package sft.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class Style implements Decorator {
+public class Style extends Decorator {
 
-
-    private String[] styles;
-    private DefaultConfiguration configuration;
-
-    @Override
-    public Decorator withParameters(String... parameters) {
+    private String[] getStyles(){
         if(parameters == null || parameters.length == 0 ){
             throw new RuntimeException("Style decorator need one or more parameters");
         }
-        styles = parameters;
-        return this;
-    }
-
-    @Override
-    public Decorator withConfiguration(DefaultConfiguration configuration) {
-        this.configuration = configuration;
-        return this;
+        return parameters;
     }
 
     @Override
@@ -52,7 +39,7 @@ public class Style implements Decorator {
         if(elements == null || elements.size()==0){
             throw new RuntimeException("The decorator "+this.getClass().getCanonicalName()+" need class "+cssQuery+" in generated html to be usable.");
         }
-        for (String style : styles) {
+        for (String style : getStyles()) {
             elements.addClass(style);
         }
         return parse.toString();
@@ -80,7 +67,7 @@ public class Style implements Decorator {
     @Override
     public String toString(){
         String result = "";
-        for (String style : styles) {
+        for (String style : getStyles()) {
             result += " "+style;
         }
         return "Style("+result+")";

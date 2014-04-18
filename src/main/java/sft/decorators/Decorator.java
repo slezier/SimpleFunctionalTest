@@ -17,17 +17,25 @@ import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public interface Decorator {
+public abstract class Decorator {
 
-    Decorator withParameters(String... parameters);
+    protected DefaultConfiguration configuration;
+    protected String[] parameters;
 
-    Decorator withConfiguration(DefaultConfiguration configuration);
+    public Decorator withParameters(String... parameters) {
+        this.parameters =parameters;
+        return this;
+    }
+    public Decorator withConfiguration(DefaultConfiguration configuration) {
+        this.configuration = configuration;
+        return this;
+    }
 
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result);
+    public abstract String applyOnUseCase(UseCaseResult useCaseResult, String result);
 
-    String applyOnScenario(String result);
+    public abstract String applyOnScenario(String result);
 
-    String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
+    public abstract String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
 
-    boolean comply(Decorator other);
+    public abstract boolean comply(Decorator other);
 }
