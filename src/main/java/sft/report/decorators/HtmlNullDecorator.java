@@ -8,42 +8,45 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft.decorators;
 
+package sft.report.decorators;
 
 import sft.DefaultConfiguration;
+import sft.decorators.Decorator;
+import sft.decorators.NullDecorator;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class NullDecorator extends Decorator {
+public class HtmlNullDecorator extends NullDecorator {
 
-    public NullDecorator(DefaultConfiguration configuration, String... parameters) {
+    public HtmlNullDecorator(DefaultConfiguration configuration, String... parameters) {
         super(configuration, parameters);
     }
 
-    public NullDecorator(Decorator decorator) {
+    public HtmlNullDecorator(Decorator decorator) {
         super(decorator);
     }
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
-        return getImplementation().applyOnUseCase(useCaseResult,result);
+        return result;
     }
 
     @Override
     public String applyOnScenario(String result) {
-        return getImplementation().applyOnScenario(result);
+        return result;
     }
 
     @Override
     public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
-        return getImplementation().applyOnFixtures(fixtures,fixtureCallResuts);
+        String result ="";
+        for (String fixture : fixtures) {
+            result+=fixture;
+        }
+        return result;
     }
 
-    @Override
-    public boolean comply(Decorator other) {
-        return other.getClass()==NullDecorator.class;
-    }
+
 }

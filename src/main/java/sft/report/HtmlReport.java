@@ -182,10 +182,10 @@ public class HtmlReport extends Report {
         }else if(decorator instanceof TableOfContent){
             return new HtmlTableOfContent(decorator);
         }else if(decorator instanceof NullDecorator){
-            return  new NullDecorator(decorator);
+            return  new HtmlNullDecorator(decorator);
         }
         System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName());
-        return  new NullDecorator(decorator);
+        return  new HtmlNullDecorator(decorator);
     }
 
     @Override
