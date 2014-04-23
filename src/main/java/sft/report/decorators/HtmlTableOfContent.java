@@ -12,18 +12,13 @@ package sft.report.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.decorators.Decorator;
-import sft.decorators.TableOfContent;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
-public class HtmlTableOfContent extends TableOfContent {
-    public HtmlTableOfContent(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
+public class HtmlTableOfContent extends HtmlDecorator {
 
     public HtmlTableOfContent(Decorator decorator) {
         super(decorator);

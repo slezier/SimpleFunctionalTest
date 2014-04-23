@@ -10,18 +10,12 @@
  *******************************************************************************/
 package sft.report.decorators;
 
-import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
-import sft.decorators.Table;
 import sft.result.FixtureCallResult;
 
 import java.util.List;
 
-public class HtmlTable extends Table {
-
-    public HtmlTable(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
+public class HtmlTable extends HtmlDecorator {
 
     public HtmlTable(Decorator decorator) {
         super(decorator);

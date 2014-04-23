@@ -10,18 +10,13 @@
  *******************************************************************************/
 package sft.report.decorators;
 
-import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
-import sft.decorators.Group;
 import sft.result.FixtureCallResult;
 
 import java.util.List;
 
-public class HtmlGroup extends Group {
+public class HtmlGroup extends HtmlDecorator {
 
-    public HtmlGroup(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
     public HtmlGroup(Decorator decorator) {
         super(decorator);
     }
@@ -41,11 +36,6 @@ public class HtmlGroup extends Group {
         return result + "</div>";
     }
 
-    @Override
-    public boolean comply(Decorator other) {
-        return other instanceof Group && this.toString().equals(other.toString());
-    }
-
     private String getName(){
         if (parameters != null && parameters.length > 0) {
             return parameters[0];
@@ -53,10 +43,4 @@ public class HtmlGroup extends Group {
             return null;
         }
     }
-
-    @Override
-    public String toString() {
-        return "Group(" + getName() + ")";
-    }
-
 }

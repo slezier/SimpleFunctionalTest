@@ -13,19 +13,13 @@ package sft.report.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
-import sft.decorators.Style;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class HtmlStyle extends Style {
-
-    public HtmlStyle(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
+public class HtmlStyle extends HtmlDecorator {
 
     public HtmlStyle(Decorator decorator) {
         super(decorator);

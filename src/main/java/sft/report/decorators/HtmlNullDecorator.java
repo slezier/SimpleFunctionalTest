@@ -11,19 +11,13 @@
 
 package sft.report.decorators;
 
-import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
-import sft.decorators.NullDecorator;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public class HtmlNullDecorator extends NullDecorator {
-
-    public HtmlNullDecorator(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
+public class HtmlNullDecorator extends HtmlDecorator {
 
     public HtmlNullDecorator(Decorator decorator) {
         super(decorator);
@@ -47,6 +41,4 @@ public class HtmlNullDecorator extends NullDecorator {
         }
         return result;
     }
-
-
 }

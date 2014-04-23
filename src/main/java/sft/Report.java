@@ -11,6 +11,7 @@
 package sft;
 
 import sft.decorators.Decorator;
+import sft.decorators.DecoratorReportImplementation;
 
 public abstract class Report {
 
@@ -33,5 +34,5 @@ public abstract class Report {
         this.reportPath = reportPath;
     }
 
-    public abstract Decorator getDecoratorImplementation(Decorator decorator);
+    public abstract DecoratorReportImplementation getDecoratorImplementation(Decorator decorator);
 }

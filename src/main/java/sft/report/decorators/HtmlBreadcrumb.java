@@ -13,15 +13,11 @@ package sft.report.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import sft.UseCase;
-import sft.decorators.Breadcrumb;
 import sft.decorators.Decorator;
 import sft.report.RelativeHtmlPathResolver;
-import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
-import java.util.List;
-
-public class HtmlBreadcrumb extends Breadcrumb {
+public class HtmlBreadcrumb extends HtmlDecorator {
 
     public HtmlBreadcrumb(Decorator decorator) {
         super(decorator);
@@ -49,16 +45,5 @@ public class HtmlBreadcrumb extends Breadcrumb {
             return result + "<li><a href=\"" +pathToUseCaseToBreadcrumb+ "\">" + useCaseToBreadcrumb.getName() + "</a></li>";
         }
     }
-
-    @Override
-    public String applyOnScenario(String result) {
-        throw new RuntimeException("Breadcrumb can't be apply on scenario");
-    }
-
-    @Override
-    public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
-        throw new RuntimeException("Breadcrumb can't be apply on scenario");
-    }
-
 
 }

@@ -20,8 +20,8 @@ import java.util.List;
 
 public abstract class Decorator  implements DecoratorReportImplementation{
 
-    protected DefaultConfiguration configuration;
-    protected String[] parameters;
+    public final DefaultConfiguration configuration;
+    public final String[] parameters;
 
     public Decorator(DefaultConfiguration configuration, String... parameters){
         this.configuration=configuration;
@@ -48,7 +48,7 @@ public abstract class Decorator  implements DecoratorReportImplementation{
         throw new RuntimeException(getClass().getName()+" can't be apply on fixture");
     }
 
-    protected Decorator getImplementation() {
+    protected DecoratorReportImplementation getImplementation() {
         HtmlReport report = this.configuration.getReport();
         return report.getDecoratorImplementation(this);
     }

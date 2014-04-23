@@ -170,7 +170,7 @@ public class HtmlReport extends Report {
     }
 
     @Override
-    public Decorator getDecoratorImplementation(Decorator decorator) {
+    public DecoratorReportImplementation getDecoratorImplementation(Decorator decorator) {
         if( decorator instanceof Style ){
             return new HtmlStyle(decorator);
         }else if(decorator instanceof Breadcrumb){
