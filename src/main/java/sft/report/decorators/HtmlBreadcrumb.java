@@ -12,7 +12,6 @@ package sft.report.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.decorators.Breadcrumb;
 import sft.decorators.Decorator;
@@ -24,22 +23,8 @@ import java.util.List;
 
 public class HtmlBreadcrumb extends Breadcrumb {
 
-
-    private DefaultConfiguration configuration;
-
     public HtmlBreadcrumb(Decorator decorator) {
-        configuration = ((Breadcrumb)decorator).configuration;
-    }
-
-    @Override
-    public Decorator withParameters(String... parameters) {
-        return this;
-    }
-
-    @Override
-    public Decorator withConfiguration(DefaultConfiguration configuration) {
-        this.configuration = configuration;
-        return this;
+        super(decorator);
     }
 
     @Override

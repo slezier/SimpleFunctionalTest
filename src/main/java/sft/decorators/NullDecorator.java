@@ -11,12 +11,21 @@
 package sft.decorators;
 
 
+import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
 
 public class NullDecorator extends Decorator {
+
+    public NullDecorator(DefaultConfiguration configuration, String... parameters) {
+        super(configuration, parameters);
+    }
+
+    public NullDecorator(Decorator decorator) {
+        super(decorator);
+    }
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {

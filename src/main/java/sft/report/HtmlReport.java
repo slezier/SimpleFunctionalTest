@@ -17,9 +17,8 @@ import sft.FixtureCall;
 import sft.Report;
 import sft.Scenario;
 import sft.UseCase;
-import sft.decorators.Decorator;
-import sft.decorators.NullDecorator;
-import sft.report.decorators.HtmlBreadcrumb;
+import sft.decorators.*;
+import sft.report.decorators.*;
 import sft.result.ContextResult;
 import sft.result.FixtureCallResult;
 import sft.result.Issue;
@@ -172,7 +171,21 @@ public class HtmlReport extends Report {
 
     @Override
     public Decorator getDecoratorImplementation(Decorator decorator) {
-        return  new HtmlBreadcrumb(decorator);
+        if( decorator instanceof Style ){
+            return new HtmlStyle(decorator);
+        }else if(decorator instanceof Breadcrumb){
+            return new HtmlBreadcrumb(decorator);
+        }else if(decorator instanceof Group){
+            return new HtmlGroup(decorator);
+        }else if(decorator instanceof Table){
+            return new HtmlTable(decorator);
+        }else if(decorator instanceof TableOfContent){
+            return new HtmlTableOfContent(decorator);
+        }else if(decorator instanceof NullDecorator){
+            return  new NullDecorator(decorator);
+        }
+        System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName());
+        return  new NullDecorator(decorator);
     }
 
     @Override
@@ -261,7 +274,7 @@ public class HtmlReport extends Report {
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
 
         String result = "";
-        Decorator decorator = new NullDecorator();
+        Decorator decorator = new NullDecorator(configuration,null);
 
         final ArrayList<String> instructions = new ArrayList<String>();
         final ArrayList<FixtureCallResult> fixtureCallResults = new ArrayList<FixtureCallResult>();

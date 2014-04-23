@@ -8,26 +8,37 @@
  * Contributors:
  *    Sylvain Lézier - initial implementation
  *******************************************************************************/
-package sft.decorators;
+package sft.report.decorators;
 
 import sft.DefaultConfiguration;
+import sft.decorators.Decorator;
+import sft.decorators.Group;
 import sft.result.FixtureCallResult;
 
 import java.util.List;
 
-public class Group extends Decorator {
+public class HtmlGroup extends Group {
 
-    public Group(DefaultConfiguration configuration, String... parameters) {
+    public HtmlGroup(DefaultConfiguration configuration, String... parameters) {
         super(configuration, parameters);
     }
-
-    public Group(Decorator decorator) {
+    public HtmlGroup(Decorator decorator) {
         super(decorator);
     }
 
     @Override
     public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
-        return getImplementation().applyOnFixtures(fixtures,fixtureCallResuts);
+        if (fixtures.isEmpty()) {
+            return "";
+        }
+        String result = "<div>";
+        if (getName() != null) {
+            result += "<h4 class='group'>" + getName() + "</h4>";
+        }
+        for (String fixture : fixtures) {
+            result += fixture;
+        }
+        return result + "</div>";
     }
 
     @Override

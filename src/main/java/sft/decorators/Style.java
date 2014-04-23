@@ -10,9 +10,7 @@
  *******************************************************************************/
 package sft.decorators;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
@@ -20,43 +18,27 @@ import java.util.List;
 
 public class Style extends Decorator {
 
-    private String[] getStyles(){
-        if(parameters == null || parameters.length == 0 ){
-            throw new RuntimeException("Style decorator need one or more parameters");
-        }
-        return parameters;
+    public Style(DefaultConfiguration configuration, String... parameters) {
+        super(configuration, parameters);
+    }
+
+    public Style(Decorator decorator){
+        super(decorator);
     }
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult,String result){
-        return addStyleToElementWithClass(result, ".useCase");
-    }
-
-    private String addStyleToElementWithClass(String result, String cssQuery) {
-        final Document parse = Jsoup.parse(result);
-
-        final Elements elements = parse.select(cssQuery);
-        if(elements == null || elements.size()==0){
-            throw new RuntimeException("The decorator "+this.getClass().getCanonicalName()+" need class "+cssQuery+" in generated html to be usable.");
-        }
-        for (String style : getStyles()) {
-            elements.addClass(style);
-        }
-        return parse.toString();
+        return getImplementation().applyOnUseCase(useCaseResult, result);
     }
 
     @Override
     public String applyOnScenario(String result){
-        return addStyleToElementWithClass(result, ".scenario");
+        return getImplementation().applyOnScenario(result);
     }
 
     @Override
     public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts){
-        String result = "";
-        for (String fixture : fixtures) {
-            result+= addStyleToElementWithClass(fixture, ".instruction");
-        }
-        return result;
+        return getImplementation().applyOnFixtures(fixtures,fixtureCallResuts);
     }
 
     @Override
@@ -67,7 +49,7 @@ public class Style extends Decorator {
     @Override
     public String toString(){
         String result = "";
-        for (String style : getStyles()) {
+        for (String style : parameters) {
             result += " "+style;
         }
         return "Style("+result+")";

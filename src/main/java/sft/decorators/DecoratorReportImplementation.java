@@ -10,27 +10,17 @@
  *******************************************************************************/
 package sft.decorators;
 
-import sft.DefaultConfiguration;
+import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
-public class Breadcrumb extends Decorator {
+import java.util.List;
 
-    public Breadcrumb(DefaultConfiguration configuration, String... parameters) {
-        super(configuration, parameters);
-    }
+public interface DecoratorReportImplementation {
 
-    public Breadcrumb(Decorator decorator) {
-        super(decorator);
-    }
+    String applyOnUseCase(UseCaseResult useCaseResult, String result);
 
-    @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
-        return getImplementation().applyOnUseCase(useCaseResult, result);
-    }
+    String applyOnScenario(String result);
 
-    @Override
-    public boolean comply(Decorator other) {
-        return other instanceof  Breadcrumb;
-    }
+    String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
 
 }
