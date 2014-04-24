@@ -24,21 +24,6 @@ public class Style extends Decorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult){
-        return getImplementation().applyOnUseCase(useCaseResult);
-    }
-
-    @Override
-    public String applyOnScenario(ScenarioResult scenarioResult){
-        return getImplementation().applyOnScenario(scenarioResult);
-    }
-
-    @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts){
-        return getImplementation().applyOnFixtures(fixtureCallResuts);
-    }
-
-    @Override
     public boolean comply(Decorator other) {
         return other instanceof  Style && this.toString().equals(other.toString());
     }

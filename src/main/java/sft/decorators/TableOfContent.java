@@ -20,12 +20,6 @@ public class TableOfContent extends Decorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
-        return getImplementation().applyOnUseCase(useCaseResult);
-    }
-
-
-    @Override
     public boolean comply(Decorator other) {
         return other instanceof TableOfContent;
     }

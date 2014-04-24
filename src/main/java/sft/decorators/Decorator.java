@@ -19,7 +19,7 @@ import sft.result.UseCaseResult;
 
 import java.util.List;
 
-public abstract class Decorator  implements DecoratorReportImplementation{
+public abstract class Decorator  {
 
     public final DefaultConfiguration configuration;
     public final String[] parameters;
@@ -27,26 +27,6 @@ public abstract class Decorator  implements DecoratorReportImplementation{
     public Decorator(DefaultConfiguration configuration, String... parameters){
         this.configuration=configuration;
         this.parameters = parameters;
-    }
-
-    @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
-        throw new RuntimeException(getClass().getName()+" couldn't be applied on use case");
-    }
-
-    @Override
-    public String applyOnScenario(ScenarioResult scenarioResult) {
-        throw new RuntimeException(getClass().getName()+" couldn't be applied on scenario");
-    }
-
-    @Override
-    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
-        throw new RuntimeException(getClass().getName()+" can't be apply on fixture");
-    }
-
-    protected DecoratorReportImplementation getImplementation() {
-        HtmlReport report = this.configuration.getReport();
-        return report.getDecoratorImplementation(this);
     }
 
     public abstract boolean comply(Decorator other);

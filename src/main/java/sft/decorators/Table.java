@@ -22,11 +22,6 @@ public class Table extends Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
-        return getImplementation().applyOnFixtures(fixtureCallResuts);
-    }
-
-    @Override
     public boolean comply(Decorator other) {
         return other.getClass() == Table.class;
     }

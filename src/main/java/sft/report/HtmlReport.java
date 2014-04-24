@@ -197,7 +197,7 @@ public class HtmlReport extends Report {
     }
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
-        String useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult);
+        String useCaseReport = getDecoratorImplementation(useCaseResult.useCase.useCaseDecorator).applyOnUseCase(useCaseResult);
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
@@ -209,6 +209,7 @@ public class HtmlReport extends Report {
     public String generateUseCase(UseCaseResult useCaseResult) {
 
         Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
+
 
         try {
             return new TemplateString(useCaseTemplate)
@@ -227,6 +228,27 @@ public class HtmlReport extends Report {
         }
     }
 
+    public String generateScenario(ScenarioResult scenarioResult) {
+        return new TemplateString(scenarioTemplate)
+                .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
+                .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
+                .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
+                .replace("@@@beforeScenarioTemplate@@@", getBeforeScenario(scenarioResult))
+                .replace("@@@scenarioInstructionTemplates@@@", getScenarioInstructions(scenarioResult))
+                .replace("@@@afterScenarioTemplate@@@", getAfterScenario(scenarioResult))
+                .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
+                .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
+                .getText();
+    }
+
+    public String generateFixtureCall(FixtureCallResult fixtureCallResult) {
+        String instruction = generateInstructionWithParameter(fixtureCallResult.fixtureCall);
+
+        return new TemplateString(scenarioInstructionTemplate)
+                .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
+                .replace("@@@instruction.text@@@", instruction)
+                .getText();
+    }
 
     private String getRelatedUseCases(UseCaseResult useCaseResult) {
         String relatedUseCases = "";
@@ -263,22 +285,8 @@ public class HtmlReport extends Report {
     }
 
     private String getScenario(ScenarioResult scenarioResult) {
-        return scenarioResult.scenario.decorator.applyOnScenario(scenarioResult);
+        return getDecoratorImplementation(scenarioResult.scenario.decorator).applyOnScenario(scenarioResult);
     }
-
-    public String generateScenario(ScenarioResult scenarioResult) {
-        return new TemplateString(scenarioTemplate)
-                    .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
-                    .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
-                    .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
-                    .replace("@@@beforeScenarioTemplate@@@", getBeforeScenario(scenarioResult))
-                    .replace("@@@scenarioInstructionTemplates@@@", getScenarioInstructions(scenarioResult))
-                    .replace("@@@afterScenarioTemplate@@@", getAfterScenario(scenarioResult))
-                    .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
-                    .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
-                    .getText();
-    }
-
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
 
         String result = "";
@@ -289,25 +297,17 @@ public class HtmlReport extends Report {
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
             if( ! decorator.comply(fixture.decorator)){
-                result+= decorator.applyOnFixtures(fixtureCallResults);
+                result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults);
                 fixtureCallResults.clear();
                 decorator = fixture.decorator;
             }
 
             fixtureCallResults.add(fixtureCallResult);
         }
-        result+= decorator.applyOnFixtures(fixtureCallResults);
+        result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults);
         return result;
     }
 
-    public String generateFixtureCall(FixtureCallResult fixtureCallResult) {
-        String instruction = generateInstructionWithParameter(fixtureCallResult.fixtureCall);
-
-        return new TemplateString(scenarioInstructionTemplate)
-                .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
-                .replace("@@@instruction.text@@@", instruction)
-                .getText();
-    }
 
     private String getBeforeScenario(ScenarioResult scenarioResult) {
         if (scenarioResult.scenario.useCase.beforeScenario != null) {
