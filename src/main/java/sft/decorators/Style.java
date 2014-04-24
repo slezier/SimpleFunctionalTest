@@ -23,8 +23,8 @@ public class Style extends Decorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult,String result){
-        return getImplementation().applyOnUseCase(useCaseResult, result);
+    public String applyOnUseCase(UseCaseResult useCaseResult){
+        return getImplementation().applyOnUseCase(useCaseResult);
     }
 
     @Override

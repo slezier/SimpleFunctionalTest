@@ -25,7 +25,8 @@ public class HtmlTableOfContent extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
+        String result = getHtmlReport().generateUseCase(useCaseResult);
         final Document parse = Jsoup.parse(result);
         parse.select(".page-header").after("<div class='panel toc'>"+printUseCase(useCaseResult.useCase, useCaseResult)+"</div>");
         return parse.toString();

@@ -26,7 +26,8 @@ public class HtmlStyle extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult,String result){
+    public String applyOnUseCase(UseCaseResult useCaseResult){
+        String result = getHtmlReport().generateUseCase(useCaseResult);
         return addStyleToElementWithClass(result, ".useCase");
     }
 

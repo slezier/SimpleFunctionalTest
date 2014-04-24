@@ -184,7 +184,7 @@ public class HtmlReport extends Report {
         }else if(decorator instanceof NullDecorator){
             return  new HtmlNullDecorator(decorator);
         }
-        System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName());
+        System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName() + " using default decorator");
         return  new HtmlNullDecorator(decorator);
     }
 
@@ -197,28 +197,36 @@ public class HtmlReport extends Report {
     }
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
-        Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
+        String useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult);
 
-        String useCaseReport = new TemplateString(useCaseTemplate)
-                .replace("@@@useCase.name@@@", useCaseResult.useCase.getName())
-                .replace("@@@useCase.css@@@", htmlResources.getIncludeCssDirectives(classUnderTest))
-                .replace("@@@useCase.js@@@", htmlResources.getIncludeJsDirectives(classUnderTest))
-                .replace("@@@useCase.issue@@@", htmlResources.convertIssue(useCaseResult.getIssue()))
-                .replace("@@@useCaseCommentTemplate@@@", getUseCaseComment(useCaseResult.useCase))
-                .replace("@@@beforeUseCaseTemplate@@@", getBeforeUseCase(useCaseResult))
-                .replace("@@@scenarioTemplates@@@", getScenarios(useCaseResult))
-                .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
-                .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
-                .getText();
-
-        useCaseReport = useCaseResult.useCase.useCaseDecorator.applyOnUseCase(useCaseResult, useCaseReport);
-
-        File htmlFile = configuration.getTargetFolder().createFileFromClass(classUnderTest, ".html");
+        File htmlFile = configuration.getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
         html.write(useCaseReport);
         html.close();
         System.out.println("Report wrote: " + htmlFile.getCanonicalPath());
     }
+
+    public String generateUseCase(UseCaseResult useCaseResult) {
+
+        Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
+
+        try {
+            return new TemplateString(useCaseTemplate)
+                    .replace("@@@useCase.name@@@", useCaseResult.useCase.getName())
+                    .replace("@@@useCase.css@@@", htmlResources.getIncludeCssDirectives(classUnderTest))
+                    .replace("@@@useCase.js@@@", htmlResources.getIncludeJsDirectives(classUnderTest))
+                    .replace("@@@useCase.issue@@@", htmlResources.convertIssue(useCaseResult.getIssue()))
+                    .replace("@@@useCaseCommentTemplate@@@", getUseCaseComment(useCaseResult.useCase))
+                    .replace("@@@beforeUseCaseTemplate@@@", getBeforeUseCase(useCaseResult))
+                    .replace("@@@scenarioTemplates@@@", getScenarios(useCaseResult))
+                    .replace("@@@afterUseCaseTemplate@@@", getAfterUseCase(useCaseResult))
+                    .replace("@@@relatedUseCasesTemplates@@@", getRelatedUseCases(useCaseResult))
+                    .getText();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private String getRelatedUseCases(UseCaseResult useCaseResult) {
         String relatedUseCases = "";

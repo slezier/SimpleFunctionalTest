@@ -3,9 +3,11 @@ package sft.report.decorators;
 import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
+import sft.report.HtmlReport;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HtmlDecorator implements DecoratorReportImplementation {
@@ -23,7 +25,7 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 
@@ -35,5 +37,9 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     @Override
     public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
+    }
+
+    protected HtmlReport getHtmlReport(){
+        return (HtmlReport) configuration.getReport();
     }
 }

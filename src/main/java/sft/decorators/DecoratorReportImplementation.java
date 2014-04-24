@@ -13,11 +13,12 @@ package sft.decorators;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DecoratorReportImplementation {
 
-    String applyOnUseCase(UseCaseResult useCaseResult, String result);
+    String applyOnUseCase(UseCaseResult useCaseResult);
 
     String applyOnScenario(String result);
 

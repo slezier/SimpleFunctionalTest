@@ -29,7 +29,7 @@ public abstract class Decorator  implements DecoratorReportImplementation{
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
         throw new RuntimeException(getClass().getName()+" couldn't be applied on use case");
     }
 

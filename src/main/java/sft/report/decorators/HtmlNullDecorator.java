@@ -15,6 +15,7 @@ import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.UseCaseResult;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HtmlNullDecorator extends HtmlDecorator {
@@ -24,8 +25,8 @@ public class HtmlNullDecorator extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
-        return result;
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
+        return getHtmlReport().generateUseCase(useCaseResult);
     }
 
     @Override
