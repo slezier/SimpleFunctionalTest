@@ -44,7 +44,6 @@ public class UseCase extends FixturesHolder {
     public final ContextHandler beforeScenario;
     public final ContextHandler afterScenario;
     public final DisplayedContext displayedContext;
-    public final DefaultConfiguration configuration;
     private final JavaToHumanTranslator javaToHumanTranslator;
     private String comment;
 
@@ -61,7 +60,6 @@ public class UseCase extends FixturesHolder {
     private UseCase(UseCase useCase, Object object, DefaultConfiguration configuration) throws Exception {
         super(object, FixturesVisibility.PrivateOrProtectedOnly,configuration);
         parent = useCase;
-        this.configuration = extractConfiguration(configuration);
         javaToHumanTranslator = new JavaToHumanTranslator();
         useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration,classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
@@ -76,14 +74,6 @@ public class UseCase extends FixturesHolder {
         javaClassParser.feed(this);
     }
 
-    private DefaultConfiguration extractConfiguration(DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
-        Using explicitConfiguration = classUnderTest.getAnnotation(Using.class);
-        if (explicitConfiguration != null) {
-            return explicitConfiguration.value().newInstance();
-
-        }
-        return defaultConfiguration;
-    }
 
     private DisplayedContext extractDisplayedContext(Object object) {
         return new DisplayedContext(object, extractDisplayableFields());

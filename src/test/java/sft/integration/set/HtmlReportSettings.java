@@ -229,7 +229,7 @@ public class HtmlReportSettings {
     }
 
     private void weChangeReportGeneration() {
-        final String startHtml = "<!DOCTYPE html>\n" +
+        final String expectedHtmlBeginning = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 " <head>\n" +
                 "  <title>Test: Ink style use case</title>\n" +
@@ -289,7 +289,7 @@ public class HtmlReportSettings {
 
 
 
-        final String endHtml = "</p>\n"+
+        final String expectedHtmlEnd = "</p>\n"+
                 "    </div>\n" +
                 "    <p></p>\n" +
                 "   </div>\n" +
@@ -335,8 +335,12 @@ public class HtmlReportSettings {
                 " </body>\n" +
                 "</html>";
 
-        Assert.assertTrue(htmlReport.outerHtml().startsWith(startHtml));
-        Assert.assertTrue(htmlReport.outerHtml().endsWith(endHtml));
+        final String html = htmlReport.outerHtml();
+        final String actualHtmlBeginning = html.substring(0, expectedHtmlBeginning.length());
+        final String actualHtmlEnd = html.substring(html.length() - expectedHtmlEnd.length());
+
+        Assert.assertEquals(expectedHtmlBeginning,actualHtmlBeginning);
+        Assert.assertEquals(expectedHtmlEnd,actualHtmlEnd);
     }
 
     private void byChangingTemplateValues() throws IOException {

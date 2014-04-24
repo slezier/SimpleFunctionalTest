@@ -21,15 +21,26 @@ public class FixturesHolder {
     public final Object object;
     public final Class<?> classUnderTest;
     public final ArrayList<Fixture> fixtures;
+    public final DefaultConfiguration configuration;
 
 
     public FixturesHolder(Object object,FixturesVisibility fixturesVisibility,DefaultConfiguration configuration) throws Exception {
+        this.configuration = extractConfiguration(object.getClass(),configuration);
         this.object = object;
         classUnderTest = object.getClass();
-        fixtures = extractFixtures(fixturesVisibility,configuration);
+        fixtures = extractFixtures(fixturesVisibility);
     }
 
-    protected ArrayList<Fixture> extractFixtures(FixturesVisibility fixturesVisibility,DefaultConfiguration configuration) throws Exception {
+    private static DefaultConfiguration extractConfiguration(Class<?> classUnderTest,DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
+        Using explicitConfiguration = classUnderTest.getAnnotation(Using.class);
+        if (explicitConfiguration != null) {
+            return explicitConfiguration.value().newInstance();
+
+        }
+        return defaultConfiguration;
+    }
+
+    protected ArrayList<Fixture> extractFixtures(FixturesVisibility fixturesVisibility) throws Exception {
         ArrayList<Fixture> fixtures = new ArrayList<Fixture>();
         for (Method method : getSupportMethod(fixturesVisibility)) {
             fixtures.add(new Fixture(method,configuration));
