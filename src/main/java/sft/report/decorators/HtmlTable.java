@@ -10,6 +10,7 @@
  *******************************************************************************/
 package sft.report.decorators;
 
+import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 
@@ -17,15 +18,16 @@ import java.util.List;
 
 public class HtmlTable extends HtmlDecorator {
 
-    public HtmlTable(Decorator decorator) {
-        super(decorator);
+    public HtmlTable(DefaultConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
         String result = "<table class='table'>";
-        if(getTitle() != null ){
-            result+="<caption>"+ getTitle()+"</caption>";
+        final String title = getTitle(parameters);
+        if(title != null ){
+            result+="<caption>"+ title +"</caption>";
         }
         result+="<thead>";
         result+="<tr>";
@@ -48,7 +50,7 @@ public class HtmlTable extends HtmlDecorator {
         return result+"</table>";
     }
 
-    private String getTitle(){
+    private String getTitle(String... parameters){
         return parameters[0];
     }
 }

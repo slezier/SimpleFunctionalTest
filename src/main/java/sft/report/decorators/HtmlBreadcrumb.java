@@ -12,6 +12,7 @@ package sft.report.decorators;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.decorators.Decorator;
 import sft.report.RelativeHtmlPathResolver;
@@ -19,12 +20,13 @@ import sft.result.UseCaseResult;
 
 public class HtmlBreadcrumb extends HtmlDecorator {
 
-    public HtmlBreadcrumb(Decorator decorator) {
-        super(decorator);
+
+    public HtmlBreadcrumb(DefaultConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
+    public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
         String result = getHtmlReport().generateUseCase(useCaseResult);
         final Document parse = Jsoup.parse(result);
         parse.select(".page-header .text-center").append("<ol class=\"breadcrumb\">" + printFirstUseCase(useCaseResult.useCase,useCaseResult.useCase) + "</ol>");

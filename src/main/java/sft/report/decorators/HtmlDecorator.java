@@ -14,29 +14,23 @@ import java.util.List;
 public class HtmlDecorator implements DecoratorReportImplementation {
 
     protected final DefaultConfiguration configuration;
-    protected final String[] parameters;
 
-    public HtmlDecorator(DefaultConfiguration configuration, String[] parameters) {
+    public HtmlDecorator(DefaultConfiguration configuration) {
         this.configuration = configuration;
-        this.parameters = parameters;
-    }
-
-    public HtmlDecorator(Decorator decorator) {
-        this(decorator.configuration,decorator.parameters);
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
+    public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 
     @Override
-    public String applyOnScenario(ScenarioResult scenarioResult) {
+    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 
     @Override
-    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts, String... parameters) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 

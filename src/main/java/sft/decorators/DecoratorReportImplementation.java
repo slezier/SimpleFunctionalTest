@@ -19,10 +19,10 @@ import java.util.List;
 
 public interface DecoratorReportImplementation {
 
-    String applyOnUseCase(UseCaseResult useCaseResult);
+    String applyOnUseCase(UseCaseResult useCaseResult, String... parameters);
 
-    String applyOnScenario(ScenarioResult scenarioResult);
+    String applyOnScenario(ScenarioResult scenarioResult, String... parameters);
 
-    String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts);
+    String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters);
 
 }

@@ -13,6 +13,7 @@ package sft.report.decorators;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
@@ -22,47 +23,48 @@ import java.util.List;
 
 public class HtmlStyle extends HtmlDecorator {
 
-    public HtmlStyle(Decorator decorator) {
-        super(decorator);
+
+    public HtmlStyle(DefaultConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
+    public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
         String result = getHtmlReport().generateUseCase(useCaseResult);
-        return addStyleToElementWithClass(result, ".useCase");
+        return addStyleToElementWithClass(result, ".useCase",parameters);
     }
 
-    protected String[] getStyles() {
+    protected String[] getStyles(String... parameters) {
         if (parameters == null || parameters.length == 0) {
             throw new RuntimeException("Style decorator need one or more parameters");
         }
         return parameters;
     }
 
-    private String addStyleToElementWithClass(String result, String cssQuery) {
+    private String addStyleToElementWithClass(String result, String cssQuery, String... parameters) {
         final Document parse = Jsoup.parse(result);
 
         final Elements elements = parse.select(cssQuery);
         if (elements == null || elements.size() == 0) {
             throw new RuntimeException("The decorator " + this.getClass().getCanonicalName() + " need class " + cssQuery + " in generated html to be usable.");
         }
-        for (String style : getStyles()) {
+        for (String style : getStyles(parameters)) {
             elements.addClass(style);
         }
         return parse.toString();
     }
 
     @Override
-    public String applyOnScenario(ScenarioResult scenarioResult) {
+    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
         String result = getHtmlReport().generateScenario(scenarioResult);
-        return addStyleToElementWithClass(result, ".scenario");
+        return addStyleToElementWithClass(result, ".scenario", parameters);
     }
 
     @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
         String result = "";
         for (FixtureCallResult fixture : fixtureCallResuts) {
-            result += addStyleToElementWithClass(getHtmlReport().generateFixtureCall(fixture), ".instruction");
+            result += addStyleToElementWithClass(getHtmlReport().generateFixtureCall(fixture), ".instruction", parameters);
         }
         return result;
     }

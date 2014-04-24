@@ -11,6 +11,7 @@
 
 package sft.report.decorators;
 
+import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
@@ -21,22 +22,22 @@ import java.util.List;
 
 public class HtmlNullDecorator extends HtmlDecorator {
 
-    public HtmlNullDecorator(Decorator decorator) {
-        super(decorator);
+    public HtmlNullDecorator(DefaultConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult) {
+    public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
         return getHtmlReport().generateUseCase(useCaseResult);
     }
 
     @Override
-    public String applyOnScenario(ScenarioResult scenarioResult) {
+    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
         return getHtmlReport().generateScenario(scenarioResult);
     }
 
     @Override
-    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts, String... parameters) {
         String result ="";
         for (FixtureCallResult fixture : fixtureCallResuts) {
             result+=getHtmlReport().generateFixtureCall(fixture);

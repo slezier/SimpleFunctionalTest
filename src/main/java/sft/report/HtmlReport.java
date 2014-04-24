@@ -33,12 +33,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
 
 public class HtmlReport extends Report {
+
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
     public final RelativeHtmlPathResolver pathResolver;
     public String useCaseTemplate =
@@ -172,20 +174,20 @@ public class HtmlReport extends Report {
     @Override
     public DecoratorReportImplementation getDecoratorImplementation(Decorator decorator) {
         if( decorator instanceof Style ){
-            return new HtmlStyle(decorator);
+            return new HtmlStyle(configuration);
         }else if(decorator instanceof Breadcrumb){
-            return new HtmlBreadcrumb(decorator);
+            return new HtmlBreadcrumb(configuration);
         }else if(decorator instanceof Group){
-            return new HtmlGroup(decorator);
+            return new HtmlGroup(configuration);
         }else if(decorator instanceof Table){
-            return new HtmlTable(decorator);
+            return new HtmlTable(configuration);
         }else if(decorator instanceof TableOfContent){
-            return new HtmlTableOfContent(decorator);
+            return new HtmlTableOfContent(configuration);
         }else if(decorator instanceof NullDecorator){
-            return  new HtmlNullDecorator(decorator);
+            return  new HtmlNullDecorator(configuration);
         }
         System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName() + " using default decorator");
-        return  new HtmlNullDecorator(decorator);
+        return  new HtmlNullDecorator(configuration);
     }
 
     @Override
@@ -197,7 +199,8 @@ public class HtmlReport extends Report {
     }
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
-        String useCaseReport = getDecoratorImplementation(useCaseResult.useCase.useCaseDecorator).applyOnUseCase(useCaseResult);
+        final Decorator decorator = useCaseResult.useCase.useCaseDecorator;
+        String useCaseReport = getDecoratorImplementation(decorator).applyOnUseCase(useCaseResult,decorator.parameters);
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
@@ -279,7 +282,8 @@ public class HtmlReport extends Report {
     }
 
     private String getScenario(ScenarioResult scenarioResult) {
-        return getDecoratorImplementation(scenarioResult.scenario.decorator).applyOnScenario(scenarioResult);
+        final Decorator decorator = scenarioResult.scenario.decorator;
+        return getDecoratorImplementation(decorator).applyOnScenario(scenarioResult,decorator.parameters);
     }
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
         String result = "";
@@ -290,13 +294,13 @@ public class HtmlReport extends Report {
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
             if( decorator != null && ! decorator.comply(fixture.decorator)){
-                result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults);
+                result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults,decorator.parameters);
                 fixtureCallResults.clear();
             }
             decorator = fixture.decorator;
             fixtureCallResults.add(fixtureCallResult);
         }
-        result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults);
+        result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults,decorator.parameters);
         return result;
     }
 
