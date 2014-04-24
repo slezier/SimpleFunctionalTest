@@ -21,10 +21,6 @@ public class Table extends Decorator {
         super(configuration, parameters);
     }
 
-    public Table(Decorator decorator) {
-        super(decorator);
-    }
-
     @Override
     public String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts) {
         return getImplementation().applyOnFixtures(instructions,fixtureCallResuts);

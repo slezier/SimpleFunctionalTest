@@ -19,10 +19,6 @@ public class Breadcrumb extends Decorator {
         super(configuration, parameters);
     }
 
-    public Breadcrumb(Decorator decorator) {
-        super(decorator);
-    }
-
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
         return getImplementation().applyOnUseCase(useCaseResult, result);

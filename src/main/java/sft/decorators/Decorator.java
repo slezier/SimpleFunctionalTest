@@ -28,11 +28,6 @@ public abstract class Decorator  implements DecoratorReportImplementation{
         this.parameters = parameters;
     }
 
-    public Decorator(Decorator decorator){
-        this.configuration=decorator.configuration;
-        this.parameters = decorator.parameters;
-    }
-
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
         throw new RuntimeException(getClass().getName()+" couldn't be applied on use case");

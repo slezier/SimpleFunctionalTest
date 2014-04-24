@@ -22,10 +22,6 @@ public class Style extends Decorator {
         super(configuration, parameters);
     }
 
-    public Style(Decorator decorator){
-        super(decorator);
-    }
-
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult,String result){
         return getImplementation().applyOnUseCase(useCaseResult, result);

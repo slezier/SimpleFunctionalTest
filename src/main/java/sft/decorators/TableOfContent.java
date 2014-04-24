@@ -19,10 +19,6 @@ public class TableOfContent extends Decorator {
         super(configuration, parameters);
     }
 
-    public TableOfContent(Decorator decorator) {
-        super(decorator);
-    }
-
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
         return getImplementation().applyOnUseCase(useCaseResult,result);

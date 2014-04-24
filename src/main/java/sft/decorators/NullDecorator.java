@@ -23,10 +23,6 @@ public class NullDecorator extends Decorator {
         super(configuration, parameters);
     }
 
-    public NullDecorator(Decorator decorator) {
-        super(decorator);
-    }
-
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String result) {
         return getImplementation().applyOnUseCase(useCaseResult,result);

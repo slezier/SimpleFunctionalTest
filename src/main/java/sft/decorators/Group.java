@@ -21,10 +21,6 @@ public class Group extends Decorator {
         super(configuration, parameters);
     }
 
-    public Group(Decorator decorator) {
-        super(decorator);
-    }
-
     @Override
     public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
         return getImplementation().applyOnFixtures(fixtures,fixtureCallResuts);
