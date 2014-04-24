@@ -11,6 +11,7 @@
 package sft.decorators;
 
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public interface DecoratorReportImplementation {
 
     String applyOnUseCase(UseCaseResult useCaseResult);
 
-    String applyOnScenario(String result);
+    String applyOnScenario(ScenarioResult scenarioResult);
 
     String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
 

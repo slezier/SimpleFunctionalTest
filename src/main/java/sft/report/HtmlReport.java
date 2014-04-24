@@ -263,20 +263,20 @@ public class HtmlReport extends Report {
     }
 
     private String getScenario(ScenarioResult scenarioResult) {
-        String scenarioHtml = new TemplateString(scenarioTemplate)
-                .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
-                .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
-                .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
-                .replace("@@@beforeScenarioTemplate@@@", getBeforeScenario(scenarioResult))
-                .replace("@@@scenarioInstructionTemplates@@@", getScenarioInstructions(scenarioResult))
-                .replace("@@@afterScenarioTemplate@@@", getAfterScenario(scenarioResult))
-                .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
-                .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
-                .getText();
+        return scenarioResult.scenario.decorator.applyOnScenario(scenarioResult);
+    }
 
-        scenarioHtml = scenarioResult.scenario.decorator.applyOnScenario(scenarioHtml);
-
-        return scenarioHtml;
+    public String generateScenario(ScenarioResult scenarioResult) {
+        return new TemplateString(scenarioTemplate)
+                    .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
+                    .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
+                    .replace("@@@scenarioCommentTemplate@@@", getScenarioComment(scenarioResult))
+                    .replace("@@@beforeScenarioTemplate@@@", getBeforeScenario(scenarioResult))
+                    .replace("@@@scenarioInstructionTemplates@@@", getScenarioInstructions(scenarioResult))
+                    .replace("@@@afterScenarioTemplate@@@", getAfterScenario(scenarioResult))
+                    .replace("@@@displayedContextsTemplates@@@", extractDisplayedContexts(scenarioResult))
+                    .replace("@@@exceptionTemplate@@@", getStackTrace(scenarioResult.failure))
+                    .getText();
     }
 
     private String getScenarioInstructions(ScenarioResult scenarioResult) {

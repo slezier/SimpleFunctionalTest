@@ -13,6 +13,7 @@ package sft.decorators;
 
 import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class NullDecorator extends Decorator {
     }
 
     @Override
-    public String applyOnScenario(String result) {
-        return getImplementation().applyOnScenario(result);
+    public String applyOnScenario(ScenarioResult scenarioResult) {
+        return getImplementation().applyOnScenario(scenarioResult);
     }
 
     @Override

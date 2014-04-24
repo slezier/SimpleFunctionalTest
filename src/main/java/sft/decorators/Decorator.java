@@ -14,6 +14,7 @@ package sft.decorators;
 import sft.DefaultConfiguration;
 import sft.report.HtmlReport;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public abstract class Decorator  implements DecoratorReportImplementation{
     }
 
     @Override
-    public String applyOnScenario(String result) {
+    public String applyOnScenario(ScenarioResult scenarioResult) {
         throw new RuntimeException(getClass().getName()+" couldn't be applied on scenario");
     }
 

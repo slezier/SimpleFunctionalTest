@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -26,13 +27,13 @@ public class HtmlStyle extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnUseCase(UseCaseResult useCaseResult){
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
         String result = getHtmlReport().generateUseCase(useCaseResult);
         return addStyleToElementWithClass(result, ".useCase");
     }
 
-    protected String[] getStyles(){
-        if(parameters == null || parameters.length == 0 ){
+    protected String[] getStyles() {
+        if (parameters == null || parameters.length == 0) {
             throw new RuntimeException("Style decorator need one or more parameters");
         }
         return parameters;
@@ -42,8 +43,8 @@ public class HtmlStyle extends HtmlDecorator {
         final Document parse = Jsoup.parse(result);
 
         final Elements elements = parse.select(cssQuery);
-        if(elements == null || elements.size()==0){
-            throw new RuntimeException("The decorator "+this.getClass().getCanonicalName()+" need class "+cssQuery+" in generated html to be usable.");
+        if (elements == null || elements.size() == 0) {
+            throw new RuntimeException("The decorator " + this.getClass().getCanonicalName() + " need class " + cssQuery + " in generated html to be usable.");
         }
         for (String style : getStyles()) {
             elements.addClass(style);
@@ -51,16 +52,17 @@ public class HtmlStyle extends HtmlDecorator {
         return parse.toString();
     }
 
-     @Override
-    public String applyOnScenario(String result){
+    @Override
+    public String applyOnScenario(ScenarioResult scenarioResult) {
+        String result = getHtmlReport().generateScenario(scenarioResult);
         return addStyleToElementWithClass(result, ".scenario");
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts){
+    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
         String result = "";
         for (String fixture : fixtures) {
-            result+= addStyleToElementWithClass(fixture, ".instruction");
+            result += addStyleToElementWithClass(fixture, ".instruction");
         }
         return result;
     }

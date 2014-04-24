@@ -13,6 +13,7 @@ package sft.report.decorators;
 
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.io.IOException;
@@ -30,8 +31,8 @@ public class HtmlNullDecorator extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnScenario(String result) {
-        return result;
+    public String applyOnScenario(ScenarioResult scenarioResult) {
+        return getHtmlReport().generateScenario(scenarioResult);
     }
 
     @Override

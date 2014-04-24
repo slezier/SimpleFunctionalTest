@@ -5,6 +5,7 @@ import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
 import sft.report.HtmlReport;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.UseCaseResult;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     }
 
     @Override
-    public String applyOnScenario(String result) {
+    public String applyOnScenario(ScenarioResult scenarioResult) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 
