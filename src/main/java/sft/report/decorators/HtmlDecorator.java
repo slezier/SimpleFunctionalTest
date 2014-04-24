@@ -36,7 +36,7 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     }
 
     @Override
-    public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
         throw new RuntimeException("Decorator " + getClass().getName()+" not implemented for use case");
     }
 

@@ -36,10 +36,10 @@ public class HtmlNullDecorator extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
         String result ="";
-        for (String fixture : fixtures) {
-            result+=fixture;
+        for (FixtureCallResult fixture : fixtureCallResuts) {
+            result+=getHtmlReport().generateFixtureCall(fixture);
         }
         return result;
     }

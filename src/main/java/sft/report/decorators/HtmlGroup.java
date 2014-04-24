@@ -22,16 +22,16 @@ public class HtmlGroup extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
-        if (fixtures.isEmpty()) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
+        if (fixtureCallResuts.isEmpty()) {
             return "";
         }
         String result = "<div>";
         if (getName() != null) {
             result += "<h4 class='group'>" + getName() + "</h4>";
         }
-        for (String fixture : fixtures) {
-            result += fixture;
+        for (FixtureCallResult fixture : fixtureCallResuts) {
+            result += getHtmlReport().generateFixtureCall(fixture);
         }
         return result + "</div>";
     }

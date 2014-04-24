@@ -286,27 +286,32 @@ public class HtmlReport extends Report {
 
         final ArrayList<String> instructions = new ArrayList<String>();
         final ArrayList<FixtureCallResult> fixtureCallResults = new ArrayList<FixtureCallResult>();
+
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
             if( ! decorator.comply(fixture.decorator)){
-                result+= decorator.applyOnFixtures(instructions, fixtureCallResults);
+                result+= decorator.applyOnFixtures(fixtureCallResults);
                 instructions.clear();
                 fixtureCallResults.clear();
                 decorator = fixture.decorator;
             }
 
-            String instruction = getInstructionWithParameter(fixtureCallResult.fixtureCall);
-
-            String instructionHtml = new TemplateString(scenarioInstructionTemplate)
-                    .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
-                    .replace("@@@instruction.text@@@", instruction)
-                    .getText();
+            String instructionHtml = generateFixtureCall(fixtureCallResult);
 
             instructions.add(instructionHtml);
             fixtureCallResults.add(fixtureCallResult);
         }
-        result+= decorator.applyOnFixtures(instructions, fixtureCallResults);
+        result+= decorator.applyOnFixtures(fixtureCallResults);
         return result;
+    }
+
+    public String generateFixtureCall(FixtureCallResult fixtureCallResult) {
+        String instruction = generateInstructionWithParameter(fixtureCallResult.fixtureCall);
+
+        return new TemplateString(scenarioInstructionTemplate)
+                .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
+                .replace("@@@instruction.text@@@", instruction)
+                .getText();
     }
 
     private String getBeforeScenario(ScenarioResult scenarioResult) {
@@ -410,13 +415,13 @@ public class HtmlReport extends Report {
         String instructions = "";
         for (FixtureCall fixtureCall : context.fixtureCalls) {
             instructions += new TemplateString(contextInstructionTemplate)
-                    .replace("@@@instruction.text@@@", getInstructionWithParameter(fixtureCall))
+                    .replace("@@@instruction.text@@@", generateInstructionWithParameter(fixtureCall))
                     .getText();
         }
         return instructions;
     }
 
-    private String getInstructionWithParameter(FixtureCall testFixture) {
+    private String generateInstructionWithParameter(FixtureCall testFixture) {
         String instruction = testFixture.fixture.getText();
         for (Map.Entry<String, String> parameter: testFixture.getParameters().entrySet()) {
             String value = Matcher.quoteReplacement(getParameter(parameter.getValue()));

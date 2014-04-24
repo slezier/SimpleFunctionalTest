@@ -40,7 +40,7 @@ public abstract class Decorator  implements DecoratorReportImplementation{
     }
 
     @Override
-    public String applyOnFixtures(List<String> result, List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts) {
         throw new RuntimeException(getClass().getName()+" can't be apply on fixture");
     }
 

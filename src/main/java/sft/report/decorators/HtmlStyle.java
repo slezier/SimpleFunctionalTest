@@ -59,10 +59,10 @@ public class HtmlStyle extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
         String result = "";
-        for (String fixture : fixtures) {
-            result += addStyleToElementWithClass(fixture, ".instruction");
+        for (FixtureCallResult fixture : fixtureCallResuts) {
+            result += addStyleToElementWithClass(getHtmlReport().generateFixtureCall(fixture), ".instruction");
         }
         return result;
     }

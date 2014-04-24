@@ -22,7 +22,7 @@ public class HtmlTable extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
         String result = "<table class='table'>";
         if(getTitle() != null ){
             result+="<caption>"+ getTitle()+"</caption>";

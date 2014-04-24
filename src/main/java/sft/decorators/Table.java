@@ -22,8 +22,8 @@ public class Table extends Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts) {
-        return getImplementation().applyOnFixtures(instructions,fixtureCallResuts);
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts) {
+        return getImplementation().applyOnFixtures(fixtureCallResuts);
     }
 
     @Override

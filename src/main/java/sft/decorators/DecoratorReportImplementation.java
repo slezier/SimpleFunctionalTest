@@ -23,6 +23,6 @@ public interface DecoratorReportImplementation {
 
     String applyOnScenario(ScenarioResult scenarioResult);
 
-    String applyOnFixtures(List<String> instructions, List<FixtureCallResult> fixtureCallResuts);
+    String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts);
 
 }

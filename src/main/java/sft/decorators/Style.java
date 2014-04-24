@@ -34,8 +34,8 @@ public class Style extends Decorator {
     }
 
     @Override
-    public String applyOnFixtures(List<String> fixtures, List<FixtureCallResult> fixtureCallResuts){
-        return getImplementation().applyOnFixtures(fixtures,fixtureCallResuts);
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts){
+        return getImplementation().applyOnFixtures(fixtureCallResuts);
     }
 
     @Override
