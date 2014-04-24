@@ -284,21 +284,16 @@ public class HtmlReport extends Report {
         String result = "";
         Decorator decorator = new NullDecorator(configuration,null);
 
-        final ArrayList<String> instructions = new ArrayList<String>();
         final ArrayList<FixtureCallResult> fixtureCallResults = new ArrayList<FixtureCallResult>();
 
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
             if( ! decorator.comply(fixture.decorator)){
                 result+= decorator.applyOnFixtures(fixtureCallResults);
-                instructions.clear();
                 fixtureCallResults.clear();
                 decorator = fixture.decorator;
             }
 
-            String instructionHtml = generateFixtureCall(fixtureCallResult);
-
-            instructions.add(instructionHtml);
             fixtureCallResults.add(fixtureCallResult);
         }
         result+= decorator.applyOnFixtures(fixtureCallResults);
