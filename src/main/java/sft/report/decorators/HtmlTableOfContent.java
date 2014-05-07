@@ -17,6 +17,7 @@ import sft.UseCase;
 import sft.decorators.Decorator;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.ScenarioResult;
+import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
 public class HtmlTableOfContent extends HtmlDecorator {
@@ -36,16 +37,17 @@ public class HtmlTableOfContent extends HtmlDecorator {
 
     private String printUseCase(UseCase initialUseCase, UseCaseResult useCaseResult) {
         String result = "<ol>";
-        for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
+        for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
+
             final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport().pathResolver;
             final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
-            final String target = relativeHtmlPathResolver.getPathOf(subUseCaseResult.useCase.classUnderTest, ".html");
+            final String target = relativeHtmlPathResolver.getPathOf(subUseCaseResult.useCaseResult.useCase.classUnderTest, ".html");
             final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
 
-            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(subUseCaseResult.getIssue())+"'>" +
-                    "<span><a href='"+pathToUseCaseToBreadcrumb+"'>"+subUseCaseResult.useCase.getName()+"</a></span>"+
-                    printScenario(subUseCaseResult) +
-                    printUseCase(initialUseCase, subUseCaseResult) +
+            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(subUseCaseResult.useCaseResult.getIssue())+"'>" +
+                    "<span><a href='"+pathToUseCaseToBreadcrumb+"'>"+subUseCaseResult.useCaseResult.useCase.getName()+"</a></span>"+
+                    printScenario(subUseCaseResult.useCaseResult) +
+                    printUseCase(initialUseCase, subUseCaseResult.useCaseResult) +
                     "</li>";
         }
         return result+"</ol>";

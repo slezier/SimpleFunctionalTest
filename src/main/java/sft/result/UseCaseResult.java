@@ -19,7 +19,7 @@ import static sft.result.Issue.FAILED;
 public class UseCaseResult {
 
     public final UseCase useCase;
-    public ArrayList<UseCaseResult> subUseCaseResults = new ArrayList<UseCaseResult>();
+    public ArrayList<SubUseCaseResult> subUseCaseResults = new ArrayList<SubUseCaseResult>();
     public ArrayList<ScenarioResult> scenarioResults = new ArrayList<ScenarioResult>();
     public ContextResult beforeResult;
     public ContextResult afterResult;
@@ -48,8 +48,8 @@ public class UseCaseResult {
                     result = Issue.SUCCEEDED;
             }
         }
-        for (UseCaseResult subUseCaseResult : subUseCaseResults) {
-            switch (subUseCaseResult.getIssue()) {
+        for (SubUseCaseResult subUseCaseResult : subUseCaseResults) {
+            switch (subUseCaseResult.useCaseResult.getIssue()) {
                 case FAILED:
                     return Issue.FAILED;
                 case SUCCEEDED:

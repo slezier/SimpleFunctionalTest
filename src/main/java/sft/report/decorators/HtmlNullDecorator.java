@@ -12,12 +12,11 @@
 package sft.report.decorators;
 
 import sft.DefaultConfiguration;
-import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
+import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
-import java.io.IOException;
 import java.util.List;
 
 public class HtmlNullDecorator extends HtmlDecorator {
@@ -37,11 +36,17 @@ public class HtmlNullDecorator extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures( List<FixtureCallResult> fixtureCallResuts, String... parameters) {
-        String result ="";
-        for (FixtureCallResult fixture : fixtureCallResuts) {
-            result+=getHtmlReport().generateFixtureCall(fixture);
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResults, String... parameters) {
+        String result = "";
+        for (FixtureCallResult fixture : fixtureCallResults) {
+            result += getHtmlReport().generateFixtureCall(fixture);
         }
         return result;
     }
+
+    @Override
+    public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
+        return getHtmlReport().generateSubUseCases(useCaseResult);
+    }
+
 }

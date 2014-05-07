@@ -23,6 +23,7 @@ import sft.result.ContextResult;
 import sft.result.FixtureCallResult;
 import sft.result.Issue;
 import sft.result.ScenarioResult;
+import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
 import java.io.File;
@@ -33,7 +34,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -250,23 +250,44 @@ public class HtmlReport extends Report {
 
     private String getRelatedUseCases(UseCaseResult useCaseResult) {
         if (!useCaseResult.subUseCaseResults.isEmpty()) {
-            return new TemplateString(relatedUseCasesTemplate)
-                    .replace("@@@relatedUseCaseTemplates@@@", getRelatedUseCase(useCaseResult))
-                    .getText();
+            return getRelatedUseCase(useCaseResult);
         }
         return "";
     }
 
     private String getRelatedUseCase(UseCaseResult useCaseResult) {
+        String result = "";
+        Decorator decorator = null;
+        ArrayList<SubUseCaseResult> subUseCaseResults = new ArrayList<SubUseCaseResult>();
+        for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults){
+            if(decorator==null){
+                decorator = subUseCaseResult.subUseCase.decorator;
+            }else if(! decorator.comply(subUseCaseResult.subUseCase.decorator)){
+                result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults);
+                decorator = subUseCaseResult.subUseCase.decorator;
+                subUseCaseResults = new ArrayList<SubUseCaseResult>();
+            }
+            subUseCaseResults.add(subUseCaseResult);
+        }
+        if(! subUseCaseResults.isEmpty()){
+            result += generateSubUseCases(subUseCaseResults);
+        }
+        return result;
+    }
+
+    public String generateSubUseCases(List<SubUseCaseResult> subUseCaseResults) {
         String relatedUseCase = "";
-        for (UseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
+        for (SubUseCaseResult subUseCaseResult : subUseCaseResults) {
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
-                    .replace("@@@relatedUseCase.issue@@@", htmlResources.convertIssue(subUseCaseResult.getIssue()))
-                    .replace("@@@relatedUseCase.link@@@", getRelativeUrl(subUseCaseResult.useCase, useCaseResult))
-                    .replace("@@@relatedUseCase.name@@@", subUseCaseResult.useCase.getName())
+                    .replace("@@@relatedUseCase.issue@@@", htmlResources.convertIssue(subUseCaseResult.useCaseResult.getIssue()))
+                    .replace("@@@relatedUseCase.link@@@", getRelativeUrl(subUseCaseResult.useCaseResult.useCase, subUseCaseResult.subUseCase.parentUseCase))
+                    .replace("@@@relatedUseCase.name@@@", subUseCaseResult.useCaseResult.useCase.getName())
                     .getText();
         }
-        return relatedUseCase;
+
+        return new TemplateString(relatedUseCasesTemplate)
+                .replace("@@@relatedUseCaseTemplates@@@", relatedUseCase)
+                .getText();
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {
@@ -437,8 +458,8 @@ public class HtmlReport extends Report {
         return comment;
     }
 
-    private String getRelativeUrl(UseCase subUseCase, UseCaseResult useCaseResult) {
-        String source = pathResolver.getPathOf(useCaseResult.useCase.classUnderTest, ".html");
+    private String getRelativeUrl(UseCase subUseCase, UseCase  parentUseCase) {
+        String source = pathResolver.getPathOf(parentUseCase.classUnderTest, ".html");
         String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
         return pathResolver.getRelativePathToFile(source, target);
     }

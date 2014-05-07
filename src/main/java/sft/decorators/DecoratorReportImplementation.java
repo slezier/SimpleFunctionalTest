@@ -12,9 +12,9 @@ package sft.decorators;
 
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
+import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface DecoratorReportImplementation {
@@ -24,5 +24,7 @@ public interface DecoratorReportImplementation {
     String applyOnScenario(ScenarioResult scenarioResult, String... parameters);
 
     String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters);
+
+    String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters);
 
 }

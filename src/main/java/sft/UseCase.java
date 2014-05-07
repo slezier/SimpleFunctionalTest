@@ -37,7 +37,7 @@ public class UseCase extends FixturesHolder {
     public final UseCase parent;
     public final Decorator useCaseDecorator;
     public final ArrayList<Scenario> scenarios;
-    public final ArrayList<UseCase> subUseCases;
+    public final ArrayList<SubUseCase> subUseCases;
     public final ArrayList<Helper> fixturesHelpers;
     public final ContextHandler beforeUseCase;
     public final ContextHandler afterUseCase;
@@ -53,13 +53,13 @@ public class UseCase extends FixturesHolder {
     }
 
 
-    public UseCase(UseCase useCase,Class<?> classUnderTest) throws Exception {
-        this(useCase, classUnderTest.newInstance(), new DefaultConfiguration());
+    public UseCase(UseCase parent,Class<?> classUnderTest) throws Exception {
+        this(parent, classUnderTest.newInstance(), new DefaultConfiguration());
     }
 
-    private UseCase(UseCase useCase, Object object, DefaultConfiguration configuration) throws Exception {
-        super(object, FixturesVisibility.PrivateOrProtectedOnly,configuration);
-        parent = useCase;
+    public UseCase(UseCase parent, Object objectUnderTest, DefaultConfiguration configuration) throws Exception {
+        super(objectUnderTest, FixturesVisibility.PrivateOrProtectedOnly,configuration);
+        this.parent = parent;
         javaToHumanTranslator = new JavaToHumanTranslator();
         useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration,classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
@@ -69,7 +69,7 @@ public class UseCase extends FixturesHolder {
         afterUseCase = extractAfterClassContextHandler();
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
-        displayedContext = extractDisplayedContext(object);
+        displayedContext = extractDisplayedContext(objectUnderTest);
         UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration, classUnderTest);
         javaClassParser.feed(this);
     }
@@ -123,18 +123,20 @@ public class UseCase extends FixturesHolder {
         return scenarios;
     }
 
-    private ArrayList<UseCase> extractSubUseCases() throws Exception {
-        ArrayList<UseCase> subUseCases = new ArrayList<UseCase>();
+    private ArrayList<SubUseCase> extractSubUseCases() throws Exception {
+        ArrayList<SubUseCase> subUseCases = new ArrayList<SubUseCase>();
         for (Field field : getPublicFields()) {
             Object subUseCaseObject = field.get(object);
+            final Decorator decorator = DecoratorExtractor.getDecorator(configuration, field.getDeclaredAnnotations());
             if (subUseCaseObject == null) {
-                subUseCases.add(new UseCase(this,field.getType().getClass().newInstance(), configuration));
+                subUseCases.add(new SubUseCase(this,field.getType().getClass().newInstance(), configuration, decorator));
             } else {
-                subUseCases.add(new UseCase(this,subUseCaseObject, configuration));
+                subUseCases.add(new SubUseCase(this,subUseCaseObject, configuration,decorator));
             }
         }
         return subUseCases;
     }
+
 
     private ArrayList<Helper> extractFixturesHelpers() throws Exception {
         ArrayList<Helper> helpers = new ArrayList<Helper>();

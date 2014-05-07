@@ -35,7 +35,7 @@ import sft.decorators.Breadcrumb;
             <tr/>
             <tr>
                 <td><a href="LinksUseCasesTogether.html">Public field</a></td>
-                <td>Related useCase</td>
+                <td>Related subUseCase</td>
                 <td>HTML link</td>
             <tr/>
             <tr>

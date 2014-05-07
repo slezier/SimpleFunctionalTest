@@ -41,8 +41,8 @@ public class Settings {
     private void allSettingsOfAnUseCaseAreHoldByTheClassDefaultConfiguration() throws Exception {
         useCase = new UseCase(CommonUseCase.class);
         Assert.assertEquals(DefaultConfiguration.class, useCase.configuration.getClass());
-        Assert.assertEquals(DefaultConfiguration.class, useCase.subUseCases.get(0).configuration.getClass());
-        Assert.assertEquals(DefaultConfiguration.class, useCase.subUseCases.get(1).configuration.getClass());
+        Assert.assertEquals(DefaultConfiguration.class, useCase.subUseCases.get(0).subUseCase.configuration.getClass());
+        Assert.assertEquals(DefaultConfiguration.class, useCase.subUseCases.get(1).subUseCase.configuration.getClass());
     }
 
     @Text("To modify settings you have to create an inherited class from DefaultConfiguration and change setting in the constructor")
@@ -61,8 +61,8 @@ public class Settings {
     }
 
     private void allRelatedUseCasesWillUseThisConfiguration() {
-        Assert.assertEquals(CustomConfiguration.class, useCase.subUseCases.get(0).configuration.getClass());
-        Assert.assertEquals(CustomConfiguration.class, useCase.subUseCases.get(1).configuration.getClass());
+        Assert.assertEquals(CustomConfiguration.class, useCase.subUseCases.get(0).subUseCase.configuration.getClass());
+        Assert.assertEquals(CustomConfiguration.class, useCase.subUseCases.get(1).subUseCase.configuration.getClass());
     }
 
 

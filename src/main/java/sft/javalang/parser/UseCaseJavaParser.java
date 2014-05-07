@@ -40,7 +40,7 @@ public class UseCaseJavaParser extends JavaFileParser {
                 throw new RuntimeException(e);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Can't found class for useCase "+useCase.getName() + " (you probably use the "+useCase.classUnderTest.getCanonicalName()+" as a public field of an use case).",e);
+            throw new RuntimeException("Can't found class for subUseCase "+useCase.getName() + " (you probably use the "+useCase.classUnderTest.getCanonicalName()+" as a public field of an use case).",e);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

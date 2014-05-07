@@ -10,5 +10,14 @@
  *******************************************************************************/
 package sft.result;
 
+import sft.SubUseCase;
+
 public class SubUseCaseResult {
+    public final SubUseCase subUseCase;
+    public final UseCaseResult useCaseResult ;
+
+    public SubUseCaseResult(SubUseCase subUseCase ,UseCaseResult useCaseResult ){
+        this.subUseCase = subUseCase;
+        this.useCaseResult = useCaseResult;
+    }
 }

@@ -13,6 +13,7 @@ package sft.junit;
 
 import org.junit.runner.Description;
 import sft.Scenario;
+import sft.SubUseCase;
 import sft.UseCase;
 import sft.result.UseCaseResult;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class UseCaseRunner {
 
 
-    private final ArrayList<UseCaseRunner> subUseCasesRunners = new ArrayList<UseCaseRunner>();
+    private final ArrayList<SubUseCaseRunner> subUseCasesRunners = new ArrayList<SubUseCaseRunner>();
     private final ArrayList<ScenarioRunner> scenarioRunners = new ArrayList<ScenarioRunner>();
     private final ContextRunner beforeUseCaseRunner;
     private final ContextRunner afterUseCaseRunner;
@@ -36,8 +37,8 @@ public class UseCaseRunner {
         for (Scenario scenario : useCase.scenarios) {
             scenarioRunners.add(new ScenarioRunner(scenario));
         }
-        for (UseCase subUseCase : useCase.subUseCases) {
-            subUseCasesRunners.add(new UseCaseRunner(subUseCase));
+        for (SubUseCase subUseCase : useCase.subUseCases) {
+            subUseCasesRunners.add(new SubUseCaseRunner(subUseCase));
         }
         beforeUseCaseRunner = new ContextRunner(this,useCase.beforeUseCase);
         afterUseCaseRunner = new ContextRunner(this,useCase.afterUseCase);
@@ -48,7 +49,7 @@ public class UseCaseRunner {
         for (ScenarioRunner scenarioRunner : scenarioRunners) {
             description.addChild(scenarioRunner.getDescription());
         }
-        for (UseCaseRunner subUseCaseRunner : subUseCasesRunners) {
+        for (SubUseCaseRunner subUseCaseRunner : subUseCasesRunners) {
             description.addChild(subUseCaseRunner.getDescription());
         }
         return description;
@@ -78,7 +79,7 @@ public class UseCaseRunner {
                 useCaseResult.afterResult = afterUseCaseRunner.ignore();
             }
 
-            for (UseCaseRunner subUseCaseRunner : subUseCasesRunners) {
+            for (SubUseCaseRunner subUseCaseRunner : subUseCasesRunners) {
                 useCaseResult.subUseCaseResults.add(subUseCaseRunner.run(notifier));
             }
             notifier.fireUseCaseFinished(this);
