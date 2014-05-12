@@ -134,11 +134,14 @@ public class HtmlReport extends Report {
             "          <div>\n" +
                     "            <span>@@@instruction.text@@@</span>\n" +
                     "          </div>\n";
-    public String relatedUseCasesTemplate =
-            "      <div class=\"panel panel-default\">\n" +
+
+    public String relatedUseCasesTitleTemplate =
                     "        <div class=\"panel-heading\">\n" +
-                    "          <h3>Related uses cases</h3>\n" +
-                    "        </div>\n" +
+                    "          <h3>@@@relatedUseCasesTitle@@@</h3>\n" +
+                    "        </div>\n";
+    public String relatedUseCasesTemplate =
+            "      <div class=\"panel panel-default relatedUseCases\">\n"  +
+                    "@@@relatedUseCasesTitleTemplates@@@" +
                     "        <div class=\"panel-body\">\n" +
                     "          <ul>\n" +
                     "@@@relatedUseCaseTemplates@@@" +
@@ -263,19 +266,19 @@ public class HtmlReport extends Report {
             if(decorator==null){
                 decorator = subUseCaseResult.subUseCase.decorator;
             }else if(! decorator.comply(subUseCaseResult.subUseCase.decorator)){
-                result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults);
+                result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults,decorator.parameters);
                 decorator = subUseCaseResult.subUseCase.decorator;
                 subUseCaseResults = new ArrayList<SubUseCaseResult>();
             }
             subUseCaseResults.add(subUseCaseResult);
         }
         if(! subUseCaseResults.isEmpty()){
-            result += generateSubUseCases(subUseCaseResults);
+            result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults,decorator.parameters);
         }
         return result;
     }
 
-    public String generateSubUseCases(List<SubUseCaseResult> subUseCaseResults) {
+    public String generateSubUseCases(String title, List<SubUseCaseResult> subUseCaseResults) {
         String relatedUseCase = "";
         for (SubUseCaseResult subUseCaseResult : subUseCaseResults) {
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
@@ -285,9 +288,14 @@ public class HtmlReport extends Report {
                     .getText();
         }
 
-        return new TemplateString(relatedUseCasesTemplate)
-                .replace("@@@relatedUseCaseTemplates@@@", relatedUseCase)
-                .getText();
+        final TemplateString replace = new TemplateString(relatedUseCasesTemplate)
+                .replace("@@@relatedUseCaseTemplates@@@", relatedUseCase);
+
+        if( title != null ){
+            return replace.replace("@@@relatedUseCasesTitleTemplates@@@", new TemplateString(relatedUseCasesTitleTemplate).replace("@@@relatedUseCasesTitle@@@",title).getText()).getText();
+        } else {
+            return replace.replace("@@@relatedUseCasesTitleTemplates@@@", "").getText();
+        }
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {

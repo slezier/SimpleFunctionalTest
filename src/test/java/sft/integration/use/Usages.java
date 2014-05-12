@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.SimpleFunctionalTest;
 import sft.decorators.Breadcrumb;
+import sft.decorators.Group;
 
 /*
 
@@ -95,15 +96,31 @@ import sft.decorators.Breadcrumb;
 @Decorate(decorator = Breadcrumb.class)
 public class Usages {
 
+    private static final String BASIC = "Basic";
+    @Decorate(decorator = Group.class,parameters = BASIC)
     public CommonUsage commonUsage = new CommonUsage();
+    @Decorate(decorator = Group.class,parameters = BASIC)
     public HumanizationCodeUsage humanizationCodeUsage = new HumanizationCodeUsage();
-    public LinksUseCasesTogether linksUseCase = new LinksUseCasesTogether();
+    @Decorate(decorator = Group.class,parameters = BASIC)
     public CommentUsage commentUsage = new CommentUsage();
-    public DefiningTestContextForAnUseCase definingTestContextForAnUseCase = new DefiningTestContextForAnUseCase();
-    public DefiningTestContextForAScenario definingTestContextForAScenario = new DefiningTestContextForAScenario();
-    public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
+
+    private static final String INTERMEDIATE = "Intermediate";
+    @Decorate(decorator = Group.class,parameters = INTERMEDIATE)
+    public LinksUseCasesTogether linksUseCase = new LinksUseCasesTogether();
+    @Decorate(decorator = Group.class,parameters = INTERMEDIATE)
     public UsingParameterizedFixture usingParameterizedFixture = new UsingParameterizedFixture();
-    public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
+    @Decorate(decorator = Group.class,parameters = INTERMEDIATE)
     public UsingDecorator usingDecorator = new UsingDecorator();
+
+    private static final String ADVANCED = "Advanced";
+    @Decorate(decorator = Group.class,parameters = ADVANCED)
+    public DefiningTestContextForAnUseCase definingTestContextForAnUseCase = new DefiningTestContextForAnUseCase();
+    @Decorate(decorator = Group.class,parameters = ADVANCED)
+    public DefiningTestContextForAScenario definingTestContextForAScenario = new DefiningTestContextForAScenario();
+    @Decorate(decorator = Group.class,parameters = ADVANCED)
+    public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
+    @Decorate(decorator = Group.class,parameters = ADVANCED)
+    public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
+
 
 }

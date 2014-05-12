@@ -11,8 +11,8 @@
 package sft.report.decorators;
 
 import sft.DefaultConfiguration;
-import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
+import sft.result.SubUseCaseResult;
 
 import java.util.List;
 
@@ -36,6 +36,11 @@ public class HtmlGroup extends HtmlDecorator {
             result += getHtmlReport().generateFixtureCall(fixture);
         }
         return result + "</div>";
+    }
+
+    @Override
+    public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
+        return getHtmlReport().generateSubUseCases(getName(parameters), useCaseResult);
     }
 
     private String getName(String... parameters){

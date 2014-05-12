@@ -10,6 +10,7 @@ import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.UseCase;
 import sft.decorators.Breadcrumb;
+import sft.decorators.Group;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.set.sut.CommonUseCase;
 import sft.integration.set.sut.CustomConfiguration;
@@ -21,11 +22,14 @@ import sft.report.HtmlResources;
 @Decorate(decorator = Breadcrumb.class)
 public class Settings {
 
+    private static final String AVAILABLE_SETTINGS = "Available settings";
     @Displayable
     private String files;
     private UseCase useCase;
 
+    @Decorate(decorator = Group.class,parameters = AVAILABLE_SETTINGS)
     public HtmlReportSettings htmlReportSettings = new HtmlReportSettings();
+    @Decorate(decorator = Group.class,parameters = AVAILABLE_SETTINGS)
     public SourceAndClassSettings sourceAndClassSettings = new SourceAndClassSettings();
 
 

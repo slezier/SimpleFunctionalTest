@@ -62,7 +62,6 @@ public class UsingDecorator {
     }
 
     @Test
-    @Ignore
     public void groupRelatedUseCases() throws Exception {
         byAddingAGroupDecoratorWithParameterOnUseCase("Error cases");
         relatedUseCaseWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle("Error cases");
@@ -79,14 +78,14 @@ public class UsingDecorator {
     }
 
     private void relatedUseCaseWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
-        final Elements useCaseGroup = jUnitHelper.html.select("div.relatedUseCases");
+        final Elements useCaseGroup = jUnitHelper.html.select("*.relatedUseCases");
         Assert.assertEquals(2, useCaseGroup.size());
-        Assert.assertEquals(name, useCaseGroup.get(0).select("h4").text());
-        Assert.assertEquals(2, useCaseGroup.get(0).select("relatedUseCase").size());
-        Assert.assertEquals(0, useCaseGroup.get(1).select("h4").size());
+        Assert.assertEquals(name, useCaseGroup.get(0).select("h3").text());
+        Assert.assertEquals(2, useCaseGroup.get(0).select("*.relatedUseCase").size());
+        Assert.assertEquals(0, useCaseGroup.get(1).select("h3").size());
     }
 
-    @Text("By adding a group decorator with parameter ${name}  on field implemetig related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
+    @Text("By adding a group decorator with parameter ${name}  on field implementing related use case: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnUseCase(String name) throws IOException {
         jUnitHelper = new JUnitHelper(this.getClass(), UseCaseGroupDecoratorSample.class);
         displayableResources = new DisplayableResources("", jUnitHelper.displayResources);

@@ -46,7 +46,7 @@ public class HtmlNullDecorator extends HtmlDecorator {
 
     @Override
     public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
-        return getHtmlReport().generateSubUseCases(useCaseResult);
+        return getHtmlReport().generateSubUseCases(null, useCaseResult);
     }
 
 }

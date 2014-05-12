@@ -1,8 +1,10 @@
 package sft.integration;
 
 import org.junit.runner.RunWith;
+import sft.Decorate;
 import sft.SimpleFunctionalTest;
 import sft.Using;
+import sft.decorators.Group;
 import sft.integration.extend.Extend;
 import sft.integration.hack.Hack;
 import sft.integration.set.Settings;
@@ -93,8 +95,14 @@ import sft.integration.use.Usages;
 @RunWith(SimpleFunctionalTest.class)
 @Using(SftDocumentationConfiguration.class)
 public class HowToUseSimpleFunctionalTest {
+    private static final String EXPLORE = "Explore";
+
+    @Decorate(decorator = Group.class,parameters = EXPLORE)
     public Usages usages= new Usages();
+    @Decorate(decorator = Group.class,parameters = EXPLORE)
     public Settings settings = new Settings();
+    @Decorate(decorator = Group.class,parameters = EXPLORE)
     public Hack hack = new Hack();
+    @Decorate(decorator = Group.class,parameters = EXPLORE)
     public Extend extend = new Extend();
 }
