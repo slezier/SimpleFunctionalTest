@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -39,7 +38,7 @@ public class UsingDecorator {
         theElementWillHaveTheCssClass("style");
         severalStylesCanBeSpecified("style1", "style2", "style3");
 
-        theStyleDecoratorCanBeApplyOnUseCaseScenarioAndFixture();
+        theStyleDecoratorCanBeApplyOnUseCaseScenarioFixtureAndSubUseCase();
     }
 
     @Test
@@ -172,11 +171,13 @@ public class UsingDecorator {
         Assert.assertTrue("Expecting class " + style3 + " in scenario div", select.hasClass(style3));
     }
 
-    private void theStyleDecoratorCanBeApplyOnUseCaseScenarioAndFixture() throws Exception {
+    @Text("The style decorator can be apply on use case, scenario, fixture and sub use case")
+    private void theStyleDecoratorCanBeApplyOnUseCaseScenarioFixtureAndSubUseCase() throws Exception {
         final Document htmlReport = jUnitHelper.html;
         Assert.assertTrue("Expecting class style in body", htmlReport.select("body.useCase").hasClass("style"));
         Assert.assertTrue("Expecting class style1 in scenario div", htmlReport.select("div.scenario").hasClass("style1"));
         Assert.assertTrue("Expecting class style4 in instruction div", htmlReport.select("div.instruction").hasClass("style4"));
+        Assert.assertTrue("Expecting class style5 in relatedUseCase li", htmlReport.select("li.relatedUseCase").hasClass("style5"));
     }
 
     private void byAddingBreadcrumbDecoratorOnUseCase() throws Exception {

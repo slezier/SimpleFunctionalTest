@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.SimpleFunctionalTest;
 import sft.decorators.Style;
+import sft.integration.use.sut.decorators.subUseCase.OtherSubUseCase;
 
 @RunWith(SimpleFunctionalTest.class)
 @Decorate(decorator = Style.class, parameters ="style")
@@ -19,5 +20,8 @@ public class StyleDecoratorSample {
     @Decorate(decorator = Style.class, parameters ="style4" )
     private void call1() {
     }
+
+    @Decorate(decorator = Style.class, parameters ="style5" )
+    public OtherSubUseCase subUseCase = new OtherSubUseCase();
 
 }

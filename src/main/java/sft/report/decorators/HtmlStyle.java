@@ -17,6 +17,7 @@ import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
+import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
 import java.util.List;
@@ -64,8 +65,17 @@ public class HtmlStyle extends HtmlDecorator {
     public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
         String result = "";
         for (FixtureCallResult fixture : fixtureCallResuts) {
-            result += addStyleToElementWithClass(getHtmlReport().generateFixtureCall(fixture), ".instruction", parameters);
+            final String html = getHtmlReport().generateFixtureCall(fixture);
+            result += addStyleToElementWithClass(html, ".instruction", parameters);
         }
         return result;
+    }
+
+    @Override
+    public String applyOnSubUseCase(List<SubUseCaseResult> subUseCaseResults, String... parameters) {
+
+        final String html = getHtmlReport().generateSubUseCases(null, subUseCaseResults);
+
+        return addStyleToElementWithClass(html, ".relatedUseCase",parameters);
     }
 }
