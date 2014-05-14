@@ -3,6 +3,7 @@ package sft.integration.use;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -12,6 +13,7 @@ import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.DisplayContext;
+import sft.integration.use.sut.subUseCase.DisplayContextFromHelper;
 
 import java.io.IOException;
 
@@ -29,6 +31,25 @@ public class DisplayingTestContext {
         displayableObjectsAreDisplayedOnlyIfThereAreNotNull();
         allDisplayableObjectsAreDisplayedAfterScenario();
         allDisplayableObjectsAreUnsetBetweenScenarios();
+    }
+
+    @Test
+    public void usingDisplayableObjectFromFixturesHelper() throws IOException {
+        aScenarioUsingFixturesHelper();
+        displaysPublicFieldAnnotatedWithDisplayableAnnotationFromFixturesHelper();
+    }
+
+    private void aScenarioUsingFixturesHelper() throws IOException {
+        functionalTest = new JUnitHelper(this.getClass(),DisplayContextFromHelper.class);
+        sftResources = functionalTest.displayResources;
+    }
+
+    private void displaysPublicFieldAnnotatedWithDisplayableAnnotationFromFixturesHelper() {
+        Element secondScenario = functionalTest.html.select("*.scenario").get(0);
+        Element contextDisplayed = secondScenario.select("*.displayableContext").get(0);
+        Assert.assertNotNull("Missing displayableContext", contextDisplayed);
+        Elements texts = contextDisplayed.select(">div");
+        Assert.assertEquals("It is displayed", texts.get(0).text());
     }
 
     private void allPrivateObjectsAnnotatedByDisplayableShouldBeDysplayedAfterScenario() throws IOException {

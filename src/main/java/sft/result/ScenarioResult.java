@@ -26,7 +26,7 @@ public class ScenarioResult {
 
     private ScenarioResult(Scenario scenarioByMethodName, Issue issue, Throwable failure, ErrorLocation errorLocation) {
         this.scenario = scenarioByMethodName;
-        this.contextToDisplay = scenario.useCase.displayedContext.getText();
+        this.contextToDisplay = scenario.useCase.getDisplayedContext();
         this.issue = issue;
         this.failure = failure;
         this.errorLocation = errorLocation;

@@ -13,7 +13,7 @@ package sft;
 public class Helper extends FixturesHolder {
 
     public Helper(Object helperObject,DefaultConfiguration configuration) throws Exception {
-        super(helperObject, FixturesVisibility.All,configuration);
+        super(helperObject, Visibility.All,configuration);
     }
 
 }

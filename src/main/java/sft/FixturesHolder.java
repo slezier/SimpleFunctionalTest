@@ -11,8 +11,10 @@
 package sft;
 
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isProtected;
@@ -22,13 +24,37 @@ public class FixturesHolder {
     public final Class<?> classUnderTest;
     public final ArrayList<Fixture> fixtures;
     public final DefaultConfiguration configuration;
+    public final DisplayedContext displayedContext;
+    private final Visibility visibility;
 
 
-    public FixturesHolder(Object object,FixturesVisibility fixturesVisibility,DefaultConfiguration configuration) throws Exception {
+    public FixturesHolder(Object object,Visibility visibility,DefaultConfiguration configuration) throws Exception {
         this.configuration = extractConfiguration(object.getClass(),configuration);
         this.object = object;
         classUnderTest = object.getClass();
-        fixtures = extractFixtures(fixturesVisibility);
+        this.visibility = visibility;
+        fixtures = extractFixtures();
+        displayedContext = extractDisplayedContext(object);
+    }
+
+
+    private DisplayedContext extractDisplayedContext(Object object) {
+        return new DisplayedContext(object, extractDisplayableFields());
+    }
+
+
+    private ArrayList<Field> extractDisplayableFields() {
+        ArrayList<Field> displayableFields = new ArrayList<Field>();
+        for (Field field : classUnderTest.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Displayable.class)){
+                if( visibility == Visibility.All ){
+                    displayableFields.add(field);
+                }else if (isPrivate(field.getModifiers()) ) {
+                    displayableFields.add(field);
+                }
+            }
+        }
+        return displayableFields;
     }
 
     private static DefaultConfiguration extractConfiguration(Class<?> classUnderTest,DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
@@ -40,19 +66,19 @@ public class FixturesHolder {
         return defaultConfiguration;
     }
 
-    protected ArrayList<Fixture> extractFixtures(FixturesVisibility fixturesVisibility) throws Exception {
+    protected ArrayList<Fixture> extractFixtures() throws Exception {
         ArrayList<Fixture> fixtures = new ArrayList<Fixture>();
-        for (Method method : getSupportMethod(fixturesVisibility)) {
+        for (Method method : getSupportMethod()) {
             fixtures.add(new Fixture(method,configuration));
         }
         return fixtures;
     }
 
 
-    private ArrayList<Method> getSupportMethod(FixturesVisibility fixturesVisibility) {
+    private ArrayList<Method> getSupportMethod() {
         ArrayList<Method> testMethods = new ArrayList<Method>();
         for (Method method : classUnderTest.getDeclaredMethods()) {
-            if( fixturesVisibility == FixturesVisibility.All ){
+            if( visibility == Visibility.All ){
                 testMethods.add(method);
             }else if (isPrivate(method.getModifiers()) || isProtected(method.getModifiers())) {
                 testMethods.add(method);
@@ -62,7 +88,7 @@ public class FixturesHolder {
     }
 
 
-    enum FixturesVisibility{
+    enum Visibility {
         All,PrivateOrProtectedOnly
     }
 

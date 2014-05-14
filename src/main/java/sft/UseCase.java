@@ -26,8 +26,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.List;
 
-import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 
@@ -43,7 +43,6 @@ public class UseCase extends FixturesHolder {
     public final ContextHandler afterUseCase;
     public final ContextHandler beforeScenario;
     public final ContextHandler afterScenario;
-    public final DisplayedContext displayedContext;
     private final JavaToHumanTranslator javaToHumanTranslator;
     private String comment;
 
@@ -58,10 +57,10 @@ public class UseCase extends FixturesHolder {
     }
 
     public UseCase(UseCase parent, Object objectUnderTest, DefaultConfiguration configuration) throws Exception {
-        super(objectUnderTest, FixturesVisibility.PrivateOrProtectedOnly,configuration);
+        super(objectUnderTest, Visibility.PrivateOrProtectedOnly,configuration);
         this.parent = parent;
         javaToHumanTranslator = new JavaToHumanTranslator();
-        useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration,classUnderTest.getDeclaredAnnotations());
+        useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration, classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
         subUseCases = extractSubUseCases();
         fixturesHelpers = extractFixturesHelpers();
@@ -69,14 +68,8 @@ public class UseCase extends FixturesHolder {
         afterUseCase = extractAfterClassContextHandler();
         beforeScenario = extractBeforeContextHandler();
         afterScenario = extractAfterContextHandler();
-        displayedContext = extractDisplayedContext(objectUnderTest);
         UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration, classUnderTest);
         javaClassParser.feed(this);
-    }
-
-
-    private DisplayedContext extractDisplayedContext(Object object) {
-        return new DisplayedContext(object, extractDisplayableFields());
     }
 
     private ContextHandler extractBeforeClassContextHandler() {
@@ -185,17 +178,6 @@ public class UseCase extends FixturesHolder {
         return testMethods;
     }
 
-    private ArrayList<Field> extractDisplayableFields() {
-        ArrayList<Field> displayableFields = new ArrayList<Field>();
-        for (Field field : classUnderTest.getDeclaredFields()) {
-            if (field.isAnnotationPresent(Displayable.class) &&
-                    isPrivate(field.getModifiers())) {
-                displayableFields.add(field);
-            }
-        }
-        return displayableFields;
-    }
-
     private Method getBeforeClassMethod() {
         for (Method method : classUnderTest.getDeclaredMethods()) {
             if (method.isAnnotationPresent(BeforeClass.class)) {
@@ -291,4 +273,12 @@ public class UseCase extends FixturesHolder {
     }
 
 
+    public List<String> getDisplayedContext() {
+        List<String> result = new ArrayList<String>();
+        for (Helper fixturesHelper : fixturesHelpers) {
+            result.addAll(fixturesHelper.displayedContext.getText());
+        }
+        result.addAll(displayedContext.getText());
+        return result;
+    }
 }
