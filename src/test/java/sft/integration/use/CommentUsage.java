@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -21,10 +22,9 @@ import java.io.IOException;
 @Text("Add literal specifications in your use case: comment usage")
 public class CommentUsage {
 
-    private JUnitHelper functionalTest;
 
-    @Displayable
-    private SftResources sftResources;
+    @FixturesHelper
+    private JUnitHelper jUnitHelper = new JUnitHelper();
 
 
     @Test
@@ -38,12 +38,11 @@ public class CommentUsage {
     }
 
     private void runCommentUsageTest() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),sft.integration.use.sut.CommentUsage.class);
-        sftResources = functionalTest.displayResources;
+        jUnitHelper.run(this.getClass(), sft.integration.use.sut.CommentUsage.class);
     }
 
     private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {
-        Assert.assertEquals("use case comment", functionalTest.html.select("*.comment").get(0).text());
+        Assert.assertEquals("use case comment", jUnitHelper.html.select("*.comment").get(0).text());
     }
 
     @Test
@@ -57,7 +56,7 @@ public class CommentUsage {
     }
 
     private void itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps() throws IOException {
-        Assert.assertEquals("scenario comment", functionalTest.html.select("*.scenario *.comment").text());
+        Assert.assertEquals("scenario comment", jUnitHelper.html.select("*.scenario *.comment").text());
     }
 
 }

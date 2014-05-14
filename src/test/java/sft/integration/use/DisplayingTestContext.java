@@ -8,22 +8,27 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JavaResource;
 import sft.integration.fixtures.SftResources;
+import sft.integration.use.sut.DelegatedFixtures;
 import sft.integration.use.sut.DisplayContext;
 import sft.integration.use.sut.subUseCase.DisplayContextFromHelper;
+import sft.integration.use.sut.subUseCase.DisplayableFixturesHelper;
 
 import java.io.IOException;
 
 @RunWith(SimpleFunctionalTest.class)
 @Decorate(decorator = Breadcrumb.class)
 public class DisplayingTestContext {
-    private JUnitHelper functionalTest;
+    @FixturesHelper
+    private JUnitHelper functionalTest=new JUnitHelper();
 
     @Displayable
-    private SftResources sftResources;
+    private String helperClassSource;
 
     @Test
     public void displayTestContextWithObjectsAnnotatedByDisplayable() throws IOException {
@@ -40,8 +45,11 @@ public class DisplayingTestContext {
     }
 
     private void aScenarioUsingFixturesHelper() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),DisplayContextFromHelper.class);
-        sftResources = functionalTest.displayResources;
+        functionalTest.run(this.getClass(),DisplayContextFromHelper.class);
+        JavaResource fixtureHelperSource = new JavaResource(DisplayableFixturesHelper.class);
+        helperClassSource ="<div class=\"resources\">"+
+                fixtureHelperSource.getOpenResourceHtmlLink(this.getClass(), "helper", "alert-info")+ "</div>" ;
+
     }
 
     private void displaysPublicFieldAnnotatedWithDisplayableAnnotationFromFixturesHelper() {
@@ -53,8 +61,7 @@ public class DisplayingTestContext {
     }
 
     private void allPrivateObjectsAnnotatedByDisplayableShouldBeDysplayedAfterScenario() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),DisplayContext.class);
-        sftResources = functionalTest.displayResources;
+        functionalTest.run(this.getClass(),DisplayContext.class);
     }
 
     private void displayableObjectsAreDisplayedOnlyIfThereAreNotNull() {

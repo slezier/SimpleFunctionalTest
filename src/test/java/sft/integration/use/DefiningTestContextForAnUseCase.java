@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -28,11 +29,9 @@ Context could be defined and handle for the whole use case
 @Decorate(decorator = Breadcrumb.class)
 public class DefiningTestContextForAnUseCase {
 
-    private JUnitHelper functionalTest;
+    @FixturesHelper
+    private JUnitHelper functionalTest = new JUnitHelper();
     private CssParser cssParser;
-
-    @Displayable
-    private SftResources sftResources;
 
     @Test
     public void definingContextForAnUseCase() throws IOException {
@@ -98,8 +97,7 @@ public class DefiningTestContextForAnUseCase {
 
     private void whenAnErrorOccursWhenTerminatingAnUseCaseContext() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class);
-        sftResources = functionalTest.displayResources;
+        functionalTest.run(this.getClass(),ErrorOccursWhenTerminatingAnUseCaseContext.class);
     }
 
     private void allScenariosAreRan() {
@@ -109,8 +107,7 @@ public class DefiningTestContextForAnUseCase {
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
-        functionalTest = new JUnitHelper(this.getClass(),ContextInAction.class);
-        sftResources = functionalTest.displayResources;
+        functionalTest.run(this.getClass(),ContextInAction.class);
 
     }
 
@@ -135,8 +132,7 @@ public class DefiningTestContextForAnUseCase {
     }
 
     private void whenAnErrorOccursWhenRaisingAnUseCaseContext() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class);
-        sftResources = functionalTest.displayResources;
+        functionalTest.run(this.getClass(),ErrorOccursWhenRaisingAnUseCaseContext.class);
         cssParser = new CssParser();
     }
 

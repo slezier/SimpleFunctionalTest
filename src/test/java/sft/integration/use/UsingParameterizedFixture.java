@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -24,10 +25,9 @@ In @Text annotation ${xxx} will be replace by the value of the proper parameter.
 @Text("Re-Use your fixtures in your class: parameterized fixtures")
 public class UsingParameterizedFixture {
 
-    private JUnitHelper jUnitHelper;
+    @FixturesHelper
+    private JUnitHelper jUnitHelper=new JUnitHelper();
     private Elements parameterizedCalls;
-    @Displayable
-    private SftResources sftResources;
 
     @Test
     public void parameterizedFixture() throws IOException {
@@ -37,8 +37,7 @@ public class UsingParameterizedFixture {
     }
 
     private void byDeclaringParameterToYourFixtureYouCanReuseIt() throws IOException {
-        jUnitHelper = new JUnitHelper(this.getClass(),ParameterizedFixture.class);
-        sftResources=jUnitHelper.displayResources;
+        jUnitHelper.run(this.getClass(), ParameterizedFixture.class);
         parameterizedCalls = jUnitHelper.html.select("*.instruction");
 
     }

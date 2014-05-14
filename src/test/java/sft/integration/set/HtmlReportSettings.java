@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.DefaultConfiguration;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -36,8 +37,8 @@ public class HtmlReportSettings {
     private Document htmlReport;
     @Displayable
     private String configurationResource;
-    @Displayable
-    private SftResources sftResources;
+    @FixturesHelper
+    private JUnitHelper jUnitHelper = new JUnitHelper();
 
     /*
     The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
@@ -344,9 +345,8 @@ public class HtmlReportSettings {
     }
 
     private void byChangingTemplateValues() throws IOException {
-        JUnitHelper jUnitHelper = new JUnitHelper(this.getClass(),InkStyleUseCase.class);
+        jUnitHelper.run(this.getClass(),InkStyleUseCase.class);
         htmlReport = jUnitHelper.html;
-        sftResources = jUnitHelper.displayResources;
 
 
         JavaResource configurationClass = new JavaResource(InkConfiguration.class);

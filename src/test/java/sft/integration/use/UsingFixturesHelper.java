@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -25,12 +26,10 @@ import java.io.IOException;
 @Text("Re-Use your fixtures between your classes: fixtures helpers")
 public class UsingFixturesHelper {
 
-    private JUnitHelper jUnitHelper;
+    @FixturesHelper
+    private JUnitHelper jUnitHelper = new JUnitHelper();
     @Displayable
     private String helperClassSource;
-    @Displayable
-    private SftResources sftResources;
-
 
     @Test
     public void usingFixturesHelper() throws IOException {
@@ -47,8 +46,7 @@ public class UsingFixturesHelper {
 
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
     private void inTheUseCaseInstanciateThisFixturesHelperWithAnnotation() throws IOException {
-        jUnitHelper = new JUnitHelper(this.getClass(),FixturesHelperUsage.class);
-        sftResources=jUnitHelper.displayResources;
+        jUnitHelper.run(this.getClass(),FixturesHelperUsage.class);
     }
 
     private void thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn() throws IOException {

@@ -136,6 +136,9 @@ public class UseCase extends FixturesHolder {
         for (Field field : getHelperFields()) {
             field.setAccessible(true);
             Object helperObject = field.get(this.object);
+            if(helperObject == null){
+                throw new RuntimeException("In class "+this.classUnderTest.getSimpleName()+" the fixtures helper" + field.getName() + " needs to be instantiated");
+            }
             helpers.add(new Helper(helperObject,configuration));
         }
 
@@ -275,10 +278,10 @@ public class UseCase extends FixturesHolder {
 
     public List<String> getDisplayedContext() {
         List<String> result = new ArrayList<String>();
+        result.addAll(displayedContext.getText());
         for (Helper fixturesHelper : fixturesHelpers) {
             result.addAll(fixturesHelper.displayedContext.getText());
         }
-        result.addAll(displayedContext.getText());
         return result;
     }
 }

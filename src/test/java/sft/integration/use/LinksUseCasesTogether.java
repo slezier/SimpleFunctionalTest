@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
 import sft.Displayable;
+import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
@@ -29,12 +30,12 @@ public class LinksUseCasesTogether {
 
     private CssParser sftCss;
 
-    private JUnitHelper functionalTest;
+    @FixturesHelper
+    private JUnitHelper jUnitHelper = new JUnitHelper();
+
     private Elements relatedUseCases;
     @Displayable
     private String subCasesJavaSources;
-    @Displayable
-    private SftResources sftResources;
 
     @Test
     public void publicFieldAreEvaluateAsRelatedUseCase() throws IOException {
@@ -51,7 +52,7 @@ public class LinksUseCasesTogether {
     }
 
     private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() throws IOException {
-        functionalTest = new JUnitHelper(this.getClass(), UseCaseLinks.class);
+        jUnitHelper.run(this.getClass(), UseCaseLinks.class);
 
         JavaResource subSuccessfulUseCaseSource = new JavaResource(SubUseCaseSucceeded.class);
         JavaResource subFailedUseCaseSource = new JavaResource(SubUseCaseFailed.class);
@@ -66,12 +67,11 @@ public class LinksUseCasesTogether {
 
     @Text("When invoking JUnit")
     private void whenInvokingJUnit() {
-        sftResources = functionalTest.displayResources;
         sftCss = new CssParser();
     }
 
     private void thenTheHtmlFilePresentLinksToRelatedUseCasesAsListItemInTheLastSection() throws IOException {
-        relatedUseCases = functionalTest.html.select("*.relatedUseCase");
+        relatedUseCases = jUnitHelper.html.select("*.relatedUseCase");
         Assert.assertEquals(3,relatedUseCases.size());
         Assert.assertEquals("subUseCase/SubUseCaseSucceeded.html",relatedUseCases.get(0).select("a").first().attr("href"));
         Assert.assertEquals("subUseCase/SubUseCaseFailed.html",relatedUseCases.get(1).select("a").first().attr("href"));

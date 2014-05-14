@@ -114,13 +114,11 @@ public class Usages {
 
     private static final String ADVANCED = "Advanced";
     @Decorate(decorator = Group.class,parameters = ADVANCED)
+    public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
+    @Decorate(decorator = Group.class,parameters = ADVANCED)
     public DefiningTestContextForAnUseCase definingTestContextForAnUseCase = new DefiningTestContextForAnUseCase();
     @Decorate(decorator = Group.class,parameters = ADVANCED)
     public DefiningTestContextForAScenario definingTestContextForAScenario = new DefiningTestContextForAScenario();
     @Decorate(decorator = Group.class,parameters = ADVANCED)
     public DisplayingTestContext displayingTestContext = new DisplayingTestContext();
-    @Decorate(decorator = Group.class,parameters = ADVANCED)
-    public UsingFixturesHelper usingFixtureHelper = new UsingFixturesHelper();
-
-
 }

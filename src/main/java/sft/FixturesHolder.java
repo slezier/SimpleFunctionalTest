@@ -29,9 +29,9 @@ public class FixturesHolder {
 
 
     public FixturesHolder(Object object,Visibility visibility,DefaultConfiguration configuration) throws Exception {
-        this.configuration = extractConfiguration(object.getClass(),configuration);
-        this.object = object;
         classUnderTest = object.getClass();
+        this.configuration = extractConfiguration(configuration);
+        this.object = object;
         this.visibility = visibility;
         fixtures = extractFixtures();
         displayedContext = extractDisplayedContext(object);
@@ -57,7 +57,7 @@ public class FixturesHolder {
         return displayableFields;
     }
 
-    private static DefaultConfiguration extractConfiguration(Class<?> classUnderTest,DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
+    private DefaultConfiguration extractConfiguration(DefaultConfiguration defaultConfiguration) throws IllegalAccessException, InstantiationException {
         Using explicitConfiguration = classUnderTest.getAnnotation(Using.class);
         if (explicitConfiguration != null) {
             return explicitConfiguration.value().newInstance();
