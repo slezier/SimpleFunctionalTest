@@ -13,7 +13,10 @@ public class FixturesHelperUsage {
 
     @Test
     public void testDelegatedFixtureInFixturesHelper(){
+
         delegatedFixtures.firstFixture();
+
+
         delegatedFixtures.secondFixture("ABCDEFGHIJKLMNOPQRSTUVWXYZ",99);
     }
 

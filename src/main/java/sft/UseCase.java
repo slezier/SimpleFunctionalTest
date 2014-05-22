@@ -10,10 +10,6 @@
  *******************************************************************************/
 package sft;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import sft.decorators.Decorator;
@@ -29,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.reflect.Modifier.isPublic;
-import static java.lang.reflect.Modifier.isStatic;
 
 public class UseCase extends FixturesHolder {
 
@@ -39,73 +34,29 @@ public class UseCase extends FixturesHolder {
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<SubUseCase> subUseCases;
     public final ArrayList<Helper> fixturesHelpers;
-    public final ContextHandler beforeUseCase;
-    public final ContextHandler afterUseCase;
-    public final ContextHandler beforeScenario;
-    public final ContextHandler afterScenario;
     private final JavaToHumanTranslator javaToHumanTranslator;
     private String comment;
 
 
     public UseCase(Class<?> classUnderTest) throws Exception {
-        this(null,classUnderTest.newInstance(), new DefaultConfiguration());
+        this(null, classUnderTest.newInstance(), new DefaultConfiguration());
     }
 
 
-    public UseCase(UseCase parent,Class<?> classUnderTest) throws Exception {
+    public UseCase(UseCase parent, Class<?> classUnderTest) throws Exception {
         this(parent, classUnderTest.newInstance(), new DefaultConfiguration());
     }
 
     public UseCase(UseCase parent, Object objectUnderTest, DefaultConfiguration configuration) throws Exception {
-        super(objectUnderTest, Visibility.PrivateOrProtectedOnly,configuration);
+        super(objectUnderTest, Visibility.PrivateOrProtectedOnly, configuration);
         this.parent = parent;
         javaToHumanTranslator = new JavaToHumanTranslator();
         useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration, classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
         subUseCases = extractSubUseCases();
         fixturesHelpers = extractFixturesHelpers();
-        beforeUseCase = extractBeforeClassContextHandler();
-        afterUseCase = extractAfterClassContextHandler();
-        beforeScenario = extractBeforeContextHandler();
-        afterScenario = extractAfterContextHandler();
         UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration, classUnderTest);
         javaClassParser.feed(this);
-    }
-
-    private ContextHandler extractBeforeClassContextHandler() {
-        Method method = getBeforeClassMethod();
-        if (method == null) {
-            return null;
-        } else {
-            return new ContextHandler(this, method);
-        }
-    }
-
-    private ContextHandler extractAfterClassContextHandler() {
-        Method method = getAfterClassMethod();
-        if (method == null) {
-            return null;
-        } else {
-            return new ContextHandler(this, method);
-        }
-    }
-
-    private ContextHandler extractBeforeContextHandler() {
-        Method method = getBeforeMethod();
-        if (method == null) {
-            return null;
-        } else {
-            return new ContextHandler(this, method);
-        }
-    }
-
-    private ContextHandler extractAfterContextHandler() {
-        Method method = getAfterMethod();
-        if (method == null) {
-            return null;
-        } else {
-            return new ContextHandler(this, method);
-        }
     }
 
     private ArrayList<Scenario> extractScenarios() throws Exception {
@@ -122,24 +73,23 @@ public class UseCase extends FixturesHolder {
             Object subUseCaseObject = field.get(object);
             final Decorator decorator = DecoratorExtractor.getDecorator(configuration, field.getDeclaredAnnotations());
             if (subUseCaseObject == null) {
-                subUseCases.add(new SubUseCase(this,field.getType().getClass().newInstance(), configuration, decorator));
+                subUseCases.add(new SubUseCase(this, field.getType().getClass().newInstance(), configuration, decorator));
             } else {
-                subUseCases.add(new SubUseCase(this,subUseCaseObject, configuration,decorator));
+                subUseCases.add(new SubUseCase(this, subUseCaseObject, configuration, decorator));
             }
         }
         return subUseCases;
     }
-
 
     private ArrayList<Helper> extractFixturesHelpers() throws Exception {
         ArrayList<Helper> helpers = new ArrayList<Helper>();
         for (Field field : getHelperFields()) {
             field.setAccessible(true);
             Object helperObject = field.get(this.object);
-            if(helperObject == null){
-                throw new RuntimeException("In class "+this.classUnderTest.getSimpleName()+" the fixtures helper" + field.getName() + " needs to be instantiated");
+            if (helperObject == null) {
+                throw new RuntimeException("In class " + this.classUnderTest.getSimpleName() + " the fixtures helper" + field.getName() + " needs to be instantiated");
             }
-            helpers.add(new Helper(helperObject,configuration));
+            helpers.add(new Helper(helperObject, configuration));
         }
 
         return helpers;
@@ -181,64 +131,6 @@ public class UseCase extends FixturesHolder {
         return testMethods;
     }
 
-    private Method getBeforeClassMethod() {
-        for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeClass.class)) {
-                assertIsAPublicStaticMethod("BeforeClass", method);
-                return method;
-            }
-        }
-        return null;
-    }
-
-    private Method getAfterClassMethod() {
-        for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AfterClass.class)) {
-                assertIsAPublicStaticMethod("AfterClass", method);
-                return method;
-            }
-        }
-        return null;
-    }
-
-    private Method getBeforeMethod() {
-        for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Before.class)) {
-                assertIsAPublicAndNotStaticMethod("Before", method);
-                return method;
-            }
-        }
-        return null;
-    }
-
-    private Method getAfterMethod() {
-        for (Method method : classUnderTest.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(After.class)) {
-                assertIsAPublicAndNotStaticMethod("After", method);
-                return method;
-            }
-        }
-        return null;
-    }
-
-    private void assertIsAPublicStaticMethod(String annotation, Method method) {
-        int modifiers = method.getModifiers();
-        if (isPublic(modifiers) && isStatic(modifiers)) {
-            //OK
-        } else {
-            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and static.");
-        }
-    }
-
-    private void assertIsAPublicAndNotStaticMethod(String annotation, Method method) {
-        int modifiers = method.getModifiers();
-        if (isPublic(modifiers) && !isStatic(modifiers)) {
-            //OK
-        } else {
-            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and not static.");
-        }
-    }
-
     public String getName() {
         return javaToHumanTranslator.humanize(classUnderTest);
     }
@@ -274,7 +166,6 @@ public class UseCase extends FixturesHolder {
     public boolean haveComment() {
         return comment != null;
     }
-
 
     public List<String> getDisplayedContext() {
         List<String> result = new ArrayList<String>();

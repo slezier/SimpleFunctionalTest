@@ -11,6 +11,11 @@
 package sft;
 
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -18,6 +23,8 @@ import java.util.List;
 
 import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isProtected;
+import static java.lang.reflect.Modifier.isPublic;
+import static java.lang.reflect.Modifier.isStatic;
 
 public class FixturesHolder {
     public final Object object;
@@ -26,6 +33,10 @@ public class FixturesHolder {
     public final DefaultConfiguration configuration;
     public final DisplayedContext displayedContext;
     private final Visibility visibility;
+    public final ContextHandler beforeUseCase;
+    public final ContextHandler afterUseCase;
+    public final ContextHandler beforeScenario;
+    public final ContextHandler afterScenario;
 
 
     public FixturesHolder(Object object,Visibility visibility,DefaultConfiguration configuration) throws Exception {
@@ -35,8 +46,106 @@ public class FixturesHolder {
         this.visibility = visibility;
         fixtures = extractFixtures();
         displayedContext = extractDisplayedContext(object);
+        beforeUseCase = extractBeforeClassContextHandler();
+        afterUseCase = extractAfterClassContextHandler();
+        beforeScenario = extractBeforeContextHandler();
+        afterScenario = extractAfterContextHandler();
     }
 
+    private ContextHandler extractBeforeClassContextHandler() {
+        Method method = getBeforeClassMethod();
+        if (method == null) {
+            return null;
+        } else {
+            return new ContextHandler(this, method);
+        }
+    }
+
+    private ContextHandler extractAfterClassContextHandler() {
+        Method method = getAfterClassMethod();
+        if (method == null) {
+            return null;
+        } else {
+            return new ContextHandler(this, method);
+        }
+    }
+
+    private ContextHandler extractBeforeContextHandler() {
+        Method method = getBeforeMethod();
+        if (method == null) {
+            return null;
+        } else {
+            return new ContextHandler(this, method);
+        }
+    }
+
+    private ContextHandler extractAfterContextHandler() {
+        Method method = getAfterMethod();
+        if (method == null) {
+            return null;
+        } else {
+            return new ContextHandler(this, method);
+        }
+    }
+
+    private Method getBeforeClassMethod() {
+        for (Method method : classUnderTest.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(BeforeClass.class)) {
+                assertIsAPublicStaticMethod("BeforeClass", method);
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private Method getAfterClassMethod() {
+        for (Method method : classUnderTest.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(AfterClass.class)) {
+                assertIsAPublicStaticMethod("AfterClass", method);
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private Method getBeforeMethod() {
+        for (Method method : classUnderTest.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Before.class)) {
+                assertIsAPublicAndNotStaticMethod("Before", method);
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private Method getAfterMethod() {
+        for (Method method : classUnderTest.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(After.class)) {
+                assertIsAPublicAndNotStaticMethod("After", method);
+                return method;
+            }
+        }
+        return null;
+    }
+
+
+    private void assertIsAPublicStaticMethod(String annotation, Method method) {
+        int modifiers = method.getModifiers();
+        if (isPublic(modifiers) && isStatic(modifiers)) {
+            //OK
+        } else {
+            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and static.");
+        }
+    }
+
+    private void assertIsAPublicAndNotStaticMethod(String annotation, Method method) {
+        int modifiers = method.getModifiers();
+        if (isPublic(modifiers) && !isStatic(modifiers)) {
+            //OK
+        } else {
+            throw new RuntimeException("Method " + method.getDeclaringClass().getCanonicalName() + "." + method.getName() + " annotated with @" + annotation + " should be public and not static.");
+        }
+    }
 
     private DisplayedContext extractDisplayedContext(Object object) {
         return new DisplayedContext(object, extractDisplayableFields());

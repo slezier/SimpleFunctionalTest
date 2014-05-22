@@ -107,6 +107,7 @@ public class HtmlReport extends Report {
                     "          <hr/>\n" +
                     "        </div>";
     public String scenarioInstructionTemplate =
+            "          @@@instruction.emptyLines@@@" +
             "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
                     "            <span>@@@instruction.text@@@</span>" +
                     "          </div>\n";
@@ -246,9 +247,18 @@ public class HtmlReport extends Report {
 
     public String generateFixtureCall(FixtureCallResult fixtureCallResult) {
         return new TemplateString(scenarioInstructionTemplate)
+                .replace("@@@instruction.emptyLines@@@",generateEmptyLines(fixtureCallResult.fixtureCall.emptyLine))
                 .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
                 .replace("@@@instruction.text@@@", generateInstructionWithParameter(fixtureCallResult.fixtureCall))
                 .getText();
+    }
+
+    private String generateEmptyLines(int emptyLine) {
+        String result ="";
+        for (int i = 0; i < emptyLine; i++) {
+            result += "<br/>";
+        }
+        return result;
     }
 
     private String getRelatedUseCases(UseCaseResult useCaseResult) {

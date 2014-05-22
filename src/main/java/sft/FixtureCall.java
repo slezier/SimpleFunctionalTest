@@ -20,12 +20,14 @@ public class FixtureCall {
     public final String name;
     public final int line;
     public final Fixture fixture;
+    public final int emptyLine;
     public ArrayList<String> parametersValues = new ArrayList<String>();
 
-    public FixtureCall(String name, int line, Fixture fixture, ArrayList<String> parametersValues) {
+    public FixtureCall(String name, int line, Fixture fixture, ArrayList<String> parametersValues,int emptyLine) {
         this.name = name;
         this.line = line;
         this.fixture= fixture;
+        this.emptyLine = emptyLine;
         this.parametersValues.addAll(parametersValues);
     }
 

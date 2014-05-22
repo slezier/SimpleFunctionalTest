@@ -11,13 +11,17 @@
 package sft.junit;
 
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.Description;
+import sft.Helper;
 import sft.Scenario;
-import sft.result.Issue;
 import sft.result.ContextResult;
+import sft.result.Issue;
 import sft.result.ScenarioResult;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class ScenarioRunner {
     public final Scenario scenario;
@@ -34,6 +38,9 @@ public class ScenarioRunner {
 
     public ScenarioResult run(JunitSftNotifier runner) {
 
+        for (Helper fixturesHelper : scenario.useCase.fixturesHelpers) {
+            new ContextRunner(this,fixturesHelper.beforeScenario).run(runner);
+        }
         if (scenario.shouldBeIgnored()) {
             runner.fireScenarioIgnored(this);
             return ScenarioResult.ignored(scenario);
@@ -42,7 +49,7 @@ public class ScenarioRunner {
             try {
 
                 ContextResult beforeScenarioResult = new ContextRunner(this, scenario.useCase.beforeScenario).run(runner);
-                if( beforeScenarioResult.issue== Issue.FAILED){
+                if (beforeScenarioResult.issue == Issue.FAILED) {
                     return ScenarioResult.failedBeforeTest(scenario, beforeScenarioResult.exception);
                 }
 
@@ -50,18 +57,21 @@ public class ScenarioRunner {
                 scenario.run();
 
                 ContextResult afterScenarioResult = new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
-                if( afterScenarioResult.issue== Issue.FAILED){
+                if (afterScenarioResult.issue == Issue.FAILED) {
                     return ScenarioResult.failedAfterTest(scenario, afterScenarioResult.exception);
+                }
+                for (Helper fixturesHelper : scenario.useCase.fixturesHelpers) {
+                    new ContextRunner(this,fixturesHelper.afterScenario).run(runner);
                 }
 
                 return ScenarioResult.success(scenario);
             } catch (InvocationTargetException invocationTargetException) {
                 runner.fireScenarioFailed(this, invocationTargetException.getTargetException());
                 return ScenarioResult.failed(scenario, invocationTargetException.getTargetException());
-            }catch (Throwable throwable){
+            } catch (Throwable throwable) {
                 runner.fireScenarioFailed(this, throwable);
-                return ScenarioResult.failed(scenario,throwable);
-            }finally {
+                return ScenarioResult.failed(scenario, throwable);
+            } finally {
                 runner.fireScenarioFinished(this);
             }
         }

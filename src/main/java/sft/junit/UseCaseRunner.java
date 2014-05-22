@@ -12,6 +12,7 @@ package sft.junit;
 
 
 import org.junit.runner.Description;
+import sft.Helper;
 import sft.Scenario;
 import sft.SubUseCase;
 import sft.UseCase;
@@ -29,7 +30,7 @@ public class UseCaseRunner {
     private final UseCase useCase;
 
     public UseCaseRunner(Class<?> klass) throws Exception {
-        this( new UseCase(klass) );
+        this(new UseCase(klass));
     }
 
     public UseCaseRunner(UseCase useCase) throws Exception {
@@ -40,8 +41,8 @@ public class UseCaseRunner {
         for (SubUseCase subUseCase : useCase.subUseCases) {
             subUseCasesRunners.add(new SubUseCaseRunner(subUseCase));
         }
-        beforeUseCaseRunner = new ContextRunner(this,useCase.beforeUseCase);
-        afterUseCaseRunner = new ContextRunner(this,useCase.afterUseCase);
+        beforeUseCaseRunner = new ContextRunner(this, useCase.beforeUseCase);
+        afterUseCaseRunner = new ContextRunner(this, useCase.afterUseCase);
     }
 
     public Description getDescription() {
@@ -65,14 +66,17 @@ public class UseCaseRunner {
             notifier.fireUseCaseIgnored(this);
         } else {
             notifier.fireUseCaseStarted(this);
-            useCaseResult.beforeResult =  beforeUseCaseRunner.run(notifier);
+            for (Helper helper : useCase.fixturesHelpers) {
+                new ContextRunner(this, helper.beforeUseCase).run(notifier);
+            }
+            useCaseResult.beforeResult = beforeUseCaseRunner.run(notifier);
 
-            if(useCaseResult.beforeResult.isSuccessful()){
+            if (useCaseResult.beforeResult.isSuccessful()) {
                 for (ScenarioRunner scenarioRunner : scenarioRunners) {
                     useCaseResult.scenarioResults.add(scenarioRunner.run(notifier));
                 }
                 useCaseResult.afterResult = afterUseCaseRunner.run(notifier);
-            }else{
+            } else {
                 for (ScenarioRunner scenarioRunner : scenarioRunners) {
                     useCaseResult.scenarioResults.add(scenarioRunner.ignore());
                 }
@@ -81,6 +85,10 @@ public class UseCaseRunner {
 
             for (SubUseCaseRunner subUseCaseRunner : subUseCasesRunners) {
                 useCaseResult.subUseCaseResults.add(subUseCaseRunner.run(notifier));
+            }
+
+            for (Helper helper : useCase.fixturesHelpers) {
+                new ContextRunner(this, helper.afterUseCase).run(notifier);
             }
             notifier.fireUseCaseFinished(this);
         }

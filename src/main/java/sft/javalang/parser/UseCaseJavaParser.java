@@ -16,6 +16,7 @@ import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.*;
+import japa.parser.ast.stmt.EmptyStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.Statement;
 import sft.*;
@@ -102,23 +103,26 @@ public class UseCaseJavaParser extends JavaFileParser {
             System.err.println("In class "+javaClass.getCanonicalName()+" method " + methodDeclaration.getName() + " don't have any fixture call.");
             return fixtureCalls;
         }
+        int line = methodDeclaration.getBody().getBeginLine();
         for (Statement stmt : methodDeclaration.getBody().getStmts()) {
             if (stmt instanceof ExpressionStmt) {
                 Expression expr = ((ExpressionStmt) stmt).getExpression();
                 if (expr instanceof MethodCallExpr) {
-                    fixtureCalls.add(extractFixtureCall(useCase, (MethodCallExpr) expr));
+                    final int emptyLines = stmt.getBeginLine() - 1 - line;
+                    fixtureCalls.add(extractFixtureCall(useCase, (MethodCallExpr) expr,emptyLines));
+                    line= stmt.getBeginLine();
                 }
             }
         }
         return fixtureCalls;
     }
 
-    private FixtureCall extractFixtureCall(UseCase useCase, MethodCallExpr methodCall) {
+    private FixtureCall extractFixtureCall(UseCase useCase, MethodCallExpr methodCall,int emptyLine) {
         final String methodCallName = extractMethodCallName(methodCall);
         final ArrayList<String> parameters = extractParameters(methodCall);
         final Fixture fixture = useCase.getFixtureByMethodName(methodCallName);
         final int callLine = methodCall.getBeginLine();
-        return new FixtureCall(methodCallName, callLine, fixture, parameters);
+        return new FixtureCall(methodCallName, callLine, fixture, parameters,emptyLine);
     }
 
     private ArrayList<String> extractParameters(MethodCallExpr methodCall) {

@@ -15,16 +15,16 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class ContextHandler {
-    public final Method method;
-    public final UseCase useCase;
+    private final Method method;
+    private final FixturesHolder fixturesHolder;
     public List<FixtureCall> fixtureCalls;
 
-    public ContextHandler(UseCase useCase ,Method method) {
-        this.useCase = useCase;
+    public ContextHandler(FixturesHolder useCase ,Method method) {
+        this.fixturesHolder = useCase;
         this.method = method;
     }
 
     public void run() throws InvocationTargetException, IllegalAccessException {
-        method.invoke(useCase.object);
+        method.invoke(fixturesHolder.object);
     }
 }

@@ -36,6 +36,7 @@ public class UsingFixturesHelper {
         toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass();
         inTheUseCaseInstanciateThisFixturesHelperWithAnnotation();
         thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn();
+
     }
 
     private void toShareFixturesBetweenYourClassesWithoutUsingInheritanceYouHaveToWriteItsInAFixturesHelperClass() {
