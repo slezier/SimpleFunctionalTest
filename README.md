@@ -49,7 +49,7 @@ In your pom file insert dependencies to SimpleFunctionalTest
 			<dependency>
 				<groupId>com.github.slezier</groupId>
 				<artifactId>SimpleFunctionalTest</artifactId>
-				<version>1.4</version>
+				<version>1.6</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -86,6 +86,7 @@ Open the html file generated:
 
 Available release:
 
+- 1.6: Table decorator, @Displayable @Before @After @BeforeClass @AfterClass from FixturesHelper, preserve empty line in scenario  [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.6/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.5: Bug fix [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.5/SimpleFunctionalTest-1.5.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.5/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.4: Bug fix [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.4/SimpleFunctionalTest-1.4.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.4/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.3: Decorators and setting [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.3/SimpleFunctionalTest-1.3.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.3/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
