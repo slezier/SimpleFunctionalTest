@@ -29,7 +29,7 @@ public class ScenarioRunner {
 
     public ScenarioRunner(Scenario scenario) {
         this.scenario = scenario;
-        description = Description.createTestDescription(scenario.useCase.classUnderTest, scenario.getName());
+        description = Description.createTestDescription(scenario.useCase.classUnderTest, scenario.method.getName());
     }
 
     public Description getDescription() {

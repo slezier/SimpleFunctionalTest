@@ -32,4 +32,8 @@ public class SubUseCaseRunner {
     public SubUseCaseResult run(JunitSftNotifier notifier) {
         return new SubUseCaseResult(subUseCase,subUseCaseRunner.run(notifier));
     }
+
+    public Class<?> getClassUnderTest(){
+        return this.subUseCase.subUseCase.classUnderTest;
+    }
 }

@@ -17,27 +17,19 @@ import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runner.notification.StoppedByUserException;
-import org.junit.runners.model.InitializationError;
 import sft.junit.JunitSftNotifier;
 import sft.junit.UseCaseRunner;
-import sft.report.HtmlReport;
-import sft.result.UseCaseResult;
-
-import java.io.IOException;
-
 
 public class SimpleFunctionalTest extends Runner {
 
     private static UseCaseRunner rootRunner;
-
-
 
     public SimpleFunctionalTest(Class<?> klass) throws Exception {
         rootRunner = new UseCaseRunner(klass);
     }
 
     @Override
-    public Description getDescription(){
+    public Description getDescription() {
         return rootRunner.getDescription();
     }
 
@@ -54,5 +46,4 @@ public class SimpleFunctionalTest extends Runner {
             testNotifier.addFailure(e);
         }
     }
-
 }

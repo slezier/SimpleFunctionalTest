@@ -45,6 +45,10 @@ public class UseCaseRunner {
         afterUseCaseRunner = new ContextRunner(this, useCase.afterUseCase);
     }
 
+    public Class<?> getClassUnderTest(){
+        return this.useCase.classUnderTest;
+    }
+
     public Description getDescription() {
         Description description = Description.createTestDescription(useCase.classUnderTest, useCase.getName());
         for (ScenarioRunner scenarioRunner : scenarioRunners) {

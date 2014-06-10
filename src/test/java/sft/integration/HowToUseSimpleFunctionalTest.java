@@ -75,8 +75,7 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
-    <li>enhance helper: before after </li>
-    <li>enhance helper: beforeClass afterClass </li>
+  <li>runner support JUnit test suit</li>
 </ul>
 <h2> TODO </h2>
 <ul>
