@@ -55,7 +55,7 @@ public class UseCase extends FixturesHolder {
         scenarios = extractScenarios();
         subUseCases = extractSubUseCases();
         fixturesHelpers = extractFixturesHelpers();
-        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(configuration, classUnderTest);
+        UseCaseJavaParser javaClassParser = new UseCaseJavaParser(this.configuration, classUnderTest);
         javaClassParser.feed(this);
     }
 
