@@ -4,7 +4,7 @@ A JUnit extension to easily adopt functional testing and acceptance testing
 
 ## step 1: make your test readable
 
-In JUnit test refactor your test in order to make it more readable by non java native speaker.
+In JUnit test: refactor your test in order to make it more readable by non java native speaker.
 
 * Add comment before class or test method
 * Use expressive names (camelCase or underscore) for your class, test methods and other methods
@@ -40,7 +40,7 @@ A 'more' readable JUnit test for a non native java speaker:
 	}
 
 ## step 2: add SimpleFunctionalTest
-In your pom file insert dependencies to SimpleFunctionalTest
+In your pom file: insert dependencies to SimpleFunctionalTest
 
 	<project>
 		...
@@ -49,13 +49,13 @@ In your pom file insert dependencies to SimpleFunctionalTest
 			<dependency>
 				<groupId>com.github.slezier</groupId>
 				<artifactId>SimpleFunctionalTest</artifactId>
-				<version>1.6</version>
+				<version>1.7</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</project>
 
-and specify SimpleFuntionalTest as JUnit runner:
+and specify SimpleFunctionalTest as JUnit runner:
 
 	...
 	@RunWith(SimpleFunctionalTest.class)
@@ -86,7 +86,8 @@ Open the html file generated:
 
 Available release:
 
-- 1.6: Table decorator, @Displayable @Before @After @BeforeClass @AfterClass from FixturesHelper, preserve empty line in scenario  [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.6/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
+- 1.7: Better ide integration, Fix configuration uses, add Group decorator for scenarios [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.7/SimpleFunctionalTest-1.7.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.7/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
+- 1.6: Table decorator, @Displayable @Before @After @BeforeClass @AfterClass from FixturesHelper, preserve empty line in scenario  [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.6/SimpleFunctionalTest-1.6.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.6/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.5: Bug fix [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.5/SimpleFunctionalTest-1.5.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.5/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.4: Bug fix [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.4/SimpleFunctionalTest-1.4.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.4/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.3: Decorators and setting [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.3/SimpleFunctionalTest-1.3.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.3/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)

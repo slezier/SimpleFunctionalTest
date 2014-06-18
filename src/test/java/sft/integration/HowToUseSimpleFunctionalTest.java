@@ -75,10 +75,10 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
-  <li>Usages: scenario decorators (group)</li>
 </ul>
 <h2> TODO </h2>
 <ul>
+    <li>JUnit: use JUnit Rule instead of SimpleFunctionalTest helper</li>
     <li>Hack: enhance hacking (extract interface by responsibility)</li>
     <li>Hack/Extend: enhance extension (allow injection)</li>
     <li>Settings/Hack: runner extension: concurrent testing</li>
