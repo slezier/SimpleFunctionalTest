@@ -21,10 +21,9 @@ public interface DecoratorReportImplementation {
 
     String applyOnUseCase(UseCaseResult useCaseResult, String... parameters);
 
-    String applyOnScenario(ScenarioResult scenarioResult, String... parameters);
-
     String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters);
 
-    String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters);
+    String applyOnSubUseCases(List<SubUseCaseResult> useCaseResult, String... parameters);
 
+    String applyOnScenarios(List<ScenarioResult> scenarioResults, String... parameters);
 }

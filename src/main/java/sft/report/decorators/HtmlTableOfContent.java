@@ -14,7 +14,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
-import sft.decorators.Decorator;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
@@ -29,7 +28,7 @@ public class HtmlTableOfContent extends HtmlDecorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
-        String result = getHtmlReport().generateUseCase(useCaseResult);
+        String result = getHtmlReport().applyOnUseCase(useCaseResult);
         final Document parse = Jsoup.parse(result);
         parse.select(".page-header").after("<div class='panel toc'>"+printUseCase(useCaseResult.useCase, useCaseResult)+"</div>");
         return parse.toString();

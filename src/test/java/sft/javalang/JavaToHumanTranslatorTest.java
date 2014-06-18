@@ -5,13 +5,11 @@ import org.junit.Test;
 
 public class JavaToHumanTranslatorTest {
 
-
     @Test
     public void humanize_capitalizeFirstWord(){
         JavaToHumanTranslator tested = new JavaToHumanTranslator();
 
         Assert.assertEquals("First word should be capitalize",tested.humanize("first_word_should_be_capitalize"));
-
     }
 
     @Test
@@ -34,5 +32,4 @@ public class JavaToHumanTranslatorTest {
 
         Assert.assertEquals("Camel case and underscore",tested.humanize("CamelCase_And_underscore"));
     }
-
 }

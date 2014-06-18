@@ -27,26 +27,22 @@ public class HtmlNullDecorator extends HtmlDecorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
-        return getHtmlReport().generateUseCase(useCaseResult);
-    }
-
-    @Override
-    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
-        return getHtmlReport().generateScenario(scenarioResult);
+        return getHtmlReport().applyOnUseCase(useCaseResult);
     }
 
     @Override
     public String applyOnFixtures(List<FixtureCallResult> fixtureCallResults, String... parameters) {
-        String result = "";
-        for (FixtureCallResult fixture : fixtureCallResults) {
-            result += getHtmlReport().generateFixtureCall(fixture);
-        }
-        return result;
+        return getHtmlReport().applyOnFixtures(fixtureCallResults);
     }
 
     @Override
-    public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
-        return getHtmlReport().generateSubUseCases(null, useCaseResult);
+    public String applyOnSubUseCases(List<SubUseCaseResult> useCaseResult, String... parameters) {
+        return getHtmlReport().applyOnSubUseCases(null, useCaseResult);
+    }
+
+    @Override
+    public String applyOnScenarios(List<ScenarioResult> scenarioResults, String... parameters){
+        return getHtmlReport().applyOnScenarios(scenarioResults);
     }
 
 }

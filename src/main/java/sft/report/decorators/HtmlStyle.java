@@ -14,7 +14,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import sft.DefaultConfiguration;
-import sft.decorators.Decorator;
 import sft.result.FixtureCallResult;
 import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
@@ -31,7 +30,7 @@ public class HtmlStyle extends HtmlDecorator {
 
     @Override
     public String applyOnUseCase(UseCaseResult useCaseResult, String... parameters) {
-        String result = getHtmlReport().generateUseCase(useCaseResult);
+        String result = getHtmlReport().applyOnUseCase(useCaseResult);
         return addStyleToElementWithClass(result, ".useCase",parameters);
     }
 
@@ -56,9 +55,13 @@ public class HtmlStyle extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
-        String result = getHtmlReport().generateScenario(scenarioResult);
-        return addStyleToElementWithClass(result, ".scenario", parameters);
+    public String applyOnScenarios(List<ScenarioResult> scenarioResults, String... parameters) {
+        String result ="";
+        for (ScenarioResult scenarioResult : scenarioResults) {
+            result +=addStyleToElementWithClass(getHtmlReport().applyOnScenario(scenarioResult), ".scenario", parameters);
+
+        }
+        return result;
     }
 
     @Override
@@ -72,9 +75,9 @@ public class HtmlStyle extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnSubUseCase(List<SubUseCaseResult> subUseCaseResults, String... parameters) {
+    public String applyOnSubUseCases(List<SubUseCaseResult> subUseCaseResults, String... parameters) {
 
-        final String html = getHtmlReport().generateSubUseCases(null, subUseCaseResults);
+        final String html = getHtmlReport().applyOnSubUseCases(null, subUseCaseResults);
 
         return addStyleToElementWithClass(html, ".relatedUseCase",parameters);
     }

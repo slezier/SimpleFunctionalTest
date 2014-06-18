@@ -23,7 +23,14 @@ import java.util.ArrayList;
 
 
 /*
- The annotation @Decorate allow to prettify your html report.
+ The annotation @Decorate allow to prettify your html report.<br/><br/>
+
+ Usage:
+ <pre>@Decorate(decorator=MyDecorator.class ) </pre><br/>
+ or with a parameter <br/>
+ <pre>@Decorate(decorator=MyDecorator.class , parameters = "value" )</pre><br/>
+ or with parameters <br/>
+ <pre>@Decorate(decorator=MyDecorator.class , parameters = {"value1","value2","value3"} )</pre><br/>
  */
 @RunWith(SimpleFunctionalTest.class)
 @Decorate(decorator = Breadcrumb.class)
@@ -54,6 +61,13 @@ public class UsingDecorator {
     public void addTableOfContent() throws Exception {
         byAddingTableOfContentDecoratorOnUseCase();
         aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories();
+    }
+
+    @Test
+    public void groupScenarios() throws Exception {
+        byAddingAGroupDecoratorWithParameterOnScenarios("alternate scenarios");
+        scenariosWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle("alternate scenarios");
+        scenariosWithoutDecoratorAreShownAreNotGrouped();
     }
 
     @Test
@@ -138,9 +152,34 @@ public class UsingDecorator {
         jUnitHelper.run(this.getClass(), TableDecoratorSample.class);
     }
 
+    @Text("By adding a group decorator with parameter ${name}  on scenarios: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
+    private void byAddingAGroupDecoratorWithParameterOnScenarios(String name) throws Exception {
+        jUnitHelper.run(this.getClass(), ScenarioDecoratorSample.class);
+    }
+
     @Text("By adding a group decorator with parameter ${name}  on fixtures: @Decorate(decorator = Group.class, parameters =\"${name}\") ")
     private void byAddingAGroupDecoratorWithParameterOnFixtures(String name) throws Exception {
         jUnitHelper.run(this.getClass(), FixtureGroupDecoratorSample.class);
+    }
+
+    private void scenariosWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {
+        final Elements groups = jUnitHelper.html.select("div.container > div.scenario, div.scenarios");
+        Assert.assertEquals(4,groups.size());
+        Assert.assertTrue("expecting class scenarios on group #1",groups.get(1).hasClass("scenarios"));
+        Assert.assertTrue("expecting class scenarios on group #2",groups.get(2).hasClass("scenarios"));
+        Assert.assertEquals(name,groups.get(2).select("h2").text());
+        Elements subScenarios = groups.get(2).select("div.scenario");
+        Assert.assertEquals("Scenario 3", subScenarios.get(0).select("*.scenarioName").text());
+        Assert.assertEquals("Scenario 4", subScenarios.get(1).select("*.scenarioName").text());
+    }
+
+    private void scenariosWithoutDecoratorAreShownAreNotGrouped() throws IOException {
+        final Elements groups = jUnitHelper.html.select("div.container > div.scenario, div.scenarios");
+
+        Assert.assertEquals("Scenario 1",groups.get(0).select("h3").text());
+        Assert.assertTrue("expecting class scenario on group #0",groups.get(0).hasClass("scenario"));
+        Assert.assertEquals("Scenario 5",groups.get(3).select("h3").text());
+        Assert.assertTrue("expecting class scenario on group #4",groups.get(3).hasClass("scenario"));
     }
 
     private void fixturesWithTheSameGroupNameAreShownInASpecificParagraphWithThisNameAsTitle(String name) throws IOException {

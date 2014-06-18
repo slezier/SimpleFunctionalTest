@@ -7,5 +7,4 @@ public class SftDocumentationConfiguration extends DefaultConfiguration {
     public SftDocumentationConfiguration() {
         getReport().setResourcePath("sft-html-documentation");
     }
-
 }

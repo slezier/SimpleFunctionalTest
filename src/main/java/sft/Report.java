@@ -12,6 +12,9 @@ package sft;
 
 import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
+import sft.result.ScenarioResult;
+
+import java.util.List;
 
 public abstract class Report {
 
@@ -35,4 +38,6 @@ public abstract class Report {
     }
 
     public abstract DecoratorReportImplementation getDecoratorImplementation(Decorator decorator);
+
+
 }

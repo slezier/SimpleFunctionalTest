@@ -8,6 +8,7 @@ import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HtmlDecorator implements DecoratorReportImplementation {
@@ -24,18 +25,18 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     }
 
     @Override
-    public String applyOnScenario(ScenarioResult scenarioResult, String... parameters) {
-        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for use case");
-    }
-
-    @Override
     public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
-        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for use case");
+        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for fixtures");
     }
 
     @Override
-    public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
-        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for sub use case");
+    public String applyOnSubUseCases(List<SubUseCaseResult> useCaseResult, String... parameters) {
+        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for sub use cases");
+    }
+
+    @Override
+    public String applyOnScenarios(List<ScenarioResult> scenarioResults, String... parameters) {
+        throw new RuntimeException("Decorator " + getClass().getName() + " not implemented for scenarios");
     }
 
     protected HtmlReport getHtmlReport() {

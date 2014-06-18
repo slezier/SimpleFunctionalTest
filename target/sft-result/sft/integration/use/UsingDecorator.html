@@ -20,7 +20,17 @@
      </ol>
     </div> 
     <div class="comment">
-      The annotation @Decorate allow to prettify your html report. 
+      The annotation @Decorate allow to prettify your html report.
+     <br />
+     <br /> Usage: 
+     <pre>@Decorate(decorator=MyDecorator.class ) </pre>
+     <br /> or with a parameter 
+     <br /> 
+     <pre>@Decorate(decorator=MyDecorator.class , parameters = &quot;value&quot; )</pre>
+     <br /> or with parameters 
+     <br /> 
+     <pre>@Decorate(decorator=MyDecorator.class , parameters = {&quot;value1&quot;,&quot;value2&quot;,&quot;value3&quot;} )</pre>
+     <br /> 
     </div> 
    </div> 
    <div class="scenario succeeded panel panel-default"> 
@@ -107,6 +117,30 @@
       <div class="resources">
        <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/decorators/TocDecoratorSample.java.html','sft/integration/use/sut/decorators/TocDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
        <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/decorators/TocDecoratorSample.html','sft/integration/use/sut/decorators/TocDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="scenario succeeded panel panel-default"> 
+    <div class="panel-heading"> 
+     <h3><span class="scenarioName">Group scenarios</span></h3> 
+    </div> 
+    <div class="panel-body"> 
+     <div class="instruction succeeded"> 
+      <span>By adding a group decorator with parameter <i class="value">alternate scenarios</i> on scenarios: @Decorate(decorator = Group.class, parameters =&quot;<i class="value">alternate scenarios</i>&quot;) </span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Scenarios with the same group name are shown in a specific paragraph with this name as title</span> 
+     </div> 
+     <div class="instruction succeeded"> 
+      <span>Scenarios without decorator are shown are not grouped</span> 
+     </div> 
+    </div> 
+    <div class="displayableContext panel-body"> 
+     <div> 
+      <div class="resources">
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/decorators/ScenarioDecoratorSample.java.html','sft/integration/use/sut/decorators/ScenarioDecoratorSample.java.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">java</a>
+       <a href="#" onclick="window.open(window.location.href.replace('#','').replace('UsingDecorator.html','')+'sut/decorators/ScenarioDecoratorSample.html','sft/integration/use/sut/decorators/ScenarioDecoratorSample.html','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;" class="badge alert-info">html</a>
       </div> 
      </div> 
     </div> 

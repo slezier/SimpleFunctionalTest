@@ -12,6 +12,7 @@ package sft.report.decorators;
 
 import sft.DefaultConfiguration;
 import sft.result.FixtureCallResult;
+import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
 
 import java.util.List;
@@ -20,6 +21,27 @@ public class HtmlGroup extends HtmlDecorator {
 
     public HtmlGroup(DefaultConfiguration configuration) {
         super(configuration);
+    }
+
+    @Override
+    public String applyOnScenarios(List<ScenarioResult> scenarioResults, String... parameters) {
+        if (scenarioResults.isEmpty()) {
+            return "";
+        }
+        final String name = getName(parameters);
+        if (name == null || "".equals(name)) {
+            return getHtmlReport().applyOnScenarios(scenarioResults);
+        }
+
+        String result = "<div class='scenarios panel panel-default'>";
+        result += "<div class='panel-heading'><h2 class='group'>" + name + "</h2></div>";
+        result += "<div class='panel-body'>";
+
+        for (ScenarioResult scenarioResult : scenarioResults) {
+            result += getHtmlReport().applyOnScenario(scenarioResult);
+        }
+
+        return result+ "</div></div>";
     }
 
     @Override
@@ -39,8 +61,8 @@ public class HtmlGroup extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnSubUseCase(List<SubUseCaseResult> useCaseResult, String... parameters) {
-        return getHtmlReport().generateSubUseCases(getName(parameters), useCaseResult);
+    public String applyOnSubUseCases(List<SubUseCaseResult> useCaseResult, String... parameters) {
+        return getHtmlReport().applyOnSubUseCases(getName(parameters), useCaseResult);
     }
 
     private String getName(String... parameters){

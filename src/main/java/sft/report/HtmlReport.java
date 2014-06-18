@@ -10,29 +10,12 @@
  *******************************************************************************/
 package sft.report;
 
-import sft.ContextHandler;
-import sft.DefaultConfiguration;
-import sft.Fixture;
-import sft.FixtureCall;
-import sft.Report;
-import sft.Scenario;
-import sft.UseCase;
+import sft.*;
 import sft.decorators.*;
 import sft.report.decorators.*;
-import sft.result.ContextResult;
-import sft.result.FixtureCallResult;
-import sft.result.Issue;
-import sft.result.ScenarioResult;
-import sft.result.SubUseCaseResult;
-import sft.result.UseCaseResult;
+import sft.result.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +91,7 @@ public class HtmlReport extends Report {
                     "        </div>";
     public String scenarioInstructionTemplate =
             "          @@@instruction.emptyLines@@@" +
-            "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
+                    "          <div class=\"instruction @@@instruction.issue@@@\">\n" +
                     "            <span>@@@instruction.text@@@</span>" +
                     "          </div>\n";
     public String afterScenarioTemplate =
@@ -137,11 +120,11 @@ public class HtmlReport extends Report {
                     "          </div>\n";
 
     public String relatedUseCasesTitleTemplate =
-                    "        <div class=\"panel-heading\">\n" +
+            "        <div class=\"panel-heading\">\n" +
                     "          <h3>@@@relatedUseCasesTitle@@@</h3>\n" +
                     "        </div>\n";
     public String relatedUseCasesTemplate =
-            "      <div class=\"panel panel-default relatedUseCases\">\n"  +
+            "      <div class=\"panel panel-default relatedUseCases\">\n" +
                     "@@@relatedUseCasesTitleTemplates@@@" +
                     "        <div class=\"panel-body\">\n" +
                     "          <ul>\n" +
@@ -177,21 +160,21 @@ public class HtmlReport extends Report {
 
     @Override
     public DecoratorReportImplementation getDecoratorImplementation(Decorator decorator) {
-        if( decorator instanceof Style ){
+        if (decorator instanceof Style) {
             return new HtmlStyle(configuration);
-        }else if(decorator instanceof Breadcrumb){
+        } else if (decorator instanceof Breadcrumb) {
             return new HtmlBreadcrumb(configuration);
-        }else if(decorator instanceof Group){
+        } else if (decorator instanceof Group) {
             return new HtmlGroup(configuration);
-        }else if(decorator instanceof Table){
+        } else if (decorator instanceof Table) {
             return new HtmlTable(configuration);
-        }else if(decorator instanceof TableOfContent){
+        } else if (decorator instanceof TableOfContent) {
             return new HtmlTableOfContent(configuration);
-        }else if(decorator instanceof NullDecorator){
-            return  new HtmlNullDecorator(configuration);
+        } else if (decorator instanceof NullDecorator) {
+            return new HtmlNullDecorator(configuration);
         }
         System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName() + " using default decorator");
-        return  new HtmlNullDecorator(configuration);
+        return new HtmlNullDecorator(configuration);
     }
 
     @Override
@@ -204,7 +187,7 @@ public class HtmlReport extends Report {
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
         final Decorator decorator = useCaseResult.useCase.useCaseDecorator;
-        String useCaseReport = getDecoratorImplementation(decorator).applyOnUseCase(useCaseResult,decorator.parameters);
+        String useCaseReport = getDecoratorImplementation(decorator).applyOnUseCase(useCaseResult, decorator.parameters);
 
         File htmlFile = configuration.getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
@@ -213,7 +196,7 @@ public class HtmlReport extends Report {
         System.out.println("Report wrote: " + htmlFile.getCanonicalPath());
     }
 
-    public String generateUseCase(UseCaseResult useCaseResult) {
+    public String applyOnUseCase(UseCaseResult useCaseResult) {
         Class<?> classUnderTest = useCaseResult.useCase.classUnderTest;
         try {
             return new TemplateString(useCaseTemplate)
@@ -232,7 +215,7 @@ public class HtmlReport extends Report {
         }
     }
 
-    public String generateScenario(ScenarioResult scenarioResult) {
+    public String applyOnScenario(ScenarioResult scenarioResult) {
         return new TemplateString(scenarioTemplate)
                 .replace("@@@scenario.issue@@@", htmlResources.convertIssue(scenarioResult.issue))
                 .replace("@@@scenario.name@@@", scenarioResult.scenario.getName())
@@ -247,14 +230,14 @@ public class HtmlReport extends Report {
 
     public String generateFixtureCall(FixtureCallResult fixtureCallResult) {
         return new TemplateString(scenarioInstructionTemplate)
-                .replace("@@@instruction.emptyLines@@@",generateEmptyLines(fixtureCallResult.fixtureCall.emptyLine))
+                .replace("@@@instruction.emptyLines@@@", generateEmptyLines(fixtureCallResult.fixtureCall.emptyLine))
                 .replace("@@@instruction.issue@@@", htmlResources.convertIssue(fixtureCallResult.issue))
                 .replace("@@@instruction.text@@@", generateInstructionWithParameter(fixtureCallResult.fixtureCall))
                 .getText();
     }
 
     private String generateEmptyLines(int emptyLine) {
-        String result ="";
+        String result = "";
         for (int i = 0; i < emptyLine; i++) {
             result += "<br/>";
         }
@@ -272,23 +255,23 @@ public class HtmlReport extends Report {
         String result = "";
         Decorator decorator = null;
         ArrayList<SubUseCaseResult> subUseCaseResults = new ArrayList<SubUseCaseResult>();
-        for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults){
-            if(decorator==null){
+        for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
+            if (decorator == null) {
                 decorator = subUseCaseResult.subUseCase.decorator;
-            }else if(! decorator.comply(subUseCaseResult.subUseCase.decorator)){
-                result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults,decorator.parameters);
+            } else if (!decorator.comply(subUseCaseResult.subUseCase.decorator)) {
+                result += getDecoratorImplementation(decorator).applyOnSubUseCases(subUseCaseResults, decorator.parameters);
                 decorator = subUseCaseResult.subUseCase.decorator;
                 subUseCaseResults = new ArrayList<SubUseCaseResult>();
             }
             subUseCaseResults.add(subUseCaseResult);
         }
-        if(! subUseCaseResults.isEmpty()){
-            result += getDecoratorImplementation(decorator).applyOnSubUseCase(subUseCaseResults,decorator.parameters);
+        if (!subUseCaseResults.isEmpty()) {
+            result += getDecoratorImplementation(decorator).applyOnSubUseCases(subUseCaseResults, decorator.parameters);
         }
         return result;
     }
 
-    public String generateSubUseCases(String title, List<SubUseCaseResult> subUseCaseResults) {
+    public String applyOnSubUseCases(String title, List<SubUseCaseResult> subUseCaseResults) {
         String relatedUseCase = "";
         for (SubUseCaseResult subUseCaseResult : subUseCaseResults) {
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
@@ -301,29 +284,32 @@ public class HtmlReport extends Report {
         final TemplateString replace = new TemplateString(relatedUseCasesTemplate)
                 .replace("@@@relatedUseCaseTemplates@@@", relatedUseCase);
 
-        if( title != null ){
-            return replace.replace("@@@relatedUseCasesTitleTemplates@@@", new TemplateString(relatedUseCasesTitleTemplate).replace("@@@relatedUseCasesTitle@@@",title).getText()).getText();
+        if (title != null) {
+            return replace.replace("@@@relatedUseCasesTitleTemplates@@@", new TemplateString(relatedUseCasesTitleTemplate).replace("@@@relatedUseCasesTitle@@@", title).getText()).getText();
         } else {
             return replace.replace("@@@relatedUseCasesTitleTemplates@@@", "").getText();
         }
     }
 
     private String getScenarios(UseCaseResult useCaseResult) {
-        String scenarioTxt = "";
-        for (Scenario scenario : useCaseResult.useCase.scenarios) {
-            for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
-                if (scenarioResult.scenario.equals(scenario)) {
-                    scenarioTxt += getScenario(scenarioResult);
-                }
+        String result = "";
+        Decorator decorator = new NullDecorator(configuration);
+
+        final ArrayList<ScenarioResult> scenarioResults= new ArrayList<ScenarioResult>();
+
+        for( ScenarioResult scenarioResult : useCaseResult.scenarioResults ){
+            final Scenario scenario = scenarioResult.scenario;
+            if(decorator != null && !decorator.comply(scenario.decorator)) {
+                result += getDecoratorImplementation(decorator).applyOnScenarios(scenarioResults, decorator.parameters);
+                scenarioResults.clear();
             }
+            decorator = scenario.decorator;
+            scenarioResults.add(scenarioResult);
         }
-        return scenarioTxt;
+        result += getDecoratorImplementation(decorator).applyOnScenarios(scenarioResults, decorator.parameters);
+        return result;
     }
 
-    private String getScenario(ScenarioResult scenarioResult) {
-        final Decorator decorator = scenarioResult.scenario.decorator;
-        return getDecoratorImplementation(decorator).applyOnScenario(scenarioResult,decorator.parameters);
-    }
     private String getScenarioInstructions(ScenarioResult scenarioResult) {
         String result = "";
         Decorator decorator = null;
@@ -332,14 +318,14 @@ public class HtmlReport extends Report {
 
         for (FixtureCallResult fixtureCallResult : scenarioResult.fixtureCallResults) {
             final Fixture fixture = fixtureCallResult.fixtureCall.fixture;
-            if( decorator != null && ! decorator.comply(fixture.decorator)){
-                result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults,decorator.parameters);
+            if (decorator != null && !decorator.comply(fixture.decorator)) {
+                result += getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults, decorator.parameters);
                 fixtureCallResults.clear();
             }
             decorator = fixture.decorator;
             fixtureCallResults.add(fixtureCallResult);
         }
-        result+= getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults,decorator.parameters);
+        result += getDecoratorImplementation(decorator).applyOnFixtures(fixtureCallResults, decorator.parameters);
         return result;
     }
 
@@ -453,7 +439,7 @@ public class HtmlReport extends Report {
 
     private String generateInstructionWithParameter(FixtureCall testFixture) {
         String instruction = testFixture.fixture.getText();
-        for (Map.Entry<String, String> parameter: testFixture.getParameters().entrySet()) {
+        for (Map.Entry<String, String> parameter : testFixture.getParameters().entrySet()) {
             String value = Matcher.quoteReplacement(getParameter(parameter.getValue()));
             instruction = instruction.replaceAll("\\$\\{" + parameter.getKey() + "\\}", value);
         }
@@ -476,7 +462,7 @@ public class HtmlReport extends Report {
         return comment;
     }
 
-    private String getRelativeUrl(UseCase subUseCase, UseCase  parentUseCase) {
+    private String getRelativeUrl(UseCase subUseCase, UseCase parentUseCase) {
         String source = pathResolver.getPathOf(parentUseCase.classUnderTest, ".html");
         String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
         return pathResolver.getRelativePathToFile(source, target);
@@ -496,5 +482,22 @@ public class HtmlReport extends Report {
             case SUCCEEDED:
                 return successClass;
         }
+    }
+
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResults) {
+        String result = "";
+        for (FixtureCallResult fixture : fixtureCallResults) {
+            result += generateFixtureCall(fixture);
+        }
+        return result;
+    }
+
+    public String applyOnScenarios(List<ScenarioResult> scenarioResults) {
+        String scenarioTxt = "";
+        for (ScenarioResult scenarioResult : scenarioResults) {
+            scenarioTxt += applyOnScenario(scenarioResult);
+        }
+        return scenarioTxt;
+
     }
 }
