@@ -11,8 +11,6 @@
 package sft.junit;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.runner.Description;
 import sft.Helper;
 import sft.Scenario;
@@ -21,7 +19,6 @@ import sft.result.Issue;
 import sft.result.ScenarioResult;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class ScenarioRunner {
     public final Scenario scenario;
@@ -38,9 +35,8 @@ public class ScenarioRunner {
 
     public ScenarioResult run(JunitSftNotifier runner) {
 
-        for (Helper fixturesHelper : scenario.useCase.fixturesHelpers) {
-            new ContextRunner(this,fixturesHelper.beforeScenario).run(runner);
-        }
+        scenario.useCase.helpers.runBeforeScenario(this, runner);
+
         if (scenario.shouldBeIgnored()) {
             runner.fireScenarioIgnored(this);
             return ScenarioResult.ignored(scenario);
@@ -60,9 +56,7 @@ public class ScenarioRunner {
                 if (afterScenarioResult.issue == Issue.FAILED) {
                     return ScenarioResult.failedAfterTest(scenario, afterScenarioResult.exception);
                 }
-                for (Helper fixturesHelper : scenario.useCase.fixturesHelpers) {
-                    new ContextRunner(this,fixturesHelper.afterScenario).run(runner);
-                }
+                scenario.useCase.helpers.runAfterScenario(this, runner);
 
                 return ScenarioResult.success(scenario);
             } catch (InvocationTargetException invocationTargetException) {

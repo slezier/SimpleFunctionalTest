@@ -75,15 +75,17 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
+    <li>Having @Displayable displayed even if the scenario fails</li>
 </ul>
 <h2> TODO </h2>
 <ul>
-    <li>JUnit: use JUnit Rule instead of SimpleFunctionalTest helper</li>
+    <li>JUnit: use JUnit Rule instead of SimpleFunctionalTest helper??</li>
     <li>Hack: enhance hacking (extract interface by responsibility)</li>
     <li>Hack/Extend: enhance extension (allow injection)</li>
     <li>Settings/Hack: runner extension: concurrent testing</li>
     <li>Settings/Hack: runner extension: inheritance</li>
     <li>Settings/Hack: runner extension: using mock</li>
+    <li>Settings/Hack/Extend: write extension: sequence diagram view of fixtures call</li>
     <li>Settings/Hack/Extend: write extension: test result in md</li>
     <li>Settings/Hack/Extend: write extension: test result in Word</li>
     <li>Settings/Hack/Extend: write extension: test result in LaTeX</li>

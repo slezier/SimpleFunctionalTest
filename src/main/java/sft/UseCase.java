@@ -33,7 +33,7 @@ public class UseCase extends FixturesHolder {
     public final Decorator useCaseDecorator;
     public final ArrayList<Scenario> scenarios;
     public final ArrayList<SubUseCase> subUseCases;
-    public final ArrayList<Helper> fixturesHelpers;
+    public final Helpers helpers;
     private final JavaToHumanTranslator javaToHumanTranslator;
     private String comment;
 
@@ -54,7 +54,7 @@ public class UseCase extends FixturesHolder {
         useCaseDecorator = DecoratorExtractor.getDecorator(this.configuration, classUnderTest.getDeclaredAnnotations());
         scenarios = extractScenarios();
         subUseCases = extractSubUseCases();
-        fixturesHelpers = extractFixturesHelpers();
+        helpers = extractFixturesHelpers();
         UseCaseJavaParser javaClassParser = new UseCaseJavaParser(this.configuration, classUnderTest);
         javaClassParser.feed(this);
     }
@@ -81,8 +81,8 @@ public class UseCase extends FixturesHolder {
         return subUseCases;
     }
 
-    private ArrayList<Helper> extractFixturesHelpers() throws Exception {
-        ArrayList<Helper> helpers = new ArrayList<Helper>();
+    private Helpers extractFixturesHelpers() throws Exception {
+        Helpers helpers = new Helpers();
         for (Field field : getHelperFields()) {
             field.setAccessible(true);
             Object helperObject = field.get(this.object);
@@ -141,14 +141,13 @@ public class UseCase extends FixturesHolder {
                 return fixture;
             }
         }
-        for (Helper fixturesHelper : fixturesHelpers) {
-            for (Fixture fixture : fixturesHelper.fixtures) {
-                if (methodName.endsWith("." + fixture.method.getName())) {
-                    return fixture;
-                }
-            }
+
+        Fixture fixture = helpers.getFixture(methodName);
+
+        if(fixture == null){
+            throw new RuntimeException("No fixture found matching the private or protected method " + methodName + " in class " + classUnderTest.getCanonicalName() + "(use case: " + getName() + ")");
         }
-        throw new RuntimeException("No fixture found matching the private or protected method " + methodName + " in class " + classUnderTest.getCanonicalName() + "(use case: " + getName() + ")");
+        return fixture;
     }
 
     public boolean shouldBeIgnored() {
@@ -170,9 +169,7 @@ public class UseCase extends FixturesHolder {
     public List<String> getDisplayedContext() {
         List<String> result = new ArrayList<String>();
         result.addAll(displayedContext.getText());
-        for (Helper fixturesHelper : fixturesHelpers) {
-            result.addAll(fixturesHelper.displayedContext.getText());
-        }
+        result.addAll(helpers.getDisplayedContext());
         return result;
     }
 }

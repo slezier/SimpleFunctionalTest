@@ -23,6 +23,7 @@ public class DisplayContext {
     public void displayContextWithAnnotatedObject(){
         doStuffDisplayingContext();
         doStuffDisplayingAnotherContext();
+        doStuffWithError();
     }
 
     @Test
@@ -38,5 +39,8 @@ public class DisplayContext {
     }
     private void doStuffDisplayingAnotherContext() {
         displayable2 = "second context display";
+    }
+    private void doStuffWithError() {
+        throw new RuntimeException("Boom");
     }
 }

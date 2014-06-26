@@ -70,9 +70,7 @@ public class UseCaseRunner {
             notifier.fireUseCaseIgnored(this);
         } else {
             notifier.fireUseCaseStarted(this);
-            for (Helper helper : useCase.fixturesHelpers) {
-                new ContextRunner(this, helper.beforeUseCase).run(notifier);
-            }
+            useCase.helpers.runBeforeUseCase(this,notifier);
             useCaseResult.beforeResult = beforeUseCaseRunner.run(notifier);
 
             if (useCaseResult.beforeResult.isSuccessful()) {
@@ -91,9 +89,7 @@ public class UseCaseRunner {
                 useCaseResult.subUseCaseResults.add(subUseCaseRunner.run(notifier));
             }
 
-            for (Helper helper : useCase.fixturesHelpers) {
-                new ContextRunner(this, helper.afterUseCase).run(notifier);
-            }
+            useCase.helpers.runAfterUseCase(this,notifier);
             notifier.fireUseCaseFinished(this);
         }
         try {

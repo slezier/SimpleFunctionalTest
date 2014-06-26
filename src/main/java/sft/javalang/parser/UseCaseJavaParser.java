@@ -16,7 +16,6 @@ import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.*;
-import japa.parser.ast.stmt.EmptyStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.Statement;
 import sft.*;
@@ -71,10 +70,7 @@ public class UseCaseJavaParser extends JavaFileParser {
                 }
             }
         }
-        for (Helper fixturesHelper : useCase.fixturesHelpers) {
-            HelperJavaParser helperJavaParser = new HelperJavaParser(configuration,fixturesHelper.object);
-            helperJavaParser.feed(fixturesHelper);
-        }
+        useCase.helpers.completeDescriptionFromSource(configuration);
     }
 
     private void feedTestContext(MethodDeclaration methodDeclaration, ContextHandler contextHandler,UseCase useCase) {
