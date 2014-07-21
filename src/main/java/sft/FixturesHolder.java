@@ -15,6 +15,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import sft.junit.ContextRunner;
+import sft.junit.JunitSftNotifier;
+import sft.junit.ScenarioRunner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

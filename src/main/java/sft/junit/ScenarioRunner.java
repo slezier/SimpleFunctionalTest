@@ -49,7 +49,6 @@ public class ScenarioRunner {
                     return ScenarioResult.failedBeforeTest(scenario, beforeScenarioResult.exception);
                 }
 
-
                 scenario.run();
 
                 ContextResult afterScenarioResult = new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
@@ -59,12 +58,20 @@ public class ScenarioRunner {
                 scenario.useCase.helpers.runAfterScenario(this, runner);
 
                 return ScenarioResult.success(scenario);
-            } catch (InvocationTargetException invocationTargetException) {
-                runner.fireScenarioFailed(this, invocationTargetException.getTargetException());
-                return ScenarioResult.failed(scenario, invocationTargetException.getTargetException());
             } catch (Throwable throwable) {
+
+                new ContextRunner(this, scenario.useCase.afterScenario).run(runner);
+                scenario.useCase.helpers.runAfterScenario(this, runner);
+
+                if(throwable instanceof InvocationTargetException){
+                    InvocationTargetException invocationTargetException = (InvocationTargetException)throwable;
+                    runner.fireScenarioFailed(this, invocationTargetException.getTargetException());
+                    return ScenarioResult.failed(scenario, invocationTargetException.getTargetException());
+                }
+
                 runner.fireScenarioFailed(this, throwable);
                 return ScenarioResult.failed(scenario, throwable);
+
             } finally {
                 runner.fireScenarioFinished(this);
             }

@@ -6,6 +6,8 @@ import sft.Decorate;
 import sft.SimpleFunctionalTest;
 import sft.decorators.Group;
 
+import java.io.InvalidClassException;
+
 @RunWith(SimpleFunctionalTest.class)
 public class FixtureGroupDecoratorSample {
 

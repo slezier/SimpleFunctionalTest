@@ -42,7 +42,6 @@ public class DisplayingTestContext {
     }
 
     @Test
-    @Ignore
     public void displayableObjectGeneratedDuringContextEnding() throws Exception{
         aScenarioUsingFixturesHelperAndGeneratingContextDuringContextHandling();
         displaysContextGeneratedWhenHandlingContext();
