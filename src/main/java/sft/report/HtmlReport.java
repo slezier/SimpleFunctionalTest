@@ -16,7 +16,10 @@ import sft.report.decorators.*;
 import sft.result.*;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -142,12 +145,24 @@ public class HtmlReport extends Report {
     public String successClass = "succeeded";
     private HtmlResources htmlResources;
     private DefaultConfiguration configuration;
+    private Map<Class<? extends Decorator>, Class<? extends HtmlDecorator>> decorators= new HashMap<Class<? extends Decorator>, Class<? extends HtmlDecorator>>();
 
     public HtmlReport(DefaultConfiguration configuration) {
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
         setReportPath(configuration.getTargetFolder().path);
         pathResolver = new RelativeHtmlPathResolver();
+        decorators.put(Style.class,HtmlStyle.class);
+        decorators.put(Breadcrumb.class,HtmlBreadcrumb.class);
+        decorators.put(Group.class,HtmlGroup.class);
+        decorators.put(Table.class,HtmlTable.class);
+        decorators.put(TableOfContent.class,HtmlTableOfContent.class);
+        decorators.put(NullDecorator.class,HtmlNullDecorator.class);
+    }
+
+
+    public void addDecorator(Class<? extends Decorator> decoratorClass, Class<? extends HtmlDecorator> htmlDecoratorImplementationClass) {
+        decorators.put(decoratorClass,htmlDecoratorImplementationClass);
     }
 
     @Override
@@ -160,18 +175,15 @@ public class HtmlReport extends Report {
 
     @Override
     public DecoratorReportImplementation getDecoratorImplementation(Decorator decorator) {
-        if (decorator instanceof Style) {
-            return new HtmlStyle(configuration);
-        } else if (decorator instanceof Breadcrumb) {
-            return new HtmlBreadcrumb(configuration);
-        } else if (decorator instanceof Group) {
-            return new HtmlGroup(configuration);
-        } else if (decorator instanceof Table) {
-            return new HtmlTable(configuration);
-        } else if (decorator instanceof TableOfContent) {
-            return new HtmlTableOfContent(configuration);
-        } else if (decorator instanceof NullDecorator) {
-            return new HtmlNullDecorator(configuration);
+        if( decorators.containsKey(decorator.getClass())){
+            Class<? extends HtmlDecorator> decoratorImplementationClass = decorators.get(decorator.getClass());
+            try {
+                Constructor<? extends HtmlDecorator> declaredConstructor = decoratorImplementationClass.getDeclaredConstructor(DefaultConfiguration.class);
+                return declaredConstructor.newInstance(configuration);
+            } catch (Exception e) {
+                System.out.println(e);
+                e.printStackTrace(System.err);
+            }
         }
         System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName() + " using default decorator");
         return new HtmlNullDecorator(configuration);
@@ -437,7 +449,7 @@ public class HtmlReport extends Report {
         return instructions;
     }
 
-    private String generateInstructionWithParameter(FixtureCall testFixture) {
+    public String generateInstructionWithParameter(FixtureCall testFixture) {
         String instruction = testFixture.fixture.getText();
         for (Map.Entry<String, String> parameter : testFixture.getParameters().entrySet()) {
             String value = Matcher.quoteReplacement(getParameter(parameter.getValue()));
