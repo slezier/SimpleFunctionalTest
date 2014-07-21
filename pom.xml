@@ -63,8 +63,13 @@
         <dependency>
             <groupId>com.github.slezier</groupId>
             <artifactId>SimpleFunctionalTest</artifactId>
-            <version>1.7</version>
+            <version>1.8-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8000</version>
         </dependency>
     </dependencies>
 
