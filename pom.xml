@@ -16,7 +16,7 @@
 
     <groupId>com.github.slezier</groupId>
     <artifactId>SequenceDiagramPlugin</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
 
@@ -43,7 +43,7 @@
     <scm>
         <connection>scm:git:https://github.com/slezier/SequenceDiagramPlugin.git</connection>
         <url>https://github.com/slezier/SequenceDiagramPlugin.git</url>
-      <tag>HEAD</tag>
+      <tag>SequenceDiagramPlugin-0.1</tag>
   </scm>
 
     <distributionManagement>
