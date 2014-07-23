@@ -85,8 +85,9 @@ Open the html file generated:
 [How to use SimpleFunctionalTest](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/master/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 
 ## See also
-[Tutorial](https://github.com/slezier/SFT-tutoriel)
-[Plugin adding sequence diagram decorator](https://github.com/slezier/SequenceDiagramPlugin)
+
+- [Tutorial](https://github.com/slezier/SFT-tutoriel)
+- [Plugin adding sequence diagram decorator](https://github.com/slezier/SequenceDiagramPlugin)
 
 
 Available release:
