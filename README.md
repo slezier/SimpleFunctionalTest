@@ -84,8 +84,14 @@ Open the html file generated:
 ## Deeper
 [How to use SimpleFunctionalTest](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/master/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 
+## See also
+[Tutorial](https://github.com/slezier/SFT-tutoriel)
+[Plugin adding sequence diagram decorator](https://github.com/slezier/SequenceDiagramPlugin)
+
+
 Available release:
 
+- 1.8: Can add new decorator, context is displayed even if failure occurs [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.8/SimpleFunctionalTest-1.8.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.8/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.7: Better ide integration, Fix configuration uses, add Group decorator for scenarios [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.7/SimpleFunctionalTest-1.7.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.7/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.6: Table decorator, @Displayable @Before @After @BeforeClass @AfterClass from FixturesHelper, preserve empty line in scenario  [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.6/SimpleFunctionalTest-1.6.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.6/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 - 1.5: Bug fix [jar](search.maven.org/remotecontent?filepath=com/github/slezier/SimpleFunctionalTest/1.5/SimpleFunctionalTest-1.5.jar) [doc](http://htmlpreview.github.io/?http://github.com/slezier/SimpleFunctionalTest/blob/SimpleFunctionalTest-1.5/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
