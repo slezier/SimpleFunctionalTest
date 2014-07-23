@@ -49,7 +49,7 @@ In your pom file: insert dependencies to SimpleFunctionalTest
 			<dependency>
 				<groupId>com.github.slezier</groupId>
 				<artifactId>SimpleFunctionalTest</artifactId>
-				<version>1.7</version>
+				<version>1.8</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
