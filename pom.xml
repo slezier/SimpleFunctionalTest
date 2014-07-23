@@ -108,7 +108,7 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
+                        <artifactId>maven-gpg-plugin</artifactId>\
                         <version>1.4</version>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
