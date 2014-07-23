@@ -10,6 +10,7 @@
 - [Step4: Manage context setup and teardown](step4-manage-context-setup-and-teardown)
 - [Step5: Displaying context informations](step5-displaying-context-informations)
 - [Step6: Decorated use cases](step6-decorated-use-cases)
+- [Step7: Decorated use cases](step7-enhance-and-extends)
 
 ## Functional and acceptance testing using SimpleFunctionalTest
 
@@ -109,36 +110,7 @@ _src/test/java/bancomat/AccountHolderWithdrawCash.java_:
 			andTheCardShouldBeReturned();
 		}
 
-		private void andTheCardShouldBeReturned() {
-			assertTrue("Card not returned", atm.returnCard());
-		}
-
-		private void andTheAccountBalanceShouldBe80Dollars() {
-			assertEquals(account.balance(), 80);
-		}
-
-		private void thenTheAtmShouldDispense20Dollars() {
-			assertEquals(withdrawals, 20);
-		}
-
-		private void whenTheAccountHolderRequests20Dollars() {
-			atmSession = atm.authenticate(user);
-			withdrawals = atmSession.withdraw(20);
-		}
-
-		private void andTheMachineContainsEnoughMoney() {
-			atm = bank.getAtm(1000);
-		}
-
-		private void andTheCardIsValid() {
-			account.addValidCreditCard("1234");
-		}
-
-		private void givenTheAccountBalanceIs100Dollars() {
-			bank = new Bank();
-			user = new User();
-			account = bank.createAccount(user, 100);
-		}
+		...
 
 	}
 
@@ -155,7 +127,7 @@ pom.xml:
 			<dependency>
 				<groupId>com.github.slezier</groupId>
 				<artifactId>SimpleFunctionalTest</artifactId>
-				<version>1.4</version>
+				<version>1.8</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -501,3 +473,109 @@ Produces:
 
 ![Group fixtures](./images/step6d.png "Group fixtures")     
         
+
+## Step7: Enhance and Extends
+
+What else ?...
+
+Access custom implementation of community !!!
+
+By adding the dependency to SimpleFunctionalTest plugin (as SequenceDiagramPlugin) :
+
+pom.xml:
+
+	<project>
+		...
+		<dependencies> 
+			...
+		        <dependency>
+           			 <groupId>com.github.slezier</groupId>
+	            		<artifactId>SequenceDiagramPlugin</artifactId>
+        	    		<version>0.1</version>
+				<scope>test</scope>
+        		</dependency>
+		</dependencies>
+	</project>
+
+adding a Custom configuration using this plugin:
+
+_src/test/java/bancomat/CustomConfiguration.java_:
+
+	...
+	public class CustomConfiguration extends DefaultConfiguration {
+		public CustomConfiguration() {
+			getReport().addDecorator(SequenceDiagram.class, HtmlSequenceDiagram.class);
+		}
+	}
+
+and using it: 
+
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    @Using(CustomConfiguration.class)
+    public class AccountHolderWithdrawCash {
+
+       ....
+
+       @Test
+       public void accountHasSufficientFunds() {
+           bankHelper.theAccountBalanceIs(100);
+           bankHelper.andTheCardIsValid();
+           bankHelper.andTheMachineContainsEnoughMoney();
+
+           bankHelper.requestCash(20);
+
+           dispenseCash(20);
+           bankHelper.andTheAccountBalanceShouldBe(80);
+           bankHelper.cardIsReturned();
+       }
+
+       @Decorate(decorator = SequenceDiagram.class,parameters = "atm --> account_holder")
+       @Text("dispenses ${cash} $")
+       private void dispenseCash(int cash) {
+           this.ticket= bankHelper.getHtmlTicket();
+           assertEquals(bankHelper.withdrawals, cash);
+       }
+       ...
+    }
+
+_src/test/java/bancomat/AccountHolderWithdrawCash.java_:
+
+    ...
+    public class BankHelper {
+
+        ...
+    
+        @Decorate(decorator = SequenceDiagram.class,parameters = "account_holder -> atm")
+        @Text("requests ${amount} $")
+        public void requestCash(int amount) {
+            atmSession = atm.authenticate(user);
+            withdrawals = atmSession.withdraw(amount);
+        }
+
+        @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> atm")
+        @Text("account balance is ${balance} $")
+        public void andTheAccountBalanceShouldBe(int balance) {
+            assertEquals(account.balance(), balance);
+        }
+
+        @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> account_holder")
+        public void cardIsReturned() {
+            assertTrue("Card not returned", atm.returnCard());
+        }
+
+        ...
+    }
+
+
+You can access community enhancement (as SequenceDiagram decorator) :
+
+![Group fixtures](./images/step7.png "SequenceDiagram decorator") 
+
+And more : 
+
+- Customize html generation with your company copyrigth for example
+- Add or change css
+- Change decorator behavior 
+- Change source and target folder
