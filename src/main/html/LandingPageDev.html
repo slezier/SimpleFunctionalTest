@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <style>
+            h1 {
+                font-family:arial;
+                margin-top:70px;
+                font-style:italic;
+                text-align:center;
+            }
+            #imgDev {
+                position:fixed;
+                left: 30px;
+                top: 200px;
+                opacity: 0.8;
+                filter: alpha(opacity=80); /* For IE8 and earlier */
+            }
+            #accroche {
+                font-size:30;
+                text-align:center;
+                position:fixed;
+                left: 930px;
+                top: 300px;
+                font-family:arial;
+            }
+
+            #checkIn {
+                position:fixed;
+                left: 900px;
+                top: 500px;
+
+                -moz-border-radius:28px;
+                -webkit-border-radius:28px;
+                border-radius:28px;
+                border:1px solid;
+                display:inline-block;
+                cursor:pointer;
+                font-family:arial;
+                color:black;
+                padding:10px 31px;
+                text-decoration:none;
+            }
+            #checkIn:active {
+                position:relative;
+                top:1px;
+            }
+            input{
+                text-align:center;
+            }
+            body{
+                text-align:center;
+            }
+            #box{
+                width:1280;
+
+            }
+
+
+            body{
+            background: rgba(206,253,206,1);
+            background: -moz-linear-gradient(-45deg, rgba(206,253,206,1) 0%, rgba(255,255,255,0.77) 62%);
+            background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(206,253,206,1)), color-stop(62%, rgba(255,255,255,0.77)));
+            background: -webkit-linear-gradient(-45deg, rgba(206,253,206,1) 0%, rgba(255,255,255,0.77) 62%);
+            background: -o-linear-gradient(-45deg, rgba(206,253,206,1) 0%, rgba(255,255,255,0.77) 62%);
+            background: -ms-linear-gradient(-45deg, rgba(206,253,206,1) 0%, rgba(255,255,255,0.77) 62%);
+            background: linear-gradient(135deg, rgba(206,253,206,1) 0%, rgba(255,255,255,0.77) 62%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cefdce', endColorstr='#ffffff', GradientType=1 );
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <h1>Simple Functional Test <img src="success_32.png" /></h1>
+            <div id="accroche">
+                Easily adopt functional <br/>
+                and acceptance testing
+            </div>
+            <a href="#" id="checkIn" style="width:300px"><div style="float:left"><div><input type="text" value="your email"></div><div>or</div><div><img src="google_32.png"/><img src="twitter_32.png"/><img src="github_32.png"/><img src="openid_32.png"/></div></div><div style="float:right; height:78px"><br/><img src="success_32.png"/></div></a>
+
+            <img id="imgDev" src="ImgDev.png"/>
+        </div>
+    </body>
+</html>

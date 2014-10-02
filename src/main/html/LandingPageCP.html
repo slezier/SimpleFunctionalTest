@@ -1,0 +1,108 @@
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <style>
+        h1 {
+        font-family:arial;
+        margin-top:70px;
+        text-align:center;
+        font-size:50;
+        }
+        #imgDev {
+        position:fixed;
+        left: 30px;
+        top: 200px;
+        opacity: 0.8;
+        filter: alpha(opacity=80); /* For IE8 and earlier */
+        }
+        #accroche {
+        font-size:30;
+        text-align:center;
+        position:fixed;
+        left: 880px;
+        top: 250px;
+        font-family:arial;
+        }
+
+        #checkIn {
+        position:fixed;
+        left: 900px;
+        top: 550px;
+
+        -moz-border-radius:28px;
+        -webkit-border-radius:28px;
+        border-radius:28px;
+        border:1px solid;
+        display:inline-block;
+        cursor:pointer;
+        font-family:arial;
+        color:black;
+        padding:10px 31px;
+        text-decoration:none;
+        }
+        #checkIn:active {
+        position:relative;
+        top:1px;
+        }
+        input{
+        text-align:center;
+        }
+        body{
+        text-align:center;
+        }
+        #box{
+        width:1280;
+
+        }
+        li{
+            display : list-item;
+            list-style-image : url(success_16.png);
+        }
+
+        body{
+        background: rgba(216,253,216,1);
+        background: -moz-linear-gradient(-45deg, rgba(216,253,216,1) 0%, rgba(242,239,242,1) 45%, rgba(242,239,242,1) 46%);
+        background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(216,253,216,1)), color-stop(45%, rgba(242,239,242,1)), color-stop(46%, rgba(242,239,242,1)));
+        background: -webkit-linear-gradient(-45deg, rgba(216,253,216,1) 0%, rgba(242,239,242,1) 45%, rgba(242,239,242,1) 46%);
+        background: -o-linear-gradient(-45deg, rgba(216,253,216,1) 0%, rgba(242,239,242,1) 45%, rgba(242,239,242,1) 46%);
+        background: -ms-linear-gradient(-45deg, rgba(216,253,216,1) 0%, rgba(242,239,242,1) 45%, rgba(242,239,242,1) 46%);
+        background: linear-gradient(135deg, rgba(216,253,216,1) 0%, rgba(242,239,242,1) 45%, rgba(242,239,242,1) 46%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8fdd8', endColorstr='#f2eff2', GradientType=1 );
+
+        }
+
+        #access{
+        position:fixed;
+        left: 950px;
+        top: 520px;
+        font-size:20
+        }
+    </style>
+</head>
+<body>
+        <div id="box">
+
+<h1>Simple Functional Test <img src="success_32.png" /></h1>
+<div id="accroche">
+    Ensure the quality of your software
+    <ul style="text-align:left">
+        <li>Tests your features</li>
+        <li>Fully automatable</li>
+        <li>Report generation</li>
+        <li>Low integration cost</li>
+    </ul>
+</div>
+
+<div id="access">
+    To access resources:
+</div>
+
+<a href="#" id="checkIn" style="width:260px">
+    <div style="float:left"><div><input type="text" value="your email"> &nbsp;<img src="success_16.png"/></div>
+    <div>or</div>
+    <div><img src="google_32.png"/><img src="twitter_32.png"/><img src="linkedin_32.png"/></div></div><div style="float:right; height:78px"><br/></div></a>
+
+<img id="imgDev" src="ImgCp.png"/>
+</div>
+</body>
+</html>
