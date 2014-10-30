@@ -85,7 +85,6 @@ import sft.integration.use.Usages;
     <li>Settings/Hack: runner extension: concurrent testing</li>
     <li>Settings/Hack: runner extension: inheritance</li>
     <li>Settings/Hack: runner extension: using mock</li>
-    <li>Settings/Hack/Extend: write extension: sequence diagram view of fixtures call</li>
     <li>Settings/Hack/Extend: write extension: test result in md</li>
     <li>Settings/Hack/Extend: write extension: test result in Word</li>
     <li>Settings/Hack/Extend: write extension: test result in LaTeX</li>

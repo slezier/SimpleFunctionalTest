@@ -54,7 +54,7 @@ public class UsingDecorator {
     public void addBreadcrumb() throws Exception {
         byAddingBreadcrumbDecoratorOnUseCase();
         aBreadcrumbsIsAddedAfterTitle();
-        byClickingOnTheDifferentBreacrumbWeAccessTheGivenUseStory();
+        byClickingOnTheDifferentBreadcrumbWeAccessTheGivenUseStory();
     }
 
     @Test
@@ -62,6 +62,16 @@ public class UsingDecorator {
         byAddingTableOfContentDecoratorOnUseCase();
         aTableOfContentIsAddedAfterTitleShowingTestsIssueAndAllowAccessToTheGivenStories();
     }
+
+    @Test
+    public void addTestsSynthesis() throws Exception {
+        byAddingSynthesisDecoratorOnUseCase();
+        allScenarioRanAreListedDependingTheirsIssue();
+        failedScenariosAreNumberedAndDisplayedWithDirectAccess();
+        ignoredScenariosAreNumberedAndDisplayedWithDirectAccess();
+        succeededScenariosAreNumberedAndCanBeDisplayedWithDirectAccess();
+    }
+
 
     @Test
     public void groupScenarios() throws Exception {
@@ -243,7 +253,7 @@ public class UsingDecorator {
         Assert.assertEquals("Sub sub use case breadcrumb", breadcrumbs.select("li").get(2).text());
     }
 
-    private void byClickingOnTheDifferentBreacrumbWeAccessTheGivenUseStory() throws Exception {
+    private void byClickingOnTheDifferentBreadcrumbWeAccessTheGivenUseStory() throws Exception {
         final Elements breadcrumbs = jUnitHelper.html.select("ol.breadcrumb");
         Assert.assertEquals(3, breadcrumbs.select("li").size());
         Assert.assertEquals("../BreadcrumbDecoratorSample.html", breadcrumbs.select("li").get(0).select("a").attr("href"));
@@ -276,8 +286,6 @@ public class UsingDecorator {
 
         assertTocElement(elementsLevel1.get(2), "failed", "Sub use case toc 3", "subUseCase/SubUseCaseToc3.html");
         assertScenariosAre(elementsLevel1.get(2), "succeeded", "Scenario 31", "ignored", "Scenario 32", "failed", "Scenario 33");
-
-
     }
 
     private void assertScenariosAre(Element element, String... listOfTitleThenIssues) {
@@ -299,6 +307,62 @@ public class UsingDecorator {
         Assert.assertTrue("expecting '" + issue + "' having '" + tocElement.className() + "'", tocElement.hasClass(issue));
         Assert.assertEquals(href, tocElement.select("span a").attr("href"));
         Assert.assertEquals(title, tocElement.select("span a").get(0).text());
+    }
+
+    private void byAddingSynthesisDecoratorOnUseCase() throws IOException {
+        jUnitHelper.run(this.getClass(), SynthesisDecoratorSample.class);
+    }
+
+    private void allScenarioRanAreListedDependingTheirsIssue() {
+        Elements digestTitles = jUnitHelper.html.select("div.synthesis > div.digest > span.title");
+        Assert.assertEquals("2 scenarios failed",digestTitles.get(0).text());
+        Assert.assertEquals("2 scenarios ignored",digestTitles.get(1).text());
+        Assert.assertEquals("8 scenarios succeeded",digestTitles.get(2).text());
+    }
+
+
+    private void succeededScenariosAreNumberedAndCanBeDisplayedWithDirectAccess() {
+        Elements digestTitles = jUnitHelper.html.select(".synthesis .digest.succeeded .title");
+        Assert.assertEquals("8 scenarios succeeded",digestTitles.get(0).text());
+
+        Assert.assertFalse(jUnitHelper.html.select("#succeeded_fold").get(0).hasAttr("style"));
+        Assert.assertEquals("display: none;",jUnitHelper.html.select("#succeeded_unfold").get(0).attr("style"));
+
+        Elements scenarios = jUnitHelper.html.select(".synthesis .digest.succeeded .relatedUseCase");
+        Assert.assertEquals("Sub use case toc 1 : Scenario 11",scenarios.get(0).text());
+        Assert.assertEquals("Sub use case toc 1 : Scenario 12",scenarios.get(1).text());
+        Assert.assertEquals("Sub use case toc 1 : Scenario 13",scenarios.get(2).text());
+        Assert.assertEquals("Sub use case toc 2 : Scenario 21",scenarios.get(3).text());
+        Assert.assertEquals("Sub use case toc 2 : Scenario 22",scenarios.get(4).text());
+        Assert.assertEquals("Sub use case toc 2 : Scenario 23",scenarios.get(5).text());
+        Assert.assertEquals("Sub use case toc 2 : Sub use case toc 2a : Scenario 2a 1",scenarios.get(6).text());
+        Assert.assertEquals("Sub use case toc 3 : Scenario 31",scenarios.get(7).text());
+
+    }
+
+    private void ignoredScenariosAreNumberedAndDisplayedWithDirectAccess() {
+        Elements digestTitles = jUnitHelper.html.select(".synthesis .digest.ignored .title");
+        Assert.assertEquals("2 scenarios ignored",digestTitles.get(0).text());
+
+        Assert.assertEquals("display: none;",jUnitHelper.html.select("#ignored_fold").get(0).attr("style"));
+        Assert.assertFalse(jUnitHelper.html.select("#ignored_unfold").get(0).hasAttr("style"));
+
+        Elements scenarios = jUnitHelper.html.select(".synthesis .digest.ignored .relatedUseCase");
+        Assert.assertEquals("Sub use case toc 2 : Sub use case toc 2b : Scenario 2b 1",scenarios.get(0).text());
+        Assert.assertEquals("Sub use case toc 3 : Scenario 32",scenarios.get(1).text());
+
+    }
+
+    private void failedScenariosAreNumberedAndDisplayedWithDirectAccess() {
+        Elements digestTitles = jUnitHelper.html.select(".synthesis .digest.failed .title");
+        Assert.assertEquals("2 scenarios failed",digestTitles.get(0).text());
+
+        Assert.assertEquals("display: none;",jUnitHelper.html.select("#failed_fold").get(0).attr("style"));
+        Assert.assertFalse(jUnitHelper.html.select("#failed_unfold").get(0).hasAttr("style"));
+
+        Elements scenarios = jUnitHelper.html.select(".synthesis .digest.failed .relatedUseCase");
+        Assert.assertEquals("Sub use case toc 2 : Sub use case toc 2c : Scenario 2c 1",scenarios.get(0).text());
+        Assert.assertEquals("Sub use case toc 3 : Scenario 33",scenarios.get(1).text());
     }
 
 

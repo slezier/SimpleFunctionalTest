@@ -172,4 +172,8 @@ public class UseCase extends FixturesHolder {
         result.addAll(helpers.getDisplayedContext());
         return result;
     }
+
+    public boolean isRoot(){
+        return parent == null;
+    }
 }

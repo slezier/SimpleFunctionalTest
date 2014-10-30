@@ -18,7 +18,9 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runner.notification.StoppedByUserException;
 import sft.junit.JunitSftNotifier;
+import sft.junit.SftNotifier;
 import sft.junit.UseCaseRunner;
+import sft.result.SftLogger;
 
 public class SimpleFunctionalTest extends Runner {
 

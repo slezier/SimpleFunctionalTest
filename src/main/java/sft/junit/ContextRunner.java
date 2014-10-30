@@ -31,7 +31,7 @@ public class ContextRunner {
         this.scenarioRunner = scenarioRunner;
     }
 
-    public ContextResult run(JunitSftNotifier notifier) {
+    public ContextResult run(SftNotifier notifier) {
         try {
             if(contextHandler != null){
                 contextHandler.run();

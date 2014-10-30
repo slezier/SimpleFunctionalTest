@@ -12,7 +12,7 @@ package sft.report;
 
 import java.util.regex.Matcher;
 
-final class TemplateString {
+public final class TemplateString {
     private final String template;
 
     public TemplateString(String template){

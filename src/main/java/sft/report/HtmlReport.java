@@ -157,6 +157,7 @@ public class HtmlReport extends Report {
         decorators.put(Group.class,HtmlGroup.class);
         decorators.put(Table.class,HtmlTable.class);
         decorators.put(TableOfContent.class,HtmlTableOfContent.class);
+        decorators.put(Synthesis.class,HtmlSynthesis.class);
         decorators.put(NullDecorator.class,HtmlNullDecorator.class);
     }
 

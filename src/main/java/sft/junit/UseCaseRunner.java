@@ -16,6 +16,7 @@ import sft.Helper;
 import sft.Scenario;
 import sft.SubUseCase;
 import sft.UseCase;
+import sft.result.SoutReport;
 import sft.result.UseCaseResult;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class UseCaseRunner {
         return description;
     }
 
-    public UseCaseResult run(JunitSftNotifier notifier) {
+    public UseCaseResult run(SftNotifier notifier) {
         UseCaseResult useCaseResult = new UseCaseResult(this.useCase);
 
         if (useCase.shouldBeIgnored()) {
@@ -96,6 +97,9 @@ public class UseCaseRunner {
             useCase.configuration.getReport().report(useCaseResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+        if( useCase.isRoot()){
+            new SoutReport().generate(useCaseResult);
         }
         return useCaseResult;
     }

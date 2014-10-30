@@ -1,10 +1,7 @@
 package sft;
 
 import sft.javalang.parser.HelperJavaParser;
-import sft.junit.ContextRunner;
-import sft.junit.JunitSftNotifier;
-import sft.junit.ScenarioRunner;
-import sft.junit.UseCaseRunner;
+import sft.junit.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,13 +15,13 @@ public class Helpers {
         helpers.add(helper);
     }
 
-    public void runBeforeScenario(ScenarioRunner scenarioRunner, JunitSftNotifier runner) {
+    public void runBeforeScenario(ScenarioRunner scenarioRunner, SftNotifier runner) {
         for (Helper helper : helpers) {
             new ContextRunner(scenarioRunner,helper.beforeScenario).run(runner);
         }
     }
 
-    public void runAfterScenario(ScenarioRunner scenarioRunner, JunitSftNotifier runner) {
+    public void runAfterScenario(ScenarioRunner scenarioRunner, SftNotifier runner) {
         for (Helper helper : helpers) {
             new ContextRunner(scenarioRunner,helper.afterScenario).run(runner);
         }
@@ -51,13 +48,13 @@ public class Helpers {
         return contexts;
     }
 
-    public void runBeforeUseCase(UseCaseRunner useCaseRunner, JunitSftNotifier notifier) {
+    public void runBeforeUseCase(UseCaseRunner useCaseRunner, SftNotifier notifier) {
         for (Helper helper : helpers) {
             new ContextRunner(useCaseRunner, helper.beforeUseCase).run(notifier);
         }
     }
 
-    public void runAfterUseCase(UseCaseRunner useCaseRunner, JunitSftNotifier notifier) {
+    public void runAfterUseCase(UseCaseRunner useCaseRunner, SftNotifier notifier) {
         for (Helper helper :  helpers) {
             new ContextRunner(useCaseRunner, helper.afterUseCase).run(notifier);
         }

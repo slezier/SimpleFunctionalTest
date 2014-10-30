@@ -29,7 +29,7 @@ public class SubUseCaseRunner {
         return subUseCaseRunner.getDescription();
     }
 
-    public SubUseCaseResult run(JunitSftNotifier notifier) {
+    public SubUseCaseResult run(SftNotifier notifier) {
         return new SubUseCaseResult(subUseCase,subUseCaseRunner.run(notifier));
     }
 

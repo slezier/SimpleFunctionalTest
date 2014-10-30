@@ -33,7 +33,7 @@ public class ScenarioRunner {
         return description;
     }
 
-    public ScenarioResult run(JunitSftNotifier runner) {
+    public ScenarioResult run(SftNotifier runner) {
 
         scenario.useCase.helpers.runBeforeScenario(this, runner);
 
