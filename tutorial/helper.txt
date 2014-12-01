@@ -1,0 +1,138 @@
+Story: Account Holder withdraws cash
+
+As an Account Holder
+I want to withdraw cash from an ATM
+So that I can get money when the bank is closed
+
+Scenario 1: Account has sufficient funds
+Given the account balance is \$100
+ And the card is valid
+ And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should dispense \$20
+ And the account balance should be \$80
+ And the card should be returned
+
+Scenario 2: Account has insufficient funds
+Given the account balance is \$10
+ And the card is valid
+ And the machine contains enough money
+When the Account Holder requests \$20
+Then the ATM should not dispense any money
+ And the ATM should say there are insufficient funds
+ And the account balance should be \$20
+ And the card should be returned
+
+Scenario 3: Card has been disabled
+Given the card is disabled
+When the Account Holder requests \$20
+Then the ATM should retain the card
+And the ATM should say the card has been retained
+
+========================================================================
+
+/*
+As an Account Holder
+I want to withdraw cash from an ATM
+So that I can get money when the bank is closed
+*/
+
+AccountHolderWithdrawCash
+
+accountHasSufficientFunds
+
+givenTheAccountBalanceIs100Dollars
+andTheCardIsValid
+andTheMachineContainsEnoughMoney
+whenTheAccountHolderRequests20Dollars
+thenTheAtmShouldDispense20Dollars
+andTheAccountBalanceShouldBe80Dollars
+andTheCardShouldBeReturned
+
+========================================================================
+
+        <dependency>
+            <groupId>com.github.slezier</groupId>
+            <artifactId>SimpleFunctionalTest</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+========================================================================
+
+@Text("Given the account balance is 100$")
+@Text("When the account holder requests 20$")
+@Text("Then the atm should dispense 20$")
+@Text("And the account balance should be 80$")
+
+========================================================================
+
+    @Test
+    public void terroristWithdraw(){
+        boom();
+    }
+
+    private void boom() {
+        throw new RuntimeException("Boom");
+    }
+
+========================================================================
+
+    public Bank bank;
+    public User user;
+    public Account account;
+
+    public void givenTheCardIsDisabled() {
+        account.addValidCreditCard("1234");
+        account.declareCardLoss();
+    }
+
+
+    public void andTheCardIsValid() {
+        account.addValidCreditCard("1234");
+    }
+
+    @Text("And the account balance should be ${balance} $")
+    public void andTheAccountBalanceShouldBe(int balance) {
+        assertEquals(account.balance(), balance);
+    }
+
+    @Text("Given the account balance is ${initialAmount} $")
+    public void givenTheAccountBalanceIs(int initialAmount) {
+        bank = new Bank();
+        user = new User();
+        account = bank.createAccount(user, initialAmount);
+    }
+
+
+    public Atm getAtm(int initialFunds) {
+        return bank.getAtm(initialFunds);
+    }
+========================================================================
+        givenABank();
+        givenAClientOfThisBank();
+        givenHisAccountBalanceIs(initialAmount);
+    }
+
+
+    @Text("Given the account balance is ${initialAmount} $")
+    public void givenHisAccountBalanceIs(int initialAmount) {
+        account = bank.createAccount(user, initialAmount);
+    }
+
+    public void givenAClientOfThisBank() {
+        user = new User();
+    }
+
+    public void givenABank() {
+        bank = new Bank();
+    }
+========================================================================
+
+   @BeforeClass
+    public static void setupUseCase(){
+        bankHelper.givenABank();
+    }
+    @Before
+    public void setupScenario(){
+        bankHelper.givenAClientOfThisBank();
+    }
