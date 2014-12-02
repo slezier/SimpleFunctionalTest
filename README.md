@@ -67,17 +67,17 @@ Run the test.
 
 Open the html file generated:
 
-![A simple acceptance test using SFT](./images/SimpleUseCase.png "A simple acceptance test using SFT")
+![A simple acceptance test using SFT](./site/images/SimpleUseCase.png "A simple acceptance test using SFT")
 
 ## Other fixtures
 
-[Use weirds characters or specify the way is displayed](./Text.md "Use weirds characters or specify the way is displayed").
+[Use weirds characters or specify the way is displayed](./site/Text.md "Use weirds characters or specify the way is displayed").
 
-[Parameterize your fixture](./ParameterizeFixture.md "Parameterize your fixture").
+[Parameterize your fixture](./site/ParameterizeFixture.md "Parameterize your fixture").
 
-[Links use cases together](./LinksUseCases.md "Links use cases together").
+[Links use cases together](./site/LinksUseCases.md "Links use cases together").
 
-[Manage test context](./ManageTestContext.md "Manage test context").
+[Manage test context](./site/ManageTestContext.md "Manage test context").
 
 [Decorate](./Decorate.md "Decorate"): Table of content, breadcrumb, group fixtures, fixture displayed as table.
 

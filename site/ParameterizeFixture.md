@@ -8,4 +8,4 @@ Add ${myParameterName} to displayed value used when called.
 
 ![Fixture with parameter](./images/FixtureWithParameter.png "Fixture with parameter")
 
-[Back](./README.md#other-fixtures)
+[Back](../README.md#other-fixtures)

@@ -15,12 +15,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.slezier</groupId>
-    <artifactId>sft-core</artifactId>
+    <artifactId>main</artifactId>
     <version>1.10-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.10-SNAPSHOT</version>
 
 
-    <name>sft-core</name>
+    <name>Simple Functional Test</name>
     <description>A JUnit extension to easily adopt functional testing and acceptance testing</description>
     <url>https://github.com/slezier/SimpleFunctionalTest</url>
 
@@ -58,6 +58,13 @@
         <powermock.version>1.5</powermock.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <modules>
+         <module>sft-core</module>
+         <module>sft-md-report</module>
+         <module>sft-tutorial</module>
+    </modules>
+
 
     <dependencies>
         <dependency>

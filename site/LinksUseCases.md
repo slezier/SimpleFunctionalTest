@@ -11,4 +11,4 @@ A new section is added  with all related use cases:
 
 ![Related use cases](./images/RelatedUseCases.png "Related use cases")
 
-[Back](./README.md#other-fixtures)
+[Back](../README.md#other-fixtures)
