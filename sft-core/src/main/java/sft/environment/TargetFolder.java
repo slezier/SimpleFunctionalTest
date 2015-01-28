@@ -33,7 +33,9 @@ public class TargetFolder extends ResourceFolder {
             final File targetDirectory = ensureTargetDirectoryExists();
             final URL resource = this .getClass().getClassLoader().getResource(fileName);
             final List<String> paths ;
-            if (resource.getProtocol().equals("jar")) {
+            if( resource == null ){
+                throw new RuntimeException("Can't find resource \""+fileName+ "\"; ensure this resource exists");
+            }else if (resource.getProtocol().equals("jar")) {
                 paths = new FromJar(resource).copy(targetDirectory);
             } else {
                 paths = new FromDirectory(resource).copy(targetDirectory);

@@ -12,10 +12,8 @@ package sft.junit;
 
 
 import org.junit.runner.Description;
-import sft.Helper;
-import sft.Scenario;
-import sft.SubUseCase;
-import sft.UseCase;
+import sft.*;
+import sft.report.HtmlReport;
 import sft.result.SoutReport;
 import sft.result.UseCaseResult;
 
@@ -94,7 +92,7 @@ public class UseCaseRunner {
             notifier.fireUseCaseFinished(this);
         }
         try {
-            useCase.configuration.getReport().report(useCaseResult);
+            useCase.configuration.getReport(HtmlReport.class).report(useCaseResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

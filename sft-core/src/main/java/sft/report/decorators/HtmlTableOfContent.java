@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
+import sft.report.HtmlReport;
 import sft.report.RelativeHtmlPathResolver;
 import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
@@ -38,12 +39,12 @@ public class HtmlTableOfContent extends HtmlDecorator {
         String result = "<ol>";
         for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
 
-            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport().pathResolver;
+            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport(HtmlReport.class).pathResolver;
             final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
             final String target = relativeHtmlPathResolver.getPathOf(subUseCaseResult.useCaseResult.useCase.classUnderTest, ".html");
             final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
 
-            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(subUseCaseResult.useCaseResult.getIssue())+"'>" +
+            result += "<li class='"+ configuration.getReport(HtmlReport.class).getHtmlResources().convertIssue(subUseCaseResult.useCaseResult.getIssue())+"'>" +
                     "<span><a href='"+pathToUseCaseToBreadcrumb+"'>"+subUseCaseResult.useCaseResult.useCase.getName()+"</a></span>"+
                     printScenario(subUseCaseResult.useCaseResult) +
                     printUseCase(initialUseCase, subUseCaseResult.useCaseResult) +
@@ -55,7 +56,7 @@ public class HtmlTableOfContent extends HtmlDecorator {
     private String printScenario(UseCaseResult useCaseResult) {
         String result = "<ul>";
         for (ScenarioResult scenarioResult : useCaseResult.scenarioResults) {
-            result += "<li class='"+configuration.getReport().getHtmlResources().convertIssue(scenarioResult.issue)+"'>" +
+            result += "<li class='"+ configuration.getReport(HtmlReport.class).getHtmlResources().convertIssue(scenarioResult.issue)+"'>" +
                     "<span>"+scenarioResult.scenario.getName()+"</span>"+
                     "</li>";
         }

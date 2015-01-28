@@ -12,32 +12,15 @@ package sft;
 
 import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
+import sft.report.decorators.HtmlDecorator;
 import sft.result.ScenarioResult;
 
 import java.util.List;
 
 public abstract class Report {
 
-    private String resourcePath;
-    private String reportPath;
-
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath;
-    }
-
-    public String getResourcePath() {
-        return resourcePath;
-    }
-
-    public String getReportPath() {
-        return reportPath;
-    }
-
-    public void setReportPath(String reportPath) {
-        this.reportPath = reportPath;
-    }
-
     public abstract DecoratorReportImplementation getDecoratorImplementation(Decorator decorator);
 
+    public abstract void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementationClass);
 
 }

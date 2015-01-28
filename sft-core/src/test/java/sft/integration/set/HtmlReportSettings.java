@@ -2,6 +2,7 @@ package sft.integration.set;
 
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -13,10 +14,10 @@ import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.JUnitHelper;
 import sft.integration.fixtures.JavaResource;
-import sft.integration.fixtures.SftResources;
 import sft.integration.set.sut.InkConfiguration;
 import sft.integration.set.sut.InkStyleUseCase;
 import sft.report.HtmlReport;
+import sft.report.HtmlResources;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,12 +69,12 @@ public class HtmlReportSettings {
     @Text("Default report path of html report is ${reportPath}")
     private void defaultReportPathOfHtmlReportIs(String reportPath) {
         configuration = new DefaultConfiguration();
-        Assert.assertEquals(reportPath,configuration.getReport().getReportPath());
+        Assert.assertEquals(reportPath, configuration.getReport(HtmlReport.class).getTargetFolder().path);
     }
 
     @Text("By setting the report path to ${reportPath}")
     private void bySettingTheReportPathTo(String reportPath) {
-        configuration.getReport().setReportPath(reportPath);
+        configuration.getReport(HtmlReport.class).setReportPath(reportPath);
     }
 
     @Text("Simple functional test will load classes from this folder( for example the class ${useCaseClass} will generate the html report ${reportFile})")
@@ -120,12 +121,16 @@ public class HtmlReportSettings {
 
     @Text("When html report use the default embedded resource ${path}")
     private void whenHtmlReportUseTheDefaultEmbeddedResource(String path) {
-        Assert.assertEquals(path, configuration.getReport().getResourcePath());
+        configuration = new DefaultConfiguration();
+        HtmlReport report = configuration.getReport(HtmlReport.class);
+        HtmlResources htmlResources = report.getHtmlResources();
+        String actual = htmlResources.path;
+        Assert.assertEquals(path, actual);
     }
 
     @Text("Then html report include path to js files ${pathToJsFiles}")
     private void thenHtmlReportIncludePathToJsFile(String pathToJsFiles) {
-        String includeJs = configuration.getReport().getHtmlResources().getIncludeJsDirectives(this.getClass());
+        String includeJs = configuration.getReport(HtmlReport.class).getHtmlResources().getIncludeJsDirectives(this.getClass());
         includeJs=includeJs.replaceAll("<script src=\"","");
         includeJs=includeJs.replaceAll("\"></script>\n",", ");
         includeJs=includeJs.substring(0,includeJs.length()-2);
@@ -134,7 +139,7 @@ public class HtmlReportSettings {
 
     @Text("And include path to css files ${pathToCssFiles}")
     private void andIncluedPathToCssFile(String pathToCssFiles) {
-        String includeCss = configuration.getReport().getHtmlResources().getIncludeCssDirectives(this.getClass());
+        String includeCss = configuration.getReport(HtmlReport.class).getHtmlResources().getIncludeCssDirectives(this.getClass());
         includeCss=includeCss.replaceAll("<link rel=\"stylesheet\" href=\"","");
         includeCss=includeCss.replaceAll("\" />\n", ", ");
         includeCss=includeCss.substring(0,includeCss.length()-2);
@@ -143,12 +148,12 @@ public class HtmlReportSettings {
 
     @Text("By setting the resource path to ${newResourcePath}")
     private void bySettingTheResourcePathTo(String newResourcePath) {
-        configuration.getReport().setResourcePath(newResourcePath);
+        configuration.getReport(HtmlReport.class).setResourcePath(newResourcePath);
     }
 
     private void theDefaultConfigurationProvideAnHtmlReport() {
         configuration = new DefaultConfiguration();
-        Assert.assertEquals(HtmlReport.class, configuration.getReport().getClass());
+        Assert.assertNotNull(configuration.getReport(HtmlReport.class));
     }
 
     /*

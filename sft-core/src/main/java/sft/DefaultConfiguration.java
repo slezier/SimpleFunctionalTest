@@ -14,6 +14,9 @@ import sft.environment.ResourceFolder;
 import sft.report.HtmlReport;
 import sft.environment.TargetFolder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DefaultConfiguration {
 
 
@@ -23,12 +26,11 @@ public class DefaultConfiguration {
 
     private String classFolder = CLASS_FOLDER;
     private ResourceFolder sourceFolder = new ResourceFolder(toProjectPath(CLASS_FOLDER), TO_TEST_SOURCE_DIR);
-    private TargetFolder targetFolder = new TargetFolder(toProjectPath(CLASS_FOLDER), TARGET_SFT_RESULT);
-    private HtmlReport htmlReport;
+    private Map<Class, Report> reports = new HashMap<Class, Report>();
 
 
     public DefaultConfiguration() {
-        htmlReport = new HtmlReport(this);
+        addReport(new HtmlReport(this));
     }
 
     private static String toProjectPath(String classFolder) {
@@ -41,10 +43,6 @@ public class DefaultConfiguration {
         return toProjectPath;
     }
 
-    public HtmlReport getReport() {
-        return htmlReport;
-    }
-
     public String getSourcePath() {
         return sourceFolder.path;
     }
@@ -54,7 +52,7 @@ public class DefaultConfiguration {
     }
 
     public void setTargetPath(String targetPath) {
-        targetFolder = new TargetFolder(toProjectPath(classFolder), targetPath);
+        getReport(HtmlReport.class).setTargetFolder( targetPath);
     }
 
     public String getClassFolder() {
@@ -63,7 +61,8 @@ public class DefaultConfiguration {
 
     public void setClassFolder(String classFolder) {
         sourceFolder = new ResourceFolder(toProjectPath(classFolder), sourceFolder.path);
-        targetFolder = new TargetFolder(toProjectPath(classFolder), targetFolder.path);
+        //targetFolder = new TargetFolder(toProjectPath(classFolder), targetFolder.path);
+        setTargetPath(TARGET_SFT_RESULT);
     }
 
     public ResourceFolder getSourceFolder() {
@@ -71,6 +70,15 @@ public class DefaultConfiguration {
     }
 
     public TargetFolder getTargetFolder() {
-        return targetFolder;
+        return getReport(HtmlReport.class).getTargetFolder();
+        //return targetFolder;
     }
+
+    public void addReport(Report report) {
+        reports.put(report.getClass(), report);
+    }
+    public <T extends  Report> T getReport( Class< T > reportClass){
+        return (T) reports.get( reportClass );
+    }
+
 }

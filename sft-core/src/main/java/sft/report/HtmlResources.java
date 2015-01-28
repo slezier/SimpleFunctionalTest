@@ -12,6 +12,7 @@ package sft.report;
 
 
 import sft.DefaultConfiguration;
+import sft.report.decorators.HtmlDecorator;
 import sft.result.Issue;
 
 import java.io.IOException;
@@ -20,32 +21,34 @@ import java.util.List;
 
 public class HtmlResources {
 
-    private final String resourcesPath;
+    public final String path;
+    private final HtmlReport htmlReport;
     private List<String> filesUsed;
     private DefaultConfiguration configuration;
 
     public HtmlResources() {
-        this(new DefaultConfiguration(), HtmlReport.HTML_DEPENDENCIES_FOLDER);
+        this(new DefaultConfiguration(), new HtmlReport(new DefaultConfiguration()), HtmlReport.HTML_DEPENDENCIES_FOLDER);
     }
 
-    public HtmlResources(DefaultConfiguration configuration, String htmlDependenciesFolder) {
+    public HtmlResources(DefaultConfiguration configuration, HtmlReport htmlReport,String htmlDependenciesFolder) {
         this.configuration = configuration;
-        resourcesPath = htmlDependenciesFolder;
+        this.htmlReport = htmlReport;
+        path = htmlDependenciesFolder;
         ensureIsCreated();
     }
 
     public HtmlResources ensureIsCreated() {
         try {
-            filesUsed = configuration.getTargetFolder().copyFromResources(resourcesPath);
+            filesUsed = htmlReport.getTargetFolder().copyFromResources(path);
         } catch (IOException e) {
-            new RuntimeException(e);
+            new RuntimeException("The resource: " + path + " is not accessible",e);
         }
         return this;
     }
 
     public String convertIssue(Issue issue) {
 
-        return configuration.getReport().getIssueConverter(issue);
+        return configuration.getReport(HtmlReport.class).getIssueConverter(issue);
     }
 
     public String getIncludeCssDirectives(Class<?> useCaseClass) {

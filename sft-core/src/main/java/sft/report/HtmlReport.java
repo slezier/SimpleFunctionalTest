@@ -12,6 +12,7 @@ package sft.report;
 
 import sft.*;
 import sft.decorators.*;
+import sft.environment.TargetFolder;
 import sft.report.decorators.*;
 import sft.result.*;
 
@@ -145,64 +146,67 @@ public class HtmlReport extends Report {
     public String successClass = "succeeded";
     private HtmlResources htmlResources;
     private DefaultConfiguration configuration;
-    private Map<Class<? extends Decorator>, Class<? extends HtmlDecorator>> decorators= new HashMap<Class<? extends Decorator>, Class<? extends HtmlDecorator>>();
+    private Map<Class<? extends Decorator>, DecoratorReportImplementation>  decorators= new HashMap<Class<? extends Decorator>, DecoratorReportImplementation>();
+    private TargetFolder targetFolder = new TargetFolder(toProjectPath(CLASS_FOLDER), TARGET_SFT_RESULT);
+
+    private static final String CLASS_FOLDER = "target/test-classes/";
+    private static final String TARGET_SFT_RESULT = "target/sft-result/";
+
+    private static String toProjectPath(String classFolder) {
+        String toProjectPath = "";
+        for (String folder : classFolder.split("/")) {
+            if (!folder.equals(".") && !folder.equals("")) {
+                toProjectPath += "../";
+            }
+        }
+        return toProjectPath;
+    }
 
     public HtmlReport(DefaultConfiguration configuration) {
         this.configuration = configuration;
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
-        setReportPath(configuration.getTargetFolder().path);
+        setReportPath(getTargetFolder().path);
         pathResolver = new RelativeHtmlPathResolver();
-        decorators.put(Style.class,HtmlStyle.class);
-        decorators.put(Breadcrumb.class,HtmlBreadcrumb.class);
-        decorators.put(Group.class,HtmlGroup.class);
-        decorators.put(Table.class,HtmlTable.class);
-        decorators.put(TableOfContent.class,HtmlTableOfContent.class);
-        decorators.put(Synthesis.class,HtmlSynthesis.class);
-        decorators.put(NullDecorator.class,HtmlNullDecorator.class);
+        decorators.put(Style.class,new HtmlStyle(configuration));
+        decorators.put(Breadcrumb.class,new HtmlBreadcrumb(configuration));
+        decorators.put(Group.class,new HtmlGroup(configuration));
+        decorators.put(Table.class,new HtmlTable(configuration));
+        decorators.put(TableOfContent.class,new HtmlTableOfContent(configuration));
+        decorators.put(Synthesis.class,new HtmlSynthesis(configuration));
+        decorators.put(NullDecorator.class,new HtmlNullDecorator(configuration));
     }
 
-
-    public void addDecorator(Class<? extends Decorator> decoratorClass, Class<? extends HtmlDecorator> htmlDecoratorImplementationClass) {
-        decorators.put(decoratorClass,htmlDecoratorImplementationClass);
-    }
 
     @Override
+    public void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementationClass){
+        decorators.put(decoratorClass,decoratorImplementationClass);
+    }
+
     public void setReportPath(String reportPath) {
-        if (reportPath != null && !reportPath.equals(getReportPath())) {
-            super.setReportPath(reportPath);
-            configuration.setTargetPath(reportPath);
+        if( ! reportPath.equals( targetFolder.path)){
+            targetFolder = new TargetFolder(configuration.getTargetFolder().path,reportPath);
         }
     }
 
     @Override
     public DecoratorReportImplementation getDecoratorImplementation(Decorator decorator) {
         if( decorators.containsKey(decorator.getClass())){
-            Class<? extends HtmlDecorator> decoratorImplementationClass = decorators.get(decorator.getClass());
-            try {
-                Constructor<? extends HtmlDecorator> declaredConstructor = decoratorImplementationClass.getDeclaredConstructor(DefaultConfiguration.class);
-                return declaredConstructor.newInstance(configuration);
-            } catch (Exception e) {
-                System.out.println(e);
-                e.printStackTrace(System.err);
-            }
+            return decorators.get(decorator.getClass());
         }
         System.out.println("Decorator " + decorator.getClass().getCanonicalName() + " not Managed by " + this.getClass().getCanonicalName() + " using default decorator");
         return new HtmlNullDecorator(configuration);
     }
 
-    @Override
+
     public void setResourcePath(String resourcePath) {
-        if (resourcePath != null && !resourcePath.equals(getResourcePath())) {
-            super.setResourcePath(resourcePath);
-            htmlResources = new HtmlResources(configuration, resourcePath);
-        }
+        htmlResources = new HtmlResources(configuration, this,resourcePath);
     }
 
     public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
         final Decorator decorator = useCaseResult.useCase.useCaseDecorator;
         String useCaseReport = getDecoratorImplementation(decorator).applyOnUseCase(useCaseResult, decorator.parameters);
 
-        File htmlFile = configuration.getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
+        File htmlFile = getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
         html.write(useCaseReport);
         html.close();
@@ -512,5 +516,13 @@ public class HtmlReport extends Report {
         }
         return scenarioTxt;
 
+    }
+
+    public void setTargetFolder(String targetPath) {
+        targetFolder = new TargetFolder(toProjectPath(configuration.getClassFolder()), targetPath);
+    }
+
+    public TargetFolder getTargetFolder() {
+        return targetFolder;
     }
 }

@@ -1,6 +1,7 @@
 package sft.report.decorators;
 
 import sft.DefaultConfiguration;
+import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
 import sft.report.HtmlReport;
 import sft.result.FixtureCallResult;
@@ -11,7 +12,7 @@ import sft.result.UseCaseResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HtmlDecorator implements DecoratorReportImplementation {
+public class HtmlDecorator implements DecoratorReportImplementation{
 
     protected final DefaultConfiguration configuration;
 
@@ -40,6 +41,6 @@ public class HtmlDecorator implements DecoratorReportImplementation {
     }
 
     protected HtmlReport getHtmlReport() {
-        return (HtmlReport) configuration.getReport();
+        return configuration.getReport(HtmlReport.class);
     }
 }

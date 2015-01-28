@@ -12,6 +12,7 @@ package sft.report.decorators;
 
 import sft.DefaultConfiguration;
 import sft.decorators.Decorator;
+import sft.report.HtmlReport;
 import sft.result.FixtureCallResult;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class HtmlTable extends HtmlDecorator {
                 result+="<td>" +value+"</td>";
             }
 
-            result+="<td class='instruction "+configuration.getReport().getHtmlResources().convertIssue(fixtureCallResutfixture.issue)+"''><span></span></td></tr>";
+            result+="<td class='instruction "+ getHtmlReport().getHtmlResources().convertIssue(fixtureCallResutfixture.issue)+"''><span></span></td></tr>";
         }
         result+="</tbody>";
         return result+"</table>";
