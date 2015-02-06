@@ -11,7 +11,7 @@ import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.fixtures.TestFileSystem;
 import sft.integration.use.sut.FunctionalTestIgnored;
 import sft.integration.use.sut.WhenFunctionalTestFailed;
@@ -49,10 +49,11 @@ import static org.junit.Assert.assertThat;
 @Text("Common usage: writing Use Cases")
 public class CommonUsage {
 
+    private static final TestFileSystem TEST_FILE_SYSTEM = new TestFileSystem("sft-core/");
     private CssParser sftCss;
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
 
     @Test
@@ -93,8 +94,8 @@ public class CommonUsage {
     }
 
     private void thenIgnoredUseCaseScenarioAndFixtureCallAreDisplayedWithYellowInterrogationMark() throws IOException {
-        Assert.assertTrue("Use case without class 'ignored'", jUnitHelper.html.select("body").hasClass("ignored"));
-        Elements scenarios = jUnitHelper.html.select("div.scenario");
+        Assert.assertTrue("Use case without class 'ignored'", jUnitHtmlHelper.html.select("body").hasClass("ignored"));
+        Elements scenarios = jUnitHtmlHelper.html.select("div.scenario");
 
         Assert.assertTrue("Scenario without class 'ignored'", scenarios.get(0).hasClass("ignored"));
         Assert.assertTrue("Instruction without class 'ignored'", scenarios.get(0).select("div.instruction").get(0).hasClass("ignored"));
@@ -103,28 +104,28 @@ public class CommonUsage {
         Assert.assertEquals("url(ignored_24.png)", sftCss.get("*.scenario.ignored *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(ignored_16.png)", sftCss.get("*.instruction.ignored > span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        TestFileSystem.filesExists("target/sft-result/sft-html-default/ignored_16.png", "target/sft-result/sft-html-default/ignored_24.png", "target/sft-result/sft-html-default/ignored_32.png");
+        new TestFileSystem("sft-core/").filesExists("target/sft-result/sft-html-default/ignored_16.png", "target/sft-result/sft-html-default/ignored_24.png", "target/sft-result/sft-html-default/ignored_32.png");
     }
 
     private void ignoredScenarioSectionAreAlsoDisplayWithYellowBackground() {
-        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHelper.html.select("div.scenario").hasClass("ignored"));
+        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHtmlHelper.html.select("div.scenario").hasClass("ignored"));
         Assert.assertEquals("rgb(255, 255, 163)", sftCss.get("*.scenario.ignored").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
     @Text("With a JUnit test class annotated with @Ignore")
     private void withAJUnitTestClassIgnored() throws IOException {
-        jUnitHelper.run(this.getClass(), FunctionalTestIgnored.class);
+        jUnitHtmlHelper.run(this.getClass(), FunctionalTestIgnored.class);
     }
 
 
     @Text("Create a simple JUnit test class and add JUnit annotation @RunWith(SimpleFunctionalTest.class)")
     private void createASimpleJUnitTestClassAndAddJUnitAnnotationRunWithSimpleFunctionnalTest() throws IOException {
-        jUnitHelper.run(this.getClass(), YourFirstFunctionalTest.class);
+        jUnitHtmlHelper.run(this.getClass(), YourFirstFunctionalTest.class);
     }
 
     @Text("With a JUnit test class expecting failure")
     private void withAJUnitTestClassExpectingFailure() throws IOException {
-        jUnitHelper.run(this.getClass(), WhenFunctionalTestFailed.class);
+        jUnitHtmlHelper.run(this.getClass(), WhenFunctionalTestFailed.class);
     }
 
     @Text("When invoking JUnit")
@@ -133,36 +134,36 @@ public class CommonUsage {
     }
 
     private void thenAnHtmlFileIsGeneratedUsingTheFullyQualifiedClassNameAsPath() throws IOException {
-        TestFileSystem.filesExists("target/sft-result/sft/integration/use/sut/YourFirstFunctionalTest.html");
+        new TestFileSystem("sft-core/").filesExists("target/sft-result/sft/integration/use/sut/YourFirstFunctionalTest.html");
     }
 
     private void successfulUseCaseScenarioAndFixtureCallAreDisplayedWithEndingGreenCheckMark() throws IOException {
-        Assert.assertTrue("Use case without class 'succeeded'", jUnitHelper.html.select("*.useCase").get(0).hasClass("succeeded"));
-        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHelper.html.select("*.scenario").get(0).hasClass("succeeded"));
-        Assert.assertTrue("Fixture without class 'succeeded'", jUnitHelper.html.select("*.instruction").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Use case without class 'succeeded'", jUnitHtmlHelper.html.select("*.useCase").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHtmlHelper.html.select("*.scenario").get(0).hasClass("succeeded"));
+        Assert.assertTrue("Fixture without class 'succeeded'", jUnitHtmlHelper.html.select("*.instruction").get(0).hasClass("succeeded"));
 
         Assert.assertEquals("url(success_32.png)", sftCss.get("*.useCase.succeeded *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(success_24.png)", sftCss.get("*.scenario.succeeded *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
 
         Assert.assertEquals("url(success_16.png)", sftCss.get("*.instruction.succeeded > span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        TestFileSystem.filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
+        new TestFileSystem("sft-core/").filesExists("target/sft-result/sft-html-default/success_16.png", "target/sft-result/sft-html-default/success_24.png", "target/sft-result/sft-html-default/success_32.png");
     }
 
     private void thenFailedUseCaseAndScenarioAreDisplayedWithEndingRedCrossMark() throws IOException {
-        Assert.assertTrue("Use case without class 'failed'", jUnitHelper.html.select("body").hasClass("failed"));
-        Assert.assertTrue("Scenario without class 'failed'", jUnitHelper.html.select("div.scenario").hasClass("failed"));
+        Assert.assertTrue("Use case without class 'failed'", jUnitHtmlHelper.html.select("body").hasClass("failed"));
+        Assert.assertTrue("Scenario without class 'failed'", jUnitHtmlHelper.html.select("div.scenario").hasClass("failed"));
 
         Assert.assertEquals("url(failed_32.png)", sftCss.get("*.useCase.failed *.useCaseName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        TestFileSystem.filesExists("target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
+        new TestFileSystem("sft-core/").filesExists("target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     @Text("Successful fixture calls are displayed with green check mark. Until the failed fixture call displayed with red cross mark. Then the others ignored fixture calls are displayed with yellow interrogation mark.")
     private void fixtureCallsAreGreenUntilFailedFixturesThenYellow() throws IOException {
-        Assert.assertTrue("Use case without class 'failed'", jUnitHelper.html.select("body").hasClass("failed"));
-        Elements scenarios = jUnitHelper.html.select("div.scenario");
+        Assert.assertTrue("Use case without class 'failed'", jUnitHtmlHelper.html.select("body").hasClass("failed"));
+        Elements scenarios = jUnitHtmlHelper.html.select("div.scenario");
 
         Assert.assertTrue("Scenario without class 'failed'", scenarios.get(0).hasClass("failed"));
         Assert.assertTrue("Instruction without class 'succeeded'", scenarios.get(0).select("*.instruction").get(0).hasClass("succeeded"));
@@ -178,17 +179,17 @@ public class CommonUsage {
         Assert.assertEquals("url(failed_24.png)", sftCss.get("*.scenario.failed *.scenarioName").getStyle().getPropertyCSSValue("background-image").getCssText());
         Assert.assertEquals("url(failed_16.png)", sftCss.get("*.instruction.failed > span").getStyle().getPropertyCSSValue("background-image").getCssText());
 
-        TestFileSystem.filesExists("target/sft-result/sft-html-default/failed_16.png", "target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
+        TEST_FILE_SYSTEM.filesExists("target/sft-result/sft-html-default/failed_16.png", "target/sft-result/sft-html-default/failed_24.png", "target/sft-result/sft-html-default/failed_32.png");
     }
 
     private void successfulScenarioSectionAreAlsoDisplayWithGreenBackground() {
-        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHelper.html.select("div.scenario").hasClass("succeeded"));
+        Assert.assertTrue("Scenario without class 'succeeded'", jUnitHtmlHelper.html.select("div.scenario").hasClass("succeeded"));
         Assert.assertEquals("rgb(224, 255, 209)", sftCss.get("*.scenario.succeeded").getStyle().getPropertyCSSValue("background-color").getCssText());
     }
 
 
     private void failedScenarioSectionAreAlsoDisplayWithRedBackgroundAndWithErrorStackTrace() {
-        Elements scenarios = jUnitHelper.html.select("div.scenario");
+        Elements scenarios = jUnitHtmlHelper.html.select("div.scenario");
         expectScenarioFailed(scenarios.get(0), "AssertionError: Condition failed");
         expectScenarioFailed(scenarios.get(1), "RuntimeException: Boom");
 
@@ -207,16 +208,16 @@ public class CommonUsage {
     }
 
     private void thenClassNameIsHumanizedAsUseCaseTitle() {
-        assertThat(jUnitHelper.html.title(), is("Your first functional test"));
-        assertThat(jUnitHelper.html.select("html body h1 span").text(), is("Your first functional test"));
+        assertThat(jUnitHtmlHelper.html.title(), is("Your first functional test"));
+        assertThat(jUnitHtmlHelper.html.select("html body h1 span").text(), is("Your first functional test"));
     }
 
     private void testMethodIsHumanizedAsScenarioSection() {
-        assertThat(jUnitHelper.html.select("*.scenario *.scenarioName").text(), is("Public method"));
+        assertThat(jUnitHtmlHelper.html.select("*.scenario *.scenarioName").text(), is("Public method"));
     }
 
     private void innerMethodCallIsHumanizedAsFixtureCall() {
-        assertThat(jUnitHelper.html.select("*.scenario *.instruction span").text(), is("Fixture call"));
+        assertThat(jUnitHtmlHelper.html.select("*.scenario *.instruction span").text(), is("Fixture call"));
     }
 
 }

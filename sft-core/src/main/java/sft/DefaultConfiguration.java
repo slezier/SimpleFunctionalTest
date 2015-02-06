@@ -12,20 +12,17 @@ package sft;
 
 import sft.environment.ResourceFolder;
 import sft.report.HtmlReport;
-import sft.environment.TargetFolder;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultConfiguration {
 
 
-    private static final String CLASS_FOLDER = "target/test-classes/";
     private static final String TARGET_SFT_RESULT = "target/sft-result/";
-    private static final String TO_TEST_SOURCE_DIR = "src/test/java/";
 
-    private String classFolder = CLASS_FOLDER;
-    private ResourceFolder sourceFolder = new ResourceFolder(toProjectPath(CLASS_FOLDER), TO_TEST_SOURCE_DIR);
+    private ProjectFolder projectFolder = new ProjectFolder();
     private Map<Class, Report> reports = new HashMap<Class, Report>();
 
 
@@ -33,45 +30,28 @@ public class DefaultConfiguration {
         addReport(new HtmlReport(this));
     }
 
-    private static String toProjectPath(String classFolder) {
-        String toProjectPath = "";
-        for (String folder : classFolder.split("/")) {
-            if (!folder.equals(".") && !folder.equals("")) {
-                toProjectPath += "../";
-            }
-        }
-        return toProjectPath;
-    }
-
     public String getSourcePath() {
-        return sourceFolder.path;
+        return projectFolder.getSourcesTestPath();
     }
 
     public void setSourcePath(String sourcePath) {
-        sourceFolder = new ResourceFolder(toProjectPath(classFolder), sourcePath);
-    }
-
-    public void setTargetPath(String targetPath) {
-        getReport(HtmlReport.class).setTargetFolder( targetPath);
+        projectFolder.setSourcesTest(sourcePath);
     }
 
     public String getClassFolder() {
-        return classFolder;
+        return projectFolder.getClassesTestPath();
     }
 
     public void setClassFolder(String classFolder) {
-        sourceFolder = new ResourceFolder(toProjectPath(classFolder), sourceFolder.path);
-        //targetFolder = new TargetFolder(toProjectPath(classFolder), targetFolder.path);
-        setTargetPath(TARGET_SFT_RESULT);
+        projectFolder.setClassesTest(classFolder);
+        getReport(HtmlReport.class).setReportFolder(TARGET_SFT_RESULT);
     }
 
     public ResourceFolder getSourceFolder() {
-        return sourceFolder;
+        return getProjectFolder().getResourceFolder();
     }
-
-    public TargetFolder getTargetFolder() {
-        return getReport(HtmlReport.class).getTargetFolder();
-        //return targetFolder;
+    public ProjectFolder getProjectFolder() {
+        return projectFolder;
     }
 
     public void addReport(Report report) {
@@ -81,4 +61,7 @@ public class DefaultConfiguration {
         return (T) reports.get( reportClass );
     }
 
+    public Collection<Report> getReports() {
+        return reports.values();
+    }
 }

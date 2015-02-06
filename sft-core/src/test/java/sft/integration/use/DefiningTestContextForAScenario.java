@@ -4,13 +4,11 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
-import sft.Displayable;
 import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
-import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.use.sut.ContextInAction;
 import sft.integration.use.sut.ErrorOccursWhenRaisingScenario;
 import sft.integration.use.sut.ErrorOccursWhenTerminatingScenario;
@@ -29,7 +27,7 @@ Context could be defined and handle for each scenario
 public class DefiningTestContextForAScenario {
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
     @Test
     public void definingContextForAScenario() throws IOException {
@@ -57,7 +55,7 @@ public class DefiningTestContextForAScenario {
     }
 
     private void stackTraceIsDisplayedAtScenarioEnd() {
-        Elements scenarioPart = jUnitHelper.html.select("*.scenario *.panel-body");
+        Elements scenarioPart = jUnitHtmlHelper.html.select("*.scenario *.panel-body");
         assertEquals(4,scenarioPart.size());
         assertTrue(scenarioPart.get(0).hasClass("beforeScenario"));
         assertFalse(scenarioPart.get(1).select("*.instruction").isEmpty());
@@ -66,38 +64,38 @@ public class DefiningTestContextForAScenario {
     }
 
     private void allScenarioStepsAreRan() {
-        assertTrue(jUnitHelper.html.select("*.instruction").hasClass("succeeded"));
+        assertTrue(jUnitHtmlHelper.html.select("*.instruction").hasClass("succeeded"));
     }
 
     private void allScenarioStepsAreIgnored() {
-        assertTrue(jUnitHelper.html.select("*.instruction").hasClass("ignored"));
+        assertTrue(jUnitHtmlHelper.html.select("*.instruction").hasClass("ignored"));
     }
     private void theUseCaseIsSeenAsFailed() {
-        assertTrue(jUnitHelper.html.select("*.useCase").get(0).hasClass("failed"));
+        assertTrue(jUnitHtmlHelper.html.select("*.useCase").get(0).hasClass("failed"));
     }
 
     private void theFailedScenarioIsShowInRed() {
-        assertTrue(jUnitHelper.html.select("*.scenario").hasClass("failed"));
+        assertTrue(jUnitHtmlHelper.html.select("*.scenario").hasClass("failed"));
     }
 
     private void whenAnErrorOccursWhenRaisingAnScenarioContext() throws IOException {
         getCallSequence().clear();
-        jUnitHelper.run(this.getClass(),ErrorOccursWhenRaisingScenario.class);
+        jUnitHtmlHelper.run(this.getClass(),ErrorOccursWhenRaisingScenario.class);
     }
 
     private void whenAnErrorOccursWhenTerminatingAnScenarioContext() throws IOException {
         getCallSequence().clear();
-        jUnitHelper.run(this.getClass(),ErrorOccursWhenTerminatingScenario.class);
+        jUnitHtmlHelper.run(this.getClass(),ErrorOccursWhenTerminatingScenario.class);
     }
 
     @Text("You can instantiate a use case context specific using public static method annotated with BeforeClass and terminate it in public static method annotated with AfterClass.")
     private void youCanInstantiateAUseCaseContextSpecificInPublicStaticMethodAnnotatedWithBeforeClassAndTerminateItInPublicStaticMethodAnnotatedWithAfterClass() throws IOException {
         getCallSequence().clear();
-        jUnitHelper.run(this.getClass(),ContextInAction.class);
+        jUnitHtmlHelper.run(this.getClass(),ContextInAction.class);
     }
 
     private void finallyTheContextInstantiationIsDisplayedInFrontOfEachScenarioAndTheContextFinalizationIsDisplayedBehindEachScenario() {
-        Elements scenarioElements = jUnitHelper.html.select("*.useCase *.container *.scenario");
+        Elements scenarioElements = jUnitHtmlHelper.html.select("*.useCase *.container *.scenario");
         assertTrue(scenarioElements.get(0).select("> div").get(1).hasClass("beforeScenario"));
         assertTrue(scenarioElements.get(0).select("> div").get(3).hasClass("afterScenario"));
         assertTrue(scenarioElements.get(1).select("> div").get(1).hasClass("beforeScenario"));

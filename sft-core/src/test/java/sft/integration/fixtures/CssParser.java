@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class CssParser {
 
+    private static final TestFileSystem TEST_FILE_SYSTEM = new TestFileSystem("sft-core/");
     private static final String SFT_CSS_FILE = "target/sft-result/sft-html-default/sft.css";
     private HashMap<String, CSSStyleRule> rules;
 
@@ -30,9 +31,9 @@ public class CssParser {
     }
 
     public HashMap<String, CSSStyleRule> extractCssStyleRules(String cssFile) throws IOException {
-        TestFileSystem.filesExists(cssFile);
+        TEST_FILE_SYSTEM.filesExists(cssFile);
         CSSOMParser cssParser = new CSSOMParser();
-        CSSStyleSheet css = cssParser.parseStyleSheet(new InputSource(new FileReader(cssFile)), null, null);
+        CSSStyleSheet css = cssParser.parseStyleSheet(new InputSource(new FileReader(TEST_FILE_SYSTEM.file(cssFile))), null, null);
         CSSRuleList cssRules = css.getCssRules();
         HashMap<String, CSSStyleRule> rules = new HashMap<String, CSSStyleRule>();
         for (int i = 0; i < cssRules.getLength(); i++) {

@@ -92,7 +92,9 @@ public class UseCaseRunner {
             notifier.fireUseCaseFinished(this);
         }
         try {
-            useCase.configuration.getReport(HtmlReport.class).report(useCaseResult);
+            for (Report report: useCase.configuration.getReports()) {
+                report.report(useCaseResult);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

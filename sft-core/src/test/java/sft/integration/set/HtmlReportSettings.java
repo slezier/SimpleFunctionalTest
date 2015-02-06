@@ -2,7 +2,6 @@ package sft.integration.set;
 
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
@@ -12,7 +11,7 @@ import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.set.sut.InkConfiguration;
 import sft.integration.set.sut.InkStyleUseCase;
@@ -39,7 +38,7 @@ public class HtmlReportSettings {
     @Displayable
     private String configurationResource;
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
     /*
     The DefaultConfiguration provide an HtmlReport to write test result in HTML.<br /><br />
@@ -69,7 +68,7 @@ public class HtmlReportSettings {
     @Text("Default report path of html report is ${reportPath}")
     private void defaultReportPathOfHtmlReportIs(String reportPath) {
         configuration = new DefaultConfiguration();
-        Assert.assertEquals(reportPath, configuration.getReport(HtmlReport.class).getTargetFolder().path);
+        Assert.assertEquals(reportPath, configuration.getReport(HtmlReport.class).getReportFolder().path);
     }
 
     @Text("By setting the report path to ${reportPath}")
@@ -79,7 +78,7 @@ public class HtmlReportSettings {
 
     @Text("Simple functional test will load classes from this folder( for example the class ${useCaseClass} will generate the html report ${reportFile})")
     private void thenAllReportFilesWillBeCreatedIntoThisFolder(String useCaseClass, String reportFile) throws Exception {
-        File sourceFile = configuration.getTargetFolder().getFileFromClass(Class.forName(useCaseClass), ".html");
+        File sourceFile = configuration.getReport(HtmlReport.class).getReportFolder().getFileFromClass(Class.forName(useCaseClass), ".html");
         String initialPath = sourceFile.getPath();
         Assert.assertTrue("expecting "+ initialPath+ " ending with "+ reportFile,initialPath.endsWith(reportFile));
     }
@@ -350,8 +349,8 @@ public class HtmlReportSettings {
     }
 
     private void byChangingTemplateValues() throws IOException {
-        jUnitHelper.run(this.getClass(),InkStyleUseCase.class);
-        htmlReport = jUnitHelper.html;
+        jUnitHtmlHelper.run(this.getClass(),InkStyleUseCase.class);
+        htmlReport = jUnitHtmlHelper.html;
 
 
         JavaResource configurationClass = new JavaResource(InkConfiguration.class);

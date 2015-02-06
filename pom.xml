@@ -17,7 +17,7 @@
     <groupId>com.github.slezier</groupId>
     <artifactId>main</artifactId>
     <version>1.10-SNAPSHOT</version>
-    <version>1.10-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
 
     <name>Simple Functional Test</name>
@@ -62,6 +62,7 @@
     <modules>
          <module>sft-core</module>
          <module>sft-md-report</module>
+         <module>sft-sequenceDiagram-plugin</module>
          <module>sft-tutorial</module>
     </modules>
 

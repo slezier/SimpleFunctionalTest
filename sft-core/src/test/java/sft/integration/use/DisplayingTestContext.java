@@ -3,12 +3,11 @@ package sft.integration.use;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.*;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.fixtures.JavaResource;
 import sft.integration.use.sut.DisplayContext;
 import sft.integration.use.sut.DisplayContextGeneratingDuringContextEnding;
@@ -22,7 +21,7 @@ import java.io.IOException;
 @Decorate(decorator = Breadcrumb.class)
 public class DisplayingTestContext {
     @FixturesHelper
-    private JUnitHelper functionalTest=new JUnitHelper();
+    private JUnitHtmlHelper functionalTest=new JUnitHtmlHelper();
 
     @Displayable
     private String helperClassSource;

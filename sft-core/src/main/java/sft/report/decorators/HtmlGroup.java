@@ -45,8 +45,8 @@ public class HtmlGroup extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
-        if (fixtureCallResuts.isEmpty()) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResults, String... parameters) {
+        if (fixtureCallResults.isEmpty()) {
             return "";
         }
         String result = "<div>";
@@ -54,7 +54,7 @@ public class HtmlGroup extends HtmlDecorator {
         if (name != null) {
             result += "<h4 class='group'>" + name + "</h4>";
         }
-        for (FixtureCallResult fixture : fixtureCallResuts) {
+        for (FixtureCallResult fixture : fixtureCallResults) {
             result += getHtmlReport().generateFixtureCall(fixture);
         }
         return result + "</div>";

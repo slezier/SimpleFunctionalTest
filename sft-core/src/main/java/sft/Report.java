@@ -14,13 +14,20 @@ import sft.decorators.Decorator;
 import sft.decorators.DecoratorReportImplementation;
 import sft.report.decorators.HtmlDecorator;
 import sft.result.ScenarioResult;
+import sft.result.UseCaseResult;
 
 import java.util.List;
 
 public abstract class Report {
+    protected final DefaultConfiguration configuration;
 
+    public Report (DefaultConfiguration configuration) {
+        this.configuration = configuration;
+    }
     public abstract DecoratorReportImplementation getDecoratorImplementation(Decorator decorator);
 
-    public abstract void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementationClass);
+    public abstract void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementation);
+
+    public abstract void report(UseCaseResult useCaseResult) throws Exception;
 
 }

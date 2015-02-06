@@ -17,8 +17,6 @@ import sft.report.decorators.*;
 import sft.result.*;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +27,7 @@ import java.util.regex.Matcher;
 public class HtmlReport extends Report {
 
     public static final String HTML_DEPENDENCIES_FOLDER = "sft-html-default";
-    public final RelativeHtmlPathResolver pathResolver;
+    private final RelativePathResolver pathResolver = new RelativePathResolver();
     public String useCaseTemplate =
             "<html>\n" +
                     "  <head>\n" +
@@ -145,28 +143,18 @@ public class HtmlReport extends Report {
     public String failedClass = "failed";
     public String successClass = "succeeded";
     private HtmlResources htmlResources;
-    private DefaultConfiguration configuration;
     private Map<Class<? extends Decorator>, DecoratorReportImplementation>  decorators= new HashMap<Class<? extends Decorator>, DecoratorReportImplementation>();
-    private TargetFolder targetFolder = new TargetFolder(toProjectPath(CLASS_FOLDER), TARGET_SFT_RESULT);
 
-    private static final String CLASS_FOLDER = "target/test-classes/";
+
+    private TargetFolder reportFolder;
+
     private static final String TARGET_SFT_RESULT = "target/sft-result/";
 
-    private static String toProjectPath(String classFolder) {
-        String toProjectPath = "";
-        for (String folder : classFolder.split("/")) {
-            if (!folder.equals(".") && !folder.equals("")) {
-                toProjectPath += "../";
-            }
-        }
-        return toProjectPath;
-    }
 
     public HtmlReport(DefaultConfiguration configuration) {
-        this.configuration = configuration;
+        super(configuration);
+        reportFolder = configuration.getProjectFolder().getTargetFolder(TARGET_SFT_RESULT);
         setResourcePath(HTML_DEPENDENCIES_FOLDER);
-        setReportPath(getTargetFolder().path);
-        pathResolver = new RelativeHtmlPathResolver();
         decorators.put(Style.class,new HtmlStyle(configuration));
         decorators.put(Breadcrumb.class,new HtmlBreadcrumb(configuration));
         decorators.put(Group.class,new HtmlGroup(configuration));
@@ -178,13 +166,13 @@ public class HtmlReport extends Report {
 
 
     @Override
-    public void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementationClass){
-        decorators.put(decoratorClass,decoratorImplementationClass);
+    public void addDecorator(Class<? extends Decorator> decoratorClass, DecoratorReportImplementation decoratorImplementation){
+        decorators.put(decoratorClass, decoratorImplementation);
     }
 
     public void setReportPath(String reportPath) {
-        if( ! reportPath.equals( targetFolder.path)){
-            targetFolder = new TargetFolder(configuration.getTargetFolder().path,reportPath);
+        if( ! reportPath.equals( reportFolder.path)){
+            reportFolder = new TargetFolder(reportFolder.path,reportPath);
         }
     }
 
@@ -202,11 +190,12 @@ public class HtmlReport extends Report {
         htmlResources = new HtmlResources(configuration, this,resourcePath);
     }
 
-    public void report(UseCaseResult useCaseResult) throws IOException, IllegalAccessException {
+    @Override
+    public void report(UseCaseResult useCaseResult) throws Exception {
         final Decorator decorator = useCaseResult.useCase.useCaseDecorator;
         String useCaseReport = getDecoratorImplementation(decorator).applyOnUseCase(useCaseResult, decorator.parameters);
 
-        File htmlFile = getTargetFolder().createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
+        File htmlFile = reportFolder.createFileFromClass(useCaseResult.useCase.classUnderTest, ".html");
         Writer html = new OutputStreamWriter(new FileOutputStream(htmlFile));
         html.write(useCaseReport);
         html.close();
@@ -293,7 +282,7 @@ public class HtmlReport extends Report {
         for (SubUseCaseResult subUseCaseResult : subUseCaseResults) {
             relatedUseCase += new TemplateString(relatedUseCaseTemplate)
                     .replace("@@@relatedUseCase.issue@@@", htmlResources.convertIssue(subUseCaseResult.useCaseResult.getIssue()))
-                    .replace("@@@relatedUseCase.link@@@", getRelativeUrl(subUseCaseResult.useCaseResult.useCase, subUseCaseResult.subUseCase.parentUseCase))
+                    .replace("@@@relatedUseCase.link@@@", pathResolver.getRelativePathAsFile(subUseCaseResult.subUseCase.parentUseCase.classUnderTest, subUseCaseResult.useCaseResult.useCase.classUnderTest, ".html"))
                     .replace("@@@relatedUseCase.name@@@", subUseCaseResult.useCaseResult.useCase.getName())
                     .getText();
         }
@@ -479,12 +468,6 @@ public class HtmlReport extends Report {
         return comment;
     }
 
-    private String getRelativeUrl(UseCase subUseCase, UseCase parentUseCase) {
-        String source = pathResolver.getPathOf(parentUseCase.classUnderTest, ".html");
-        String target = pathResolver.getPathOf(subUseCase.classUnderTest, ".html");
-        return pathResolver.getRelativePathToFile(source, target);
-    }
-
     public HtmlResources getHtmlResources() {
         return htmlResources;
     }
@@ -518,11 +501,11 @@ public class HtmlReport extends Report {
 
     }
 
-    public void setTargetFolder(String targetPath) {
-        targetFolder = new TargetFolder(toProjectPath(configuration.getClassFolder()), targetPath);
+    public void setReportFolder(String targetPath) {
+        reportFolder = configuration.getProjectFolder().getTargetFolder(targetPath);
     }
 
-    public TargetFolder getTargetFolder() {
-        return targetFolder;
+    public TargetFolder getReportFolder() {
+        return reportFolder;
     }
 }

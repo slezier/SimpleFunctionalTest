@@ -1,11 +1,11 @@
 package sft.integration.fixtures;
 
-import sft.report.RelativeHtmlPathResolver;
+import sft.report.RelativePathResolver;
 
 public class SftResource {
     protected final Class targetClass;
     protected final String extension;
-    private final RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
+    private final RelativePathResolver pathResolver = new RelativePathResolver();
 
     public SftResource(Class targetClass) {
         this(targetClass, ".html");
@@ -30,5 +30,4 @@ public class SftResource {
         String callerClassHtml = aClass.getSimpleName() + ".html";
         return "<a href=\"#\" onclick=\"window.open(window.location.href.replace('#','').replace('" + callerClassHtml + "','')+'" + getRelativePathToFile(aClass) + "','" + getHtmlPath() + "','width=800 , menubar=no , status=no , toolbar=no , location=no , resizable=yes , scrollbars=yes',false);return false;\" class=\"badge " + cssClass + "\">" + text + "</a>";
     }
-
 }

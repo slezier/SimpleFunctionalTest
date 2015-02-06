@@ -1,7 +1,7 @@
 package sft.integration.fixtures;
 
-
 import sft.integration.SftDocumentationConfiguration;
+import sft.report.HtmlReport;
 import sft.report.HtmlResources;
 
 import java.io.File;
@@ -45,7 +45,7 @@ public class JavaResource extends SftResource {
 
     private void createJavaHtml() {
         try {
-            File htmlJavaFile = configuration.getTargetFolder().createFileFromClass(targetClass, extension);
+            File htmlJavaFile = configuration.getReport(HtmlReport.class).getReportFolder().createFileFromClass(targetClass, extension);
 
             Writer html = new OutputStreamWriter(new FileOutputStream(htmlJavaFile));
             html.write("<html><head><title>\n");

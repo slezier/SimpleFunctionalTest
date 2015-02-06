@@ -4,13 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
-import sft.Displayable;
 import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
-import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.JUnitHtmlHelper;
 
 import java.io.IOException;
 
@@ -24,7 +22,7 @@ public class CommentUsage {
 
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
 
     @Test
@@ -38,11 +36,11 @@ public class CommentUsage {
     }
 
     private void runCommentUsageTest() throws IOException {
-        jUnitHelper.run(this.getClass(), sft.integration.use.sut.CommentUsage.class);
+        jUnitHtmlHelper.run(this.getClass(), sft.integration.use.sut.CommentUsage.class);
     }
 
     private void itIsDisplayedInTheReportAfterTheUseCaseTitleAndBeforeFirstScenario() throws IOException {
-        Assert.assertEquals("use case comment", jUnitHelper.html.select("*.comment").get(0).text());
+        Assert.assertEquals("use case comment", jUnitHtmlHelper.html.select("*.comment").get(0).text());
     }
 
     @Test
@@ -56,7 +54,7 @@ public class CommentUsage {
     }
 
     private void itIsDisplayedInTheReportAfterTheScenarioTitleAndBeforeScenarioSteps() throws IOException {
-        Assert.assertEquals("scenario comment", jUnitHelper.html.select("*.scenario *.comment").text());
+        Assert.assertEquals("scenario comment", jUnitHtmlHelper.html.select("*.scenario *.comment").text());
     }
 
 }

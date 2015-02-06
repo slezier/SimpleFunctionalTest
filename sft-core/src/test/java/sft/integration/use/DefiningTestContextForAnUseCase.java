@@ -4,14 +4,12 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
-import sft.Displayable;
 import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.JUnitHelper;
-import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.use.sut.ContextInAction;
 import sft.integration.use.sut.ErrorOccursWhenRaisingAnUseCaseContext;
 import sft.integration.use.sut.ErrorOccursWhenTerminatingAnUseCaseContext;
@@ -30,7 +28,7 @@ Context could be defined and handle for the whole use case
 public class DefiningTestContextForAnUseCase {
 
     @FixturesHelper
-    private JUnitHelper functionalTest = new JUnitHelper();
+    private JUnitHtmlHelper functionalTest = new JUnitHtmlHelper();
     private CssParser cssParser;
 
     @Test

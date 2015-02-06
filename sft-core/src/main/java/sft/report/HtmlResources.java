@@ -12,7 +12,6 @@ package sft.report;
 
 
 import sft.DefaultConfiguration;
-import sft.report.decorators.HtmlDecorator;
 import sft.result.Issue;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class HtmlResources {
 
     public HtmlResources ensureIsCreated() {
         try {
-            filesUsed = htmlReport.getTargetFolder().copyFromResources(path);
+            filesUsed = htmlReport.getReportFolder().copyFromResources(path);
         } catch (IOException e) {
             new RuntimeException("The resource: " + path + " is not accessible",e);
         }
@@ -52,7 +51,7 @@ public class HtmlResources {
     }
 
     public String getIncludeCssDirectives(Class<?> useCaseClass) {
-        RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
+        RelativePathResolver pathResolver = new RelativePathResolver();
         String callerPath = pathResolver.getPathOf(useCaseClass, ".html");
 
         String includeCssDirectives = "";
@@ -63,7 +62,7 @@ public class HtmlResources {
     }
 
     public String getIncludeJsDirectives(Class<?> useCaseClass) {
-        RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
+        RelativePathResolver pathResolver = new RelativePathResolver();
         String callerPath = pathResolver.getPathOf(useCaseClass, ".html");
 
         String includeJsDirectives = "";

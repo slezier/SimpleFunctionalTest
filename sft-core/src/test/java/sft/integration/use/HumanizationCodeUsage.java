@@ -4,13 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
-import sft.Displayable;
 import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
-import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.use.sut.HumanizationCamelCaseClassNameHumanized;
 import sft.integration.use.sut.HumanizationUsingTextAnnotation;
 import sft.integration.use.sut.Humanization_underscore_class_name_humanized;
@@ -27,7 +25,7 @@ public class HumanizationCodeUsage {
 
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
 
     @Test
@@ -44,24 +42,24 @@ public class HumanizationCodeUsage {
     }
 
     private void allCaseChangesAreReplacedBySpaces() throws IOException {
-        jUnitHelper.run(this.getClass(), HumanizationCamelCaseClassNameHumanized.class);
-        Assert.assertEquals("Humanization camel case class name humanized", jUnitHelper.html.select("*.useCaseName").text());
-        Assert.assertEquals("Camel case scenario name humanized", jUnitHelper.html.select("*.scenarioName").text());
-        Assert.assertEquals("Camel case fixture name humanized", jUnitHelper.html.select("*.instruction").text());
+        jUnitHtmlHelper.run(this.getClass(), HumanizationCamelCaseClassNameHumanized.class);
+        Assert.assertEquals("Humanization camel case class name humanized", jUnitHtmlHelper.html.select("*.useCaseName").text());
+        Assert.assertEquals("Camel case scenario name humanized", jUnitHtmlHelper.html.select("*.scenarioName").text());
+        Assert.assertEquals("Camel case fixture name humanized", jUnitHtmlHelper.html.select("*.instruction").text());
     }
 
     private void underscoreAreReplacedBySpace() throws IOException {
-        jUnitHelper.run(this.getClass(), Humanization_underscore_class_name_humanized.class);
-        Assert.assertEquals("Humanization underscore class name humanized", jUnitHelper.html.select("*.useCaseName").text());
-        Assert.assertEquals("Underscore scenario name humanized", jUnitHelper.html.select("*.scenarioName").text());
-        Assert.assertEquals("Underscore fixture name humanized", jUnitHelper.html.select("*.instruction").text());
+        jUnitHtmlHelper.run(this.getClass(), Humanization_underscore_class_name_humanized.class);
+        Assert.assertEquals("Humanization underscore class name humanized", jUnitHtmlHelper.html.select("*.useCaseName").text());
+        Assert.assertEquals("Underscore scenario name humanized", jUnitHtmlHelper.html.select("*.scenarioName").text());
+        Assert.assertEquals("Underscore fixture name humanized", jUnitHtmlHelper.html.select("*.instruction").text());
     }
 
     private void textsAreDisplayedUnchanged() throws IOException {
-        jUnitHelper.run(this.getClass(),HumanizationUsingTextAnnotation.class);
-        Assert.assertEquals("Use case name specified in @Text", jUnitHelper.html.select("*.useCaseName").text());
-        Assert.assertEquals("Scenario name specified in @Text", jUnitHelper.html.select("*.scenarioName").text());
-        Assert.assertEquals("Fixture name specified in @Text", jUnitHelper.html.select("*.instruction").text());
+        jUnitHtmlHelper.run(this.getClass(),HumanizationUsingTextAnnotation.class);
+        Assert.assertEquals("Use case name specified in @Text", jUnitHtmlHelper.html.select("*.useCaseName").text());
+        Assert.assertEquals("Scenario name specified in @Text", jUnitHtmlHelper.html.select("*.scenarioName").text());
+        Assert.assertEquals("Fixture name specified in @Text", jUnitHtmlHelper.html.select("*.instruction").text());
     }
 
 

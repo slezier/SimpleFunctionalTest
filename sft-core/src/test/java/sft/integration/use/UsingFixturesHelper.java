@@ -10,9 +10,8 @@ import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.fixtures.JavaResource;
-import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.DelegatedFixtures;
 import sft.integration.use.sut.FixturesHelperUsage;
 
@@ -27,7 +26,7 @@ import java.io.IOException;
 public class UsingFixturesHelper {
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
     @Displayable
     private String helperClassSource;
 
@@ -47,11 +46,11 @@ public class UsingFixturesHelper {
 
     @Text("In the use case class add non-public field instantiating this fixtures helper class annotated by @FixturesHelper.")
     private void inTheUseCaseInstanciateThisFixturesHelperWithAnnotation() throws IOException {
-        jUnitHelper.run(this.getClass(),FixturesHelperUsage.class);
+        jUnitHtmlHelper.run(this.getClass(),FixturesHelperUsage.class);
     }
 
     private void thenAllFixturesOfThisFixturesHelperClassAreSeenAsFixturesOfTheUseCaseClassAndCanBeUsedAsItsOwn() throws IOException {
-        Elements  delegatedFixtureCall = jUnitHelper.html.select("div.instruction span");
+        Elements  delegatedFixtureCall = jUnitHtmlHelper.html.select("div.instruction span");
         Assert.assertEquals("First fixture",delegatedFixtureCall.get(0).text());
         Assert.assertEquals("Second fixture with parameter ABCDEFGHIJKLMNOPQRSTUVWXYZ and 99",delegatedFixtureCall.get(1).text());
     }

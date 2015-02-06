@@ -15,12 +15,15 @@ import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.HtmlReport;
-import sft.report.RelativeHtmlPathResolver;
+import sft.report.RelativePathResolver;
 import sft.result.ScenarioResult;
 import sft.result.SubUseCaseResult;
 import sft.result.UseCaseResult;
 
 public class HtmlTableOfContent extends HtmlDecorator {
+
+
+    private final RelativePathResolver relativePathResolver = new RelativePathResolver();
 
 
     public HtmlTableOfContent(DefaultConfiguration configuration) {
@@ -39,10 +42,7 @@ public class HtmlTableOfContent extends HtmlDecorator {
         String result = "<ol>";
         for (SubUseCaseResult subUseCaseResult : useCaseResult.subUseCaseResults) {
 
-            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport(HtmlReport.class).pathResolver;
-            final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
-            final String target = relativeHtmlPathResolver.getPathOf(subUseCaseResult.useCaseResult.useCase.classUnderTest, ".html");
-            final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
+            String pathToUseCaseToBreadcrumb = relativePathResolver.getRelativePathAsFile(initialUseCase.classUnderTest, subUseCaseResult.useCaseResult.useCase.classUnderTest, ".html");
 
             result += "<li class='"+ configuration.getReport(HtmlReport.class).getHtmlResources().convertIssue(subUseCaseResult.useCaseResult.getIssue())+"'>" +
                     "<span><a href='"+pathToUseCaseToBreadcrumb+"'>"+subUseCaseResult.useCaseResult.useCase.getName()+"</a></span>"+

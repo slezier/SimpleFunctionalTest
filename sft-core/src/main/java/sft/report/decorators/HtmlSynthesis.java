@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.Scenario;
 import sft.UseCase;
-import sft.report.RelativeHtmlPathResolver;
+import sft.report.RelativePathResolver;
 import sft.report.TemplateString;
 import sft.result.ResultDigest;
 import sft.result.ScenarioResult;
@@ -49,7 +49,7 @@ public class HtmlSynthesis extends HtmlDecorator {
             "            <li class=\"relatedUseCase @@@relatedUseCase.issue@@@\">\n" +
                     "              <a href=\"@@@relatedUseCase.link@@@\"><span>@@@digest.scenario.path@@@</span></a>\n" +
                     "            </li>\n";
-    private RelativeHtmlPathResolver pathResolver = new RelativeHtmlPathResolver();
+    private RelativePathResolver pathResolver = new RelativePathResolver();
 
 
     public HtmlSynthesis(DefaultConfiguration configuration) {

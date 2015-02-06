@@ -118,7 +118,7 @@ public class UseCaseJavaParser extends JavaFileParser {
         final ArrayList<String> parameters = extractParameters(methodCall);
         final Fixture fixture = useCase.getFixtureByMethodName(methodCallName);
         final int callLine = methodCall.getBeginLine();
-        return new FixtureCall(methodCallName, callLine, fixture, parameters,emptyLine);
+        return new FixtureCall(useCase, methodCallName, callLine, fixture, parameters,emptyLine);
     }
 
     private ArrayList<String> extractParameters(MethodCallExpr methodCall) {

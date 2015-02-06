@@ -11,9 +11,8 @@ import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.integration.fixtures.CssParser;
-import sft.integration.fixtures.JUnitHelper;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.fixtures.JavaResource;
-import sft.integration.fixtures.SftResources;
 import sft.integration.use.sut.UseCaseLinks;
 import sft.integration.use.sut.subUseCase.SubUseCaseFailed;
 import sft.integration.use.sut.subUseCase.SubUseCaseIgnored;
@@ -31,7 +30,7 @@ public class LinksUseCasesTogether {
     private CssParser sftCss;
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper = new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper = new JUnitHtmlHelper();
 
     private Elements relatedUseCases;
     @Displayable
@@ -52,7 +51,7 @@ public class LinksUseCasesTogether {
     }
 
     private void byAddingPublicFieldsOfRelatedTestClassInYourFunctionalTestClass() throws IOException {
-        jUnitHelper.run(this.getClass(), UseCaseLinks.class);
+        jUnitHtmlHelper.run(this.getClass(), UseCaseLinks.class);
 
         JavaResource subSuccessfulUseCaseSource = new JavaResource(SubUseCaseSucceeded.class);
         JavaResource subFailedUseCaseSource = new JavaResource(SubUseCaseFailed.class);
@@ -71,7 +70,7 @@ public class LinksUseCasesTogether {
     }
 
     private void thenTheHtmlFilePresentLinksToRelatedUseCasesAsListItemInTheLastSection() throws IOException {
-        relatedUseCases = jUnitHelper.html.select("*.relatedUseCase");
+        relatedUseCases = jUnitHtmlHelper.html.select("*.relatedUseCase");
         Assert.assertEquals(3,relatedUseCases.size());
         Assert.assertEquals("subUseCase/SubUseCaseSucceeded.html",relatedUseCases.get(0).select("a").first().attr("href"));
         Assert.assertEquals("subUseCase/SubUseCaseFailed.html",relatedUseCases.get(1).select("a").first().attr("href"));

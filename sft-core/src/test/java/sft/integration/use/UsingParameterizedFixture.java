@@ -5,13 +5,11 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.Decorate;
-import sft.Displayable;
 import sft.FixturesHelper;
 import sft.SimpleFunctionalTest;
 import sft.Text;
 import sft.decorators.Breadcrumb;
-import sft.integration.fixtures.JUnitHelper;
-import sft.integration.fixtures.SftResources;
+import sft.integration.fixtures.JUnitHtmlHelper;
 import sft.integration.use.sut.ParameterizedFixture;
 
 import java.io.IOException;
@@ -26,7 +24,7 @@ In @Text annotation ${xxx} will be replace by the value of the proper parameter.
 public class UsingParameterizedFixture {
 
     @FixturesHelper
-    private JUnitHelper jUnitHelper=new JUnitHelper();
+    private JUnitHtmlHelper jUnitHtmlHelper =new JUnitHtmlHelper();
     private Elements parameterizedCalls;
 
     @Test
@@ -37,8 +35,8 @@ public class UsingParameterizedFixture {
     }
 
     private void byDeclaringParameterToYourFixtureYouCanReuseIt() throws IOException {
-        jUnitHelper.run(this.getClass(), ParameterizedFixture.class);
-        parameterizedCalls = jUnitHelper.html.select("*.instruction");
+        jUnitHtmlHelper.run(this.getClass(), ParameterizedFixture.class);
+        parameterizedCalls = jUnitHtmlHelper.html.select("*.instruction");
 
     }
 

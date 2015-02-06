@@ -1,8 +1,5 @@
 package sft.integration.fixtures;
 
-
-import sft.DefaultConfiguration;
-
 public class SftResources {
 
     private final Class callerClass;
@@ -15,11 +12,9 @@ public class SftResources {
         htmlResource = new SftResource(functionalTestClass);
     }
 
-
     @Override
     public String toString() {
         return "<div class='resources'>" + javaResource.getOpenResourceHtmlLink(callerClass, "java", "alert-info") +
                 htmlResource.getOpenResourceHtmlLink(callerClass, "html", "alert-info") + "</div>";
     }
-
 }

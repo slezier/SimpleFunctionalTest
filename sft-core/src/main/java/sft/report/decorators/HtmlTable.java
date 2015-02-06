@@ -24,7 +24,7 @@ public class HtmlTable extends HtmlDecorator {
     }
 
     @Override
-    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResuts, String... parameters) {
+    public String applyOnFixtures(List<FixtureCallResult> fixtureCallResults, String... parameters) {
         String result = "<table class='table'>";
         final String title = getTitle(parameters);
         if(title != null ){
@@ -32,14 +32,14 @@ public class HtmlTable extends HtmlDecorator {
         }
         result+="<thead>";
         result+="<tr>";
-        for (String paramaterName : fixtureCallResuts.get(0).fixtureCall.fixture.parametersName) {
+        for (String paramaterName : fixtureCallResults.get(0).fixtureCall.fixture.parametersName) {
             result+="<th>" +paramaterName+"</th>";
         }
         result+="<th></th></tr>";
 
         result+="</thead>";
         result+="<tbody>";
-        for (FixtureCallResult fixtureCallResutfixture : fixtureCallResuts) {
+        for (FixtureCallResult fixtureCallResutfixture : fixtureCallResults) {
             result+="<tr>" ;
             for (String value : fixtureCallResutfixture.fixtureCall.parametersValues) {
                 result+="<td>" +value+"</td>";

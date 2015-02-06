@@ -6,15 +6,40 @@ import java.io.File;
 
 public class TestFileSystem {
 
-    public static void filesExists(String... filesToCheck) {
+    private final String projectPathUsedByIdea;
+
+    public TestFileSystem(String projectPath) {
+        projectPathUsedByIdea = projectPath;
+    }
+
+    public File file(String pathFromClass) {
+        String subProjectPath = getProjectPath();
+        return new File(subProjectPath + pathFromClass);
+    }
+
+    public String createFilePathFromClassAndEnsureItExists(Class useCaseClass, String extension) {
+        String pathToFile = getProjectPath() + "target/sft-result/" + useCaseClass.getCanonicalName().replace('.', '/') + "." + extension;
+        fileExists(pathToFile);
+        return pathToFile;
+    }
+
+    public void filesExists(String... filesToCheck) {
+        String subProjectPath = getProjectPath();
         for (String fileToCheck : filesToCheck) {
-            Assert.assertTrue("Missing file " + fileToCheck, new File(fileToCheck).exists());
+            fileExists(subProjectPath + fileToCheck);
         }
     }
 
-    public static String createFilePathFromClassAndEnsureItExists(Class useCaseClass) {
-        String pathToFile = "target/sft-result/" + useCaseClass.getCanonicalName().replace('.', '/') + ".html";
-        filesExists(pathToFile);
-        return pathToFile;
+    private void fileExists(String pathname) {
+        File file = new File(pathname);
+        Assert.assertTrue("Missing file " + pathname, file.exists());
+    }
+
+    private String getProjectPath() {
+        String subProjectPath = "";
+        if (new File(".").getAbsolutePath().endsWith("/SimpleFunctionalTest/.")) {
+            subProjectPath = projectPathUsedByIdea;
+        }
+        return subProjectPath;
     }
 }

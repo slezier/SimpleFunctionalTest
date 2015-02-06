@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import sft.DefaultConfiguration;
 import sft.UseCase;
 import sft.report.HtmlReport;
-import sft.report.RelativeHtmlPathResolver;
+import sft.report.RelativePathResolver;
 import sft.result.UseCaseResult;
 
 public class HtmlBreadcrumb extends HtmlDecorator {
@@ -41,10 +41,10 @@ public class HtmlBreadcrumb extends HtmlDecorator {
         if(initialUseCase == useCaseToBreadcrumb){
             return result + "<li class=\"active\">" + useCaseToBreadcrumb.getName() + "</li>";
         }else{
-            final RelativeHtmlPathResolver relativeHtmlPathResolver = configuration.getReport(HtmlReport.class).pathResolver;
-            final String origin = relativeHtmlPathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
-            final String target = relativeHtmlPathResolver.getPathOf(useCaseToBreadcrumb.classUnderTest, ".html");
-            final String pathToUseCaseToBreadcrumb = relativeHtmlPathResolver.getRelativePathToFile(origin, target);
+            final RelativePathResolver relativePathResolver = new RelativePathResolver();
+            final String origin = relativePathResolver.getPathOf(initialUseCase.classUnderTest, ".html");
+            final String target = relativePathResolver.getPathOf(useCaseToBreadcrumb.classUnderTest, ".html");
+            final String pathToUseCaseToBreadcrumb = relativePathResolver.getRelativePathToFile(origin, target);
             return result + "<li><a href=\"" +pathToUseCaseToBreadcrumb+ "\">" + useCaseToBreadcrumb.getName() + "</a></li>";
         }
     }
