@@ -2,6 +2,8 @@ package bancomat;
 
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import sft.SimpleFunctionalTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +14,7 @@ As an Account Holder
 I want to withdraw cash from an ATM
 So that I can get money when the bank is closed
 */
+@RunWith(SimpleFunctionalTest.class)
 public class AccountHolderWithdrawCash {
 
     private SessionDab atmSession;
