@@ -82,12 +82,13 @@ Open the html file generated:
 [Decorate](./Decorate.md "Decorate"): Table of content, breadcrumb, group fixtures, fixture displayed as table.
 
 ## Deeper
-[How to use SimpleFunctionalTest](http://htmlpreview.github.io/?https://github.com/slezier/SimpleFunctionalTest/blob/master/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
+[How to use SimpleFunctionalTest](http://htmlpreview.github.io/?https://github.com/slezier/SimpleFunctionalTest/blob/master/sft-core/target/sft-result/sft/integration/HowToUseSimpleFunctionalTest.html)
 
 ## See also
 
-- [Tutorial](https://github.com/slezier/SFT-tutoriel)
-- [Plugin adding sequence diagram decorator](https://github.com/slezier/SequenceDiagramPlugin)
+- [Tutorial](https://github.com/slezier/SimpleFunctionalTest/sft-tutorial/)
+- [Plugin adding sequence diagram decorator](https://github.com/slezier/SimpleFunctionalTest/sft-sequenceDiagram-plugin/)
+- [Plugin adding MarkDown generator](https://github.com/slezier/SimpleFunctionalTest/sft-md-report/)
 
 
 Available release:
