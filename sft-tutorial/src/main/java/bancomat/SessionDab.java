@@ -22,7 +22,7 @@ public class SessionDab {
         }else if(! account.canWithdraw()){
             atm.displaysAndWriteTicket("Maximum withdraws reach", withdrawTicketStart(amount) + " forbidden: maximum withdraws reached\n\n Actual balance: " + account.balance());
         }else{
-//            cash = amount;
+            cash = amount;
             account.withdraw(amount);
             atm.displaysAndWriteTicket("Bye", withdrawTicketStart(amount) + " ok\n\nActual balance: " + account.balance());
         }

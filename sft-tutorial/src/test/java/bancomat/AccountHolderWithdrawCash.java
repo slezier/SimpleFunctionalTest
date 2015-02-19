@@ -4,15 +4,16 @@ package bancomat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import sft.SimpleFunctionalTest;
+import sft.Text;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
 /*
-As an Account Holder
-I want to withdraw cash from an ATM
-So that I can get money when the bank is closed
+<b>As</b> an Account Holder<br/>
+<b>I want to</b> withdraw cash from an ATM<br/>
+<b>So that</b> I can get money when the bank is closed
 */
 @RunWith(SimpleFunctionalTest.class)
 public class AccountHolderWithdrawCash {
@@ -25,49 +26,50 @@ public class AccountHolderWithdrawCash {
     private Account account;
 
     @Test
-    public void testWithdrawals() {
-        givenTheAccountBalanceIs100Dollars();
+    public void accountHasSufficientFunds() {
+        givenTheAccountBalanceIs(100);
         andTheCardIsValid();
         andTheMachineContainsEnoughMoney();
 
-        whenTheAccountHolderRequests20Dollars();
+        whenTheAccountHolderRequests(20);
 
-        thenTheAtmShouldDispense20Dollars();
-        andTheAccountBalanceShouldBe80Dollars();
+        thenTheAtmShouldDispense(20);
+        andTheAccountBalanceShouldBe(80);
         andTheCardShouldBeReturned();
     }
-
-
 
     private void andTheCardShouldBeReturned() {
         assertTrue("Card not returned", atm.returnCard());
     }
 
-    private void andTheAccountBalanceShouldBe80Dollars() {
-        assertEquals(account.balance(), 80);
+    @Text("And the account balance should be ${actual} $")
+    private void andTheAccountBalanceShouldBe(int actual) {
+        assertEquals(account.balance(), actual);
     }
 
     private void andTheCardIsValid() {
         account.addValidCreditCard("1234");
     }
 
-    private void givenTheAccountBalanceIs100Dollars() {
+    @Text("Given the account balance is ${initialAmount} $")
+    private void givenTheAccountBalanceIs(int initialAmount) {
         bank = new Bank();
         user = new User();
-        account = bank.createAccount(user, 100);
+        account = bank.createAccount(user, initialAmount);
     }
 
-    private void thenTheAtmShouldDispense20Dollars() {
-        assertEquals(withdrawals, 20);
+    @Text("Then the atm should dispense ${actual} $")
+    private void thenTheAtmShouldDispense(int actual) {
+        assertEquals(withdrawals, actual);
     }
 
-    private void whenTheAccountHolderRequests20Dollars() {
+    @Text("When the account holder requests ${amount} $")
+    private void whenTheAccountHolderRequests(int amount) {
         atmSession = atm.authenticate(user);
-        withdrawals = atmSession.withdraw(20);
+        withdrawals = atmSession.withdraw(amount);
     }
 
     private void andTheMachineContainsEnoughMoney() {
         atm = bank.getAtm(1000);
     }
-
 }
