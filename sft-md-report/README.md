@@ -1,7 +1,7 @@
-SequenceDiagramPlugin
+Md Report generator
 =====================
 
-SimpleFunctionnalTest's plugin  displays a set of fixtures call as a sequence diagram 
+This plugin allow to generate test result in MarkDown 
 
 # 1 - Install
 
@@ -15,8 +15,8 @@ pom.xml:
 			...
 		        <dependency>
            			 <groupId>com.github.slezier</groupId>
-	            		<artifactId>SequenceDiagramPlugin</artifactId>
-        	    		<version>0.1</version>
+	            		<artifactId>sft-md-report</artifactId>
+        	    		<version>1.10</version>
 				<scope>test</scope>
         		</dependency>
 		</dependencies>

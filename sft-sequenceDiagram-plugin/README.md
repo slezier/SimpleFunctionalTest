@@ -16,7 +16,7 @@ pom.xml:
 		        <dependency>
            			 <groupId>com.github.slezier</groupId>
 	            		<artifactId>SequenceDiagramPlugin</artifactId>
-        	    		<version>0.1</version>
+        	    		<version>1.10</version>
 				<scope>test</scope>
         		</dependency>
 		</dependencies>
