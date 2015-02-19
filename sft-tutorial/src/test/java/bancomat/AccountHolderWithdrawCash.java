@@ -12,7 +12,7 @@ As an Account Holder
 I want to withdraw cash from an ATM
 So that I can get money when the bank is closed
 */
-public class AtmTest {
+public class AccountHolderWithdrawCash {
 
     private SessionDab atmSession;
     private int withdrawals;
