@@ -29,6 +29,4 @@ public class AtmTest {
         assertEquals(account.balance(), 80);
         assertTrue("Card not returned", atm.returnCard());
     }
-
-
 }

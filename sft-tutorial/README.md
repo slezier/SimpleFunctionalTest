@@ -43,7 +43,7 @@ SimpleFunctionalTest is a simple way to improve unit tests, to make them readabl
 ## Methods
 
 * The tutorial will used an ATM project as described in [What's in a story?](http://dannorth.net/whats-in-a-story/)
-* All source used in this tutorial are available on [github](https://github.com/slezier/SFT-tutoriel); the different steps are versioned in the branches of the same name (step1,step2....).
+* All source used in this tutorial are available on [github](https://github.com/slezier/SimpleFunctionalTest/sft-tutorial); the different steps are versioned in the branches of the same name (step1,step2....).
 * This project is build using maven 3.1 and JDK 1.6
 * Basic knowledge of unit testing and JUnit 1.4 are needed.
 
@@ -126,8 +126,8 @@ pom.xml:
 			...
 			<dependency>
 				<groupId>com.github.slezier</groupId>
-				<artifactId>SimpleFunctionalTest</artifactId>
-				<version>1.8</version>
+				<artifactId>sft-core</artifactId>
+				<version>1.10</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
