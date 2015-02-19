@@ -1,8 +1,9 @@
-target/classes
-target/maven-archiver
-target/test-classes
-target/surefire-reports
-target/*-SNAPSHOT.jar
+**/target/classes
+**/target/maven-archiver
+**/target/test-classes
+**/target/surefire-reports
+**/target/maven-status
+**/*-SNAPSHOT*.jar
 .idea/
 *.iml
 .classpath
