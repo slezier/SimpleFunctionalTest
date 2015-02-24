@@ -1,5 +1,7 @@
 package bancomat;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import sft.FixturesHelper;
 import sft.Text;
@@ -10,7 +12,17 @@ import static org.junit.Assert.assertFalse;
 public class AccountHolderWithdrawCashAlternateCases {
 
     @FixturesHelper
-    private BankHelper bankHelper = new BankHelper();
+    private static BankHelper bankHelper = new BankHelper();
+
+    @BeforeClass
+    public static void setupUseCase(){
+        bankHelper.givenABank();
+    }
+
+    @Before
+    public void setupScenario(){
+        bankHelper.givenAClientOfThisBank();
+    }
 
     @Test
     public void accountHasInSufficientFunds(){
