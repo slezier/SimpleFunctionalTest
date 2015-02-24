@@ -3,6 +3,7 @@ package bancomat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import sft.Displayable;
 import sft.FixturesHelper;
 import sft.Text;
 
@@ -13,6 +14,8 @@ public class AccountHolderWithdrawCashAlternateCases {
 
     @FixturesHelper
     private static BankHelper bankHelper = new BankHelper();
+    @Displayable
+    private String ticket;
 
     @BeforeClass
     public static void setupUseCase(){
@@ -25,7 +28,7 @@ public class AccountHolderWithdrawCashAlternateCases {
     }
 
     @Test
-    public void accountHasInSufficientFunds(){
+    public void accountHasInsufficientFunds(){
         bankHelper.givenTheAccountBalanceIs(10);
         bankHelper.andTheCardIsValid();
         bankHelper.andTheMachineContainsEnoughMoney();
@@ -40,30 +43,29 @@ public class AccountHolderWithdrawCashAlternateCases {
 
     @Test
     public void  cardHasBeenDisabled(){
-        bankHelper.givenTheAccountBalanceIs(200);
         givenTheCardIsDisabled();
-        bankHelper.andTheMachineContainsEnoughMoney();
         bankHelper.whenTheAccountHolderRequests(20);
         thenTheAtmShouldRetainTheCard();
         andTheAtmShouldDisplay("The card has been retained");
     }
 
     private void givenTheCardIsDisabled() {
+        bankHelper.givenTheAccountBalanceIs(0);
         bankHelper.account.addValidCreditCard("1234");
         bankHelper.account.declareCardLoss();
     }
 
     @Text("And the atm should displays \"${expectedDisplay}\"")
     private void andTheAtmShouldDisplay(String expectedDisplay) {
+        this.ticket= bankHelper.getHtmlTicket();
         assertEquals(bankHelper.atm.getDisplay(), expectedDisplay);
     }
 
     private void thenTheAtmShouldNotDispenseAnyMoney() {
-        assertEquals(bankHelper.withdrawals,0);
+        assertEquals(bankHelper.withdrawals, 0);
     }
 
     private void thenTheAtmShouldRetainTheCard() {
         assertFalse("Card returned", bankHelper.atm.returnCard());
     }
-
 }

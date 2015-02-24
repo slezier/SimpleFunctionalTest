@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BankHelper {
-
     private Bank bank;
     private User user;
     public Account account;
@@ -14,17 +13,18 @@ public class BankHelper {
     private SessionDab atmSession;
     public int withdrawals;
 
+
+    @Text("Given the account balance is ${initialAmount} $")
+    public void givenTheAccountBalanceIs(int initialAmount) {
+        account = bank.createAccount(user, initialAmount);
+    }
+
     public void givenAClientOfThisBank() {
         user = new User();
     }
 
     public void givenABank() {
         bank = new Bank();
-    }
-
-    @Text("Given the account balance is ${initialAmount} $")
-    public void givenTheAccountBalanceIs(int initialAmount) {
-        account = bank.createAccount(user, initialAmount);
     }
 
     public void andTheCardIsValid() {
@@ -48,5 +48,9 @@ public class BankHelper {
 
     public void andTheCardShouldBeReturned() {
         assertTrue("Card not returned", atm.returnCard());
+    }
+
+    public String getHtmlTicket() {
+        return "ticket:<pre width='25em'>"+atm.ticket()+ "</pre>";
     }
 }
