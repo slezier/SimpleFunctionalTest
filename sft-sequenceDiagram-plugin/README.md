@@ -31,7 +31,7 @@ _src/test/java/bancomat/CustomConfiguration.java_:
 	...
 	public class CustomConfiguration extends DefaultConfiguration {
 		public CustomConfiguration() {
-			getReport().addDecorator(SequenceDiagram.class, HtmlSequenceDiagram.class);
+			getReport().addDecorator(SequenceDiagram.class, new HtmlSequenceDiagram(this));
 		}
 	}
 
