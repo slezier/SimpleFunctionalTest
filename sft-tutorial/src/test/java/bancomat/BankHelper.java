@@ -3,6 +3,7 @@ package bancomat;
 import sft.Decorate;
 import sft.Text;
 import sft.decorators.Group;
+import sft.plugins.sequenceDiagramPlugin.SequenceDiagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,9 +11,6 @@ import static org.junit.Assert.assertTrue;
 public class BankHelper {
 
     public final static String GIVEN="Given";
-    public final static String WHEN="When";
-    public final static String THEN="Then";
-
 
     private Bank bank;
     private User user;
@@ -24,7 +22,7 @@ public class BankHelper {
 
     @Decorate(decorator = Group.class,parameters = GIVEN)
     @Text("The account balance is ${initialAmount} $")
-    public void givenTheAccountBalanceIs(int initialAmount) {
+    public void theAccountBalanceIs(int initialAmount) {
         account = bank.createAccount(user, initialAmount);
     }
 
@@ -46,21 +44,21 @@ public class BankHelper {
         atm = bank.getAtm(1000);
     }
 
-    @Decorate(decorator = Group.class,parameters = WHEN)
-    @Text("The account holder requests ${amount} $")
-    public void whenTheAccountHolderRequests(int amount) {
+    @Decorate(decorator = SequenceDiagram.class,parameters = "account_holder -> atm")
+    @Text("requests ${amount} $")
+    public void requestCash(int amount) {
         atmSession = atm.authenticate(user);
         withdrawals = atmSession.withdraw(amount);
     }
 
-    @Decorate(decorator = Group.class,parameters = THEN)
-    @Text("And the account balance should be ${balance} $")
+    @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> atm")
+    @Text("account balance is ${balance} $")
     public void andTheAccountBalanceShouldBe(int balance) {
         assertEquals(account.balance(), balance);
     }
 
-    @Decorate(decorator = Group.class,parameters = THEN)
-    public void andTheCardShouldBeReturned() {
+    @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> account_holder")
+    public void cardIsReturned() {
         assertTrue("Card not returned", atm.returnCard());
     }
 

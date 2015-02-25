@@ -10,6 +10,7 @@ import sft.Text;
 import sft.decorators.Breadcrumb;
 import sft.decorators.Group;
 import sft.decorators.Table;
+import sft.plugins.sequenceDiagramPlugin.SequenceDiagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,25 +35,25 @@ public class AccountHolderWithdrawCashAlternateCases {
 
     @Test
     public void accountHasInsufficientFunds(){
-        bankHelper.givenTheAccountBalanceIs(10);
+        bankHelper.theAccountBalanceIs(10);
         bankHelper.andTheCardIsValid();
         bankHelper.andTheMachineContainsEnoughMoney();
 
-        bankHelper.whenTheAccountHolderRequests(20);
+        bankHelper.requestCash(20);
 
-        theAtmShouldNotDispenseAnyMoney();
-        andTheAtmShouldDisplay("Insufficient funds");
+        doNotDispenseAnyMoney();
+        displays("Insufficient funds");
         bankHelper.andTheAccountBalanceShouldBe(10);
-        bankHelper.andTheCardShouldBeReturned();
+        bankHelper.cardIsReturned();
     }
 
     @Test
     public void  cardHasBeenDisabled(){
         bankHelper.andTheMachineContainsEnoughMoney();
         theCardIsDisabled();
-        bankHelper.whenTheAccountHolderRequests(20);
+        bankHelper.requestCash(20);
         theAtmShouldRetainTheCard();
-        andTheAtmShouldDisplay("The card has been retained");
+        displays("The card has been retained");
     }
 
     /*
@@ -61,7 +62,7 @@ public class AccountHolderWithdrawCashAlternateCases {
      */
     @Test
     public void  maximumWithdraw(){
-        bankHelper.givenTheAccountBalanceIs(100);
+        bankHelper.theAccountBalanceIs(100);
         bankHelper.andTheCardIsValid();
         bankHelper.andTheMachineContainsEnoughMoney();
         theHolderCanWithdrawFiveTimeADay();
@@ -76,7 +77,7 @@ public class AccountHolderWithdrawCashAlternateCases {
 
     @Decorate(decorator = Table.class,parameters = "withdraws and cash received per visit")
     private void whenTheAccountHolderRequestsThenTheAtmProvidesCash(int amount, int cash) {
-        bankHelper.whenTheAccountHolderRequests(amount);
+        bankHelper.requestCash(amount);
         assertEquals(cash,bankHelper.withdrawals);
         this.ticket= bankHelper.getHtmlTicket();
     }
@@ -87,24 +88,24 @@ public class AccountHolderWithdrawCashAlternateCases {
 
     @Decorate(decorator = Group.class,parameters = BankHelper.GIVEN)
     private void theCardIsDisabled() {
-        bankHelper.givenTheAccountBalanceIs(0);
+        bankHelper.theAccountBalanceIs(0);
         bankHelper.account.addValidCreditCard("1234");
         bankHelper.account.declareCardLoss();
     }
 
-    @Decorate(decorator = Group.class,parameters = BankHelper.THEN)
-    @Text("And the atm should displays \"${expectedDisplay}\"")
-    private void andTheAtmShouldDisplay(String expectedDisplay) {
+    @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> account_holder")
+    @Text("displays \"${expectedDisplay}\"")
+    private void displays(String expectedDisplay) {
         this.ticket= bankHelper.getHtmlTicket();
         assertEquals(bankHelper.atm.getDisplay(), expectedDisplay);
     }
 
-    @Decorate(decorator = Group.class,parameters = BankHelper.THEN)
-    private void theAtmShouldNotDispenseAnyMoney() {
+    @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> account_holder")
+    private void doNotDispenseAnyMoney() {
         assertEquals(bankHelper.withdrawals,0);
     }
 
-    @Decorate(decorator = Group.class,parameters = BankHelper.THEN)
+    @Decorate(decorator = SequenceDiagram.class,parameters = "atm -> atm")
     private void theAtmShouldRetainTheCard() {
         assertFalse("Card returned", bankHelper.atm.returnCard());
     }

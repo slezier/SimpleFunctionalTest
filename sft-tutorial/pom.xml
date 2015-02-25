@@ -28,6 +28,11 @@
             <artifactId>sft-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.slezier</groupId>
+            <artifactId>sft-sequenceDiagram-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
