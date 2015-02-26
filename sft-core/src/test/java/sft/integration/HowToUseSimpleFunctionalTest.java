@@ -75,18 +75,23 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
-    <li>Having @Displayable displayed even if the scenario fails</li>
+    <li>Fix: Support negative number</li>
+    <li>Minor change: Support fixtures polymorphism: nbParameters  & Type </li>
+    <li>Minor change: Extract scenario comment (inner scenario) </li>
+    <li>Access inherited fixtures</li>
+    <li>Annotate sub use case to execute</li>
 </ul>
 <h2> TODO </h2>
 <ul>
-    <li>JUnit: use JUnit Rule instead of SimpleFunctionalTest helper??</li>
+    <li>Change html generator: Using text processor ? Dom abstraction ?</li>
+    <li>JUnit: use JUnit ClassRule and Rule instead of SimpleFunctionalTest helper??</li>
+    <li>Settings/Hack/Extend: write extension: test result in Word</li>
     <li>Hack: enhance hacking (extract interface by responsibility)</li>
     <li>Hack/Extend: enhance extension (allow injection)</li>
     <li>Settings/Hack: runner extension: concurrent testing</li>
     <li>Settings/Hack: runner extension: inheritance</li>
     <li>Settings/Hack: runner extension: using mock</li>
-    <li>Settings/Hack/Extend: write extension: test result in md</li>
-    <li>Settings/Hack/Extend: write extension: test result in Word</li>
+    <li>Settings/Hack/Extend: write extension: decorator in md</li>
     <li>Settings/Hack/Extend: write extension: test result in LaTeX</li>
     <li>JUnit version support</li>
 </ul>
