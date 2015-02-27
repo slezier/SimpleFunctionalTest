@@ -128,9 +128,8 @@ public class UseCaseJavaParser extends JavaFileParser {
                 if (expression instanceof StringLiteralExpr) {
                     StringLiteralExpr stringLiteralExpr = (StringLiteralExpr) expression;
                     parameters.add(stringLiteralExpr.getValue());
-                } else if (expression instanceof LiteralExpr) {
-                    LiteralExpr literalExpr = (LiteralExpr) expression;
-                    parameters.add(literalExpr.toString());
+                } else {
+                    parameters.add(expression.toString());
                 }
             }
         }

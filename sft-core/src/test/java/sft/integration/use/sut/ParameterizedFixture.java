@@ -9,15 +9,35 @@ import sft.Text;
 @RunWith(SimpleFunctionalTest.class)
 public class ParameterizedFixture {
 
+    private enum  Param{ enumeratedItem }
+    private Object object;
     @Test
     public void usingParameterizedFixture() {
         isGreaterThan(2, 1);
         isGreaterThan(500, 38);
         isGreaterThan(1, 2);
-        isGreaterThan(2, 1);
+        isGreaterThan(2, -1);
         isLowerThan(2, 5);
         theNameStartWith("Amanda", 'A');
         withAs('A', "Achtung");
+        enumIsAccepted(Param.enumeratedItem);
+        fieldNameIsAccepted(object);
+        moreComplexExpression(1 + 2 % 3);
+
+    }
+
+    @Text("The complex expression ${result} is accepted")
+    private void moreComplexExpression(int result) {
+    }
+
+    @Text("The object ${object} is accepted")
+    private void fieldNameIsAccepted(Object object) {
+
+    }
+
+    @Text("The enum ${enumeratedItem} is accepted")
+    private void enumIsAccepted(Param enumeratedItem) {
+
     }
 
     @Text("The name ${name} start with ${startWith}")

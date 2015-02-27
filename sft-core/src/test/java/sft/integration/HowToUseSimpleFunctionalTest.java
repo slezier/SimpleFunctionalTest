@@ -75,9 +75,8 @@ import sft.integration.use.Usages;
 </div>
 <h2> Work In Progress </h2>
 <ul>
-    <li>Fix: Support negative number</li>
     <li>Minor change: Support fixtures polymorphism: nbParameters  & Type </li>
-    <li>Minor change: Extract scenario comment (inner scenario) </li>
+    <li>Minor change: Extract scenario comment (inner method comment) </li>
     <li>Access inherited fixtures</li>
     <li>Annotate sub use case to execute</li>
 </ul>

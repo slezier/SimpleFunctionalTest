@@ -32,6 +32,9 @@ public class UsingParameterizedFixture {
         byDeclaringParameterToYourFixtureYouCanReuseIt();
         theValueOfParameterIsIncludedInAnnotatedTextUsingParameterNamePrefixedByDollar();
         valuesOfFixtureCallsThatFailedAreIndicated();
+
+        stringsAndCharactersQuotesAreEscaped();
+        otherParametersAreShownAsWroteInTheCode();
     }
 
     private void byDeclaringParameterToYourFixtureYouCanReuseIt() throws IOException {
@@ -45,8 +48,19 @@ public class UsingParameterizedFixture {
         Assert.assertEquals("2 is greater than 1", parameterizedCalls.get(0).text());
         Assert.assertEquals("500 is greater than 38", parameterizedCalls.get(1).text());
         Assert.assertEquals("1 is greater than 2", parameterizedCalls.get(2).text());
-        Assert.assertEquals("2 is greater than 1", parameterizedCalls.get(3).text());
+        Assert.assertEquals("2 is greater than -1", parameterizedCalls.get(3).text());
         Assert.assertEquals("2 is lower than 5",parameterizedCalls.get(4).text());
+    }
+
+    private void stringsAndCharactersQuotesAreEscaped() {
+        Assert.assertEquals("The name Amanda start with A",parameterizedCalls.get(5).text());
+        Assert.assertEquals("With A as Achtung",parameterizedCalls.get(6).text());
+    }
+
+    private void otherParametersAreShownAsWroteInTheCode() {
+        Assert.assertEquals("The enum Param.enumeratedItem is accepted",parameterizedCalls.get(7).text());
+        Assert.assertEquals("The object object is accepted",parameterizedCalls.get(8).text());
+        Assert.assertEquals("The complex expression 1 + 2 % 3 is accepted",parameterizedCalls.get(9).text());
     }
 
     private void valuesOfFixtureCallsThatFailedAreIndicated() throws IOException {
