@@ -18,8 +18,11 @@ public class ParameterizedFixture {
         isGreaterThan(1, 2);
         isGreaterThan(2, -1);
         isLowerThan(2, 5);
+
+
         theNameStartWith("Amanda", 'A');
         withAs('A', "Achtung");
+
         enumIsAccepted(Param.enumeratedItem);
         fieldNameIsAccepted(object);
         moreComplexExpression(1 + 2 % 3);
