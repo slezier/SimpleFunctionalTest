@@ -16,7 +16,7 @@
 
     <groupId>com.github.slezier</groupId>
     <artifactId>sft-main</artifactId>
-    <version>1.10-SNAPSHOT</version>
+    <version>1.10</version>
     <packaging>pom</packaging>
 
     <modules>

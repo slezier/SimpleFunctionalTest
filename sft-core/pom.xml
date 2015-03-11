@@ -16,13 +16,13 @@
 
     <groupId>com.github.slezier</groupId>
     <artifactId>sft-core</artifactId>
-    <version>1.10-SNAPSHOT</version>
+    <version>1.10</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>com.github.slezier</groupId>
         <artifactId>sft-main</artifactId>
-        <version>1.10-SNAPSHOT</version>
+        <version>1.10</version>
     </parent>
 
     <name>sft-core</name>
