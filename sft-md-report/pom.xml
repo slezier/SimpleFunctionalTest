@@ -16,13 +16,13 @@
 
     <groupId>com.github.slezier</groupId>
     <artifactId>sft-md-report</artifactId>
-    <version>1.10</version>
+    <version>1.11-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>com.github.slezier</groupId>
         <artifactId>sft-main</artifactId>
-        <version>1.10</version>
+        <version>1.11-SNAPSHOT</version>
     </parent>
 
     <name>Simple Functional Test: MarkDown report</name>
