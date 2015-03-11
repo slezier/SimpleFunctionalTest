@@ -97,10 +97,9 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <pluginManagement>
-            <plugins>
 
+    <build>
+            <plugins>
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -109,7 +108,7 @@
                     <configuration>
                         <serverId>ossrh</serverId>
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                        <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -120,7 +119,7 @@
                         <execution>
                             <id>attach-sources</id>
                             <goals>
-                                <goal>jar-no-fork</goal>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -153,17 +152,6 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.3</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.1</version>
@@ -173,7 +161,6 @@
                     </configuration>
                 </plugin>
             </plugins>
-        </pluginManagement>
     </build>
 
 </project>
