@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.slezier</groupId>
-    <artifactId>main</artifactId>
+    <artifactId>sft-main</artifactId>
     <version>1.10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -26,6 +26,10 @@
          <module>sft-tutorial</module>
     </modules>
 
+    <name>Simple Functional Test: main pom</name>
+    <description>A simple way to communicates your test with a non-developper</description>
+    <url>https://github.com/slezier/SequenceDiagramPlugin</url>
+
     <licenses>
         <license>
             <name>Eclipse Public License 1.0</name>
@@ -33,6 +37,14 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>slezier</id>
+            <name>Sylvain Lézier</name>
+            <email>sylvain.lezier@gmail.com</email>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git:https://github.com/slezier/SimpleFunctionalTest.git</connection>

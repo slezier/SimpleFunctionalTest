@@ -21,7 +21,7 @@
 
     <parent>
         <groupId>com.github.slezier</groupId>
-        <artifactId>main</artifactId>
+        <artifactId>sft-main</artifactId>
         <version>1.10-SNAPSHOT</version>
     </parent>
 
